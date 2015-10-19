@@ -111,9 +111,9 @@ def send(options):
 
     # Build Zabbix sender input.
     rows = ''
-    for key, item in items.items():
-        row = '- varnish.stat[%(key)s] %(tst)d %(value)d\n' % {
-            'key': key,
+    for name, item in items.items():
+        row = '- varnish.stat["%(key)s"] %(tst)d %(value)d\n' % {
+            'key': str2key(name),
             'tst': now,
             'value': item['value'],
         }
@@ -157,11 +157,12 @@ def discover(options):
     discovery = {
         'data': [],
     }
-    for key in items.iterkeys():
-        match = SUBJECTS[options.subject].match(key)
+    for name in items.iterkeys():
+        match = SUBJECTS[options.subject].match(name)
         if match is not None and match.group(1) not in ids:
             discovery['data'].append({
-                '{#ID}': match.group(1),
+                '{#NAME}': match.group(1),
+                '{#ID}': str2key(match.group(1)),
             })
             ids.add(match.group(1))
 
@@ -185,11 +186,10 @@ def stats(name=None):
         for name, item in json.loads(output).items():
             if 'value' in item:
                 if ITEMS.match(name) is not None:
-                    result[name2key(name)] = {
+                    result[name] = {
                         'type': item.get('type'),
                         'ident': item.get('ident'),
                         'flag': item.get('flag'),
-                        'name': name,
                         'description': item.get('description'),
                         'value': item['value'],
                     }
@@ -199,7 +199,7 @@ def stats(name=None):
         sys.exit(1)
 
 
-def name2key(name):
+def str2key(name):
     result = name
     for char in ['(', ')', ',']:
         result = result.replace(char, '\\' + char)

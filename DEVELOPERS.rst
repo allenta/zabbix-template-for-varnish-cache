@@ -10,6 +10,7 @@ General tips
     3. In 'Configuration > Hosts' click on 'Create host':
         - Host name: ``dev``
         - Group: ``Varnish Cache servers``
+        - Linked templates: ``Template App Varnish Cache``
 
 - Zabbix 101:
     1. ``http://192.168.100.172/zabbix``

@@ -3717,7 +3717,7 @@
                     <trigger_prototypes/>
                     <graph_prototypes>
                         <graph_prototype>
-                            <name>Backends[{#ID}]: bytes received from backend</name>
+                            <name>Varnish Cache &gt; Backends[{#NAME}]: bytes received from backend</name>
                             <width>900</width>
                             <height>200</height>
                             <yaxismin>0.0000</yaxismin>
@@ -3773,7 +3773,7 @@
                             </graph_items>
                         </graph_prototype>
                         <graph_prototype>
-                            <name>Backends[{#ID}]: bytes sent to backend</name>
+                            <name>Varnish Cache &gt; Backends[{#NAME}]: bytes sent to backend</name>
                             <width>900</width>
                             <height>200</height>
                             <yaxismin>0.0000</yaxismin>
@@ -3841,7 +3841,7 @@
                             </graph_items>
                         </graph_prototype>
                         <graph_prototype>
-                            <name>Backends[{#ID}]: concurrent connections to backend</name>
+                            <name>Varnish Cache &gt; Backends[{#NAME}]: concurrent connections to backend</name>
                             <width>900</width>
                             <height>200</height>
                             <yaxismin>0.0000</yaxismin>
@@ -3873,7 +3873,7 @@
                             </graph_items>
                         </graph_prototype>
                         <graph_prototype>
-                            <name>Backends[{#ID}]: last happy health probe</name>
+                            <name>Varnish Cache &gt; Backends[{#NAME}]: last happy health probe</name>
                             <width>900</width>
                             <height>200</height>
                             <yaxismin>0.0000</yaxismin>
@@ -3905,7 +3905,7 @@
                             </graph_items>
                         </graph_prototype>
                         <graph_prototype>
-                            <name>Backends[{#ID}]: requests sent to backend</name>
+                            <name>Varnish Cache &gt; Backends[{#NAME}]: requests sent to backend</name>
                             <width>900</width>
                             <height>200</height>
                             <yaxismin>0.0000</yaxismin>
@@ -4105,7 +4105,7 @@
                     <trigger_prototypes/>
                     <graph_prototypes>
                         <graph_prototype>
-                            <name>Storages[{#ID}]: allocator failures</name>
+                            <name>Varnish Cache &gt; Storages[{#NAME}]: allocator failures</name>
                             <width>900</width>
                             <height>200</height>
                             <yaxismin>0.0000</yaxismin>
@@ -4137,7 +4137,7 @@
                             </graph_items>
                         </graph_prototype>
                         <graph_prototype>
-                            <name>Storages[{#ID}]: bytes outstanding vs. available</name>
+                            <name>Varnish Cache &gt; Storages[{#NAME}]: bytes outstanding vs. available</name>
                             <width>900</width>
                             <height>200</height>
                             <yaxismin>0.0000</yaxismin>
@@ -4196,7 +4196,7 @@
     </templates>
     <graphs>
         <graph>
-            <name>Backends: connections activity</name>
+            <name>Varnish Cache &gt; Backends: connections activity</name>
             <width>900</width>
             <height>200</height>
             <yaxismin>0.0000</yaxismin>
@@ -4288,7 +4288,7 @@
             </graph_items>
         </graph>
         <graph>
-            <name>Backends: connections rate</name>
+            <name>Varnish Cache &gt; Backends: connections rate</name>
             <width>900</width>
             <height>200</height>
             <yaxismin>0.0000</yaxismin>
@@ -4320,7 +4320,7 @@
             </graph_items>
         </graph>
         <graph>
-            <name>Backends: fetches activity</name>
+            <name>Varnish Cache &gt; Backends: fetches activity</name>
             <width>900</width>
             <height>200</height>
             <yaxismin>0.0000</yaxismin>
@@ -4484,7 +4484,7 @@
             </graph_items>
         </graph>
         <graph>
-            <name>Backends: number</name>
+            <name>Varnish Cache &gt; Backends: number</name>
             <width>900</width>
             <height>200</height>
             <yaxismin>0.0000</yaxismin>
@@ -4516,7 +4516,7 @@
             </graph_items>
         </graph>
         <graph>
-            <name>Backends: request rate</name>
+            <name>Varnish Cache &gt; Backends: request rate</name>
             <width>900</width>
             <height>200</height>
             <yaxismin>0.0000</yaxismin>
@@ -4548,7 +4548,7 @@
             </graph_items>
         </graph>
         <graph>
-            <name>Cache</name>
+            <name>Varnish Cache &gt; Cache</name>
             <width>900</width>
             <height>200</height>
             <yaxismin>0.0000</yaxismin>
@@ -4616,7 +4616,7 @@
             </graph_items>
         </graph>
         <graph>
-            <name>Client requests: activity</name>
+            <name>Varnish Cache &gt; Client requests: activity</name>
             <width>900</width>
             <height>200</height>
             <yaxismin>0.0000</yaxismin>
@@ -4672,7 +4672,7 @@
             </graph_items>
         </graph>
         <graph>
-            <name>Client requests: busy</name>
+            <name>Varnish Cache &gt; Client requests: busy</name>
             <width>900</width>
             <height>200</height>
             <yaxismin>0.0000</yaxismin>
@@ -4728,7 +4728,7 @@
             </graph_items>
         </graph>
         <graph>
-            <name>Client requests: bytes received</name>
+            <name>Varnish Cache &gt; Client requests: bytes received</name>
             <width>900</width>
             <height>200</height>
             <yaxismin>0.0000</yaxismin>
@@ -4796,7 +4796,7 @@
             </graph_items>
         </graph>
         <graph>
-            <name>Client requests: bytes sent</name>
+            <name>Varnish Cache &gt; Client requests: bytes sent</name>
             <width>900</width>
             <height>200</height>
             <yaxismin>0.0000</yaxismin>
@@ -4852,7 +4852,7 @@
             </graph_items>
         </graph>
         <graph>
-            <name>Client requests: passes seen</name>
+            <name>Varnish Cache &gt; Client requests: passes seen</name>
             <width>900</width>
             <height>200</height>
             <yaxismin>0.0000</yaxismin>
@@ -4884,7 +4884,7 @@
             </graph_items>
         </graph>
         <graph>
-            <name>Client requests: rate</name>
+            <name>Varnish Cache &gt; Client requests: rate</name>
             <width>900</width>
             <height>200</height>
             <yaxismin>0.0000</yaxismin>
@@ -4916,7 +4916,7 @@
             </graph_items>
         </graph>
         <graph>
-            <name>Client requests: synthetic responses made</name>
+            <name>Varnish Cache &gt; Client requests: synthetic responses made</name>
             <width>900</width>
             <height>200</height>
             <yaxismin>0.0000</yaxismin>
@@ -4948,7 +4948,7 @@
             </graph_items>
         </graph>
         <graph>
-            <name>Client sessions: activity</name>
+            <name>Varnish Cache &gt; Client sessions: activity</name>
             <width>900</width>
             <height>200</height>
             <yaxismin>0.0000</yaxismin>
@@ -5064,7 +5064,7 @@
             </graph_items>
         </graph>
         <graph>
-            <name>Client sessions: pipes seen</name>
+            <name>Varnish Cache &gt; Client sessions: pipes seen</name>
             <width>900</width>
             <height>200</height>
             <yaxismin>0.0000</yaxismin>
@@ -5096,7 +5096,7 @@
             </graph_items>
         </graph>
         <graph>
-            <name>Client sessions: rate</name>
+            <name>Varnish Cache &gt; Client sessions: rate</name>
             <width>900</width>
             <height>200</height>
             <yaxismin>0.0000</yaxismin>
@@ -5128,7 +5128,7 @@
             </graph_items>
         </graph>
         <graph>
-            <name>Client sessions: waiting for threads</name>
+            <name>Varnish Cache &gt; Client sessions: waiting for threads</name>
             <width>900</width>
             <height>200</height>
             <yaxismin>0.0000</yaxismin>
@@ -5160,7 +5160,7 @@
             </graph_items>
         </graph>
         <graph>
-            <name>ESI: activity</name>
+            <name>Varnish Cache &gt; ESI: activity</name>
             <width>900</width>
             <height>200</height>
             <yaxismin>0.0000</yaxismin>
@@ -5204,7 +5204,7 @@
             </graph_items>
         </graph>
         <graph>
-            <name>Gzip: activity</name>
+            <name>Varnish Cache &gt; Gzip: activity</name>
             <width>900</width>
             <height>200</height>
             <yaxismin>0.0000</yaxismin>
@@ -5248,7 +5248,7 @@
             </graph_items>
         </graph>
         <graph>
-            <name>HTTP header overflows</name>
+            <name>Varnish Cache &gt; HTTP header overflows</name>
             <width>900</width>
             <height>200</height>
             <yaxismin>0.0000</yaxismin>
@@ -5280,7 +5280,7 @@
             </graph_items>
         </graph>
         <graph>
-            <name>Objects: bans</name>
+            <name>Varnish Cache &gt; Objects: bans</name>
             <width>900</width>
             <height>200</height>
             <yaxismin>0.0000</yaxismin>
@@ -5312,7 +5312,7 @@
             </graph_items>
         </graph>
         <graph>
-            <name>Objects: purges</name>
+            <name>Varnish Cache &gt; Objects: purges</name>
             <width>900</width>
             <height>200</height>
             <yaxismin>0.0000</yaxismin>
@@ -5344,7 +5344,7 @@
             </graph_items>
         </graph>
         <graph>
-            <name>Objects: removals</name>
+            <name>Varnish Cache &gt; Objects: removals</name>
             <width>900</width>
             <height>200</height>
             <yaxismin>0.0000</yaxismin>
@@ -5424,7 +5424,7 @@
             </graph_items>
         </graph>
         <graph>
-            <name>Objects: stored</name>
+            <name>Varnish Cache &gt; Objects: stored</name>
             <width>900</width>
             <height>200</height>
             <yaxismin>0.0000</yaxismin>
@@ -5480,7 +5480,7 @@
             </graph_items>
         </graph>
         <graph>
-            <name>Threads: activity</name>
+            <name>Varnish Cache &gt; Threads: activity</name>
             <width>900</width>
             <height>200</height>
             <yaxismin>0.0000</yaxismin>
@@ -5548,7 +5548,7 @@
             </graph_items>
         </graph>
         <graph>
-            <name>Threads: number</name>
+            <name>Varnish Cache &gt; Threads: number</name>
             <width>900</width>
             <height>200</height>
             <yaxismin>0.0000</yaxismin>
@@ -5580,7 +5580,7 @@
             </graph_items>
         </graph>
         <graph>
-            <name>Uptime</name>
+            <name>Varnish Cache &gt; Uptime</name>
             <width>900</width>
             <height>200</height>
             <yaxismin>0.0000</yaxismin>

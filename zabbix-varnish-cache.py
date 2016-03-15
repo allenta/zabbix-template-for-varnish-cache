@@ -95,8 +95,8 @@ ITEMS = re.compile(
     r')$')
 
 SUBJECTS = {
-    'backends': re.compile(r'^VBE\.(boot\.default|[^\()]+\([^\)]+\))\..*$'),
-    'storages': re.compile(r'^SMA\.([^\.]+)\..*$'),
+    'backends': re.compile(r'^VBE\.(.+)\.[^\.]+$'),
+    'storages': re.compile(r'^SMA\.(.+)\.[^\.]+$'),
 }
 
 

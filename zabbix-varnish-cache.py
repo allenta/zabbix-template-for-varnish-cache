@@ -94,6 +94,10 @@ ITEMS = re.compile(
     r'VBE\..+\.(?:happy|bereq_hdrbytes|bereq_bodybytes|beresp_hdrbytes|beresp_bodybytes|pipe_hdrbytes|pipe_out|pipe_in|conn|req)'
     r')$')
 
+REWRITES = [
+    (re.compile(r'^VBE\.(?:.+?\.)*?([^\.]+(?:\([^\)]+\))?\.[^\.]+)$'), r'VBE.\1'),
+]
+
 SUBJECTS = {
     'backends': re.compile(r'^VBE\.(.+)\.[^\.]+$'),
     'storages': re.compile(r'^SMA\.(.+)\.[^\.]+$'),
@@ -174,6 +178,17 @@ def discover(options):
 ## HELPERS
 ###############################################################################
 
+class Rewriter(object):
+    def __init__(self, rules):
+        self._rules = rules
+
+    def rewrite(self, name):
+        for pattern, repl in self._rules:
+            if pattern.match(name):
+                return pattern.sub(repl, name)
+        return name
+
+
 def stats(name=None):
     # Fetch stats through varnishstat.
     rc, output = execute('varnishstat -1 -j %(name)s' % {
@@ -182,11 +197,12 @@ def stats(name=None):
 
     # Check return code & filter / normalize output.
     if rc == 0:
+        rewriter = Rewriter(REWRITES)
         result = {}
         for name, item in json.loads(output).items():
             if 'value' in item:
                 if ITEMS.match(name) is not None:
-                    result[name] = {
+                    result[rewriter.rewrite(name)] = {
                         'type': item.get('type'),
                         'ident': item.get('ident'),
                         'flag': item.get('flag'),

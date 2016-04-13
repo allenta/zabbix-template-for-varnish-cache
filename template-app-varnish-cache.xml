@@ -3973,12 +3973,12 @@
                     <description/>
                     <item_prototypes>
                         <item_prototype>
-                            <name>Varnish[{$VARNISH_NAME}] - SMA.{#NAME}.c_fail (allocator failures / sec)</name>
+                            <name>Varnish[{$VARNISH_NAME}] - STG.{#NAME}.c_fail (allocator failures / sec)</name>
                             <type>2</type>
                             <snmp_community/>
                             <multiplier>0</multiplier>
                             <snmp_oid/>
-                            <key>varnish.stat[&quot;SMA.{#ID}.c_fail&quot;]</key>
+                            <key>varnish.stat[&quot;STG.{#ID}.c_fail&quot;]</key>
                             <delay>0</delay>
                             <history>30</history>
                             <trends>365</trends>
@@ -4016,12 +4016,12 @@
                             <logtimefmt/>
                         </item_prototype>
                         <item_prototype>
-                            <name>Varnish[{$VARNISH_NAME}] - SMA.{#NAME}.g_bytes (bytes outstanding)</name>
+                            <name>Varnish[{$VARNISH_NAME}] - STG.{#NAME}.g_bytes (bytes outstanding)</name>
                             <type>2</type>
                             <snmp_community/>
                             <multiplier>0</multiplier>
                             <snmp_oid/>
-                            <key>varnish.stat[&quot;SMA.{#ID}.g_bytes&quot;]</key>
+                            <key>varnish.stat[&quot;STG.{#ID}.g_bytes&quot;]</key>
                             <delay>0</delay>
                             <history>30</history>
                             <trends>365</trends>
@@ -4059,12 +4059,12 @@
                             <logtimefmt/>
                         </item_prototype>
                         <item_prototype>
-                            <name>Varnish[{$VARNISH_NAME}] - SMA.{#NAME}.g_space (bytes available)</name>
+                            <name>Varnish[{$VARNISH_NAME}] - STG.{#NAME}.g_space (bytes available)</name>
                             <type>2</type>
                             <snmp_community/>
                             <multiplier>0</multiplier>
                             <snmp_oid/>
-                            <key>varnish.stat[&quot;SMA.{#ID}.g_space&quot;]</key>
+                            <key>varnish.stat[&quot;STG.{#ID}.g_space&quot;]</key>
                             <delay>0</delay>
                             <history>30</history>
                             <trends>365</trends>
@@ -4131,7 +4131,7 @@
                                     <type>0</type>
                                     <item>
                                         <host>Template App Varnish Cache</host>
-                                        <key>varnish.stat[&quot;SMA.{#ID}.c_fail&quot;]</key>
+                                        <key>varnish.stat[&quot;STG.{#ID}.c_fail&quot;]</key>
                                     </item>
                                 </graph_item>
                             </graph_items>
@@ -4163,7 +4163,7 @@
                                     <type>0</type>
                                     <item>
                                         <host>Template App Varnish Cache</host>
-                                        <key>varnish.stat[&quot;SMA.{#ID}.g_bytes&quot;]</key>
+                                        <key>varnish.stat[&quot;STG.{#ID}.g_bytes&quot;]</key>
                                     </item>
                                 </graph_item>
                                 <graph_item>
@@ -4175,7 +4175,7 @@
                                     <type>0</type>
                                     <item>
                                         <host>Template App Varnish Cache</host>
-                                        <key>varnish.stat[&quot;SMA.{#ID}.g_space&quot;]</key>
+                                        <key>varnish.stat[&quot;STG.{#ID}.g_space&quot;]</key>
                                     </item>
                                 </graph_item>
                             </graph_items>

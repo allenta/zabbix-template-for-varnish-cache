@@ -52,7 +52,7 @@ zabbix.apache2-service:
 
 /etc/apache2/conf-available/zabbix.conf:
   file.replace:
-    - pattern: '\s*#?\s*php_value\s*date\.timezone\s*.*'
+    - pattern: '^\s*#?\s*php_value\s*date\.timezone\s*.*'
     - repl: '    php_value date.timezone Europe/Madrid'
     - watch_in:
       - service: zabbix.apache2-service
@@ -82,8 +82,9 @@ zabbix.apache2-service:
 /etc/zabbix/zabbix_server.conf-{{ name }}:
   file.replace:
     - name: /etc/zabbix/zabbix_server.conf
-    - pattern: '\s*#?\s*{{ name }}\s*=\s*.*'
+    - pattern: '^\s*#?\s*{{ name }}\s*=\s*.*'
     - repl: {{name}}={{value}}
+    - append_if_not_found: True
     - watch_in:
       - service: zabbix.zabbix-server-service
     - require:

@@ -8,5 +8,5 @@ user.zabbix-sender-cron:
   cron.present:
     - user: zabbix
     - name: /vagrant/zabbix-varnish-cache.py send -c /etc/zabbix/zabbix_agentd.conf -s dev > /dev/null 2>&1
-    - requires:
+    - require:
       - sls: zabbix

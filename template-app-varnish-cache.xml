@@ -3213,7 +3213,7 @@
                     <snmp_community/>
                     <snmp_oid/>
                     <key>varnish.discovery[{$VARNISH_NAME},backends]</key>
-                    <delay>30</delay>
+                    <delay>3600</delay>
                     <status>0</status>
                     <allowed_hosts/>
                     <snmpv3_contextname/>
@@ -3945,7 +3945,7 @@
                     <snmp_community/>
                     <snmp_oid/>
                     <key>varnish.discovery[{$VARNISH_NAME},storages]</key>
-                    <delay>30</delay>
+                    <delay>3600</delay>
                     <status>0</status>
                     <allowed_hosts/>
                     <snmpv3_contextname/>

@@ -212,7 +212,7 @@ def stats(name=None):
                         'value': item['value'],
                     }
                     if key in result:
-                        result[key]['value'] = value['value']
+                        result[key]['value'] += value['value']
                     else:
                         result[key] = value
         return result

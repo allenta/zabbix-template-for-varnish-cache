@@ -203,13 +203,18 @@ def stats(name=None):
         for name, item in json.loads(output).items():
             if 'value' in item:
                 if ITEMS.match(name) is not None:
-                    result[rewriter.rewrite(name)] = {
+                    key = rewriter.rewrite(name)
+                    value = {
                         'type': item.get('type'),
                         'ident': item.get('ident'),
                         'flag': item.get('flag'),
                         'description': item.get('description'),
                         'value': item['value'],
                     }
+                    if key in result:
+                        result[key]['value'] = value['value']
+                    else:
+                        result[key] = value
         return result
     else:
         sys.stderr.write(output)

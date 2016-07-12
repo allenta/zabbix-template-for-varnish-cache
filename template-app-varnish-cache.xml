@@ -3681,9 +3681,9 @@
                             <history>30</history>
                             <trends>365</trends>
                             <status>0</status>
-                            <value_type>3</value_type>
+                            <value_type>0</value_type>
                             <allowed_hosts/>
-                            <units/>
+                            <units>eps</units>
                             <delta>1</delta>
                             <snmpv3_contextname/>
                             <snmpv3_securityname/>
@@ -3983,9 +3983,9 @@
                             <history>30</history>
                             <trends>365</trends>
                             <status>0</status>
-                            <value_type>3</value_type>
+                            <value_type>0</value_type>
                             <allowed_hosts/>
-                            <units/>
+                            <units>eps</units>
                             <delta>1</delta>
                             <snmpv3_contextname/>
                             <snmpv3_securityname/>

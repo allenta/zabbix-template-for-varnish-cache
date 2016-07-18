@@ -90,12 +90,12 @@ ITEMS = re.compile(
     r'MAIN\.n_gzip|'
     r'MAIN\.n_gunzip|'
     r'MGT\.uptime|'
-    r'(?:SMA|SMF)\..+\.(?:c_fail|g_bytes|g_space)|'
+    r'(?:MSE|SMA|SMF)\..+\.(?:c_fail|g_bytes|g_space|g_sparenode)|'
     r'VBE\..+\.(?:happy|bereq_hdrbytes|bereq_bodybytes|beresp_hdrbytes|beresp_bodybytes|pipe_hdrbytes|pipe_out|pipe_in|conn|req)'
     r')$')
 
 REWRITES = [
-    (re.compile(r'^((?:SMA|SMF)\..+)$'), r'STG.\1'),
+    (re.compile(r'^((?:MSE|SMA|SMF)\..+)$'), r'STG.\1'),
     (re.compile(r'^VBE\.(?:.+?\.)*?([^\.]+(?:\([^\)]+\))?\.[^\.]+)$'), r'VBE.\1'),
 ]
 

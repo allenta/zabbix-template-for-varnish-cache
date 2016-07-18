@@ -8,12 +8,12 @@
 
 3. Add the ``varnish.discovery`` user parameter to Zabbix::
 
-    UserParameter=varnish.discovery[*],/usr/local/bin/zabbix-varnish-cache.py -n '$1' discover $2
+    UserParameter=varnish.discovery[*],/usr/local/bin/zabbix-varnish-cache.py -i '$1' discover $2
 
-4. Add a new job to the ``zabbix`` user crontab (beware of the ``-n`` and ``-s`` options). This will submit Varnish Cache metrics through Zabbix Sender::
+4. Add a new job to the ``zabbix`` user crontab (beware of the ``-i`` and ``-s`` options). This will submit Varnish Cache metrics through Zabbix Sender::
 
-    * * * * * /usr/local/bin/zabbix-varnish-cache.py send -c /etc/zabbix/zabbix_agentd.conf -s dev > /dev/null 2>&1
+    * * * * * /usr/local/bin/zabbix-varnish-cache.py -i '' send -c /etc/zabbix/zabbix_agentd.conf -s dev > /dev/null 2>&1
 
 5. Import the Varnish Cache template (``template-app-varnish.xml`` file).
 
-6. Add an existing / new host to the ``Varnish Cache servers`` group and link it to the ``Template App Varnish Cache`` template. Beware of the ``{$VARNISH_NAME}`` macro, useful to monitor servers running more than one Varnish Cache instance. Leave it blank if running a single Varnish Cache instance per server.
+6. Add an existing / new host to the ``Varnish Cache servers`` group and link it to the ``Template App Varnish Cache`` template. Beware you must set a value for the ``{$VARNISH_CACHE_LOCATIONS}`` macro (comma-delimited list of Varnish Cache instance names). Usually you should leave its value blank when running a single Varnish Cache instance per server.

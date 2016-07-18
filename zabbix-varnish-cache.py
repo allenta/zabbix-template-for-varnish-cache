@@ -3,7 +3,7 @@
 
 '''
 :url: https://github.com/allenta/zabbix-template-for-varnish-cache
-:copyright: (c) 2015 by Allenta Consulting S.L. <info@allenta.com>.
+:copyright: (c) 2015-2016 by Allenta Consulting S.L. <info@allenta.com>.
 :license: BSD, see LICENSE.txt for more details.
 '''
 
@@ -100,6 +100,7 @@ REWRITES = [
 ]
 
 SUBJECTS = {
+    'items': None,
     'storages': re.compile(r'^STG\.(.+)\.[^\.]+$'),
     'backends': re.compile(r'^VBE\.(.+)\.[^\.]+$'),
 }
@@ -111,19 +112,22 @@ SUBJECTS = {
 
 def send(options):
     # Initializations.
+    rows = ''
     now = int(time.time())
-    items = stats(options.varnish_name)
 
     # Build Zabbix sender input.
-    rows = ''
-    for name, item in items.items():
-        row = '- varnish.stat["%(key)s"] %(tst)d %(value)d\n' % {
-            'key': str2key(name),
-            'tst': now,
-            'value': item['value'],
-        }
-        sys.stdout.write(row)
-        rows += row
+    for instance in options.varnish_instances.split(','):
+        instance = instance.strip()
+        items = stats(instance)
+        for name, item in items.items():
+            row = '- varnish.stat["%(instance)s","%(key)s"] %(tst)d %(value)s\n' % {
+                'instance': str2key(instance),
+                'key': str2key(name),
+                'tst': now,
+                'value': item['value'],
+            }
+            sys.stdout.write(row)
+            rows += row
 
     # Submit metrics.
     rc, output = execute('zabbix_sender -T -r -i - %(config)s %(server)s %(port)s %(host)s' % {
@@ -155,21 +159,31 @@ def send(options):
 
 def discover(options):
     # Initializations.
-    items = stats(options.varnish_name)
-
-    # Build Zabbix discovery input.
-    ids = set()
     discovery = {
         'data': [],
     }
-    for name in items.iterkeys():
-        match = SUBJECTS[options.subject].match(name)
-        if match is not None and match.group(1) not in ids:
+
+    # Build Zabbix discovery input.
+    for instance in options.varnish_instances.split(','):
+        instance = instance.strip()
+        if options.subject == 'items':
             discovery['data'].append({
-                '{#NAME}': match.group(1),
-                '{#ID}': str2key(match.group(1)),
+                '{#LOCATION}': instance,
+                '{#LOCATION_ID}': str2key(instance),
             })
-            ids.add(match.group(1))
+        else:
+            items = stats(instance)
+            ids = set()
+            for name in items.iterkeys():
+                match = SUBJECTS[options.subject].match(name)
+                if match is not None and match.group(1) not in ids:
+                    discovery['data'].append({
+                        '{#LOCATION}': instance,
+                        '{#LOCATION_ID}': str2key(instance),
+                        '{#SUBJECT}': match.group(1),
+                        '{#SUBJECT_ID}': str2key(match.group(1)),
+                    })
+                    ids.add(match.group(1))
 
     # Render output.
     sys.stdout.write(json.dumps(discovery, sort_keys=True, indent=2))
@@ -190,10 +204,10 @@ class Rewriter(object):
         return name
 
 
-def stats(name=None):
+def stats(name):
     # Fetch stats through varnishstat.
     rc, output = execute('varnishstat -1 -j %(name)s' % {
-        'name': '-n "%s"' % name if name is not None else '',
+        'name': '-n "%s"' % name,
     })
 
     # Check return code & filter / normalize output.
@@ -247,9 +261,9 @@ def main():
     # Set up the base command line parser.
     parser = ArgumentParser()
     parser.add_argument(
-        '-n', '--varnish-name', dest='varnish_name',
-        type=str, required=False, default=None,
-        help='the varnishd instance to get stats from')
+        '-i', '--varnish-instances', dest='varnish_instances',
+        type=str, required=True,
+        help='comma-delimited list of Varnish Cache instances to get stats from')
     subparsers = parser.add_subparsers(dest='command')
 
     # Set up 'send' command.

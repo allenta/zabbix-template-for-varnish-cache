@@ -79,7 +79,7 @@ zabbix.apache2-service:
                        ('DBName', pillar['mysql.zabbix']['name']),
                        ('DBUser', pillar['mysql.zabbix']['user']),
                        ('DBPassword', pillar['mysql.zabbix']['password']),] %}
-/etc/zabbix/zabbix_server.conf-{{ name }}:
+/etc/zabbix/zabbix_server.conf-{{ loop.index }}:
   file.replace:
     - name: /etc/zabbix/zabbix_server.conf
     - pattern: '^\s*#?\s*{{ name }}\s*=\s*.*'
@@ -91,9 +91,9 @@ zabbix.apache2-service:
       - user: zabbix.add-to-varnish-group
 {% endfor %}
 
-{% for name, value in [('UserParameter', "varnish.discovery[*],/vagrant/zabbix-varnish-cache.py -n '$1' discover $2"),
+{% for name, value in [('UserParameter', "varnish.discovery[*],/vagrant/zabbix-varnish-cache.py -i '$1' discover $2"),
                        ('Hostname', 'dev')] %}
-/etc/zabbix/zabbix_agentd.conf-{{ name }}:
+/etc/zabbix/zabbix_agentd.conf-{{ loop.index }}:
   file.append:
     - name: /etc/zabbix/zabbix_agentd.conf
     - text: {{name}}={{value}}

@@ -29,7 +29,7 @@
                     <type>0</type>
                     <snmp_community/>
                     <snmp_oid/>
-                    <key>varnish.discovery[{$VARNISH_CACHE_LOCATION},backends]</key>
+                    <key>varnish.discovery[{$VARNISH_CACHE_LOCATIONS},backends]</key>
                     <delay>3600</delay>
                     <status>0</status>
                     <allowed_hosts/>
@@ -761,7 +761,7 @@
                     <type>0</type>
                     <snmp_community/>
                     <snmp_oid/>
-                    <key>varnish.discovery[{$VARNISH_CACHE_LOCATION},items]</key>
+                    <key>varnish.discovery[{$VARNISH_CACHE_LOCATIONS},items]</key>
                     <delay>3600</delay>
                     <status>0</status>
                     <allowed_hosts/>
@@ -5410,7 +5410,7 @@
                     <type>0</type>
                     <snmp_community/>
                     <snmp_oid/>
-                    <key>varnish.discovery[{$VARNISH_CACHE_LOCATION},storages]</key>
+                    <key>varnish.discovery[{$VARNISH_CACHE_LOCATIONS},storages]</key>
                     <delay>3600</delay>
                     <status>0</status>
                     <allowed_hosts/>
@@ -5727,7 +5727,7 @@
             </discovery_rules>
             <macros>
                 <macro>
-                    <macro>{$VARNISH_CACHE_LOCATION}</macro>
+                    <macro>{$VARNISH_CACHE_LOCATIONS}</macro>
                     <value/>
                 </macro>
             </macros>

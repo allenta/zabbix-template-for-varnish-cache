@@ -226,10 +226,17 @@ def stats(name):
                         'value': item['value'],
                     }
                     if key in result:
-                        result[key]['value'] += value['value']
+                        if value['flag'] in ('c', 'g'):
+                            result[key]['value'] += value['value']
+                        else:
+                            result[key]['value'] = None
                     else:
                         result[key] = value
-        return result
+        return {
+            key: value
+            for key, value in result.items()
+            if value['value'] is not None
+        }
     else:
         sys.stderr.write(output)
         sys.exit(1)

@@ -90,12 +90,13 @@ ITEMS = re.compile(
     r'MAIN\.n_gzip|'
     r'MAIN\.n_gunzip|'
     r'MGT\.uptime|'
-    r'(?:MSE|SMA|SMF)\..+\.(?:c_fail|g_bytes|g_space|g_sparenode)|'
+    r'(?:MSE|SMA|SMF)\..+\.(?:c_fail|c_failed|g_bytes|g_space|g_sparenode)|'
     r'VBE\..+\.(?:happy|bereq_hdrbytes|bereq_bodybytes|beresp_hdrbytes|beresp_bodybytes|pipe_hdrbytes|pipe_out|pipe_in|conn|req)'
     r')$')
 
 REWRITES = [
     (re.compile(r'^((?:MSE|SMA|SMF)\..+)$'), r'STG.\1'),
+    (re.compile(r'^(STG\.(?:MSE|SMA|SMF)\.[^\.]+\.c_fail)ed$'), r'\1'),
     (re.compile(r'^VBE\.(?:.+?\.)*?([^\.]+(?:\([^\)]+\))?\.[^\.]+)$'), r'VBE.\1'),
 ]
 
@@ -198,10 +199,11 @@ class Rewriter(object):
         self._rules = rules
 
     def rewrite(self, name):
+        result = name
         for pattern, repl in self._rules:
-            if pattern.match(name):
-                return pattern.sub(repl, name)
-        return name
+            if pattern.match(result):
+                result = pattern.sub(repl, result)
+        return result
 
 
 def stats(name):

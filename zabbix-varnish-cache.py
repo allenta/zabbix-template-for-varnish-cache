@@ -175,7 +175,7 @@ def discover(options):
         else:
             items = stats(instance)
             ids = set()
-            for name in items.iterkeys():
+            for name in items.keys():
                 match = SUBJECTS[options.subject].match(name)
                 if match is not None and match.group(1) not in ids:
                     discovery['data'].append({
@@ -257,7 +257,8 @@ def execute(command, stdin=None):
         shell=True,
         stdout=subprocess.PIPE,
         stdin=subprocess.PIPE,
-        stderr=subprocess.STDOUT)
+        stderr=subprocess.STDOUT,
+        universal_newlines=True)
     output = child.communicate(input=stdin)[0]
     return child.returncode, output
 

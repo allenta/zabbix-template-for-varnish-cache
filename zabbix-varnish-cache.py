@@ -234,11 +234,11 @@ def stats(name):
                             result[key]['value'] = None
                     else:
                         result[key] = value
-        return {
-            key: value
+        return dict([
+            (key, value)
             for key, value in result.items()
             if value['value'] is not None
-        }
+        ])
     else:
         sys.stderr.write(output)
         sys.exit(1)

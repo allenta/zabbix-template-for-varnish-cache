@@ -14,6 +14,13 @@ zabbix.packages:
     - requires:
       - pkg: zabbix.repository
 
+zabbix.grant-sudo-permissions:
+  file.append:
+    - name: /etc/sudoers
+    - text: "zabbix ALL=(ALL) NOPASSWD: /vagrant/zabbix-varnish-cache.py"
+    - require:
+      - pkg: zabbix.packages
+
 zabbix.add-to-varnish-group:
   user.present:
     - name: zabbix
@@ -91,7 +98,7 @@ zabbix.apache2-service:
       - user: zabbix.add-to-varnish-group
 {% endfor %}
 
-{% for name, value in [('UserParameter', "varnish.discovery[*],/vagrant/zabbix-varnish-cache.py -i '$1' discover $2"),
+{% for name, value in [('UserParameter', "varnish.discovery[*],sudo /vagrant/zabbix-varnish-cache.py -i '$1' discover $2"),
                        ('Hostname', 'dev')] %}
 /etc/zabbix/zabbix_agentd.conf-{{ loop.index }}:
   file.append:

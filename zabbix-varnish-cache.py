@@ -91,7 +91,7 @@ ITEMS = re.compile(
     r'MAIN\.n_gunzip|'
     r'MGT\.uptime|'
     r'(?:MSE|SMA|SMF)\..+\.(?:c_fail|c_failed|g_bytes|g_space|g_sparenode)|'
-    r'VBE\..+\.(?:happy|bereq_hdrbytes|bereq_bodybytes|beresp_hdrbytes|beresp_bodybytes|pipe_hdrbytes|pipe_out|pipe_in|conn|req)'
+    r'VBE\..+\.(?:healthy|happy|bereq_hdrbytes|bereq_bodybytes|beresp_hdrbytes|beresp_bodybytes|pipe_hdrbytes|pipe_out|pipe_in|conn|req)'
     r')$')
 
 REWRITES = [
@@ -207,33 +207,59 @@ class Rewriter(object):
 
 
 def stats(name):
-    # Fetch stats through varnishstat.
+    # Fetch backends through varnishadm.
+    backends = {}
+    rc, output = execute('varnishadm %(name)s backend.list' % {
+        'name': '-n "%s"' % name,
+    })
+    if rc == 0:
+        for i, line in enumerate(output.split('\n')):
+            if i > 0:
+                items = line.split()
+                if len(items) > 3:
+                    backends[items[0]] = (items[2] == 'Healthy')
+    else:
+        backends = None
+        sys.stderr.write(output)
+
+    # Fetch stats through varnishstat & filter / normalize output.
     rc, output = execute('varnishstat -1 -j %(name)s' % {
         'name': '-n "%s"' % name,
     })
-
-    # Check return code & filter / normalize output.
     if rc == 0:
         rewriter = Rewriter(REWRITES)
         result = {}
         for name, item in json.loads(output).items():
             if 'value' in item:
                 if ITEMS.match(name) is not None:
-                    key = rewriter.rewrite(name)
-                    value = {
-                        'type': item.get('type'),
-                        'ident': item.get('ident'),
-                        'flag': item.get('flag'),
-                        'description': item.get('description'),
-                        'value': item['value'],
-                    }
-                    if key in result:
-                        if value['flag'] in ('c', 'g'):
-                            result[key]['value'] += value['value']
+                    if not name.startswith('VBE.') or \
+                       backends is None or \
+                       any(name.startswith('VBE.' + backend + '.') for backend in backends.keys()):
+                        key = rewriter.rewrite(name)
+                        value = {
+                            'type': item.get('type'),
+                            'ident': item.get('ident'),
+                            'flag': item.get('flag'),
+                            'description': item.get('description'),
+                            'value': item['value'],
+                        }
+                        if key in result:
+                            if value['flag'] in ('c', 'g'):
+                                result[key]['value'] += value['value']
+                            else:
+                                result[key]['value'] = None
                         else:
-                            result[key]['value'] = None
-                    else:
-                        result[key] = value
+                            result[key] = value
+        if backends is not None:
+            for backend, healthy in backends.items():
+                key = rewriter.rewrite('VBE.' + backend + '.healthy')
+                result[key] = {
+                    'type': 'VBE',
+                    'ident': backend,
+                    'flag': 'g',
+                    'description': '',
+                    'value': int(healthy),
+                }
         return dict([
             (key, value)
             for key, value in result.items()

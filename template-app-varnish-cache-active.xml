@@ -752,7 +752,7 @@
                             <expression>{Template App Varnish Cache Active:varnish.stat[&quot;{#LOCATION_ID}&quot;,&quot;VBE.{#SUBJECT_ID}.healthy&quot;].max(#10)}&lt;1</expression>
                             <name>Varnish Cache[{#LOCATION}] {#SUBJECT} backend is sick</name>
                             <url/>
-                            <status>1</status>
+                            <status>0</status>
                             <priority>4</priority>
                             <description/>
                             <type>0</type>
@@ -4215,7 +4215,7 @@
                             <expression>{Template App Varnish Cache Active:varnish.stat[&quot;{#LOCATION_ID}&quot;,&quot;MAIN.uptime&quot;].last()}&lt;600 or {Template App Varnish Cache Active:varnish.stat[&quot;{#LOCATION_ID}&quot;,&quot;MGT.uptime&quot;].last()}&lt;600</expression>
                             <name>Varnish Cache[{#LOCATION}] has been restarted</name>
                             <url/>
-                            <status>1</status>
+                            <status>0</status>
                             <priority>4</priority>
                             <description/>
                             <type>0</type>
@@ -4224,7 +4224,7 @@
                             <expression>{Template App Varnish Cache Active:varnish.stat[&quot;{#LOCATION_ID}&quot;,&quot;MAIN.threads&quot;].last()}&gt;1000</expression>
                             <name>Varnish Cache[{#LOCATION}] has surpassed 1000 threads</name>
                             <url/>
-                            <status>1</status>
+                            <status>0</status>
                             <priority>2</priority>
                             <description/>
                             <type>0</type>
@@ -4233,7 +4233,7 @@
                             <expression>{Template App Varnish Cache Active:varnish.stat[&quot;{#LOCATION_ID}&quot;,&quot;MAIN.losthdr&quot;].last()}&gt;0.0</expression>
                             <name>Varnish Cache[{#LOCATION}] is generating HTTP header overflows</name>
                             <url/>
-                            <status>1</status>
+                            <status>0</status>
                             <priority>2</priority>
                             <description/>
                             <type>0</type>
@@ -4242,7 +4242,7 @@
                             <expression>{Template App Varnish Cache Active:varnish.stat[&quot;{#LOCATION_ID}&quot;,&quot;MAIN.backend_fail&quot;].min(#10)}&gt;0.0</expression>
                             <name>Varnish Cache[{#LOCATION}] is getting backend connection failures</name>
                             <url/>
-                            <status>1</status>
+                            <status>0</status>
                             <priority>2</priority>
                             <description/>
                             <type>0</type>
@@ -4251,7 +4251,7 @@
                             <expression>{Template App Varnish Cache Active:varnish.stat[&quot;{#LOCATION_ID}&quot;,&quot;MAIN.n_lru_nuked&quot;].min(#10)}&gt;0.0</expression>
                             <name>Varnish Cache[{#LOCATION}] is nuking objects</name>
                             <url/>
-                            <status>1</status>
+                            <status>0</status>
                             <priority>2</priority>
                             <description/>
                             <type>0</type>
@@ -5900,7 +5900,7 @@
                             <expression>{Template App Varnish Cache Active:varnish.stat[&quot;{#LOCATION_ID}&quot;,&quot;STG.{#SUBJECT_ID}.c_fail&quot;].last()}&gt;0.0</expression>
                             <name>Varnish Cache[{#LOCATION}] {#SUBJECT} storage failed to allocate space</name>
                             <url/>
-                            <status>1</status>
+                            <status>0</status>
                             <priority>4</priority>
                             <description/>
                             <type>0</type>
@@ -5909,7 +5909,7 @@
                             <expression>{Template App Varnish Cache Active:varnish.stat[&quot;{#LOCATION_ID}&quot;,&quot;STG.{#SUBJECT_ID}.g_sparenode&quot;].max(#10)}&lt;100</expression>
                             <name>Varnish Cache[{#LOCATION}] {#SUBJECT} storage has run out of spare nodes</name>
                             <url/>
-                            <status>1</status>
+                            <status>0</status>
                             <priority>4</priority>
                             <description/>
                             <type>0</type>
@@ -5918,7 +5918,7 @@
                             <expression>{Template App Varnish Cache Active:varnish.stat[&quot;{#LOCATION_ID}&quot;,&quot;STG.{#SUBJECT_ID}.g_sparenode&quot;].last()}&lt;1000000</expression>
                             <name>Varnish Cache[{#LOCATION}] {#SUBJECT} storage is running out of spare nodes</name>
                             <url/>
-                            <status>1</status>
+                            <status>0</status>
                             <priority>2</priority>
                             <description/>
                             <type>0</type>
@@ -6052,7 +6052,7 @@
             <expression>{Template App Varnish Cache Active:proc.num[varnish-agent].last()}&lt;1</expression>
             <name>Varnish Agent is not running</name>
             <url/>
-            <status>1</status>
+            <status>0</status>
             <priority>5</priority>
             <description/>
             <type>0</type>
@@ -6062,7 +6062,7 @@
             <expression>{Template App Varnish Cache Active:proc.num[varnishd].last()}&lt;2</expression>
             <name>Varnish Cache is not running</name>
             <url/>
-            <status>1</status>
+            <status>0</status>
             <priority>5</priority>
             <description/>
             <type>0</type>
@@ -6072,7 +6072,7 @@
             <expression>{Template App Varnish Cache Active:proc.num[varnishlog].last()}&lt;1</expression>
             <name>Varnish raw log is not running</name>
             <url/>
-            <status>1</status>
+            <status>0</status>
             <priority>5</priority>
             <description/>
             <type>0</type>
@@ -6082,7 +6082,7 @@
             <expression>{Template App Varnish Cache Active:proc.num[varnishncsa].last()}&lt;1</expression>
             <name>Varnish NCSA log is not running</name>
             <url/>
-            <status>1</status>
+            <status>0</status>
             <priority>5</priority>
             <description/>
             <type>0</type>

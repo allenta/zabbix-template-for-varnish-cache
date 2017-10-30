@@ -217,7 +217,7 @@ def stats(name):
             if i > 0:
                 items = line.split()
                 if len(items) > 3:
-                    backends[items[0]] = (items[2] == 'Healthy')
+                    backends[items[0]] = (items[3] == 'Healthy')
     else:
         backends = None
         sys.stderr.write(output)

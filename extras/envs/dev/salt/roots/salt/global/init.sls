@@ -2,6 +2,7 @@ global.packages:
   pkg.installed:
     - refresh: True
     - names:
+      - apt-transport-https
       - curl
       - links
       - nano

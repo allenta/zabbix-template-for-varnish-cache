@@ -1,8 +1,8 @@
-varnish.4.1-repository:
+varnish.5.2-repository:
   pkgrepo.managed:
-    - name: deb https://packagecloud.io/varnishcache/varnish41/ubuntu/ trusty main
-    - humanname: Varnish 4.1
-    - key_url: https://packagecloud.io/varnishcache/varnish41/gpgkey
+    - name: deb https://packagecloud.io/varnishcache/varnish52/ubuntu/ trusty main
+    - humanname: Varnish 5.2
+    - key_url: https://packagecloud.io/varnishcache/varnish52/gpgkey
     - file: /etc/apt/sources.list.d/varnish.list
     - require_in:
       - pkg: varnish.packages

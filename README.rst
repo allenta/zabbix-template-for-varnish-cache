@@ -1,8 +1,8 @@
-**This is a Zabbix template + discovery & sender script useful to monitor Varnish Cache >= 4.0 instances:**
+**This is a Zabbix template + discovery & sender script useful to monitor Varnish Cache 5.2.x instances:**
 
 1. Copy ``zabbix-varnish-cache.py`` to ``/usr/local/bin/``.
 
-2. If using Varnish Cache >= 4.1, add ``zabbix`` user to the ``varnish`` group::
+2. Add ``zabbix`` user to the ``varnish`` group::
 
     $ sudo usermod -a --groups varnish zabbix
 

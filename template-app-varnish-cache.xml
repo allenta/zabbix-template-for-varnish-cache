@@ -494,7 +494,7 @@
                             <snmp_community/>
                             <multiplier>0</multiplier>
                             <snmp_oid/>
-                            <key>varnish[VBE.{#SUBJECT_ID}.last_happy]</key>
+                            <key>varnish[&quot;{#LOCATION_ID}&quot;,&quot;VBE.{#SUBJECT_ID}.last_happy&quot;]</key>
                             <delay>60</delay>
                             <history>30</history>
                             <trends>365</trends>
@@ -954,7 +954,7 @@
                                     <type>0</type>
                                     <item>
                                         <host>Template App Varnish Cache</host>
-                                        <key>varnish[VBE.{#SUBJECT_ID}.last_happy]</key>
+                                        <key>varnish[&quot;{#LOCATION_ID}&quot;,&quot;VBE.{#SUBJECT_ID}.last_happy&quot;]</key>
                                     </item>
                                 </graph_item>
                             </graph_items>

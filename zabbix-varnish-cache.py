@@ -25,6 +25,7 @@ ITEMS = re.compile(
     r'MAIN\.client_req_417|'
     r'MAIN\.client_req|'
     r'MAIN\.cache_hit|'
+    r'MAIN\.cache_hit_grace|'
     r'MAIN\.cache_hitpass|'
     r'MAIN\.cache_hitmiss|'
     r'MAIN\.cache_miss|'

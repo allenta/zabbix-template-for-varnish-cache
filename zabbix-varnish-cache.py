@@ -57,6 +57,7 @@ ITEMS = re.compile(
     r'MAIN\.busy_killed|'
     r'MAIN\.sess_queued|'
     r'MAIN\.sess_dropped|'
+    r'MAIN\.req_dropped|'
     r'MAIN\.n_object|'
     r'MAIN\.n_objectcore|'
     r'MAIN\.n_objecthead|'
@@ -68,7 +69,6 @@ ITEMS = re.compile(
     r'MAIN\.bans_lurker_obj_killed_cutoff|'
     r'MAIN\.losthdr|'
     r'MAIN\.s_sess|'
-    r'MAIN\.s_req|'
     r'MAIN\.s_pipe|'
     r'MAIN\.s_pass|'
     r'MAIN\.s_fetch|'
@@ -243,8 +243,6 @@ def stats(name):
                        any(name.startswith('VBE.' + backend + '.') for backend in backends.keys()):
                         key = rewriter.rewrite(name)
                         value = {
-                            'type': item.get('type'),
-                            'ident': item.get('ident'),
                             'flag': item.get('flag'),
                             'description': item.get('description'),
                             'value': item['value'],
@@ -260,8 +258,6 @@ def stats(name):
             for backend, healthy in backends.items():
                 key = rewriter.rewrite('VBE.' + backend + '.healthy')
                 result[key] = {
-                    'type': 'VBE',
-                    'ident': backend,
                     'flag': 'g',
                     'description': '',
                     'value': int(healthy),

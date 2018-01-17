@@ -1501,6 +1501,49 @@
                             <logtimefmt/>
                         </item_prototype>
                         <item_prototype>
+                            <name>Varnish Cache[{#LOCATION}] - MAIN.bans_lurker_obj_killed_cutoff (objects killed by bans lurker for cutoff / sec)</name>
+                            <type>2</type>
+                            <snmp_community/>
+                            <multiplier>0</multiplier>
+                            <snmp_oid/>
+                            <key>varnish.stat[&quot;{#LOCATION_ID}&quot;,&quot;MAIN.bans_lurker_obj_killed_cutoff&quot;]</key>
+                            <delay>0</delay>
+                            <history>30</history>
+                            <trends>365</trends>
+                            <status>0</status>
+                            <value_type>0</value_type>
+                            <allowed_hosts/>
+                            <units>eps</units>
+                            <delta>1</delta>
+                            <snmpv3_contextname/>
+                            <snmpv3_securityname/>
+                            <snmpv3_securitylevel>0</snmpv3_securitylevel>
+                            <snmpv3_authprotocol>0</snmpv3_authprotocol>
+                            <snmpv3_authpassphrase/>
+                            <snmpv3_privprotocol>0</snmpv3_privprotocol>
+                            <snmpv3_privpassphrase/>
+                            <formula>1</formula>
+                            <delay_flex/>
+                            <params/>
+                            <ipmi_sensor/>
+                            <data_type>0</data_type>
+                            <authtype>0</authtype>
+                            <username/>
+                            <password/>
+                            <publickey/>
+                            <privatekey/>
+                            <port/>
+                            <description/>
+                            <inventory_link>0</inventory_link>
+                            <applications>
+                                <application>
+                                    <name>Varnish Cache</name>
+                                </application>
+                            </applications>
+                            <valuemap/>
+                            <logtimefmt/>
+                        </item_prototype>
+                        <item_prototype>
                             <name>Varnish Cache[{#LOCATION}] - MAIN.bans_obj_killed (objects killed by bans during lookup / sec)</name>
                             <type>2</type>
                             <snmp_community/>
@@ -1679,6 +1722,49 @@
                             <multiplier>0</multiplier>
                             <snmp_oid/>
                             <key>varnish.stat[&quot;{#LOCATION_ID}&quot;,&quot;MAIN.cache_hit&quot;]</key>
+                            <delay>0</delay>
+                            <history>30</history>
+                            <trends>365</trends>
+                            <status>0</status>
+                            <value_type>0</value_type>
+                            <allowed_hosts/>
+                            <units>eps</units>
+                            <delta>1</delta>
+                            <snmpv3_contextname/>
+                            <snmpv3_securityname/>
+                            <snmpv3_securitylevel>0</snmpv3_securitylevel>
+                            <snmpv3_authprotocol>0</snmpv3_authprotocol>
+                            <snmpv3_authpassphrase/>
+                            <snmpv3_privprotocol>0</snmpv3_privprotocol>
+                            <snmpv3_privpassphrase/>
+                            <formula>1</formula>
+                            <delay_flex/>
+                            <params/>
+                            <ipmi_sensor/>
+                            <data_type>0</data_type>
+                            <authtype>0</authtype>
+                            <username/>
+                            <password/>
+                            <publickey/>
+                            <privatekey/>
+                            <port/>
+                            <description/>
+                            <inventory_link>0</inventory_link>
+                            <applications>
+                                <application>
+                                    <name>Varnish Cache</name>
+                                </application>
+                            </applications>
+                            <valuemap/>
+                            <logtimefmt/>
+                        </item_prototype>
+                        <item_prototype>
+                            <name>Varnish Cache[{#LOCATION}] - MAIN.cache_hitmiss (cache hits for miss / sec)</name>
+                            <type>2</type>
+                            <snmp_community/>
+                            <multiplier>0</multiplier>
+                            <snmp_oid/>
+                            <key>varnish.stat[&quot;{#LOCATION_ID}&quot;,&quot;MAIN.cache_hitmiss&quot;]</key>
                             <delay>0</delay>
                             <history>30</history>
                             <trends>365</trends>
@@ -2963,6 +3049,49 @@
                             <logtimefmt/>
                         </item_prototype>
                         <item_prototype>
+                            <name>Varnish Cache[{#LOCATION}] - MAIN.n_test_gunzip (test gunzip operations / sec)</name>
+                            <type>2</type>
+                            <snmp_community/>
+                            <multiplier>0</multiplier>
+                            <snmp_oid/>
+                            <key>varnish.stat[&quot;{#LOCATION_ID}&quot;,&quot;MAIN.n_test_gunzip&quot;]</key>
+                            <delay>0</delay>
+                            <history>30</history>
+                            <trends>365</trends>
+                            <status>0</status>
+                            <value_type>0</value_type>
+                            <allowed_hosts/>
+                            <units>eps</units>
+                            <delta>1</delta>
+                            <snmpv3_contextname/>
+                            <snmpv3_securityname/>
+                            <snmpv3_securitylevel>0</snmpv3_securitylevel>
+                            <snmpv3_authprotocol>0</snmpv3_authprotocol>
+                            <snmpv3_authpassphrase/>
+                            <snmpv3_privprotocol>0</snmpv3_privprotocol>
+                            <snmpv3_privpassphrase/>
+                            <formula>1</formula>
+                            <delay_flex/>
+                            <params/>
+                            <ipmi_sensor/>
+                            <data_type>0</data_type>
+                            <authtype>0</authtype>
+                            <username/>
+                            <password/>
+                            <publickey/>
+                            <privatekey/>
+                            <port/>
+                            <description/>
+                            <inventory_link>0</inventory_link>
+                            <applications>
+                                <application>
+                                    <name>Varnish Cache</name>
+                                </application>
+                            </applications>
+                            <valuemap/>
+                            <logtimefmt/>
+                        </item_prototype>
+                        <item_prototype>
                             <name>Varnish Cache[{#LOCATION}] - MAIN.sess_closed (sessions closed / sec)</name>
                             <type>2</type>
                             <snmp_community/>
@@ -3866,6 +3995,49 @@
                             <logtimefmt/>
                         </item_prototype>
                         <item_prototype>
+                            <name>Varnish Cache[{#LOCATION}] - MAIN.sc_vcl_failure (session Err VCL_FAILURE / sec)</name>
+                            <type>2</type>
+                            <snmp_community/>
+                            <multiplier>0</multiplier>
+                            <snmp_oid/>
+                            <key>varnish.stat[&quot;{#LOCATION_ID}&quot;,&quot;MAIN.sc_vcl_failure&quot;]</key>
+                            <delay>0</delay>
+                            <history>30</history>
+                            <trends>365</trends>
+                            <status>0</status>
+                            <value_type>0</value_type>
+                            <allowed_hosts/>
+                            <units>eps</units>
+                            <delta>1</delta>
+                            <snmpv3_contextname/>
+                            <snmpv3_securityname/>
+                            <snmpv3_securitylevel>0</snmpv3_securitylevel>
+                            <snmpv3_authprotocol>0</snmpv3_authprotocol>
+                            <snmpv3_authpassphrase/>
+                            <snmpv3_privprotocol>0</snmpv3_privprotocol>
+                            <snmpv3_privpassphrase/>
+                            <formula>1</formula>
+                            <delay_flex/>
+                            <params/>
+                            <ipmi_sensor/>
+                            <data_type>0</data_type>
+                            <authtype>0</authtype>
+                            <username/>
+                            <password/>
+                            <publickey/>
+                            <privatekey/>
+                            <port/>
+                            <description/>
+                            <inventory_link>0</inventory_link>
+                            <applications>
+                                <application>
+                                    <name>Varnish Cache</name>
+                                </application>
+                            </applications>
+                            <valuemap/>
+                            <logtimefmt/>
+                        </item_prototype>
+                        <item_prototype>
                             <name>Varnish Cache[{#LOCATION}] - MAIN.threads (number of threads in all pools)</name>
                             <type>2</type>
                             <snmp_community/>
@@ -4167,6 +4339,49 @@
                             <logtimefmt/>
                         </item_prototype>
                         <item_prototype>
+                            <name>Varnish Cache[{#LOCATION}] - MAIN.vcl_fail (VCL failures / sec)</name>
+                            <type>2</type>
+                            <snmp_community/>
+                            <multiplier>0</multiplier>
+                            <snmp_oid/>
+                            <key>varnish.stat[&quot;{#LOCATION_ID}&quot;,&quot;MAIN.vcl_fail&quot;]</key>
+                            <delay>0</delay>
+                            <history>30</history>
+                            <trends>365</trends>
+                            <status>0</status>
+                            <value_type>0</value_type>
+                            <allowed_hosts/>
+                            <units>eps</units>
+                            <delta>1</delta>
+                            <snmpv3_contextname/>
+                            <snmpv3_securityname/>
+                            <snmpv3_securitylevel>0</snmpv3_securitylevel>
+                            <snmpv3_authprotocol>0</snmpv3_authprotocol>
+                            <snmpv3_authpassphrase/>
+                            <snmpv3_privprotocol>0</snmpv3_privprotocol>
+                            <snmpv3_privpassphrase/>
+                            <formula>1</formula>
+                            <delay_flex/>
+                            <params/>
+                            <ipmi_sensor/>
+                            <data_type>0</data_type>
+                            <authtype>0</authtype>
+                            <username/>
+                            <password/>
+                            <publickey/>
+                            <privatekey/>
+                            <port/>
+                            <description/>
+                            <inventory_link>0</inventory_link>
+                            <applications>
+                                <application>
+                                    <name>Varnish Cache</name>
+                                </application>
+                            </applications>
+                            <valuemap/>
+                            <logtimefmt/>
+                        </item_prototype>
+                        <item_prototype>
                             <name>Varnish Cache[{#LOCATION}] - MGT.uptime (management process uptime)</name>
                             <type>2</type>
                             <snmp_community/>
@@ -4232,6 +4447,15 @@
                         <trigger_prototype>
                             <expression>{Template App Varnish Cache Active:varnish.stat[&quot;{#LOCATION_ID}&quot;,&quot;MAIN.losthdr&quot;].last()}&gt;0.0</expression>
                             <name>Varnish Cache[{#LOCATION}] is generating HTTP header overflows</name>
+                            <url/>
+                            <status>0</status>
+                            <priority>2</priority>
+                            <description/>
+                            <type>0</type>
+                        </trigger_prototype>
+                        <trigger_prototype>
+                            <expression>{Template App Varnish Cache Active:varnish.stat[&quot;{#LOCATION_ID}&quot;,&quot;MAIN.vcl_fail&quot;].last()}&gt;0.0</expression>
+                            <name>Varnish Cache[{#LOCATION}] is generating VCL failures</name>
                             <url/>
                             <status>0</status>
                             <priority>2</priority>
@@ -4661,13 +4885,25 @@
                                     <type>0</type>
                                     <item>
                                         <host>Template App Varnish Cache Active</host>
-                                        <key>varnish.stat[&quot;{#LOCATION_ID}&quot;,&quot;MAIN.cache_miss&quot;]</key>
+                                        <key>varnish.stat[&quot;{#LOCATION_ID}&quot;,&quot;MAIN.cache_hitmiss&quot;]</key>
                                     </item>
                                 </graph_item>
                                 <graph_item>
                                     <sortorder>3</sortorder>
-                                    <drawtype>2</drawtype>
+                                    <drawtype>0</drawtype>
                                     <color>C800C8</color>
+                                    <yaxisside>0</yaxisside>
+                                    <calc_fnc>2</calc_fnc>
+                                    <type>0</type>
+                                    <item>
+                                        <host>Template App Varnish Cache Active</host>
+                                        <key>varnish.stat[&quot;{#LOCATION_ID}&quot;,&quot;MAIN.cache_miss&quot;]</key>
+                                    </item>
+                                </graph_item>
+                                <graph_item>
+                                    <sortorder>4</sortorder>
+                                    <drawtype>2</drawtype>
+                                    <color>00C8C8</color>
                                     <yaxisside>1</yaxisside>
                                     <calc_fnc>2</calc_fnc>
                                     <type>0</type>
@@ -5308,6 +5544,18 @@
                                         <key>varnish.stat[&quot;{#LOCATION_ID}&quot;,&quot;MAIN.n_gunzip&quot;]</key>
                                     </item>
                                 </graph_item>
+                                <graph_item>
+                                    <sortorder>2</sortorder>
+                                    <drawtype>0</drawtype>
+                                    <color>0000C8</color>
+                                    <yaxisside>0</yaxisside>
+                                    <calc_fnc>2</calc_fnc>
+                                    <type>0</type>
+                                    <item>
+                                        <host>Template App Varnish Cache Active</host>
+                                        <key>varnish.stat[&quot;{#LOCATION_ID}&quot;,&quot;MAIN.n_test_gunzip&quot;]</key>
+                                    </item>
+                                </graph_item>
                             </graph_items>
                         </graph_prototype>
                         <graph_prototype>
@@ -5482,6 +5730,18 @@
                                     <item>
                                         <host>Template App Varnish Cache Active</host>
                                         <key>varnish.stat[&quot;{#LOCATION_ID}&quot;,&quot;MAIN.bans_lurker_obj_killed&quot;]</key>
+                                    </item>
+                                </graph_item>
+                                <graph_item>
+                                    <sortorder>5</sortorder>
+                                    <drawtype>0</drawtype>
+                                    <color>C8C800</color>
+                                    <yaxisside>0</yaxisside>
+                                    <calc_fnc>2</calc_fnc>
+                                    <type>0</type>
+                                    <item>
+                                        <host>Template App Varnish Cache Active</host>
+                                        <key>varnish.stat[&quot;{#LOCATION_ID}&quot;,&quot;MAIN.bans_lurker_obj_killed_cutoff&quot;]</key>
                                     </item>
                                 </graph_item>
                             </graph_items>
@@ -5682,6 +5942,50 @@
                                     <item>
                                         <host>Template App Varnish Cache Active</host>
                                         <key>varnish.stat[&quot;{#LOCATION_ID}&quot;,&quot;MGT.uptime&quot;]</key>
+                                    </item>
+                                </graph_item>
+                            </graph_items>
+                        </graph_prototype>
+                        <graph_prototype>
+                            <name>Varnish Cache[{#LOCATION}] &gt; VCL failures</name>
+                            <width>900</width>
+                            <height>200</height>
+                            <yaxismin>0.0000</yaxismin>
+                            <yaxismax>100.0000</yaxismax>
+                            <show_work_period>1</show_work_period>
+                            <show_triggers>1</show_triggers>
+                            <type>0</type>
+                            <show_legend>1</show_legend>
+                            <show_3d>0</show_3d>
+                            <percent_left>0.0000</percent_left>
+                            <percent_right>0.0000</percent_right>
+                            <ymin_type_1>0</ymin_type_1>
+                            <ymax_type_1>0</ymax_type_1>
+                            <ymin_item_1>0</ymin_item_1>
+                            <ymax_item_1>0</ymax_item_1>
+                            <graph_items>
+                                <graph_item>
+                                    <sortorder>0</sortorder>
+                                    <drawtype>1</drawtype>
+                                    <color>00C800</color>
+                                    <yaxisside>0</yaxisside>
+                                    <calc_fnc>2</calc_fnc>
+                                    <type>0</type>
+                                    <item>
+                                        <host>Template App Varnish Cache Active</host>
+                                        <key>varnish.stat[&quot;{#LOCATION_ID}&quot;,&quot;MAIN.sc_vcl_failure&quot;]</key>
+                                    </item>
+                                </graph_item>
+                                <graph_item>
+                                    <sortorder>1</sortorder>
+                                    <drawtype>1</drawtype>
+                                    <color>C80000</color>
+                                    <yaxisside>0</yaxisside>
+                                    <calc_fnc>2</calc_fnc>
+                                    <type>0</type>
+                                    <item>
+                                        <host>Template App Varnish Cache Active</host>
+                                        <key>varnish.stat[&quot;{#LOCATION_ID}&quot;,&quot;MAIN.vcl_fail&quot;]</key>
                                     </item>
                                 </graph_item>
                             </graph_items>

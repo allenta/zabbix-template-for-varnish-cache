@@ -65,6 +65,7 @@ ITEMS = re.compile(
     r'MAIN\.n_backend|'
     r'MAIN\.n_expired|'
     r'MAIN\.n_lru_nuked|'
+    r'MAIN\.n_lru_limited|'
     r'MAIN\.bans_obj_killed|'
     r'MAIN\.bans_lurker_obj_killed|'
     r'MAIN\.bans_lurker_obj_killed_cutoff|'

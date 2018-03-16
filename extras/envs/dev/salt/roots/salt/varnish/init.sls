@@ -1,6 +1,6 @@
 varnish.weekly-repository:
   pkgrepo.managed:
-    - name: deb https://packagecloud.io/varnishcache/varnish-weekly/ubuntu/ trusty main
+    - name: deb https://packagecloud.io/varnishcache/varnish-weekly/ubuntu/ xenial main
     - humanname: Varnish weekly
     - key_url: https://packagecloud.io/varnishcache/varnish-weekly/gpgkey
     - file: /etc/apt/sources.list.d/varnish.list
@@ -16,14 +16,5 @@ varnish.packages:
 varnish.varnish-service:
   service.running:
     - name: varnish
-    - require:
-      - pkg: varnish.packages
-
-varnish.varnish-settings:
-  file.append:
-    - name: /etc/default/varnish
-    - text: DAEMON_OPTS="${DAEMON_OPTS} -p sigsegv_handler=on"
-    - watch_in:
-      - service: varnish.varnish-service
     - require:
       - pkg: varnish.packages

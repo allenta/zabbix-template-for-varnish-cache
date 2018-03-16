@@ -1,4 +1,4 @@
-**This is a Zabbix template + discovery & sender script useful to monitor Varnish Cache 5.2.x instances:**
+**This is a Zabbix template + discovery & sender script useful to monitor Varnish Cache (master) instances:**
 
 1. Copy ``zabbix-varnish-cache.py`` to ``/usr/local/bin/``.
 

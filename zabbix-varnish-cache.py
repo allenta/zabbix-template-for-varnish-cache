@@ -181,7 +181,7 @@ def discover(options):
                 '{#LOCATION_ID}': str2key(instance),
             })
         else:
-            items = stats(instance)
+            items = stats(instance,options)
             ids = set()
             for name in items.keys():
                 match = SUBJECTS[options.subject].match(name)

@@ -127,7 +127,7 @@ def send(options):
     # Build Zabbix sender input.
     for instance in options.varnish_instances.split(','):
         instance = instance.strip()
-        items = stats(instance)
+        items = stats(instance,options)
         for name, item in items.items():
             row = '- varnish.stat["%(instance)s","%(key)s"] %(tst)d %(value)s\n' % {
                 'instance': str2key(instance),
@@ -214,12 +214,20 @@ class Rewriter(object):
         return result
 
 
-def stats(name):
+def stats(name,options):
     # Fetch backends through varnishadm.
     backends = {}
-    rc, output = execute('varnishadm %(name)s backend.list' % {
-        'name': '-n "%s"' % name,
-    })
+    if options.docker_container_name:
+        rc, output = execute('docker exec %(containername)s varnishadm %(name)s backend.list' % {
+            'containername':
+                '"%s"' % options.docker_container_name
+                if options.docker_container_name is not None else '',
+            'name': '-n "%s"' % name,
+        })
+    else:
+        rc, output = execute('varnishadm %(name)s backend.list' % {
+            'name': '-n "%s"' % name,
+        })
     if rc == 0:
         for i, line in enumerate(output.split('\n')):
             if i > 0:
@@ -230,10 +238,19 @@ def stats(name):
         backends = None
         sys.stderr.write(output)
 
-    # Fetch stats through varnishstat & filter / normalize output.
-    rc, output = execute('varnishstat -1 -j %(name)s' % {
-        'name': '-n "%s"' % name,
-    })
+    if options.docker_container_name:
+        # Fetch stats through varnishstat & filter / normalize output.
+        rc, output = execute('docker exec %(containername)s varnishstat -1 -j %(name)s' % {
+            'containername':
+                '"%s"' % options.docker_container_name
+                if options.docker_container_name is not None else '',
+            'name': '-n "%s"' % name,
+        })
+    else:
+        # Fetch stats through varnishstat & filter / normalize output.
+        rc, output = execute('varnishstat -1 -j %(name)s' % {
+            'name': '-n "%s"' % name,
+        })
     if rc == 0:
         rewriter = Rewriter(REWRITES)
         result = {}
@@ -304,7 +321,12 @@ def main():
         '-i', '--varnish-instances', dest='varnish_instances',
         type=str, required=True,
         help='comma-delimited list of Varnish Cache instances to get stats from')
+    parser.add_argument(
+        '-d', '--docker-container-name', dest='docker_container_name',
+        type=str, required=False, default=None,
+        help='Varnish container name')
     subparsers = parser.add_subparsers(dest='command')
+
 
     # Set up 'send' command.
     subparser = subparsers.add_parser(

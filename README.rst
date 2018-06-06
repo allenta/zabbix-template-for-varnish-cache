@@ -10,7 +10,13 @@
 
 4. Add the ``varnish.discovery`` user parameter to Zabbix::
 
+- If non docker::
+
     UserParameter=varnish.discovery[*],sudo /usr/local/bin/zabbix-varnish-cache.py -i '$1' discover $2
+    
+- If dockerize varnish::
+
+    UserParameter=varnish.discovery[*],sudo /usr/local/bin/zabbix-varnish-cache.py -i '$1' -d containername discover $2
 
 5. Add a new job to the ``zabbix`` user crontab (beware of the ``-i`` and ``-s`` options). This will submit Varnish Cache metrics through Zabbix Sender::
 

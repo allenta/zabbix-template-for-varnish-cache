@@ -124,20 +124,36 @@ def send(options):
     rows = ''
     now = int(time.time())
 
-    # Build Zabbix sender input.
-    for instance in options.varnish_instances.split(','):
-        instance = instance.strip()
-        items = stats(instance,options)
-        for name, item in items.items():
-            row = '- varnish.stat["%(instance)s","%(key)s"] %(tst)d %(value)s\n' % {
-                'instance': str2key(instance),
-                'key': str2key(name),
-                'tst': now,
-                'value': item['value'],
-            }
-            sys.stdout.write(row)
-            rows += row
 
+    # Build Zabbix sender input.
+    if options.docker_container_names:
+        for container,instance in zip(options.docker_container_names.split(','),options.varnish_instances.split(',')):
+            instance = instance.strip()
+            container = container.strip()
+            items = stats(container,instance)
+            for name, item in items.items():
+                row = '- varnish.stat["%(container)s",%(instance)s","%(key)s"] %(tst)d %(value)s\n' % {
+                    'container': str2key(container),
+                    'instance': str2key(instance),
+                    'key': str2key(name),
+                    'tst': now,
+                    'value': item['value'],
+                }
+                sys.stdout.write(row)
+                rows += row
+    else: 
+        for instance in options.varnish_instances.split(','):
+            instance = instance.strip()
+            items = stats(instance)
+            for name, item in items.items():
+                row = '- varnish.stat["%(instance)s","%(key)s"] %(tst)d %(value)s\n' % {
+                    'instance': str2key(instance),
+                    'key': str2key(name),
+                    'tst': now,
+                    'value': item['value'],
+                }
+                sys.stdout.write(row)
+                rows += row
     # Submit metrics.
     rc, output = execute('zabbix_sender -T -r -i - %(config)s %(server)s %(port)s %(host)s' % {
         'config':
@@ -173,27 +189,51 @@ def discover(options):
     }
 
     # Build Zabbix discovery input.
-    for instance in options.varnish_instances.split(','):
-        instance = instance.strip()
-        if options.subject == 'items':
-            discovery['data'].append({
-                '{#LOCATION}': instance,
-                '{#LOCATION_ID}': str2key(instance),
-            })
-        else:
-            items = stats(instance,options)
-            ids = set()
-            for name in items.keys():
-                match = SUBJECTS[options.subject].match(name)
-                if match is not None and match.group(1) not in ids:
-                    discovery['data'].append({
-                        '{#LOCATION}': instance,
-                        '{#LOCATION_ID}': str2key(instance),
-                        '{#SUBJECT}': match.group(1),
-                        '{#SUBJECT_ID}': str2key(match.group(1)),
-                    })
-                    ids.add(match.group(1))
-
+    if options.docker_container_names:
+        for container,instance in zip(options.docker_container_names.split(','),options.varnish_instances.split(',')):
+            instance = instance.strip()
+            container = container.strip()
+            if options.subject == 'items':
+                discovery['data'].append({
+                    '{#CONTAINER}': container,
+                    '{#LOCATION}': instance,
+                    '{#LOCATION_ID}': str2key(instance),
+                })
+            else:
+                items = stats(container,instance)
+                ids = set()
+                for name in items.keys():
+                    match = SUBJECTS[options.subject].match(name)
+                    if match is not None and match.group(1) not in ids:
+                        discovery['data'].append({
+                            '{#CONTAINER}': container,
+                            '{#LOCATION}': instance,
+                            '{#LOCATION_ID}': str2key(instance),
+                            '{#SUBJECT}': match.group(1),
+                            '{#SUBJECT_ID}': str2key(match.group(1)),
+                        })
+                        ids.add(match.group(1))
+    else:
+        for instance in options.varnish_instances.split(','):
+            instance = instance.strip()
+            if options.subject == 'items':
+                discovery['data'].append({
+                    '{#LOCATION}': instance,
+                    '{#LOCATION_ID}': str2key(instance),
+                })
+            else:
+                items = stats(options.docker_container_names,instance)
+                ids = set()
+                for name in items.keys():
+                    match = SUBJECTS[options.subject].match(name)
+                    if match is not None and match.group(1) not in ids:
+                        discovery['data'].append({
+                            '{#LOCATION}': instance,
+                            '{#LOCATION_ID}': str2key(instance),
+                            '{#SUBJECT}': match.group(1),
+                            '{#SUBJECT_ID}': str2key(match.group(1)),
+                        })
+                        ids.add(match.group(1))
     # Render output.
     sys.stdout.write(json.dumps(discovery, sort_keys=True, indent=2))
 
@@ -214,14 +254,14 @@ class Rewriter(object):
         return result
 
 
-def stats(name,options):
+def stats(cname,name):
     # Fetch backends through varnishadm.
     backends = {}
-    if options.docker_container_name:
-        rc, output = execute('docker exec %(containername)s varnishadm %(name)s backend.list' % {
-            'containername':
-                '"%s"' % options.docker_container_name
-                if options.docker_container_name is not None else '',
+    if cname:
+        rc, output = execute('docker exec %(cname)s varnishadm %(name)s backend.list' % {
+            'cname':
+                '"%s"' % cname
+                if cname is not None else '',
             'name': '-n "%s"' % name,
         })
     else:
@@ -238,12 +278,12 @@ def stats(name,options):
         backends = None
         sys.stderr.write(output)
 
-    if options.docker_container_name:
+    if cname:
         # Fetch stats through varnishstat & filter / normalize output.
-        rc, output = execute('docker exec %(containername)s varnishstat -1 -j %(name)s' % {
-            'containername':
-                '"%s"' % options.docker_container_name
-                if options.docker_container_name is not None else '',
+        rc, output = execute('docker exec %(cname)s varnishstat -1 -j %(name)s' % {
+            'cname':
+                '"%s"' % cname
+                if cname is not None else '',
             'name': '-n "%s"' % name,
         })
     else:
@@ -322,7 +362,7 @@ def main():
         type=str, required=True,
         help='comma-delimited list of Varnish Cache instances to get stats from')
     parser.add_argument(
-        '-d', '--docker-container-name', dest='docker_container_name',
+        '-d', '--docker-container-names', dest='docker_container_names',
         type=str, required=False, default=None,
         help='Varnish container name')
     subparsers = parser.add_subparsers(dest='command')

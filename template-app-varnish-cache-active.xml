@@ -6132,7 +6132,7 @@
             <dependencies/>
         </trigger>
         <trigger>
-            <expression>{Template App Varnish Cache:proc.num[broadcaster].last()}&lt;1</expression>
+            <expression>{Template App Varnish Cache Active:proc.num[broadcaster].last()}&lt;1</expression>
             <name>Varnish Broadcaster is not running</name>
             <url/>
             <status>0</status>

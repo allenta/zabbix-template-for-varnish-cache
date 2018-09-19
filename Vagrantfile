@@ -23,13 +23,13 @@ Vagrant.configure('2') do |config|
     ]
   end
 
-  config.vm.define :master do |machine|
+  config.vm.define :v61 do |machine|
     machine.vm.hostname = 'dev'
 
     machine.vm.provider :virtualbox do |vb|
       vb.customize [
         'modifyvm', :id,
-        '--name', 'Zabbix Template for Varnish Cache',
+        '--name', 'Zabbix Template for Varnish Cache (Varnish 6.1.x)',
       ]
     end
 

@@ -54,6 +54,13 @@ ITEMS = re.compile(
     r'MAIN\.sess_fail|'
     r'MAIN\.sess_queued|'
     r'MAIN\.sess_readahead|'
+    # Client sessions: failures.
+    r'MAIN\.sess_fail_econnaborted|'
+    r'MAIN\.sess_fail_eintr|'
+    r'MAIN\.sess_fail_emfile|'
+    r'MAIN\.sess_fail_ebadf|'
+    r'MAIN\.sess_fail_enomem|'
+    r'MAIN\.sess_fail_other|'
     # Client sessions: waiting for threads.
     r'MAIN\.thread_queue_len|'
     # Client sessions: pipes seen.
@@ -135,10 +142,12 @@ ITEMS = re.compile(
     #   - Healthiness: healthy, happy.
     #   - Requests sent to backend: req.
     #   - Concurrent connections to backend: conn.
+    #   - Fetches not attempted: unhealthy, busy, fail, helddown.
+    #   - Failed connection attempts: fail_eaccess, fail_eaddrnotavail, fail_econnrefused, fail_enetunreach, fail_etimedout, fail_other.
     #   - Bytes sent to backend: pipe_out, pipe_hdrbytes, bereq_hdrbytes, bereq_bodybytes.
     #   - Bytes received from backend: pipe_in, beresp_hdrbytes, beresp_bodybytes.
     #   -
-    r'VBE\..+\.(?:healthy|happy|bereq_hdrbytes|bereq_bodybytes|beresp_hdrbytes|beresp_bodybytes|pipe_hdrbytes|pipe_out|pipe_in|conn|req)'
+    r'VBE\..+\.(?:healthy|happy|bereq_hdrbytes|bereq_bodybytes|beresp_hdrbytes|beresp_bodybytes|pipe_hdrbytes|pipe_out|pipe_in|conn|req|unhealthy|busy|fail|helddown|fail_eaccess|fail_eaddrnotavail|fail_econnrefused|fail_enetunreach|fail_etimedout|fail_other)'
     r')$')
 
 REWRITES = [

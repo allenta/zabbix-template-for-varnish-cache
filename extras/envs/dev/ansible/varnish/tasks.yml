@@ -1,0 +1,30 @@
+- name: Add Varnish Cache
+  block:
+    - set_fact:
+        varnish_repo_key_url: https://packagecloud.io/varnishcache/varnish-weekly/gpgkey
+
+    - name: Add Varnish Weekly key
+      shell: |
+        set -e
+        curl -L {{ varnish_repo_key_url }} | apt-key add -
+        touch /home/vagrant/.vagrant.varnish.add-varnish-weekly-repo-key
+      args:
+        creates: /home/vagrant/.vagrant.varnish.add-varnish-weekly-repo-key
+
+    - name: Add Varnish Weekly repo
+      apt_repository:
+        filename: varnish-weekly
+        repo: deb https://packagecloud.io/varnishcache/varnish-weekly/ubuntu/ xenial main
+        update_cache: True
+
+- name: Install Varnish packages
+  apt:
+    name:
+      - varnish
+    update_cache: True
+
+- name: Enable & start VC service
+  service:
+    name: varnish
+    enabled: yes
+    state: started

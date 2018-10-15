@@ -1,0 +1,30 @@
+- name: Add Varnish Cache
+  block:
+    - set_fact:
+        varnish_repo_key_url: https://packagecloud.io/varnishcache/varnish50/gpgkey
+
+    - name: Add Varnish 5.0 key
+      shell: |
+        set -e
+        curl -L {{ varnish_repo_key_url }} | apt-key add -
+        touch /home/vagrant/.vagrant.varnish.add-varnish-50-repo-key
+      args:
+        creates: /home/vagrant/.vagrant.varnish.add-varnish-50-repo-key
+
+    - name: Add Varnish 5.0 repo
+      apt_repository:
+        filename: varnish-5.0
+        repo: deb https://packagecloud.io/varnishcache/varnish50/ubuntu/ trusty main
+        update_cache: True
+
+- name: Install Varnish packages
+  apt:
+    name:
+      - varnish
+    update_cache: True
+
+- name: Enable & start VC service
+  service:
+    name: varnish
+    enabled: yes
+    state: started

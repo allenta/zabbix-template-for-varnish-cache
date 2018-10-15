@@ -1,0 +1,11 @@
+- name: Configure color prompt
+  replace:
+    dest: /home/vagrant/.bashrc
+    regexp: '#force_color_prompt=yes'
+    replace: 'force_color_prompt=yes'
+
+- name: Configure Zabbix Sender cron
+  cron:
+    name: Zabbix Sender Server cron
+    user: zabbix
+    job: /vagrant/zabbix-varnish-cache.py -i '' send -c /etc/zabbix/zabbix_agentd.conf -s dev > /dev/null 2>&1

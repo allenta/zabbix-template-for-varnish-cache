@@ -7,9 +7,9 @@
       shell: |
         set -e
         curl -L {{ varnish_repo_key_url }} | apt-key add -
-        touch /home/vagrant/.vagrant.varnish.add-varnish-weekly-repo-key
+        touch /home/vagrant/.vagrant.varnish.add-varnish-60-repo-key
       args:
-        creates: /home/vagrant/.vagrant.varnish.add-varnish-weekly-repo-key
+        creates: /home/vagrant/.vagrant.varnish.add-varnish-60-repo-key
 
     - name: Add Varnish 6.0 repo
       apt_repository:

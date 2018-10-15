@@ -73,7 +73,7 @@
       args:
         creates: /home/vagrant/.vagrant.zabbix.mysql-create-schema
 
-- name: Grant sudo persmissions to user 'zabbix'
+- name: Grant sudo permissions to user 'zabbix'
   notify:
     - restart-zabbix-server
     - restart-zabbix-agent

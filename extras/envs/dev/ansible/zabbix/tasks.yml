@@ -73,15 +73,21 @@
       args:
         creates: /home/vagrant/.vagrant.zabbix.mysql-create-schema
 
-- name: Grant sudo persmissions to user 'zabbix' and add it to group 'varnish'
+- name: Grant sudo persmissions to user 'zabbix'
+  notify:
+    - restart-zabbix-server
+    - restart-zabbix-agent
+  lineinfile:
+    path: /etc/sudoers
+    line: 'zabbix ALL=(ALL) NOPASSWD: /vagrant/zabbix-varnish-cache.py'
+
+- name:  Add user 'zabbix' to group 'varnish'
   notify:
     - restart-zabbix-server
     - restart-zabbix-agent
   user:
     name: zabbix
-    groups:
-      - sudo
-      - varnish
+    groups: varnish
     append: yes
 
 - name: Configure Zabbix Frotend timezone (PHP)
@@ -117,6 +123,9 @@
     name: zabbix-server
     enabled: yes
     state: started
+    # XXX This parameter is needed because without it, zabbix-server service
+    #  doesnt start on a system reload
+    use: service
 
 - name: Configure Zabbix Agent
   notify: restart-zabbix-agent
@@ -132,3 +141,6 @@
     name: zabbix-agent
     enabled: yes
     state: started
+    # XXX This parameter is needed because without it, zabbix-agent service
+    #  doesnt start on a system reload
+    use: service

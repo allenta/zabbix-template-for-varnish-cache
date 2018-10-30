@@ -1284,7 +1284,7 @@
                     </item_prototypes>
                     <trigger_prototypes>
                         <trigger_prototype>
-                            <expression>{Template App Varnish Cache Active:varnish.stat[&quot;{#LOCATION_ID}&quot;,&quot;VBE.{#SUBJECT_ID}.healthy&quot;].max(#10)}&lt;{$VARNISH_CACHE_MIN_HEALTHY_BACKENDS}</expression>
+                            <expression>{Template App Varnish Cache Active:varnish.stat[&quot;{#LOCATION_ID}&quot;,&quot;VBE.{#SUBJECT_ID}.healthy&quot;].max({$VARNISH_CACHE_LAST_VALUES_TO_CHECK:healthy})}&lt;{$VARNISH_CACHE_MIN_HEALTHY_BACKENDS}</expression>
                             <recovery_mode>0</recovery_mode>
                             <recovery_expression/>
                             <name>Varnish Cache[{#LOCATION}] {#SUBJECT} backend is sick</name>
@@ -5835,7 +5835,7 @@
                             <tags/>
                         </trigger_prototype>
                         <trigger_prototype>
-                            <expression>{Template App Varnish Cache Active:varnish.stat[&quot;{#LOCATION_ID}&quot;,&quot;MAIN.backend_fail&quot;].min(#10)}&gt;{$VARNISH_CACHE_BACKEND_CONN_FAILURES_ALLOWED}</expression>
+                            <expression>{Template App Varnish Cache Active:varnish.stat[&quot;{#LOCATION_ID}&quot;,&quot;MAIN.backend_fail&quot;].min({$VARNISH_CACHE_LAST_VALUES_TO_CHECK:backend_fail})}&gt;{$VARNISH_CACHE_BACKEND_CONN_FAILURES_ALLOWED}</expression>
                             <recovery_mode>0</recovery_mode>
                             <recovery_expression/>
                             <name>Varnish Cache[{#LOCATION}] is getting backend connection failures</name>
@@ -5851,7 +5851,7 @@
                             <tags/>
                         </trigger_prototype>
                         <trigger_prototype>
-                            <expression>{Template App Varnish Cache Active:varnish.stat[&quot;{#LOCATION_ID}&quot;,&quot;MAIN.n_lru_nuked&quot;].min(#10)}&gt;{$VARNISH_CACHE_NUKED_OBJECTS_ALOWED}</expression>
+                            <expression>{Template App Varnish Cache Active:varnish.stat[&quot;{#LOCATION_ID}&quot;,&quot;MAIN.n_lru_nuked&quot;].min({$VARNISH_CACHE_LAST_VALUES_TO_CHECK:n_lru_nuked})}&gt;{$VARNISH_CACHE_NUKED_OBJECTS_ALOWED}</expression>
                             <recovery_mode>0</recovery_mode>
                             <recovery_expression/>
                             <name>Varnish Cache[{#LOCATION}] is nuking objects</name>
@@ -7756,7 +7756,7 @@
                             <tags/>
                         </trigger_prototype>
                         <trigger_prototype>
-                            <expression>{Template App Varnish Cache Active:varnish.stat[&quot;{#LOCATION_ID}&quot;,&quot;STG.{#SUBJECT_ID}.g_sparenode&quot;].max(#10)}&lt;{$VARNISH_CACHE_LIMIT_SPARE_NODES}</expression>
+                            <expression>{Template App Varnish Cache Active:varnish.stat[&quot;{#LOCATION_ID}&quot;,&quot;STG.{#SUBJECT_ID}.g_sparenode&quot;].max({$VARNISH_CACHE_LAST_VALUES_TO_CHECK:g_sparenode})}&lt;{$VARNISH_CACHE_LIMIT_SPARE_NODES}</expression>
                             <recovery_mode>0</recovery_mode>
                             <recovery_expression/>
                             <name>Varnish Cache[{#LOCATION}] {#SUBJECT} storage has run out of spare nodes</name>
@@ -7935,6 +7935,10 @@
                 <macro>
                     <macro>{$VARNISH_CACHE_KEEP_LOST_RESOURCES}</macro>
                     <value>30d</value>
+                </macro>
+                <macro>
+                    <macro>{$VARNISH_CACHE_LAST_VALUES_TO_CHECK}</macro>
+                    <value>#10</value>
                 </macro>
                 <macro>
                     <macro>{$VARNISH_CACHE_LIMIT_SPARE_NODES}</macro>

@@ -259,7 +259,7 @@
                         <formula/>
                         <conditions/>
                     </filter>
-                    <lifetime>{$VARNISH_CACHE_KEEP_LOST_RESOURCES:backends}</lifetime>
+                    <lifetime>{$VARNISH_CACHE_KEEP_LOST_RESOURCES_PERIOD:backends}</lifetime>
                     <description/>
                     <item_prototypes>
                         <item_prototype>
@@ -1726,7 +1726,7 @@
                         <formula/>
                         <conditions/>
                     </filter>
-                    <lifetime>{$VARNISH_CACHE_KEEP_LOST_RESOURCES:items}</lifetime>
+                    <lifetime>{$VARNISH_CACHE_KEEP_LOST_RESOURCES_PERIOD:items}</lifetime>
                     <description/>
                     <item_prototypes>
                         <item_prototype>
@@ -7561,7 +7561,7 @@
                         <formula/>
                         <conditions/>
                     </filter>
-                    <lifetime>{$VARNISH_CACHE_KEEP_LOST_RESOURCES:storages}</lifetime>
+                    <lifetime>{$VARNISH_CACHE_KEEP_LOST_RESOURCES_PERIOD:storages}</lifetime>
                     <description/>
                     <item_prototypes>
                         <item_prototype>
@@ -7933,7 +7933,7 @@
                     <value>2</value>
                 </macro>
                 <macro>
-                    <macro>{$VARNISH_CACHE_KEEP_LOST_RESOURCES}</macro>
+                    <macro>{$VARNISH_CACHE_KEEP_LOST_RESOURCES_PERIOD}</macro>
                     <value>30d</value>
                 </macro>
                 <macro>

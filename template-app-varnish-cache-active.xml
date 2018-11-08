@@ -31,7 +31,7 @@
                     <key>proc.num[broadcaster]</key>
                     <delay>{$VARNISH_CACHE_UPDATE_INTERVAL_ITEM:proc.num-broadcaster}</delay>
                     <history>{$VARNISH_CACHE_HISTORY_STORAGE_PERIOD:proc.num-broadcaster}</history>
-                    <trends>{$VARNISH_CACHE_TREND_STORAGE_PERIOD:proc.num-varnishncsa}</trends>
+                    <trends>{$VARNISH_CACHE_TREND_STORAGE_PERIOD:proc.num-broadcaster}</trends>
                     <status>0</status>
                     <value_type>3</value_type>
                     <allowed_hosts/>

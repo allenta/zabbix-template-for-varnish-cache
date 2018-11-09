@@ -4797,7 +4797,7 @@
                             <tags/>
                         </trigger_prototype>
                         <trigger_prototype>
-                            <expression>{Template App Varnish Cache Active Active:varnish.stat[&quot;{#LOCATION_ID}&quot;,&quot;MAIN.losthdr&quot;].last()}&gt;{$VARNISH_CACHE_LOSTHDR_ALLOWED}</expression>
+                            <expression>{Template App Varnish Cache Active:varnish.stat[&quot;{#LOCATION_ID}&quot;,&quot;MAIN.losthdr&quot;].last()}&gt;{$VARNISH_CACHE_LOSTHDR_ALLOWED}</expression>
                             <recovery_mode>0</recovery_mode>
                             <recovery_expression/>
                             <name>Varnish Cache[{#LOCATION}] is generating HTTP header overflows</name>

@@ -1,7 +1,7 @@
 - name: Add Varnish Cache
   block:
     - set_fact:
-        varnish_repo_key_url: https://packagecloud.io/varnishcache/varnish51/gpgke
+        varnish_repo_key_url: https://packagecloud.io/varnishcache/varnish51/gpgkey
 
     - name: Add Varnish 5.1 key
       shell: |

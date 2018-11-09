@@ -2,7 +2,7 @@
   block:
     - name: Install Zabbix release
       apt:
-        deb: http://repo.zabbix.com/zabbix/3.4/ubuntu/pool/main/z/zabbix-release/zabbix-release_3.4-1+xenial_all.deb
+        deb: http://repo.zabbix.com/zabbix/3.4/ubuntu/pool/main/z/zabbix-release/zabbix-release_3.4-1+trusty_all.deb
 
     - name: Install Zabbix packages
       apt:

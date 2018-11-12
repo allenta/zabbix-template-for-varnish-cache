@@ -814,7 +814,7 @@
                     </item_prototypes>
                     <trigger_prototypes>
                         <trigger_prototype>
-                            <expression>{Template App Varnish Cache Active:varnish.stat[&quot;{#LOCATION_ID}&quot;,&quot;VBE.{#SUBJECT_ID}.healthy&quot;].max({$VARNISH_CACHE_LAST_VALUES_TO_CHECK:healthy})}&lt;{$VARNISH_CACHE_MIN_HEALTHY_BACKENDS}</expression>
+                            <expression>{Template App Varnish Cache Active:varnish.stat[&quot;{#LOCATION_ID}&quot;,&quot;VBE.{#SUBJECT_ID}.healthy&quot;].max({$VARNISH_CACHE_LAST_VALUES_TO_CHECK:healthy})}&lt;1</expression>
                             <recovery_mode>0</recovery_mode>
                             <recovery_expression/>
                             <name>Varnish Cache[{#LOCATION}] {#SUBJECT} backend is sick</name>
@@ -4502,7 +4502,7 @@
                             <expression>{Template App Varnish Cache Active:varnish.stat[&quot;{#LOCATION_ID}&quot;,&quot;MAIN.threads&quot;].last()}&gt;{$VARNISH_CACHE_HIGH_N_OF_THREADS}</expression>
                             <recovery_mode>0</recovery_mode>
                             <recovery_expression/>
-                            <name>Varnish Cache[{#LOCATION}] has surpassed 1000 threads</name>
+                            <name>Varnish Cache[{#LOCATION}] has surpassed {$VARNISH_CACHE_HIGH_N_OF_THREADS} threads</name>
                             <correlation_mode>0</correlation_mode>
                             <correlation_tag/>
                             <url/>
@@ -6411,10 +6411,6 @@
                 <macro>
                     <macro>{$VARNISH_CACHE_MGT_MIN_UPTIME_AFTER_RESTART}</macro>
                     <value>600</value>
-                </macro>
-                <macro>
-                    <macro>{$VARNISH_CACHE_MIN_HEALTHY_BACKENDS}</macro>
-                    <value>1</value>
                 </macro>
                 <macro>
                     <macro>{$VARNISH_CACHE_NCSA_INSTANCES}</macro>

@@ -4610,7 +4610,7 @@
                             <tags/>
                         </trigger_prototype>
                         <trigger_prototype>
-                            <expression>{Template App Varnish Cache:varnish.stat[&quot;{#LOCATION_ID}&quot;,&quot;MAIN.n_lru_limited&quot;].last()}&gt;{$VARNISH_CACHE_NUKE_LIMIT}</expression>
+                            <expression>{Template App Varnish Cache Active:varnish.stat[&quot;{#LOCATION_ID}&quot;,&quot;MAIN.n_lru_limited&quot;].last()}&gt;{$VARNISH_CACHE_NUKE_LIMIT}</expression>
                             <recovery_mode>0</recovery_mode>
                             <recovery_expression/>
                             <name>Varnish Cache[{#LOCATION}] is reaching nuke_limit</name>
@@ -5725,7 +5725,7 @@
                                     <calc_fnc>2</calc_fnc>
                                     <type>0</type>
                                     <item>
-                                        <host>Template App Varnish Cache</host>
+                                        <host>Template App Varnish Cache Active</host>
                                         <key>varnish.stat[&quot;{#LOCATION_ID}&quot;,&quot;MAIN.n_lru_limited&quot;]</key>
                                     </item>
                                 </graph_item>

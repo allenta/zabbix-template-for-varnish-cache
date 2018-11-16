@@ -5215,7 +5215,7 @@
                             </graph_items>
                         </graph_prototype>
                         <graph_prototype>
-                            <name>Varnish Cache[{#LOCATION}] &gt; Cache Active</name>
+                            <name>Varnish Cache[{#LOCATION}] &gt; Cache</name>
                             <width>900</width>
                             <height>200</height>
                             <yaxismin>0.0000</yaxismin>
@@ -5271,7 +5271,7 @@
                                 <graph_item>
                                     <sortorder>3</sortorder>
                                     <drawtype>0</drawtype>
-                                    <color>00C8C8</color>
+                                    <color>C800C8</color>
                                     <yaxisside>0</yaxisside>
                                     <calc_fnc>2</calc_fnc>
                                     <type>0</type>

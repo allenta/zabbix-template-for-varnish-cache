@@ -105,7 +105,7 @@ REWRITES = [
     (re.compile(r'^((?:MSE|SMA|SMF)\..+)$'), r'STG.\1'),
     (re.compile(r'^(STG\.(?:MSE|SMA|SMF)\.[^\.]+\.c_fail)ed$'), r'\1'),
     (re.compile(r'^VBE\.(?:[^\.\(]+)((?:\.[^\.]*(?:\([^\)]*\))?)+\.[^\.]+)$'), r'VBE\1'),
-    (re.compile(r'^(VBE\.goto)\.[0-9a-f]+\.(.+)$'), r'\1.\2'),
+    (re.compile(r'^(VBE\.goto)\.[0-9a-f]+\.\([^\)]*\)\.(.+)$'), r'\1.\2'),
 ]
 
 SUBJECTS = {

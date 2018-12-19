@@ -1,4 +1,4 @@
-**This is a Zabbix template + discovery & sender script useful to monitor Varnish Cache (6.0.x) instances**. Beware this project contains multiples branches (master, 4.1, etc.). Please, select the branch to be used depending on your Varnish Cache version (Varnish trunk → master, Varnish 4.1.x → 4.1, etc.):
+**This is a Zabbix template + discovery & sender script useful to monitor Varnish Cache Plus (6.0.x) instances**. Beware this project contains multiples branches (4.1 and 6.0). Please, select the branch to be used depending on your Varnish Cache Plus version (Varnish 4.1.x → 4.1, Varnish 6.0.x → 6.0):
 
 1. Copy ``zabbix-varnish-cache.py`` to ``/usr/local/bin/``.
 
@@ -12,13 +12,13 @@
 
     UserParameter=varnish.discovery[*],sudo /usr/local/bin/zabbix-varnish-cache.py -i '$1' discover $2
 
-5. Add a new job to the ``zabbix`` user crontab (beware of the ``-i`` and ``-s`` options). This will submit Varnish Cache metrics through Zabbix Sender::
+5. Add a new job to the ``zabbix`` user crontab (beware of the ``-i`` and ``-s`` options). This will submit Varnish Cache Plus metrics through Zabbix Sender::
 
     * * * * * /usr/local/bin/zabbix-varnish-cache.py -i '' send -c /etc/zabbix/zabbix_agentd.conf -s dev > /dev/null 2>&1
 
-6. Import the Varnish Cache template (``template-app-varnish.xml`` file).
+6. Import the Varnish Cache Plus template (``template-app-varnish.xml`` file).
 
-7. Add an existing / new host to the ``Varnish Cache servers`` group and link it to the ``Template App Varnish Cache`` template. Beware you must set a value for the ``{$VARNISH_CACHE_LOCATIONS}`` macro (comma-delimited list of Varnish Cache instance names). Usually you should leave its value blank when running a single Varnish Cache instance per server. The following macros are available on both templates:
+7. Add an existing / new host to the ``Varnish Cache servers`` group and link it to the ``Template App Varnish Cache`` template. Beware you must set a value for the ``{$VARNISH_CACHE_LOCATIONS}`` macro (comma-delimited list of Varnish Cache Plus instance names). Usually you should leave its value blank when running a single Varnish Cache Plus instance per server. The following macros are available on both templates:
 
    * ``{$VARNISH_CACHE_AGENT_INSTANCES}``
    * ``{$VARNISH_CACHE_ALLOCATOR_FAILS_ALLOWED}``

@@ -25,7 +25,7 @@
             <items>
                 <item>
                     <name>Number of running processes ($1)</name>
-                    <type>0</type>
+                    <type>7</type>
                     <snmp_community/>
                     <snmp_oid/>
                     <key>proc.num[broadcaster]</key>
@@ -66,7 +66,7 @@
                 </item>
                 <item>
                     <name>Number of running processes ($1)</name>
-                    <type>0</type>
+                    <type>7</type>
                     <snmp_community/>
                     <snmp_oid/>
                     <key>proc.num[varnish-agent]</key>
@@ -107,7 +107,7 @@
                 </item>
                 <item>
                     <name>Number of running processes ($1)</name>
-                    <type>0</type>
+                    <type>7</type>
                     <snmp_community/>
                     <snmp_oid/>
                     <key>proc.num[varnishd]</key>
@@ -148,7 +148,7 @@
                 </item>
                 <item>
                     <name>Number of running processes ($1)</name>
-                    <type>0</type>
+                    <type>7</type>
                     <snmp_community/>
                     <snmp_oid/>
                     <key>proc.num[varnishlog]</key>
@@ -189,7 +189,7 @@
                 </item>
                 <item>
                     <name>Number of running processes ($1)</name>
-                    <type>0</type>
+                    <type>7</type>
                     <snmp_community/>
                     <snmp_oid/>
                     <key>proc.num[varnishncsa]</key>
@@ -232,7 +232,7 @@
             <discovery_rules>
                 <discovery_rule>
                     <name>Backends discovery</name>
-                    <type>0</type>
+                    <type>7</type>
                     <snmp_community/>
                     <snmp_oid/>
                     <key>varnish.discovery[{$VARNISH_CACHE_LOCATIONS},backends]</key>
@@ -1069,7 +1069,7 @@
                 </discovery_rule>
                 <discovery_rule>
                     <name>Items discovery</name>
-                    <type>0</type>
+                    <type>7</type>
                     <snmp_community/>
                     <snmp_oid/>
                     <key>varnish.discovery[{$VARNISH_CACHE_LOCATIONS},items]</key>
@@ -6530,7 +6530,7 @@
                 </discovery_rule>
                 <discovery_rule>
                     <name>Storages discovery</name>
-                    <type>0</type>
+                    <type>7</type>
                     <snmp_community/>
                     <snmp_oid/>
                     <key>varnish.discovery[{$VARNISH_CACHE_LOCATIONS},storages]</key>

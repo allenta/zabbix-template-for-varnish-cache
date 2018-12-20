@@ -47,6 +47,9 @@ Vagrant.configure('2') do |config|
             'user' => 'zabbix',
             'password' => 'zabbix',
           },
+          'varnish-plus' => {
+            'user' => ENV['VARNISH_PLUS_6_PACKAGECLOUD_USER'],
+          },
         }
       }
       ansible.install_mode = 'pip'

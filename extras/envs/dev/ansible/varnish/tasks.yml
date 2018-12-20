@@ -1,29 +1,29 @@
-- name: Add Varnish Cache
+- name: Add Varnish Plus repo
   block:
     - set_fact:
-        varnish_repo_key_url: https://packagecloud.io/varnishcache/varnish60/gpgkey
+        varnish_repo_key_url: https://{{ settings['varnish-plus'].user }}:@packagecloud.io/varnishplus/60/gpgkey
 
-    - name: Add Varnish 6.0 key
+    - name: Add Varnish Plus repo key
       shell: |
         set -e
         curl -L {{ varnish_repo_key_url }} | apt-key add -
-        touch /home/vagrant/.vagrant.varnish.add-varnish-60-repo-key
+        touch /home/vagrant/.vagrant.varnish.add-varnish-plus-repo-key
       args:
-        creates: /home/vagrant/.vagrant.varnish.add-varnish-60-repo-key
+        creates: /home/vagrant/.vagrant.varnish.add-varnish-plus-repo-key
 
-    - name: Add Varnish 6.0 repo
+    - name: Add Varnish Plus repo
       apt_repository:
-        filename: varnish-6.0
-        repo: deb https://packagecloud.io/varnishcache/varnish60/ubuntu/ xenial main
+        filename: varnish-plus
+        repo: deb https://{{ settings['varnish-plus'].user }}:@packagecloud.io/varnishplus/60/ubuntu/ xenial main
         update_cache: True
 
-- name: Install Varnish packages
+- name: Install Varnish Plus packages
   apt:
     name:
-      - varnish
+      - varnish-plus
     update_cache: True
 
-- name: Enable & start VC service
+- name: Enable & start VCP service
   service:
     name: varnish
     enabled: yes

@@ -123,7 +123,7 @@
     name: zabbix-server
     enabled: yes
     state: started
-    # XXX This parameter is needed because without it, zabbix-agent service
+    # XXX This parameter is needed because without it, zabbix-server service
     #  doesnt start on a system reload
     use: service
 

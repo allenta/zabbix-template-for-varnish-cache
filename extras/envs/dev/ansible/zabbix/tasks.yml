@@ -115,7 +115,8 @@
     - { name: DBPassword, value: "{{ settings['mysql.zabbix'].password }}" }
   lineinfile:
     path: /etc/zabbix/zabbix_server.conf
-    regexp: ^\s*#?\s*{{ item.name }}\s*=\s*.*
+    regexp: ^\s*{{ item.name }}\s*=\s*.*
+    insertafter: ^\s*#\s*{{ item.name }}\s*=\s*.*
     line: '{{ item.name }}={{ item.value }}'
 
 - name: Enable & start Zabbix Server service
@@ -123,8 +124,8 @@
     name: zabbix-server
     enabled: yes
     state: started
-    # XXX This parameter is needed because without it, zabbix-server service
-    #  doesnt start on a system reload
+    # XXX: This parameter is needed because without it, zabbix-server service
+    # doesn't start on a system reload.
     use: service
 
 - name: Configure Zabbix Agent
@@ -134,6 +135,8 @@
     - { name: Hostname, value: dev }
   lineinfile:
     path: /etc/zabbix/zabbix_agentd.conf
+    regexp: ^\s*{{ item.name }}\s*=\s*.*
+    insertafter: ^\s*#\s*{{ item.name }}\s*=\s*.*
     line: '{{ item.name }}={{ item.value }}'
 
 - name: Enable & start Zabbix Agent service
@@ -141,6 +144,6 @@
     name: zabbix-agent
     enabled: yes
     state: started
-    # XXX This parameter is needed because without it, zabbix-agent service
-    #  doesnt start on a system reload
+    # XXX: This parameter is needed because without it, zabbix-agent service
+    # doesn't start on a system reload.
     use: service

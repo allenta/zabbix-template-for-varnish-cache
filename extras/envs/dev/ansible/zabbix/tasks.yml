@@ -129,15 +129,25 @@
     use: service
 
 - name: Configure Zabbix Agent
-  notify: restart-zabbix-agent
-  loop:
-    - { name: UserParameter, value: "varnish.discovery[*],sudo /vagrant/zabbix-varnish-cache.py -i '$1' discover '$2'" }
-    - { name: Hostname, value: dev }
-  lineinfile:
-    path: /etc/zabbix/zabbix_agentd.conf
-    regexp: ^\s*{{ item.name }}\s*=\s*.*
-    insertafter: ^\s*#\s*{{ item.name }}\s*=\s*.*
-    line: '{{ item.name }}={{ item.value }}'
+  block:
+    - name: Configure Zabbix Agent (UserParameters)
+      notify: restart-zabbix-agent
+      loop:
+        - { name: UserParameter, value: "varnish.discovery[*],sudo /vagrant/zabbix-varnish-cache.py -i '$1' discover '$2'" }
+      lineinfile:
+        path: /etc/zabbix/zabbix_agentd.conf
+        # Can't use insertafter because of Ansible bug: https://github.com/ansible/ansible/issues/38655
+        # insertafter: ^\s*#\s*{{ item.name }}\s*=\s*.*
+        line: '{{ item.name }}={{ item.value }}'
+    - name: Configure Zabbix Agent (other)
+      notify: restart-zabbix-agent
+      loop:
+        - { name: Hostname, value: dev }
+      lineinfile:
+        path: /etc/zabbix/zabbix_agentd.conf
+        regexp: ^\s*{{ item.name }}\s*=\s*.*
+        insertafter: ^\s*#\s*{{ item.name }}\s*=\s*.*
+        line: '{{ item.name }}={{ item.value }}'
 
 - name: Enable & start Zabbix Agent service
   service:

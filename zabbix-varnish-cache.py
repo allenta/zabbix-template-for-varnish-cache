@@ -97,7 +97,9 @@ ITEMS = re.compile(
     r'MAIN\.n_gunzip|'
     r'MAIN\.n_test_gunzip|'
     r'MGT\.uptime|'
-    r'(?:MSE|SMA|SMF)\..+\.(?:c_fail|c_failed|g_bytes|g_space|g_sparenode)|'
+    r'(?:MSE|SMA|SMF)\..+\.(?:c_fail|c_failed|g_bytes|g_space|n_lru_nuked|n_lru_moved|n_vary|c_memcache_hit|c_memcache_miss)|'
+    r'MSE_BOOK\..+\.(?:g_bytes|g_space|n_vary|c_waterlevel_queue|c_waterlevel_runs|c_waterlevel_purge)|'
+    r'MSE_STORE\..+\.(?:g_alloc_bytes|g_free_bytes|g_objects|c_aio_finished_read|c_aio_finished_write|c_aio_finished_bytes_read|c_aio_finished_bytes_write|c_waterlevel_queue|c_waterlevel_purge)|'
     r'VBE\..+\.(?:healthy|happy|bereq_hdrbytes|bereq_bodybytes|beresp_hdrbytes|beresp_bodybytes|pipe_hdrbytes|pipe_out|pipe_in|conn|req)'
     r')$')
 
@@ -110,6 +112,8 @@ REWRITES = [
 
 SUBJECTS = {
     'items': None,
+    'mse_books': re.compile(r'^MSE_BOOK\.(.+)\.[^\.]+$'),
+    'mse_stores': re.compile(r'^MSE_STORE\.(.+)\.[^\.]+$'),
     'storages': re.compile(r'^STG\.(.+)\.[^\.]+$'),
     'backends': re.compile(r'^VBE\.(.+)\.[^\.]+$'),
 }

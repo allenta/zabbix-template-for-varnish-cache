@@ -6813,7 +6813,24 @@
                             <master_item_prototype/>
                         </item_prototype>
                     </item_prototypes>
-                    <trigger_prototypes/>
+                    <trigger_prototypes>
+                        <trigger_prototype>
+                            <expression>{Template App Varnish Cache:varnish.stat[&quot;{#LOCATION_ID}&quot;,&quot;MSE_BOOK.{#SUBJECT_ID}.g_space&quot;].last()}&lt;{$VARNISH_CACHE_LOW_MSE_BOOK_SPACE}</expression>
+                            <recovery_mode>0</recovery_mode>
+                            <recovery_expression/>
+                            <name>Varnish Cache[{#LOCATION}] {#SUBJECT} MSE book is running out of space</name>
+                            <correlation_mode>0</correlation_mode>
+                            <correlation_tag/>
+                            <url/>
+                            <status>0</status>
+                            <priority>2</priority>
+                            <description/>
+                            <type>0</type>
+                            <manual_close>0</manual_close>
+                            <dependencies/>
+                            <tags/>
+                        </trigger_prototype>
+                    </trigger_prototypes>
                     <graph_prototypes/>
                     <host_prototypes/>
                     <jmx_endpoint/>
@@ -7791,6 +7808,10 @@
                 <macro>
                     <macro>{$VARNISH_CACHE_LOSTHDR_ALLOWED}</macro>
                     <value>0.0</value>
+                </macro>
+                <macro>
+                    <macro>{$VARNISH_CACHE_LOW_MSE_BOOK_SPACE}</macro>
+                    <value>100000000</value>
                 </macro>
                 <macro>
                     <macro>{$VARNISH_CACHE_MAIN_MIN_UPTIME_AFTER_RESTART}</macro>

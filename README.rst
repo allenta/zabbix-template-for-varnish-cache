@@ -1,4 +1,4 @@
-**This is a Zabbix template + discovery & sender script useful to monitor Varnish Cache Plus (6.0.x) instances**. Beware this project contains multiples branches (4.1 and 6.0). Please, select the branch to be used depending on your Varnish Cache Plus version (Varnish 4.1.x → 4.1, Varnish 6.0.x → 6.0):
+**This is a Zabbix template + discovery & sender script useful to monitor Varnish Cache Plus instances**:
 
 1. Copy ``zabbix-varnish-cache.py`` to ``/usr/local/bin/``.
 
@@ -28,9 +28,11 @@
    * ``{$VARNISH_CACHE_HISTORY_STORAGE_PERIOD}``
    * ``{$VARNISH_CACHE_INSTANCES}``
    * ``{$VARNISH_CACHE_LAST_VALUES_TO_CHECK}``
+   * ``{$VARNISH_CACHE_LIMIT_SPARE_NODES}``
    * ``{$VARNISH_CACHE_LOCATIONS}``
    * ``{$VARNISH_CACHE_LOSTHDR_ALLOWED}``
    * ``{$VARNISH_CACHE_LOW_MSE_BOOK_SPACE}``
+   * ``{$VARNISH_CACHE_LOW_SPARE_NODES}``
    * ``{$VARNISH_CACHE_MAIN_MIN_UPTIME_AFTER_RESTART}``
    * ``{$VARNISH_CACHE_MGT_MIN_UPTIME_AFTER_RESTART}``
    * ``{$VARNISH_CACHE_NCSA_INSTANCES}``

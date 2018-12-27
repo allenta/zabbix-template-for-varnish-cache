@@ -17,90 +17,142 @@ from argparse import ArgumentParser
 
 ITEMS = re.compile(
     r'^(?:'
+    # Uptime.
     r'MAIN\.uptime|'
-    r'MAIN\.sess_conn|'
-    r'MAIN\.sess_drop|'
-    r'MAIN\.sess_fail|'
+    r'MGT\.uptime|'
+    # Client requests: rate.
+    r'MAIN\.client_req|'
+    # Client requests: activity.
+    r'MAIN\.req_dropped|'
     r'MAIN\.client_req_400|'
     r'MAIN\.client_req_417|'
-    r'MAIN\.client_req|'
+    # Client requests: bytes received.
+    r'MAIN\.s_pipe_in|'
+    r'MAIN\.s_pipe_hdrbytes|'
+    r'MAIN\.s_req_hdrbytes|'
+    r'MAIN\.s_req_bodybytes|'
+    # Client requests: bytes sent.
+    r'MAIN\.s_pipe_out|'
+    r'MAIN\.s_resp_bodybytes|'
+    r'MAIN\.s_resp_hdrbytes|'
+    # Client requests: busy.
+    r'MAIN\.busy_sleep|'
+    r'MAIN\.busy_wakeup|'
+    r'MAIN\.busy_killed|'
+    # Client requests: passes seen.
+    r'MAIN\.s_pass|'
+    # Client requests: synthetic responses made.
+    r'MAIN\.s_synth|'
+    # Client sessions: rate.
+    r'MAIN\.sess_conn|'
+    # Client sessions: activity.
+    r'MAIN\.s_sess|'
+    r'MAIN\.sess_closed|'
+    r'MAIN\.sess_closed_err|'
+    r'MAIN\.sess_drop|'
+    r'MAIN\.sess_dropped|'
+    r'MAIN\.sess_fail|'
+    r'MAIN\.sess_queued|'
+    r'MAIN\.sess_readahead|'
+    # Client sessions: failures.
+    r'MAIN\.sess_fail_econnaborted|'
+    r'MAIN\.sess_fail_eintr|'
+    r'MAIN\.sess_fail_emfile|'
+    r'MAIN\.sess_fail_ebadf|'
+    r'MAIN\.sess_fail_enomem|'
+    r'MAIN\.sess_fail_other|'
+    # Client sessions: waiting for threads.
+    r'MAIN\.thread_queue_len|'
+    # Client sessions: pipes seen.
+    r'MAIN\.s_pipe|'
+    # Cache.
     r'MAIN\.cache_hit|'
     r'MAIN\.cache_hit_grace|'
     r'MAIN\.cache_hitpass|'
     r'MAIN\.cache_hitmiss|'
     r'MAIN\.cache_miss|'
+    # HTTP header overflows.
+    r'MAIN\.losthdr|'
+    # Threads: number.
+    r'MAIN\.threads|'
+    # Threads: activity.
+    r'MAIN\.threads_created|'
+    r'MAIN\.threads_failed|'
+    r'MAIN\.threads_limited|'
+    r'MAIN\.threads_destroyed|'
+    # ESI: activity.
+    r'MAIN\.esi_warnings|'
+    r'MAIN\.esi_errors|'
+    # Gzip: activity.
+    r'MAIN\.n_gzip|'
+    r'MAIN\.n_gunzip|'
+    r'MAIN\.n_test_gunzip|'
+    # Objects: stored.
+    r'MAIN\.n_object|'
+    r'MAIN\.n_objecthead|'
+    r'MAIN\.n_objectcore|'
+    # Objects: removals.
+    r'MAIN\.n_expired|'
+    r'MAIN\.n_lru_nuked|'
+    r'MAIN\.n_obj_purged|'
+    r'MAIN\.bans_obj_killed|'
+    r'MAIN\.bans_lurker_obj_killed|'
+    r'MAIN\.bans_lurker_obj_killed_cutoff|'
+    # Nuke_limit overflows.
+    r'MAIN\.n_lru_limited|'
+    # Objects: purges.
+    r'MAIN\.n_purges|'
+    # Objects: bans.
+    r'MAIN\.bans|'
+    # Backends: connections rate.
     r'MAIN\.backend_conn|'
-    r'MAIN\.backend_unhealthy|'
-    r'MAIN\.backend_busy|'
-    r'MAIN\.backend_fail|'
-    r'MAIN\.backend_reuse|'
+    # Backends: connections activity.
     r'MAIN\.backend_recycle|'
+    r'MAIN\.backend_reuse|'
     r'MAIN\.backend_retry|'
+    r'MAIN\.backend_busy|'
+    r'MAIN\.backend_unhealthy|'
+    r'MAIN\.backend_fail|'
+    # Backends: request rate.
+    r'MAIN\.backend_req|'
+    # Backends: fetches activity.
+    r'MAIN\.s_fetch|'
     r'MAIN\.fetch_head|'
     r'MAIN\.fetch_length|'
     r'MAIN\.fetch_chunked|'
     r'MAIN\.fetch_eof|'
-    r'MAIN\.fetch_bad|'
     r'MAIN\.fetch_none|'
     r'MAIN\.fetch_1xx|'
     r'MAIN\.fetch_204|'
     r'MAIN\.fetch_304|'
+    r'MAIN\.fetch_bad|'
     r'MAIN\.fetch_failed|'
     r'MAIN\.fetch_no_thread|'
-    r'MAIN\.threads|'
-    r'MAIN\.threads_limited|'
-    r'MAIN\.threads_created|'
-    r'MAIN\.threads_destroyed|'
-    r'MAIN\.threads_failed|'
-    r'MAIN\.thread_queue_len|'
-    r'MAIN\.busy_sleep|'
-    r'MAIN\.busy_wakeup|'
-    r'MAIN\.busy_killed|'
-    r'MAIN\.sess_queued|'
-    r'MAIN\.sess_dropped|'
-    r'MAIN\.req_dropped|'
-    r'MAIN\.n_object|'
-    r'MAIN\.n_objectcore|'
-    r'MAIN\.n_objecthead|'
+    # Backends: number.
     r'MAIN\.n_backend|'
-    r'MAIN\.n_expired|'
-    r'MAIN\.n_lru_nuked|'
-    r'MAIN\.n_lru_limited|'
-    r'MAIN\.bans_obj_killed|'
-    r'MAIN\.bans_lurker_obj_killed|'
-    r'MAIN\.bans_lurker_obj_killed_cutoff|'
-    r'MAIN\.losthdr|'
-    r'MAIN\.s_sess|'
-    r'MAIN\.s_pipe|'
-    r'MAIN\.s_pass|'
-    r'MAIN\.s_fetch|'
-    r'MAIN\.s_synth|'
-    r'MAIN\.s_req_hdrbytes|'
-    r'MAIN\.s_req_bodybytes|'
-    r'MAIN\.s_resp_hdrbytes|'
-    r'MAIN\.s_resp_bodybytes|'
-    r'MAIN\.s_pipe_hdrbytes|'
-    r'MAIN\.s_pipe_in|'
-    r'MAIN\.s_pipe_out|'
-    r'MAIN\.sess_closed|'
-    r'MAIN\.sess_closed_err|'
-    r'MAIN\.sess_readahead|'
+    # VCL failures.
     r'MAIN\.sc_vcl_failure|'
-    r'MAIN\.backend_req|'
     r'MAIN\.vcl_fail|'
-    r'MAIN\.bans|'
-    r'MAIN\.n_purges|'
-    r'MAIN\.n_obj_purged|'
-    r'MAIN\.esi_errors|'
-    r'MAIN\.esi_warnings|'
-    r'MAIN\.n_gzip|'
-    r'MAIN\.n_gunzip|'
-    r'MAIN\.n_test_gunzip|'
-    r'MGT\.uptime|'
+    # Storages[...]
+    #   - Bytes outstanding vs. available: g_space, g_bytes.
+    #   - Allocator failures: c_fail.
     r'(?:MSE|SMA|SMF)\..+\.(?:c_fail|c_failed|g_bytes|g_space|n_lru_nuked|n_lru_moved|n_vary|c_memcache_hit|c_memcache_miss)|'
+    # MSE books[...]
+    #   - ...
     r'MSE_BOOK\..+\.(?:g_bytes|g_space|n_vary|c_waterlevel_queue|c_waterlevel_runs|c_waterlevel_purge)|'
+    # MSE stores[...]
+    #   - ...
     r'MSE_STORE\..+\.(?:g_alloc_bytes|g_free_bytes|g_objects|c_aio_finished_read|c_aio_finished_write|c_aio_finished_bytes_read|c_aio_finished_bytes_write|c_waterlevel_queue|c_waterlevel_purge)|'
-    r'VBE\..+\.(?:healthy|happy|bereq_hdrbytes|bereq_bodybytes|beresp_hdrbytes|beresp_bodybytes|pipe_hdrbytes|pipe_out|pipe_in|conn|req)'
+    # Backends[...]
+    #   - Healthiness: healthy, happy.
+    #   - Requests sent to backend: req.
+    #   - Concurrent connections to backend: conn.
+    #   - Fetches not attempted: unhealthy, busy, fail, helddown.
+    #   - Failed connection attempts: fail_eacces, fail_eaddrnotavail, fail_econnrefused, fail_enetunreach, fail_etimedout, fail_other.
+    #   - Bytes sent to backend: pipe_out, pipe_hdrbytes, bereq_hdrbytes, bereq_bodybytes.
+    #   - Bytes received from backend: pipe_in, beresp_hdrbytes, beresp_bodybytes.
+    #   -
+    r'VBE\..+\.(?:healthy|happy|bereq_hdrbytes|bereq_bodybytes|beresp_hdrbytes|beresp_bodybytes|pipe_hdrbytes|pipe_out|pipe_in|conn|req|unhealthy|busy|fail|helddown|fail_eacces|fail_eaddrnotavail|fail_econnrefused|fail_enetunreach|fail_etimedout|fail_other)'
     r')$')
 
 REWRITES = [

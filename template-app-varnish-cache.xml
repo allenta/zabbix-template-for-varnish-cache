@@ -8479,6 +8479,10 @@
                     <value>#10</value>
                 </macro>
                 <macro>
+                    <macro>{$VARNISH_CACHE_LIMIT_SPARE_NODES}</macro>
+                    <value>100</value>
+                </macro>
+                <macro>
                     <macro>{$VARNISH_CACHE_LOCATIONS}</macro>
                     <value/>
                 </macro>
@@ -8489,6 +8493,10 @@
                 <macro>
                     <macro>{$VARNISH_CACHE_LOW_MSE_BOOK_SPACE}</macro>
                     <value>100000000</value>
+                </macro>
+                <macro>
+                    <macro>{$VARNISH_CACHE_LOW_SPARE_NODES}</macro>
+                    <value>1000000</value>
                 </macro>
                 <macro>
                     <macro>{$VARNISH_CACHE_MAIN_MIN_UPTIME_AFTER_RESTART}</macro>

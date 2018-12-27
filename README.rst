@@ -43,7 +43,7 @@
 
    It's also possible to use **contexts** on macros, for example:
 
-   * ``{$VARNISH_CACHE_HISTORY_STORAGE_PERIOD:items:req_dropped}``
+   * ``{$VARNISH_CACHE_HISTORY_STORAGE_PERIOD:items:sess_dropped}``
    * ``{$VARNISH_CACHE_TREND_STORAGE_PERIOD:items:backend_req}``
 
 

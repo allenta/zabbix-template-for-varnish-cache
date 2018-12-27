@@ -270,13 +270,17 @@ class Rewriter(object):
         return result
 
 
-def stats(name):
+def stats(instance):
     # Fetch backends through varnishadm.
     backends = {}
+    # rc, output = execute('varnishadm %(name)s backend.list -j' % {
     rc, output = execute('varnishadm %(name)s backend.list' % {
-        'name': '-n "%s"' % name,
+        'name': '-n "%s"' % instance,
     })
     if rc == 0:
+        # for name, backend in json.loads(output)[3].items():
+        #     if backend['type'] == 'backend':
+        #         backends[name] = (backend['probe_message'] == 'healthy')
         for i, line in enumerate(output.split('\n')):
             if i > 0:
                 items = line.split()
@@ -288,7 +292,7 @@ def stats(name):
 
     # Fetch stats through varnishstat & filter / normalize output.
     rc, output = execute('varnishstat -1 -j %(name)s' % {
-        'name': '-n "%s"' % name,
+        'name': '-n "%s"' % instance,
     })
     if rc == 0:
         rewriter = Rewriter(REWRITES)

@@ -7785,20 +7785,12 @@
                     <value>#10</value>
                 </macro>
                 <macro>
-                    <macro>{$VARNISH_CACHE_LIMIT_SPARE_NODES}</macro>
-                    <value>100</value>
-                </macro>
-                <macro>
                     <macro>{$VARNISH_CACHE_LOCATIONS}</macro>
                     <value/>
                 </macro>
                 <macro>
                     <macro>{$VARNISH_CACHE_LOSTHDR_ALLOWED}</macro>
                     <value>0.0</value>
-                </macro>
-                <macro>
-                    <macro>{$VARNISH_CACHE_LOW_SPARE_NODES}</macro>
-                    <value>1000000</value>
                 </macro>
                 <macro>
                     <macro>{$VARNISH_CACHE_MAIN_MIN_UPTIME_AFTER_RESTART}</macro>

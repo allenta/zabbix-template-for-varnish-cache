@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <zabbix_export>
     <version>3.4</version>
-    <date>2018-12-24T09:58:40Z</date>
+    <date>2018-12-27T16:11:25Z</date>
     <groups>
         <group>
             <name>Templates</name>
@@ -7427,6 +7427,94 @@
                     <trigger_prototypes/>
                     <graph_prototypes>
                         <graph_prototype>
+                            <name>Varnish Cache[{#LOCATION}] &gt; MSE stores[{#SUBJECT}]: AIO bytes read/written</name>
+                            <width>900</width>
+                            <height>200</height>
+                            <yaxismin>0.0000</yaxismin>
+                            <yaxismax>100.0000</yaxismax>
+                            <show_work_period>1</show_work_period>
+                            <show_triggers>1</show_triggers>
+                            <type>0</type>
+                            <show_legend>1</show_legend>
+                            <show_3d>0</show_3d>
+                            <percent_left>0.0000</percent_left>
+                            <percent_right>0.0000</percent_right>
+                            <ymin_type_1>0</ymin_type_1>
+                            <ymax_type_1>0</ymax_type_1>
+                            <ymin_item_1>0</ymin_item_1>
+                            <ymax_item_1>0</ymax_item_1>
+                            <graph_items>
+                                <graph_item>
+                                    <sortorder>0</sortorder>
+                                    <drawtype>0</drawtype>
+                                    <color>00C800</color>
+                                    <yaxisside>0</yaxisside>
+                                    <calc_fnc>2</calc_fnc>
+                                    <type>0</type>
+                                    <item>
+                                        <host>Template App Varnish Cache</host>
+                                        <key>varnish.stat[&quot;{#LOCATION_ID}&quot;,&quot;MSE_STORE.{#SUBJECT_ID}.c_aio_finished_bytes_read&quot;]</key>
+                                    </item>
+                                </graph_item>
+                                <graph_item>
+                                    <sortorder>1</sortorder>
+                                    <drawtype>0</drawtype>
+                                    <color>0000C8</color>
+                                    <yaxisside>0</yaxisside>
+                                    <calc_fnc>2</calc_fnc>
+                                    <type>0</type>
+                                    <item>
+                                        <host>Template App Varnish Cache</host>
+                                        <key>varnish.stat[&quot;{#LOCATION_ID}&quot;,&quot;MSE_STORE.{#SUBJECT_ID}.c_aio_finished_bytes_write&quot;]</key>
+                                    </item>
+                                </graph_item>
+                            </graph_items>
+                        </graph_prototype>
+                        <graph_prototype>
+                            <name>Varnish Cache[{#LOCATION}] &gt; MSE stores[{#SUBJECT}]: AIO operations</name>
+                            <width>900</width>
+                            <height>200</height>
+                            <yaxismin>0.0000</yaxismin>
+                            <yaxismax>100.0000</yaxismax>
+                            <show_work_period>1</show_work_period>
+                            <show_triggers>1</show_triggers>
+                            <type>0</type>
+                            <show_legend>1</show_legend>
+                            <show_3d>0</show_3d>
+                            <percent_left>0.0000</percent_left>
+                            <percent_right>0.0000</percent_right>
+                            <ymin_type_1>0</ymin_type_1>
+                            <ymax_type_1>0</ymax_type_1>
+                            <ymin_item_1>0</ymin_item_1>
+                            <ymax_item_1>0</ymax_item_1>
+                            <graph_items>
+                                <graph_item>
+                                    <sortorder>0</sortorder>
+                                    <drawtype>0</drawtype>
+                                    <color>00C800</color>
+                                    <yaxisside>0</yaxisside>
+                                    <calc_fnc>2</calc_fnc>
+                                    <type>0</type>
+                                    <item>
+                                        <host>Template App Varnish Cache</host>
+                                        <key>varnish.stat[&quot;{#LOCATION_ID}&quot;,&quot;MSE_STORE.{#SUBJECT_ID}.c_aio_finished_read&quot;]</key>
+                                    </item>
+                                </graph_item>
+                                <graph_item>
+                                    <sortorder>1</sortorder>
+                                    <drawtype>0</drawtype>
+                                    <color>0000C8</color>
+                                    <yaxisside>0</yaxisside>
+                                    <calc_fnc>2</calc_fnc>
+                                    <type>0</type>
+                                    <item>
+                                        <host>Template App Varnish Cache</host>
+                                        <key>varnish.stat[&quot;{#LOCATION_ID}&quot;,&quot;MSE_STORE.{#SUBJECT_ID}.c_aio_finished_write&quot;]</key>
+                                    </item>
+                                </graph_item>
+                            </graph_items>
+                        </graph_prototype>
+                        <graph_prototype>
                             <name>Varnish Cache[{#LOCATION}] &gt; MSE stores[{#SUBJECT}]: extents</name>
                             <width>900</width>
                             <height>200</height>
@@ -7498,94 +7586,6 @@
                                     <item>
                                         <host>Template App Varnish Cache</host>
                                         <key>varnish.stat[&quot;{#LOCATION_ID}&quot;,&quot;MSE_STORE.{#SUBJECT_ID}.g_objects&quot;]</key>
-                                    </item>
-                                </graph_item>
-                            </graph_items>
-                        </graph_prototype>
-                        <graph_prototype>
-                            <name>Varnish Cache[{#LOCATION}] &gt; MSE stores[{#SUBJECT}]: AIO operations</name>
-                            <width>900</width>
-                            <height>200</height>
-                            <yaxismin>0.0000</yaxismin>
-                            <yaxismax>100.0000</yaxismax>
-                            <show_work_period>1</show_work_period>
-                            <show_triggers>1</show_triggers>
-                            <type>0</type>
-                            <show_legend>1</show_legend>
-                            <show_3d>0</show_3d>
-                            <percent_left>0.0000</percent_left>
-                            <percent_right>0.0000</percent_right>
-                            <ymin_type_1>0</ymin_type_1>
-                            <ymax_type_1>0</ymax_type_1>
-                            <ymin_item_1>0</ymin_item_1>
-                            <ymax_item_1>0</ymax_item_1>
-                            <graph_items>
-                                <graph_item>
-                                    <sortorder>0</sortorder>
-                                    <drawtype>0</drawtype>
-                                    <color>00C800</color>
-                                    <yaxisside>0</yaxisside>
-                                    <calc_fnc>2</calc_fnc>
-                                    <type>0</type>
-                                    <item>
-                                        <host>Template App Varnish Cache</host>
-                                        <key>varnish.stat[&quot;{#LOCATION_ID}&quot;,&quot;MSE_STORE.{#SUBJECT_ID}.c_aio_finished_read&quot;]</key>
-                                    </item>
-                                </graph_item>
-                                <graph_item>
-                                    <sortorder>1</sortorder>
-                                    <drawtype>0</drawtype>
-                                    <color>0000C8</color>
-                                    <yaxisside>0</yaxisside>
-                                    <calc_fnc>2</calc_fnc>
-                                    <type>0</type>
-                                    <item>
-                                        <host>Template App Varnish Cache</host>
-                                        <key>varnish.stat[&quot;{#LOCATION_ID}&quot;,&quot;MSE_STORE.{#SUBJECT_ID}.c_aio_finished_write&quot;]</key>
-                                    </item>
-                                </graph_item>
-                            </graph_items>
-                        </graph_prototype>
-                        <graph_prototype>
-                            <name>Varnish Cache[{#LOCATION}] &gt; MSE stores[{#SUBJECT}]: AIO bytes read/written</name>
-                            <width>900</width>
-                            <height>200</height>
-                            <yaxismin>0.0000</yaxismin>
-                            <yaxismax>100.0000</yaxismax>
-                            <show_work_period>1</show_work_period>
-                            <show_triggers>1</show_triggers>
-                            <type>0</type>
-                            <show_legend>1</show_legend>
-                            <show_3d>0</show_3d>
-                            <percent_left>0.0000</percent_left>
-                            <percent_right>0.0000</percent_right>
-                            <ymin_type_1>0</ymin_type_1>
-                            <ymax_type_1>0</ymax_type_1>
-                            <ymin_item_1>0</ymin_item_1>
-                            <ymax_item_1>0</ymax_item_1>
-                            <graph_items>
-                                <graph_item>
-                                    <sortorder>0</sortorder>
-                                    <drawtype>0</drawtype>
-                                    <color>00C800</color>
-                                    <yaxisside>0</yaxisside>
-                                    <calc_fnc>2</calc_fnc>
-                                    <type>0</type>
-                                    <item>
-                                        <host>Template App Varnish Cache</host>
-                                        <key>varnish.stat[&quot;{#LOCATION_ID}&quot;,&quot;MSE_STORE.{#SUBJECT_ID}.c_aio_finished_bytes_read&quot;]</key>
-                                    </item>
-                                </graph_item>
-                                <graph_item>
-                                    <sortorder>1</sortorder>
-                                    <drawtype>0</drawtype>
-                                    <color>0000C8</color>
-                                    <yaxisside>0</yaxisside>
-                                    <calc_fnc>2</calc_fnc>
-                                    <type>0</type>
-                                    <item>
-                                        <host>Template App Varnish Cache</host>
-                                        <key>varnish.stat[&quot;{#LOCATION_ID}&quot;,&quot;MSE_STORE.{#SUBJECT_ID}.c_aio_finished_bytes_write&quot;]</key>
                                     </item>
                                 </graph_item>
                             </graph_items>
@@ -7812,48 +7812,6 @@
                             <master_item_prototype/>
                         </item_prototype>
                         <item_prototype>
-                            <name>Varnish Cache[{#LOCATION}] - STG.{#SUBJECT}: cache hit ratio</name>
-                            <type>15</type>
-                            <snmp_community/>
-                            <snmp_oid/>
-                            <key>varnish[&quot;{#LOCATION_ID}&quot;,&quot;STG.{#SUBJECT_ID}.cache_hit_ratio&quot;]</key>
-                            <delay>{$VARNISH_CACHE_UPDATE_INTERVAL_ITEM:storages:cache_hit_ratio}</delay>
-                            <history>{$VARNISH_CACHE_HISTORY_STORAGE_PERIOD:storages:cache_hit_ratio}</history>
-                            <trends>{$VARNISH_CACHE_TREND_STORAGE_PERIOD:storages:cache_hit_ratio}</trends>
-                            <status>0</status>
-                            <value_type>3</value_type>
-                            <allowed_hosts/>
-                            <units>%</units>
-                            <snmpv3_contextname/>
-                            <snmpv3_securityname/>
-                            <snmpv3_securitylevel>0</snmpv3_securitylevel>
-                            <snmpv3_authprotocol>0</snmpv3_authprotocol>
-                            <snmpv3_authpassphrase/>
-                            <snmpv3_privprotocol>0</snmpv3_privprotocol>
-                            <snmpv3_privpassphrase/>
-                            <params>100*last(&quot;varnish.stat[\&quot;{#LOCATION_ID}\&quot;,\&quot;STG.{#SUBJECT_ID}.c_memcache_hit\&quot;]&quot;)/(last(&quot;varnish.stat[\&quot;{#LOCATION_ID}\&quot;,\&quot;STG.{#SUBJECT_ID}.c_memcache_hit\&quot;]&quot;)+last(&quot;varnish.stat[\&quot;{#LOCATION_ID}\&quot;,\&quot;STG.{#SUBJECT_ID}.c_memcache_miss\&quot;]&quot;))</params>
-                            <ipmi_sensor/>
-                            <authtype>0</authtype>
-                            <username/>
-                            <password/>
-                            <publickey/>
-                            <privatekey/>
-                            <port/>
-                            <description/>
-                            <inventory_link>0</inventory_link>
-                            <applications>
-                                <application>
-                                    <name>Varnish Cache</name>
-                                </application>
-                            </applications>
-                            <valuemap/>
-                            <logtimefmt/>
-                            <preprocessing/>
-                            <jmx_endpoint/>
-                            <application_prototypes/>
-                            <master_item_prototype/>
-                        </item_prototype>
-                        <item_prototype>
                             <name>Varnish Cache[{#LOCATION}] - STG.{#SUBJECT}.g_bytes (bytes outstanding)</name>
                             <type>2</type>
                             <snmp_community/>
@@ -7908,6 +7866,48 @@
                             <value_type>3</value_type>
                             <allowed_hosts/>
                             <units>B</units>
+                            <snmpv3_contextname/>
+                            <snmpv3_securityname/>
+                            <snmpv3_securitylevel>0</snmpv3_securitylevel>
+                            <snmpv3_authprotocol>0</snmpv3_authprotocol>
+                            <snmpv3_authpassphrase/>
+                            <snmpv3_privprotocol>0</snmpv3_privprotocol>
+                            <snmpv3_privpassphrase/>
+                            <params/>
+                            <ipmi_sensor/>
+                            <authtype>0</authtype>
+                            <username/>
+                            <password/>
+                            <publickey/>
+                            <privatekey/>
+                            <port/>
+                            <description/>
+                            <inventory_link>0</inventory_link>
+                            <applications>
+                                <application>
+                                    <name>Varnish Cache</name>
+                                </application>
+                            </applications>
+                            <valuemap/>
+                            <logtimefmt/>
+                            <preprocessing/>
+                            <jmx_endpoint/>
+                            <application_prototypes/>
+                            <master_item_prototype/>
+                        </item_prototype>
+                        <item_prototype>
+                            <name>Varnish Cache[{#LOCATION}] - STG.{#SUBJECT}.g_sparenode (spare nodes available)</name>
+                            <type>2</type>
+                            <snmp_community/>
+                            <snmp_oid/>
+                            <key>varnish.stat[&quot;{#LOCATION_ID}&quot;,&quot;STG.{#SUBJECT_ID}.g_sparenode&quot;]</key>
+                            <delay>0</delay>
+                            <history>{$VARNISH_CACHE_HISTORY_STORAGE_PERIOD:storages:g_sparenode}</history>
+                            <trends>{$VARNISH_CACHE_TREND_STORAGE_PERIOD:storages:g_sparenode}</trends>
+                            <status>0</status>
+                            <value_type>3</value_type>
+                            <allowed_hosts/>
+                            <units/>
                             <snmpv3_contextname/>
                             <snmpv3_securityname/>
                             <snmpv3_securitylevel>0</snmpv3_securitylevel>
@@ -8105,6 +8105,48 @@
                             <application_prototypes/>
                             <master_item_prototype/>
                         </item_prototype>
+                        <item_prototype>
+                            <name>Varnish Cache[{#LOCATION}] - STG.{#SUBJECT}: cache hit ratio</name>
+                            <type>15</type>
+                            <snmp_community/>
+                            <snmp_oid/>
+                            <key>varnish[&quot;{#LOCATION_ID}&quot;,&quot;STG.{#SUBJECT_ID}.cache_hit_ratio&quot;]</key>
+                            <delay>{$VARNISH_CACHE_UPDATE_INTERVAL_ITEM:storages:cache_hit_ratio}</delay>
+                            <history>{$VARNISH_CACHE_HISTORY_STORAGE_PERIOD:storages:cache_hit_ratio}</history>
+                            <trends>{$VARNISH_CACHE_TREND_STORAGE_PERIOD:storages:cache_hit_ratio}</trends>
+                            <status>0</status>
+                            <value_type>3</value_type>
+                            <allowed_hosts/>
+                            <units>%</units>
+                            <snmpv3_contextname/>
+                            <snmpv3_securityname/>
+                            <snmpv3_securitylevel>0</snmpv3_securitylevel>
+                            <snmpv3_authprotocol>0</snmpv3_authprotocol>
+                            <snmpv3_authpassphrase/>
+                            <snmpv3_privprotocol>0</snmpv3_privprotocol>
+                            <snmpv3_privpassphrase/>
+                            <params>100*last(&quot;varnish.stat[\&quot;{#LOCATION_ID}\&quot;,\&quot;STG.{#SUBJECT_ID}.c_memcache_hit\&quot;]&quot;)/(last(&quot;varnish.stat[\&quot;{#LOCATION_ID}\&quot;,\&quot;STG.{#SUBJECT_ID}.c_memcache_hit\&quot;]&quot;)+last(&quot;varnish.stat[\&quot;{#LOCATION_ID}\&quot;,\&quot;STG.{#SUBJECT_ID}.c_memcache_miss\&quot;]&quot;))</params>
+                            <ipmi_sensor/>
+                            <authtype>0</authtype>
+                            <username/>
+                            <password/>
+                            <publickey/>
+                            <privatekey/>
+                            <port/>
+                            <description/>
+                            <inventory_link>0</inventory_link>
+                            <applications>
+                                <application>
+                                    <name>Varnish Cache</name>
+                                </application>
+                            </applications>
+                            <valuemap/>
+                            <logtimefmt/>
+                            <preprocessing/>
+                            <jmx_endpoint/>
+                            <application_prototypes/>
+                            <master_item_prototype/>
+                        </item_prototype>
                     </item_prototypes>
                     <trigger_prototypes>
                         <trigger_prototype>
@@ -8117,6 +8159,38 @@
                             <url/>
                             <status>0</status>
                             <priority>4</priority>
+                            <description/>
+                            <type>0</type>
+                            <manual_close>0</manual_close>
+                            <dependencies/>
+                            <tags/>
+                        </trigger_prototype>
+                        <trigger_prototype>
+                            <expression>{Template App Varnish Cache:varnish.stat[&quot;{#LOCATION_ID}&quot;,&quot;STG.{#SUBJECT_ID}.g_sparenode&quot;].max({$VARNISH_CACHE_LAST_VALUES_TO_CHECK:storages:g_sparenode})}&lt;{$VARNISH_CACHE_LIMIT_SPARE_NODES}</expression>
+                            <recovery_mode>0</recovery_mode>
+                            <recovery_expression/>
+                            <name>Varnish Cache[{#LOCATION}] {#SUBJECT} storage has run out of spare nodes</name>
+                            <correlation_mode>0</correlation_mode>
+                            <correlation_tag/>
+                            <url/>
+                            <status>0</status>
+                            <priority>4</priority>
+                            <description/>
+                            <type>0</type>
+                            <manual_close>0</manual_close>
+                            <dependencies/>
+                            <tags/>
+                        </trigger_prototype>
+                        <trigger_prototype>
+                            <expression>{Template App Varnish Cache:varnish.stat[&quot;{#LOCATION_ID}&quot;,&quot;STG.{#SUBJECT_ID}.g_sparenode&quot;].last()}&lt;{$VARNISH_CACHE_LOW_SPARE_NODES}</expression>
+                            <recovery_mode>0</recovery_mode>
+                            <recovery_expression/>
+                            <name>Varnish Cache[{#LOCATION}] {#SUBJECT} storage is running out of spare nodes</name>
+                            <correlation_mode>0</correlation_mode>
+                            <correlation_tag/>
+                            <url/>
+                            <status>0</status>
+                            <priority>2</priority>
                             <description/>
                             <type>0</type>
                             <manual_close>0</manual_close>
@@ -8202,82 +8276,6 @@
                             </graph_items>
                         </graph_prototype>
                         <graph_prototype>
-                            <name>Varnish Cache[{#LOCATION}] &gt; Storages[{#SUBJECT}]: nukes</name>
-                            <width>900</width>
-                            <height>200</height>
-                            <yaxismin>0.0000</yaxismin>
-                            <yaxismax>100.0000</yaxismax>
-                            <show_work_period>1</show_work_period>
-                            <show_triggers>1</show_triggers>
-                            <type>0</type>
-                            <show_legend>1</show_legend>
-                            <show_3d>0</show_3d>
-                            <percent_left>0.0000</percent_left>
-                            <percent_right>0.0000</percent_right>
-                            <ymin_type_1>0</ymin_type_1>
-                            <ymax_type_1>0</ymax_type_1>
-                            <ymin_item_1>0</ymin_item_1>
-                            <ymax_item_1>0</ymax_item_1>
-                            <graph_items>
-                                <graph_item>
-                                    <sortorder>0</sortorder>
-                                    <drawtype>0</drawtype>
-                                    <color>00C800</color>
-                                    <yaxisside>0</yaxisside>
-                                    <calc_fnc>2</calc_fnc>
-                                    <type>0</type>
-                                    <item>
-                                        <host>Template App Varnish Cache</host>
-                                        <key>varnish.stat[&quot;{#LOCATION_ID}&quot;,&quot;STG.{#SUBJECT_ID}.n_lru_nuked&quot;]</key>
-                                    </item>
-                                </graph_item>
-                                <graph_item>
-                                    <sortorder>1</sortorder>
-                                    <drawtype>0</drawtype>
-                                    <color>C80000</color>
-                                    <yaxisside>0</yaxisside>
-                                    <calc_fnc>2</calc_fnc>
-                                    <type>0</type>
-                                    <item>
-                                        <host>Template App Varnish Cache</host>
-                                        <key>varnish.stat[&quot;{#LOCATION_ID}&quot;,&quot;STG.{#SUBJECT_ID}.n_lru_moved&quot;]</key>
-                                    </item>
-                                </graph_item>
-                            </graph_items>
-                        </graph_prototype>
-                        <graph_prototype>
-                            <name>Varnish Cache[{#LOCATION}] &gt; Storages[{#SUBJECT}]: vary headers</name>
-                            <width>900</width>
-                            <height>200</height>
-                            <yaxismin>0.0000</yaxismin>
-                            <yaxismax>100.0000</yaxismax>
-                            <show_work_period>1</show_work_period>
-                            <show_triggers>1</show_triggers>
-                            <type>0</type>
-                            <show_legend>1</show_legend>
-                            <show_3d>0</show_3d>
-                            <percent_left>0.0000</percent_left>
-                            <percent_right>0.0000</percent_right>
-                            <ymin_type_1>0</ymin_type_1>
-                            <ymax_type_1>0</ymax_type_1>
-                            <ymin_item_1>0</ymin_item_1>
-                            <ymax_item_1>0</ymax_item_1>
-                            <graph_items>
-                                <graph_item>
-                                    <sortorder>0</sortorder>
-                                    <drawtype>0</drawtype>
-                                    <color>00C800</color>
-                                    <yaxisside>0</yaxisside>
-                                    <calc_fnc>2</calc_fnc>
-                                    <type>0</type>
-                                    <item>
-                                        <host>Template App Varnish Cache</host>
-                                        <key>varnish.stat[&quot;{#LOCATION_ID}&quot;,&quot;STG.{#SUBJECT_ID}.n_vary&quot;]</key>
-                                    </item>
-                                </graph_item>
-                            </graph_items>
-                        </graph_prototype>
-                        <graph_prototype>
                             <name>Varnish Cache[{#LOCATION}] &gt; Storages[{#SUBJECT}]: cache</name>
                             <width>900</width>
                             <height>200</height>
@@ -8329,6 +8327,114 @@
                                     <item>
                                         <host>Template App Varnish Cache</host>
                                         <key>varnish[&quot;{#LOCATION_ID}&quot;,&quot;STG.{#SUBJECT_ID}.cache_hit_ratio&quot;]</key>
+                                    </item>
+                                </graph_item>
+                            </graph_items>
+                        </graph_prototype>
+                        <graph_prototype>
+                            <name>Varnish Cache[{#LOCATION}] &gt; Storages[{#SUBJECT}]: nukes</name>
+                            <width>900</width>
+                            <height>200</height>
+                            <yaxismin>0.0000</yaxismin>
+                            <yaxismax>100.0000</yaxismax>
+                            <show_work_period>1</show_work_period>
+                            <show_triggers>1</show_triggers>
+                            <type>0</type>
+                            <show_legend>1</show_legend>
+                            <show_3d>0</show_3d>
+                            <percent_left>0.0000</percent_left>
+                            <percent_right>0.0000</percent_right>
+                            <ymin_type_1>0</ymin_type_1>
+                            <ymax_type_1>0</ymax_type_1>
+                            <ymin_item_1>0</ymin_item_1>
+                            <ymax_item_1>0</ymax_item_1>
+                            <graph_items>
+                                <graph_item>
+                                    <sortorder>0</sortorder>
+                                    <drawtype>0</drawtype>
+                                    <color>00C800</color>
+                                    <yaxisside>0</yaxisside>
+                                    <calc_fnc>2</calc_fnc>
+                                    <type>0</type>
+                                    <item>
+                                        <host>Template App Varnish Cache</host>
+                                        <key>varnish.stat[&quot;{#LOCATION_ID}&quot;,&quot;STG.{#SUBJECT_ID}.n_lru_nuked&quot;]</key>
+                                    </item>
+                                </graph_item>
+                                <graph_item>
+                                    <sortorder>1</sortorder>
+                                    <drawtype>0</drawtype>
+                                    <color>C80000</color>
+                                    <yaxisside>0</yaxisside>
+                                    <calc_fnc>2</calc_fnc>
+                                    <type>0</type>
+                                    <item>
+                                        <host>Template App Varnish Cache</host>
+                                        <key>varnish.stat[&quot;{#LOCATION_ID}&quot;,&quot;STG.{#SUBJECT_ID}.n_lru_moved&quot;]</key>
+                                    </item>
+                                </graph_item>
+                            </graph_items>
+                        </graph_prototype>
+                        <graph_prototype>
+                            <name>Varnish Cache[{#LOCATION}] &gt; Storages[{#SUBJECT}]: spare nodes available</name>
+                            <width>900</width>
+                            <height>200</height>
+                            <yaxismin>0.0000</yaxismin>
+                            <yaxismax>100.0000</yaxismax>
+                            <show_work_period>1</show_work_period>
+                            <show_triggers>1</show_triggers>
+                            <type>0</type>
+                            <show_legend>1</show_legend>
+                            <show_3d>0</show_3d>
+                            <percent_left>0.0000</percent_left>
+                            <percent_right>0.0000</percent_right>
+                            <ymin_type_1>0</ymin_type_1>
+                            <ymax_type_1>0</ymax_type_1>
+                            <ymin_item_1>0</ymin_item_1>
+                            <ymax_item_1>0</ymax_item_1>
+                            <graph_items>
+                                <graph_item>
+                                    <sortorder>0</sortorder>
+                                    <drawtype>1</drawtype>
+                                    <color>00C800</color>
+                                    <yaxisside>0</yaxisside>
+                                    <calc_fnc>2</calc_fnc>
+                                    <type>0</type>
+                                    <item>
+                                        <host>Template App Varnish Cache</host>
+                                        <key>varnish.stat[&quot;{#LOCATION_ID}&quot;,&quot;STG.{#SUBJECT_ID}.g_sparenode&quot;]</key>
+                                    </item>
+                                </graph_item>
+                            </graph_items>
+                        </graph_prototype>
+                        <graph_prototype>
+                            <name>Varnish Cache[{#LOCATION}] &gt; Storages[{#SUBJECT}]: vary headers</name>
+                            <width>900</width>
+                            <height>200</height>
+                            <yaxismin>0.0000</yaxismin>
+                            <yaxismax>100.0000</yaxismax>
+                            <show_work_period>1</show_work_period>
+                            <show_triggers>1</show_triggers>
+                            <type>0</type>
+                            <show_legend>1</show_legend>
+                            <show_3d>0</show_3d>
+                            <percent_left>0.0000</percent_left>
+                            <percent_right>0.0000</percent_right>
+                            <ymin_type_1>0</ymin_type_1>
+                            <ymax_type_1>0</ymax_type_1>
+                            <ymin_item_1>0</ymin_item_1>
+                            <ymax_item_1>0</ymax_item_1>
+                            <graph_items>
+                                <graph_item>
+                                    <sortorder>0</sortorder>
+                                    <drawtype>0</drawtype>
+                                    <color>00C800</color>
+                                    <yaxisside>0</yaxisside>
+                                    <calc_fnc>2</calc_fnc>
+                                    <type>0</type>
+                                    <item>
+                                        <host>Template App Varnish Cache</host>
+                                        <key>varnish.stat[&quot;{#LOCATION_ID}&quot;,&quot;STG.{#SUBJECT_ID}.n_vary&quot;]</key>
                                     </item>
                                 </graph_item>
                             </graph_items>

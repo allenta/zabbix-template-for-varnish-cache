@@ -22,7 +22,7 @@ ITEMS = re.compile(
     r'MGT\.uptime|'
     # Client requests: rate.
     r'MAIN\.client_req|'
-    r'MAIN\.s_req|'
+    r'MAIN\.s_req|'  # XXX: VCP 4.1
     # Client requests: activity.
     r'MAIN\.req_dropped|'
     r'MAIN\.client_req_400|'
@@ -138,21 +138,22 @@ ITEMS = re.compile(
     #   - Bytes outstanding vs. available: g_space, g_bytes.
     #   - Allocator failures: c_fail.
     #   - Nukes: n_lru_nuked, n_lru_moved.
+    #   - Spare nodes available: g_sparenode (XXX: VCP 4.1)
     #   - Vary headers: n_vary.
     #   - Cache: c_memcache_hit, c_memcache_miss.
-    r'(?:MSE|SMA|SMF)\..+\.(?:c_fail|c_failed|g_bytes|g_space|n_lru_nuked|n_lru_moved|n_vary|c_memcache_hit|c_memcache_miss)|'
+    r'(?:MSE|SMA|SMF)\..+\.(?:c_fail|c_failed|c_memcache_hit|c_memcache_miss|g_bytes|g_space|g_sparenode|n_lru_nuked|n_lru_moved|n_vary)|'
     # MSE books[...]
     #   - Bytes outstanding vs. available: g_space, g_bytes.
     #   - Vary headers: n_vary.
     #   - Waterlevel: c_waterlevel_queue, c_waterlevel_runs, c_waterlevel_purge.
-    r'MSE_BOOK\..+\.(?:g_bytes|g_space|n_vary|c_waterlevel_queue|c_waterlevel_runs|c_waterlevel_purge)|'
+    r'MSE_BOOK\..+\.(?:c_waterlevel_purge|c_waterlevel_queue|c_waterlevel_runs|g_bytes|g_space|n_vary)|'
     # MSE stores[...]
     #   - Extents: g_alloc_bytes, g_free_bytes.
     #   - Objects: g_objects.
     #   - AIO operations: c_aio_finished_read, c_aio_finished_write.
     #   - AIO bytes read/written: c_aio_finished_bytes_read, c_aio_finished_bytes_write.
     #   - Waterlevel: c_waterlevel_queue, c_waterlevel_purge.
-    r'MSE_STORE\..+\.(?:g_alloc_bytes|g_free_bytes|g_objects|c_aio_finished_read|c_aio_finished_write|c_aio_finished_bytes_read|c_aio_finished_bytes_write|c_waterlevel_queue|c_waterlevel_purge)|'
+    r'MSE_STORE\..+\.(?:c_aio_finished_read|c_aio_finished_write|c_aio_finished_bytes_read|c_aio_finished_bytes_write|c_waterlevel_purge|c_waterlevel_queue|g_alloc_bytes|g_free_bytes|g_objects)|'
     # Backends[...]
     #   - Healthiness: healthy, happy.
     #   - Requests sent to backend: req.
@@ -161,7 +162,7 @@ ITEMS = re.compile(
     #   - Failed connection attempts: fail_eacces, fail_eaddrnotavail, fail_econnrefused, fail_enetunreach, fail_etimedout, fail_other.
     #   - Bytes sent to backend: pipe_out, pipe_hdrbytes, bereq_hdrbytes, bereq_bodybytes.
     #   - Bytes received from backend: pipe_in, beresp_hdrbytes, beresp_bodybytes.
-    r'VBE\..+\.(?:healthy|happy|bereq_hdrbytes|bereq_bodybytes|beresp_hdrbytes|beresp_bodybytes|pipe_hdrbytes|pipe_out|pipe_in|conn|req|unhealthy|busy|fail|helddown|fail_eacces|fail_eaddrnotavail|fail_econnrefused|fail_enetunreach|fail_etimedout|fail_other)'
+    r'VBE\..+\.(?:bereq_bodybytes|bereq_hdrbytes|beresp_bodybytes|beresp_hdrbytes|busy|conn|fail|fail_eacces|fail_eaddrnotavail|fail_econnrefused|fail_enetunreach|fail_etimedout|fail_other|happy|healthy|helddown|pipe_hdrbytes|pipe_in|pipe_out|req|unhealthy)'
     r')$')
 
 REWRITES = [

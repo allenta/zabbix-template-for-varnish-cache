@@ -22,6 +22,7 @@ ITEMS = re.compile(
     r'MGT\.uptime|'
     # Client requests: rate.
     r'MAIN\.client_req|'
+    r'MAIN\.s_req|'
     # Client requests: activity.
     r'MAIN\.req_dropped|'
     r'MAIN\.client_req_400|'

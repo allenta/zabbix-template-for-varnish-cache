@@ -48,5 +48,4 @@
    * ``{$VARNISH_CACHE_HISTORY_STORAGE_PERIOD:items:sess_dropped}``
    * ``{$VARNISH_CACHE_TREND_STORAGE_PERIOD:items:backend_req}``
 
-
 8. Adjust triggers and trigger prototypes according with your preferences.

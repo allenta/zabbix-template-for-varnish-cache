@@ -1,7 +1,7 @@
 - name: Add Varnish Plus repo
   block:
     - set_fact:
-        varnish_repo_key_url: https://{{ settings['varnish-plus'].user }}:@packagecloud.io/varnishplus/60/gpgkey
+        varnish_repo_key_url: https://{{ settings['varnish-plus'].user }}:@packagecloud.io/varnishplus/{{ settings['varnish-plus'].version }}/gpgkey
 
     - name: Add Varnish Plus repo key
       shell: |
@@ -14,7 +14,7 @@
     - name: Add Varnish Plus repo
       apt_repository:
         filename: varnish-plus
-        repo: deb https://{{ settings['varnish-plus'].user }}:@packagecloud.io/varnishplus/60/ubuntu/ xenial main
+        repo: deb https://{{ settings['varnish-plus'].user }}:@packagecloud.io/varnishplus/{{ settings['varnish-plus'].version }}/ubuntu/ xenial main
         update_cache: True
 
 - name: Install Varnish Plus packages

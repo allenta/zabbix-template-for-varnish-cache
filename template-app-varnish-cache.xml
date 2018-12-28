@@ -7997,48 +7997,6 @@
                             <master_item_prototype/>
                         </item_prototype>
                         <item_prototype>
-                            <name>Varnish Cache[{#LOCATION}] - STG.{#SUBJECT}.memcache_hit_ratio</name>
-                            <type>15</type>
-                            <snmp_community/>
-                            <snmp_oid/>
-                            <key>varnish.stat[&quot;{#LOCATION_ID}&quot;,&quot;STG.{#SUBJECT_ID}.memcache_hit_ratio&quot;]</key>
-                            <delay>{$VARNISH_CACHE_UPDATE_INTERVAL:storages:cache_hit_ratio}</delay>
-                            <history>{$VARNISH_CACHE_HISTORY_STORAGE_PERIOD:storages:memcache_hit_ratio}</history>
-                            <trends>{$VARNISH_CACHE_TREND_STORAGE_PERIOD:storages:memcache_hit_ratio}</trends>
-                            <status>0</status>
-                            <value_type>3</value_type>
-                            <allowed_hosts/>
-                            <units>%</units>
-                            <snmpv3_contextname/>
-                            <snmpv3_securityname/>
-                            <snmpv3_securitylevel>0</snmpv3_securitylevel>
-                            <snmpv3_authprotocol>0</snmpv3_authprotocol>
-                            <snmpv3_authpassphrase/>
-                            <snmpv3_privprotocol>0</snmpv3_privprotocol>
-                            <snmpv3_privpassphrase/>
-                            <params>100*last(&quot;varnish.stat[\&quot;{#LOCATION_ID}\&quot;,\&quot;STG.{#SUBJECT_ID}.memcache_hit\&quot;]&quot;)/(last(&quot;varnish.stat[\&quot;{#LOCATION_ID}\&quot;,\&quot;STG.{#SUBJECT_ID}.memcache_hit\&quot;]&quot;)+last(&quot;varnish.stat[\&quot;{#LOCATION_ID}\&quot;,\&quot;STG.{#SUBJECT_ID}.memcache_miss\&quot;]&quot;))</params>
-                            <ipmi_sensor/>
-                            <authtype>0</authtype>
-                            <username/>
-                            <password/>
-                            <publickey/>
-                            <privatekey/>
-                            <port/>
-                            <description/>
-                            <inventory_link>0</inventory_link>
-                            <applications>
-                                <application>
-                                    <name>Varnish Cache</name>
-                                </application>
-                            </applications>
-                            <valuemap/>
-                            <logtimefmt/>
-                            <preprocessing/>
-                            <jmx_endpoint/>
-                            <application_prototypes/>
-                            <master_item_prototype/>
-                        </item_prototype>
-                        <item_prototype>
                             <name>Varnish Cache[{#LOCATION}] - STG.{#SUBJECT}.n_lru_moved (number of LRU move operations)</name>
                             <type>2</type>
                             <snmp_community/>

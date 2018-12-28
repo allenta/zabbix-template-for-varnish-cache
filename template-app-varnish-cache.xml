@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <zabbix_export>
     <version>3.4</version>
-    <date>2018-12-27T16:11:25Z</date>
+    <date>2018-12-28T11:56:28Z</date>
     <groups>
         <group>
             <name>Templates</name>
@@ -451,6 +451,53 @@
                             <master_item_prototype/>
                         </item_prototype>
                         <item_prototype>
+                            <name>Varnish Cache[{#LOCATION}] - VBE.{#SUBJECT}.busy (fetches not attempted due to backend being busy / sec)</name>
+                            <type>2</type>
+                            <snmp_community/>
+                            <snmp_oid/>
+                            <key>varnish.stat[&quot;{#LOCATION_ID}&quot;,&quot;VBE.{#SUBJECT_ID}.busy&quot;]</key>
+                            <delay>0</delay>
+                            <history>{$VARNISH_CACHE_HISTORY_STORAGE_PERIOD:backends:busy}</history>
+                            <trends>{$VARNISH_CACHE_TREND_STORAGE_PERIOD:backends:busy}</trends>
+                            <status>0</status>
+                            <value_type>0</value_type>
+                            <allowed_hosts/>
+                            <units>eps</units>
+                            <snmpv3_contextname/>
+                            <snmpv3_securityname/>
+                            <snmpv3_securitylevel>0</snmpv3_securitylevel>
+                            <snmpv3_authprotocol>0</snmpv3_authprotocol>
+                            <snmpv3_authpassphrase/>
+                            <snmpv3_privprotocol>0</snmpv3_privprotocol>
+                            <snmpv3_privpassphrase/>
+                            <params/>
+                            <ipmi_sensor/>
+                            <authtype>0</authtype>
+                            <username/>
+                            <password/>
+                            <publickey/>
+                            <privatekey/>
+                            <port/>
+                            <description/>
+                            <inventory_link>0</inventory_link>
+                            <applications>
+                                <application>
+                                    <name>Varnish Cache</name>
+                                </application>
+                            </applications>
+                            <valuemap/>
+                            <logtimefmt/>
+                            <preprocessing>
+                                <step>
+                                    <type>10</type>
+                                    <params/>
+                                </step>
+                            </preprocessing>
+                            <jmx_endpoint/>
+                            <application_prototypes/>
+                            <master_item_prototype/>
+                        </item_prototype>
+                        <item_prototype>
                             <name>Varnish Cache[{#LOCATION}] - VBE.{#SUBJECT}.conn (connections to backend)</name>
                             <type>2</type>
                             <snmp_community/>
@@ -488,6 +535,335 @@
                             <valuemap/>
                             <logtimefmt/>
                             <preprocessing/>
+                            <jmx_endpoint/>
+                            <application_prototypes/>
+                            <master_item_prototype/>
+                        </item_prototype>
+                        <item_prototype>
+                            <name>Varnish Cache[{#LOCATION}] - VBE.{#SUBJECT}.fail (connections failed / sec)</name>
+                            <type>2</type>
+                            <snmp_community/>
+                            <snmp_oid/>
+                            <key>varnish.stat[&quot;{#LOCATION_ID}&quot;,&quot;VBE.{#SUBJECT_ID}.fail&quot;]</key>
+                            <delay>0</delay>
+                            <history>{$VARNISH_CACHE_HISTORY_STORAGE_PERIOD:backends:fail}</history>
+                            <trends>{$VARNISH_CACHE_TREND_STORAGE_PERIOD:backends:fail}</trends>
+                            <status>0</status>
+                            <value_type>0</value_type>
+                            <allowed_hosts/>
+                            <units>eps</units>
+                            <snmpv3_contextname/>
+                            <snmpv3_securityname/>
+                            <snmpv3_securitylevel>0</snmpv3_securitylevel>
+                            <snmpv3_authprotocol>0</snmpv3_authprotocol>
+                            <snmpv3_authpassphrase/>
+                            <snmpv3_privprotocol>0</snmpv3_privprotocol>
+                            <snmpv3_privpassphrase/>
+                            <params/>
+                            <ipmi_sensor/>
+                            <authtype>0</authtype>
+                            <username/>
+                            <password/>
+                            <publickey/>
+                            <privatekey/>
+                            <port/>
+                            <description/>
+                            <inventory_link>0</inventory_link>
+                            <applications>
+                                <application>
+                                    <name>Varnish Cache</name>
+                                </application>
+                            </applications>
+                            <valuemap/>
+                            <logtimefmt/>
+                            <preprocessing>
+                                <step>
+                                    <type>10</type>
+                                    <params/>
+                                </step>
+                            </preprocessing>
+                            <jmx_endpoint/>
+                            <application_prototypes/>
+                            <master_item_prototype/>
+                        </item_prototype>
+                        <item_prototype>
+                            <name>Varnish Cache[{#LOCATION}] - VBE.{#SUBJECT}.fail_eacces (connections failed with EACCES or EPERM / sec)</name>
+                            <type>2</type>
+                            <snmp_community/>
+                            <snmp_oid/>
+                            <key>varnish.stat[&quot;{#LOCATION_ID}&quot;,&quot;VBE.{#SUBJECT_ID}.fail_eacces&quot;]</key>
+                            <delay>0</delay>
+                            <history>{$VARNISH_CACHE_HISTORY_STORAGE_PERIOD:backends:fail_eacces}</history>
+                            <trends>{$VARNISH_CACHE_TREND_STORAGE_PERIOD:backends:fail_eacces}</trends>
+                            <status>0</status>
+                            <value_type>0</value_type>
+                            <allowed_hosts/>
+                            <units>eps</units>
+                            <snmpv3_contextname/>
+                            <snmpv3_securityname/>
+                            <snmpv3_securitylevel>0</snmpv3_securitylevel>
+                            <snmpv3_authprotocol>0</snmpv3_authprotocol>
+                            <snmpv3_authpassphrase/>
+                            <snmpv3_privprotocol>0</snmpv3_privprotocol>
+                            <snmpv3_privpassphrase/>
+                            <params/>
+                            <ipmi_sensor/>
+                            <authtype>0</authtype>
+                            <username/>
+                            <password/>
+                            <publickey/>
+                            <privatekey/>
+                            <port/>
+                            <description/>
+                            <inventory_link>0</inventory_link>
+                            <applications>
+                                <application>
+                                    <name>Varnish Cache</name>
+                                </application>
+                            </applications>
+                            <valuemap/>
+                            <logtimefmt/>
+                            <preprocessing>
+                                <step>
+                                    <type>10</type>
+                                    <params/>
+                                </step>
+                            </preprocessing>
+                            <jmx_endpoint/>
+                            <application_prototypes/>
+                            <master_item_prototype/>
+                        </item_prototype>
+                        <item_prototype>
+                            <name>Varnish Cache[{#LOCATION}] - VBE.{#SUBJECT}.fail_eaddrnotavail (connections failed with EADDRNOTAVAIL / sec)</name>
+                            <type>2</type>
+                            <snmp_community/>
+                            <snmp_oid/>
+                            <key>varnish.stat[&quot;{#LOCATION_ID}&quot;,&quot;VBE.{#SUBJECT_ID}.fail_eaddrnotavail&quot;]</key>
+                            <delay>0</delay>
+                            <history>{$VARNISH_CACHE_HISTORY_STORAGE_PERIOD:backends:fail_eaddrnotavail}</history>
+                            <trends>{$VARNISH_CACHE_TREND_STORAGE_PERIOD:backends:fail_eaddrnotavail}</trends>
+                            <status>0</status>
+                            <value_type>0</value_type>
+                            <allowed_hosts/>
+                            <units>eps</units>
+                            <snmpv3_contextname/>
+                            <snmpv3_securityname/>
+                            <snmpv3_securitylevel>0</snmpv3_securitylevel>
+                            <snmpv3_authprotocol>0</snmpv3_authprotocol>
+                            <snmpv3_authpassphrase/>
+                            <snmpv3_privprotocol>0</snmpv3_privprotocol>
+                            <snmpv3_privpassphrase/>
+                            <params/>
+                            <ipmi_sensor/>
+                            <authtype>0</authtype>
+                            <username/>
+                            <password/>
+                            <publickey/>
+                            <privatekey/>
+                            <port/>
+                            <description/>
+                            <inventory_link>0</inventory_link>
+                            <applications>
+                                <application>
+                                    <name>Varnish Cache</name>
+                                </application>
+                            </applications>
+                            <valuemap/>
+                            <logtimefmt/>
+                            <preprocessing>
+                                <step>
+                                    <type>10</type>
+                                    <params/>
+                                </step>
+                            </preprocessing>
+                            <jmx_endpoint/>
+                            <application_prototypes/>
+                            <master_item_prototype/>
+                        </item_prototype>
+                        <item_prototype>
+                            <name>Varnish Cache[{#LOCATION}] - VBE.{#SUBJECT}.fail_econnrefused (connections failed with ECONNREFUSED / sec)</name>
+                            <type>2</type>
+                            <snmp_community/>
+                            <snmp_oid/>
+                            <key>varnish.stat[&quot;{#LOCATION_ID}&quot;,&quot;VBE.{#SUBJECT_ID}.fail_econnrefused&quot;]</key>
+                            <delay>0</delay>
+                            <history>{$VARNISH_CACHE_HISTORY_STORAGE_PERIOD:backends:fail_econnrefused}</history>
+                            <trends>{$VARNISH_CACHE_TREND_STORAGE_PERIOD:backends:fail_econnrefused}</trends>
+                            <status>0</status>
+                            <value_type>0</value_type>
+                            <allowed_hosts/>
+                            <units>eps</units>
+                            <snmpv3_contextname/>
+                            <snmpv3_securityname/>
+                            <snmpv3_securitylevel>0</snmpv3_securitylevel>
+                            <snmpv3_authprotocol>0</snmpv3_authprotocol>
+                            <snmpv3_authpassphrase/>
+                            <snmpv3_privprotocol>0</snmpv3_privprotocol>
+                            <snmpv3_privpassphrase/>
+                            <params/>
+                            <ipmi_sensor/>
+                            <authtype>0</authtype>
+                            <username/>
+                            <password/>
+                            <publickey/>
+                            <privatekey/>
+                            <port/>
+                            <description/>
+                            <inventory_link>0</inventory_link>
+                            <applications>
+                                <application>
+                                    <name>Varnish Cache</name>
+                                </application>
+                            </applications>
+                            <valuemap/>
+                            <logtimefmt/>
+                            <preprocessing>
+                                <step>
+                                    <type>10</type>
+                                    <params/>
+                                </step>
+                            </preprocessing>
+                            <jmx_endpoint/>
+                            <application_prototypes/>
+                            <master_item_prototype/>
+                        </item_prototype>
+                        <item_prototype>
+                            <name>Varnish Cache[{#LOCATION}] - VBE.{#SUBJECT}.fail_enetunreach (connections failed with ENETUNREACH / sec)</name>
+                            <type>2</type>
+                            <snmp_community/>
+                            <snmp_oid/>
+                            <key>varnish.stat[&quot;{#LOCATION_ID}&quot;,&quot;VBE.{#SUBJECT_ID}.fail_enetunreach&quot;]</key>
+                            <delay>0</delay>
+                            <history>{$VARNISH_CACHE_HISTORY_STORAGE_PERIOD:backends:fail_enetunreach}</history>
+                            <trends>{$VARNISH_CACHE_TREND_STORAGE_PERIOD:backends:fail_enetunreach}</trends>
+                            <status>0</status>
+                            <value_type>0</value_type>
+                            <allowed_hosts/>
+                            <units>eps</units>
+                            <snmpv3_contextname/>
+                            <snmpv3_securityname/>
+                            <snmpv3_securitylevel>0</snmpv3_securitylevel>
+                            <snmpv3_authprotocol>0</snmpv3_authprotocol>
+                            <snmpv3_authpassphrase/>
+                            <snmpv3_privprotocol>0</snmpv3_privprotocol>
+                            <snmpv3_privpassphrase/>
+                            <params/>
+                            <ipmi_sensor/>
+                            <authtype>0</authtype>
+                            <username/>
+                            <password/>
+                            <publickey/>
+                            <privatekey/>
+                            <port/>
+                            <description/>
+                            <inventory_link>0</inventory_link>
+                            <applications>
+                                <application>
+                                    <name>Varnish Cache</name>
+                                </application>
+                            </applications>
+                            <valuemap/>
+                            <logtimefmt/>
+                            <preprocessing>
+                                <step>
+                                    <type>10</type>
+                                    <params/>
+                                </step>
+                            </preprocessing>
+                            <jmx_endpoint/>
+                            <application_prototypes/>
+                            <master_item_prototype/>
+                        </item_prototype>
+                        <item_prototype>
+                            <name>Varnish Cache[{#LOCATION}] - VBE.{#SUBJECT}.fail_etimedout (connections failed with ETIMEDOUT / sec)</name>
+                            <type>2</type>
+                            <snmp_community/>
+                            <snmp_oid/>
+                            <key>varnish.stat[&quot;{#LOCATION_ID}&quot;,&quot;VBE.{#SUBJECT_ID}.fail_etimedout&quot;]</key>
+                            <delay>0</delay>
+                            <history>{$VARNISH_CACHE_HISTORY_STORAGE_PERIOD:backends:fail_etimedout}</history>
+                            <trends>{$VARNISH_CACHE_TREND_STORAGE_PERIOD:backends:fail_etimedout}</trends>
+                            <status>0</status>
+                            <value_type>0</value_type>
+                            <allowed_hosts/>
+                            <units>eps</units>
+                            <snmpv3_contextname/>
+                            <snmpv3_securityname/>
+                            <snmpv3_securitylevel>0</snmpv3_securitylevel>
+                            <snmpv3_authprotocol>0</snmpv3_authprotocol>
+                            <snmpv3_authpassphrase/>
+                            <snmpv3_privprotocol>0</snmpv3_privprotocol>
+                            <snmpv3_privpassphrase/>
+                            <params/>
+                            <ipmi_sensor/>
+                            <authtype>0</authtype>
+                            <username/>
+                            <password/>
+                            <publickey/>
+                            <privatekey/>
+                            <port/>
+                            <description/>
+                            <inventory_link>0</inventory_link>
+                            <applications>
+                                <application>
+                                    <name>Varnish Cache</name>
+                                </application>
+                            </applications>
+                            <valuemap/>
+                            <logtimefmt/>
+                            <preprocessing>
+                                <step>
+                                    <type>10</type>
+                                    <params/>
+                                </step>
+                            </preprocessing>
+                            <jmx_endpoint/>
+                            <application_prototypes/>
+                            <master_item_prototype/>
+                        </item_prototype>
+                        <item_prototype>
+                            <name>Varnish Cache[{#LOCATION}] - VBE.{#SUBJECT}.fail_other (connections failed for other reason / sec)</name>
+                            <type>2</type>
+                            <snmp_community/>
+                            <snmp_oid/>
+                            <key>varnish.stat[&quot;{#LOCATION_ID}&quot;,&quot;VBE.{#SUBJECT_ID}.fail_other&quot;]</key>
+                            <delay>0</delay>
+                            <history>{$VARNISH_CACHE_HISTORY_STORAGE_PERIOD:backends:fail_other}</history>
+                            <trends>{$VARNISH_CACHE_TREND_STORAGE_PERIOD:backends:fail_other}</trends>
+                            <status>0</status>
+                            <value_type>0</value_type>
+                            <allowed_hosts/>
+                            <units>eps</units>
+                            <snmpv3_contextname/>
+                            <snmpv3_securityname/>
+                            <snmpv3_securitylevel>0</snmpv3_securitylevel>
+                            <snmpv3_authprotocol>0</snmpv3_authprotocol>
+                            <snmpv3_authpassphrase/>
+                            <snmpv3_privprotocol>0</snmpv3_privprotocol>
+                            <snmpv3_privpassphrase/>
+                            <params/>
+                            <ipmi_sensor/>
+                            <authtype>0</authtype>
+                            <username/>
+                            <password/>
+                            <publickey/>
+                            <privatekey/>
+                            <port/>
+                            <description/>
+                            <inventory_link>0</inventory_link>
+                            <applications>
+                                <application>
+                                    <name>Varnish Cache</name>
+                                </application>
+                            </applications>
+                            <valuemap/>
+                            <logtimefmt/>
+                            <preprocessing>
+                                <step>
+                                    <type>10</type>
+                                    <params/>
+                                </step>
+                            </preprocessing>
                             <jmx_endpoint/>
                             <application_prototypes/>
                             <master_item_prototype/>
@@ -574,6 +950,53 @@
                             <preprocessing>
                                 <step>
                                     <type>6</type>
+                                    <params/>
+                                </step>
+                            </preprocessing>
+                            <jmx_endpoint/>
+                            <application_prototypes/>
+                            <master_item_prototype/>
+                        </item_prototype>
+                        <item_prototype>
+                            <name>Varnish Cache[{#LOCATION}] - VBE.{#SUBJECT}.helddown (connection opens not attempted / sec)</name>
+                            <type>2</type>
+                            <snmp_community/>
+                            <snmp_oid/>
+                            <key>varnish.stat[&quot;{#LOCATION_ID}&quot;,&quot;VBE.{#SUBJECT_ID}.helddown&quot;]</key>
+                            <delay>0</delay>
+                            <history>{$VARNISH_CACHE_HISTORY_STORAGE_PERIOD:backends:helddown}</history>
+                            <trends>{$VARNISH_CACHE_TREND_STORAGE_PERIOD:backends:helddown}</trends>
+                            <status>0</status>
+                            <value_type>0</value_type>
+                            <allowed_hosts/>
+                            <units>eps</units>
+                            <snmpv3_contextname/>
+                            <snmpv3_securityname/>
+                            <snmpv3_securitylevel>0</snmpv3_securitylevel>
+                            <snmpv3_authprotocol>0</snmpv3_authprotocol>
+                            <snmpv3_authpassphrase/>
+                            <snmpv3_privprotocol>0</snmpv3_privprotocol>
+                            <snmpv3_privpassphrase/>
+                            <params/>
+                            <ipmi_sensor/>
+                            <authtype>0</authtype>
+                            <username/>
+                            <password/>
+                            <publickey/>
+                            <privatekey/>
+                            <port/>
+                            <description/>
+                            <inventory_link>0</inventory_link>
+                            <applications>
+                                <application>
+                                    <name>Varnish Cache</name>
+                                </application>
+                            </applications>
+                            <valuemap/>
+                            <logtimefmt/>
+                            <preprocessing>
+                                <step>
+                                    <type>10</type>
                                     <params/>
                                 </step>
                             </preprocessing>
@@ -731,6 +1154,53 @@
                             <delay>0</delay>
                             <history>{$VARNISH_CACHE_HISTORY_STORAGE_PERIOD:backends:req}</history>
                             <trends>{$VARNISH_CACHE_TREND_STORAGE_PERIOD:backends:req}</trends>
+                            <status>0</status>
+                            <value_type>0</value_type>
+                            <allowed_hosts/>
+                            <units>eps</units>
+                            <snmpv3_contextname/>
+                            <snmpv3_securityname/>
+                            <snmpv3_securitylevel>0</snmpv3_securitylevel>
+                            <snmpv3_authprotocol>0</snmpv3_authprotocol>
+                            <snmpv3_authpassphrase/>
+                            <snmpv3_privprotocol>0</snmpv3_privprotocol>
+                            <snmpv3_privpassphrase/>
+                            <params/>
+                            <ipmi_sensor/>
+                            <authtype>0</authtype>
+                            <username/>
+                            <password/>
+                            <publickey/>
+                            <privatekey/>
+                            <port/>
+                            <description/>
+                            <inventory_link>0</inventory_link>
+                            <applications>
+                                <application>
+                                    <name>Varnish Cache</name>
+                                </application>
+                            </applications>
+                            <valuemap/>
+                            <logtimefmt/>
+                            <preprocessing>
+                                <step>
+                                    <type>10</type>
+                                    <params/>
+                                </step>
+                            </preprocessing>
+                            <jmx_endpoint/>
+                            <application_prototypes/>
+                            <master_item_prototype/>
+                        </item_prototype>
+                        <item_prototype>
+                            <name>Varnish Cache[{#LOCATION}] - VBE.{#SUBJECT}.unhealthy (fetches not attempted due to backend being unhealthy / sec)</name>
+                            <type>2</type>
+                            <snmp_community/>
+                            <snmp_oid/>
+                            <key>varnish.stat[&quot;{#LOCATION_ID}&quot;,&quot;VBE.{#SUBJECT_ID}.unhealthy&quot;]</key>
+                            <delay>0</delay>
+                            <history>{$VARNISH_CACHE_HISTORY_STORAGE_PERIOD:backends:unhealthy}</history>
+                            <trends>{$VARNISH_CACHE_TREND_STORAGE_PERIOD:backends:unhealthy}</trends>
                             <status>0</status>
                             <value_type>0</value_type>
                             <allowed_hosts/>
@@ -983,6 +1453,166 @@
                                     <item>
                                         <host>Template App Varnish Cache</host>
                                         <key>varnish.stat[&quot;{#LOCATION_ID}&quot;,&quot;VBE.{#SUBJECT_ID}.conn&quot;]</key>
+                                    </item>
+                                </graph_item>
+                            </graph_items>
+                        </graph_prototype>
+                        <graph_prototype>
+                            <name>Varnish Cache[{#LOCATION}] &gt; Backends[{#SUBJECT}]: failed connection attempts</name>
+                            <width>900</width>
+                            <height>200</height>
+                            <yaxismin>0.0000</yaxismin>
+                            <yaxismax>100.0000</yaxismax>
+                            <show_work_period>1</show_work_period>
+                            <show_triggers>1</show_triggers>
+                            <type>1</type>
+                            <show_legend>1</show_legend>
+                            <show_3d>0</show_3d>
+                            <percent_left>0.0000</percent_left>
+                            <percent_right>0.0000</percent_right>
+                            <ymin_type_1>0</ymin_type_1>
+                            <ymax_type_1>0</ymax_type_1>
+                            <ymin_item_1>0</ymin_item_1>
+                            <ymax_item_1>0</ymax_item_1>
+                            <graph_items>
+                                <graph_item>
+                                    <sortorder>0</sortorder>
+                                    <drawtype>0</drawtype>
+                                    <color>00C800</color>
+                                    <yaxisside>0</yaxisside>
+                                    <calc_fnc>2</calc_fnc>
+                                    <type>0</type>
+                                    <item>
+                                        <host>Template App Varnish Cache</host>
+                                        <key>varnish.stat[&quot;{#LOCATION_ID}&quot;,&quot;VBE.{#SUBJECT_ID}.fail_eacces&quot;]</key>
+                                    </item>
+                                </graph_item>
+                                <graph_item>
+                                    <sortorder>1</sortorder>
+                                    <drawtype>0</drawtype>
+                                    <color>C80000</color>
+                                    <yaxisside>0</yaxisside>
+                                    <calc_fnc>2</calc_fnc>
+                                    <type>0</type>
+                                    <item>
+                                        <host>Template App Varnish Cache</host>
+                                        <key>varnish.stat[&quot;{#LOCATION_ID}&quot;,&quot;VBE.{#SUBJECT_ID}.fail_eaddrnotavail&quot;]</key>
+                                    </item>
+                                </graph_item>
+                                <graph_item>
+                                    <sortorder>2</sortorder>
+                                    <drawtype>0</drawtype>
+                                    <color>0000C8</color>
+                                    <yaxisside>0</yaxisside>
+                                    <calc_fnc>2</calc_fnc>
+                                    <type>0</type>
+                                    <item>
+                                        <host>Template App Varnish Cache</host>
+                                        <key>varnish.stat[&quot;{#LOCATION_ID}&quot;,&quot;VBE.{#SUBJECT_ID}.fail_econnrefused&quot;]</key>
+                                    </item>
+                                </graph_item>
+                                <graph_item>
+                                    <sortorder>3</sortorder>
+                                    <drawtype>0</drawtype>
+                                    <color>C800C8</color>
+                                    <yaxisside>0</yaxisside>
+                                    <calc_fnc>2</calc_fnc>
+                                    <type>0</type>
+                                    <item>
+                                        <host>Template App Varnish Cache</host>
+                                        <key>varnish.stat[&quot;{#LOCATION_ID}&quot;,&quot;VBE.{#SUBJECT_ID}.fail_enetunreach&quot;]</key>
+                                    </item>
+                                </graph_item>
+                                <graph_item>
+                                    <sortorder>4</sortorder>
+                                    <drawtype>0</drawtype>
+                                    <color>00C8C8</color>
+                                    <yaxisside>0</yaxisside>
+                                    <calc_fnc>2</calc_fnc>
+                                    <type>0</type>
+                                    <item>
+                                        <host>Template App Varnish Cache</host>
+                                        <key>varnish.stat[&quot;{#LOCATION_ID}&quot;,&quot;VBE.{#SUBJECT_ID}.fail_etimedout&quot;]</key>
+                                    </item>
+                                </graph_item>
+                                <graph_item>
+                                    <sortorder>5</sortorder>
+                                    <drawtype>0</drawtype>
+                                    <color>C8C800</color>
+                                    <yaxisside>0</yaxisside>
+                                    <calc_fnc>2</calc_fnc>
+                                    <type>0</type>
+                                    <item>
+                                        <host>Template App Varnish Cache</host>
+                                        <key>varnish.stat[&quot;{#LOCATION_ID}&quot;,&quot;VBE.{#SUBJECT_ID}.fail_other&quot;]</key>
+                                    </item>
+                                </graph_item>
+                            </graph_items>
+                        </graph_prototype>
+                        <graph_prototype>
+                            <name>Varnish Cache[{#LOCATION}] &gt; Backends[{#SUBJECT}]: fetches not attempted</name>
+                            <width>900</width>
+                            <height>200</height>
+                            <yaxismin>0.0000</yaxismin>
+                            <yaxismax>100.0000</yaxismax>
+                            <show_work_period>1</show_work_period>
+                            <show_triggers>1</show_triggers>
+                            <type>1</type>
+                            <show_legend>1</show_legend>
+                            <show_3d>0</show_3d>
+                            <percent_left>0.0000</percent_left>
+                            <percent_right>0.0000</percent_right>
+                            <ymin_type_1>0</ymin_type_1>
+                            <ymax_type_1>0</ymax_type_1>
+                            <ymin_item_1>0</ymin_item_1>
+                            <ymax_item_1>0</ymax_item_1>
+                            <graph_items>
+                                <graph_item>
+                                    <sortorder>0</sortorder>
+                                    <drawtype>0</drawtype>
+                                    <color>00C800</color>
+                                    <yaxisside>0</yaxisside>
+                                    <calc_fnc>2</calc_fnc>
+                                    <type>0</type>
+                                    <item>
+                                        <host>Template App Varnish Cache</host>
+                                        <key>varnish.stat[&quot;{#LOCATION_ID}&quot;,&quot;VBE.{#SUBJECT_ID}.unhealthy&quot;]</key>
+                                    </item>
+                                </graph_item>
+                                <graph_item>
+                                    <sortorder>1</sortorder>
+                                    <drawtype>0</drawtype>
+                                    <color>C80000</color>
+                                    <yaxisside>0</yaxisside>
+                                    <calc_fnc>2</calc_fnc>
+                                    <type>0</type>
+                                    <item>
+                                        <host>Template App Varnish Cache</host>
+                                        <key>varnish.stat[&quot;{#LOCATION_ID}&quot;,&quot;VBE.{#SUBJECT_ID}.busy&quot;]</key>
+                                    </item>
+                                </graph_item>
+                                <graph_item>
+                                    <sortorder>2</sortorder>
+                                    <drawtype>0</drawtype>
+                                    <color>0000C8</color>
+                                    <yaxisside>0</yaxisside>
+                                    <calc_fnc>2</calc_fnc>
+                                    <type>0</type>
+                                    <item>
+                                        <host>Template App Varnish Cache</host>
+                                        <key>varnish.stat[&quot;{#LOCATION_ID}&quot;,&quot;VBE.{#SUBJECT_ID}.fail&quot;]</key>
+                                    </item>
+                                </graph_item>
+                                <graph_item>
+                                    <sortorder>3</sortorder>
+                                    <drawtype>0</drawtype>
+                                    <color>C800C8</color>
+                                    <yaxisside>0</yaxisside>
+                                    <calc_fnc>2</calc_fnc>
+                                    <type>0</type>
+                                    <item>
+                                        <host>Template App Varnish Cache</host>
+                                        <key>varnish.stat[&quot;{#LOCATION_ID}&quot;,&quot;VBE.{#SUBJECT_ID}.helddown&quot;]</key>
                                     </item>
                                 </graph_item>
                             </graph_items>

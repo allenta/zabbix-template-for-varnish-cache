@@ -2665,6 +2665,53 @@
                             <master_item_prototype/>
                         </item_prototype>
                         <item_prototype>
+                            <name>Varnish Cache[{#LOCATION}] - MAIN.client_resp_500 (delivery failed due to insufficient workspace / sec)</name>
+                            <type>2</type>
+                            <snmp_community/>
+                            <snmp_oid/>
+                            <key>varnish.stat[&quot;{#LOCATION_ID}&quot;,&quot;MAIN.client_resp_500&quot;]</key>
+                            <delay>0</delay>
+                            <history>{$VARNISH_CACHE_HISTORY_STORAGE_PERIOD:items:client_resp_500}</history>
+                            <trends>{$VARNISH_CACHE_TREND_STORAGE_PERIOD:items:client_resp_500}</trends>
+                            <status>0</status>
+                            <value_type>0</value_type>
+                            <allowed_hosts/>
+                            <units>eps</units>
+                            <snmpv3_contextname/>
+                            <snmpv3_securityname/>
+                            <snmpv3_securitylevel>0</snmpv3_securitylevel>
+                            <snmpv3_authprotocol>0</snmpv3_authprotocol>
+                            <snmpv3_authpassphrase/>
+                            <snmpv3_privprotocol>0</snmpv3_privprotocol>
+                            <snmpv3_privpassphrase/>
+                            <params/>
+                            <ipmi_sensor/>
+                            <authtype>0</authtype>
+                            <username/>
+                            <password/>
+                            <publickey/>
+                            <privatekey/>
+                            <port/>
+                            <description/>
+                            <inventory_link>0</inventory_link>
+                            <applications>
+                                <application>
+                                    <name>Varnish Cache</name>
+                                </application>
+                            </applications>
+                            <valuemap/>
+                            <logtimefmt/>
+                            <preprocessing>
+                                <step>
+                                    <type>10</type>
+                                    <params/>
+                                </step>
+                            </preprocessing>
+                            <jmx_endpoint/>
+                            <application_prototypes/>
+                            <master_item_prototype/>
+                        </item_prototype>
+                        <item_prototype>
                             <name>Varnish Cache[{#LOCATION}] - MAIN.client_req (good -parseable- client requests received / sec)</name>
                             <type>2</type>
                             <snmp_community/>
@@ -3378,6 +3425,147 @@
                             <delay>0</delay>
                             <history>{$VARNISH_CACHE_HISTORY_STORAGE_PERIOD:items:fetch_no_thread}</history>
                             <trends>{$VARNISH_CACHE_TREND_STORAGE_PERIOD:items:fetch_no_thread}</trends>
+                            <status>0</status>
+                            <value_type>0</value_type>
+                            <allowed_hosts/>
+                            <units>eps</units>
+                            <snmpv3_contextname/>
+                            <snmpv3_securityname/>
+                            <snmpv3_securitylevel>0</snmpv3_securitylevel>
+                            <snmpv3_authprotocol>0</snmpv3_authprotocol>
+                            <snmpv3_authpassphrase/>
+                            <snmpv3_privprotocol>0</snmpv3_privprotocol>
+                            <snmpv3_privpassphrase/>
+                            <params/>
+                            <ipmi_sensor/>
+                            <authtype>0</authtype>
+                            <username/>
+                            <password/>
+                            <publickey/>
+                            <privatekey/>
+                            <port/>
+                            <description/>
+                            <inventory_link>0</inventory_link>
+                            <applications>
+                                <application>
+                                    <name>Varnish Cache</name>
+                                </application>
+                            </applications>
+                            <valuemap/>
+                            <logtimefmt/>
+                            <preprocessing>
+                                <step>
+                                    <type>10</type>
+                                    <params/>
+                                </step>
+                            </preprocessing>
+                            <jmx_endpoint/>
+                            <application_prototypes/>
+                            <master_item_prototype/>
+                        </item_prototype>
+                        <item_prototype>
+                            <name>Varnish Cache[{#LOCATION}] - MAIN.goto_dns_cache_hits (cache hits within vmod_goto's DNS / sec)</name>
+                            <type>2</type>
+                            <snmp_community/>
+                            <snmp_oid/>
+                            <key>varnish.stat[&quot;{#LOCATION_ID}&quot;,&quot;MAIN.goto_dns_cache_hits&quot;]</key>
+                            <delay>0</delay>
+                            <history>{$VARNISH_CACHE_HISTORY_STORAGE_PERIOD:items:goto_dns_cache_hits}</history>
+                            <trends>{$VARNISH_CACHE_TREND_STORAGE_PERIOD:items:goto_dns_cache_hits}</trends>
+                            <status>0</status>
+                            <value_type>0</value_type>
+                            <allowed_hosts/>
+                            <units>eps</units>
+                            <snmpv3_contextname/>
+                            <snmpv3_securityname/>
+                            <snmpv3_securitylevel>0</snmpv3_securitylevel>
+                            <snmpv3_authprotocol>0</snmpv3_authprotocol>
+                            <snmpv3_authpassphrase/>
+                            <snmpv3_privprotocol>0</snmpv3_privprotocol>
+                            <snmpv3_privpassphrase/>
+                            <params/>
+                            <ipmi_sensor/>
+                            <authtype>0</authtype>
+                            <username/>
+                            <password/>
+                            <publickey/>
+                            <privatekey/>
+                            <port/>
+                            <description/>
+                            <inventory_link>0</inventory_link>
+                            <applications>
+                                <application>
+                                    <name>Varnish Cache</name>
+                                </application>
+                            </applications>
+                            <valuemap/>
+                            <logtimefmt/>
+                            <preprocessing>
+                                <step>
+                                    <type>10</type>
+                                    <params/>
+                                </step>
+                            </preprocessing>
+                            <jmx_endpoint/>
+                            <application_prototypes/>
+                            <master_item_prototype/>
+                        </item_prototype>
+                        <item_prototype>
+                            <name>Varnish Cache[{#LOCATION}] - MAIN.goto_dns_lookup_fails (number of unresolved DNS lookups from vmod_goto's DNS / sec)</name>
+                            <type>2</type>
+                            <snmp_community/>
+                            <snmp_oid/>
+                            <key>varnish.stat[&quot;{#LOCATION_ID}&quot;,&quot;MAIN.goto_dns_lookup_fails&quot;]</key>
+                            <delay>0</delay>
+                            <history>{$VARNISH_CACHE_HISTORY_STORAGE_PERIOD:items:goto_dns_lookup_fails}</history>
+                            <trends>{$VARNISH_CACHE_TREND_STORAGE_PERIOD:items:goto_dns_lookup_fails}</trends>
+                            <status>0</status>
+                            <value_type>0</value_type>
+                            <allowed_hosts/>
+                            <units>eps</units>
+                            <snmpv3_contextname/>
+                            <snmpv3_securityname/>
+                            <snmpv3_securitylevel>0</snmpv3_securitylevel>
+                            <snmpv3_authprotocol>0</snmpv3_authprotocol>
+                            <snmpv3_authpassphrase/>
+                            <snmpv3_privprotocol>0</snmpv3_privprotocol>
+                            <snmpv3_privpassphrase/>
+                            <params/>
+                            <ipmi_sensor/>
+                            <authtype>0</authtype>
+                            <username/>
+                            <password/>
+                            <publickey/>
+                            <privatekey/>
+                            <port/>
+                            <description/>
+                            <inventory_link>0</inventory_link>
+                            <applications>
+                                <application>
+                                    <name>Varnish Cache</name>
+                                </application>
+                            </applications>
+                            <valuemap/>
+                            <logtimefmt/>
+                            <preprocessing>
+                                <step>
+                                    <type>10</type>
+                                    <params/>
+                                </step>
+                            </preprocessing>
+                            <jmx_endpoint/>
+                            <application_prototypes/>
+                            <master_item_prototype/>
+                        </item_prototype>
+                        <item_prototype>
+                            <name>Varnish Cache[{#LOCATION}] - MAIN.goto_dns_lookups (number of DNS lookups from vmod_goto's DNS / sec)</name>
+                            <type>2</type>
+                            <snmp_community/>
+                            <snmp_oid/>
+                            <key>varnish.stat[&quot;{#LOCATION_ID}&quot;,&quot;MAIN.goto_dns_lookups&quot;]</key>
+                            <delay>0</delay>
+                            <history>{$VARNISH_CACHE_HISTORY_STORAGE_PERIOD:items:goto_dns_lookups}</history>
+                            <trends>{$VARNISH_CACHE_TREND_STORAGE_PERIOD:items:goto_dns_lookups}</trends>
                             <status>0</status>
                             <value_type>0</value_type>
                             <allowed_hosts/>
@@ -5732,6 +5920,194 @@
                             <master_item_prototype/>
                         </item_prototype>
                         <item_prototype>
+                            <name>Varnish Cache[{#LOCATION}] - MAIN.ws_backend_overflow (workspace_backend overflows / sec)</name>
+                            <type>2</type>
+                            <snmp_community/>
+                            <snmp_oid/>
+                            <key>varnish.stat[&quot;{#LOCATION_ID}&quot;,&quot;MAIN.ws_backend_overflow&quot;]</key>
+                            <delay>0</delay>
+                            <history>{$VARNISH_CACHE_HISTORY_STORAGE_PERIOD:items:ws_backend_overflow}</history>
+                            <trends>{$VARNISH_CACHE_TREND_STORAGE_PERIOD:items:ws_backend_overflow}</trends>
+                            <status>0</status>
+                            <value_type>0</value_type>
+                            <allowed_hosts/>
+                            <units>eps</units>
+                            <snmpv3_contextname/>
+                            <snmpv3_securityname/>
+                            <snmpv3_securitylevel>0</snmpv3_securitylevel>
+                            <snmpv3_authprotocol>0</snmpv3_authprotocol>
+                            <snmpv3_authpassphrase/>
+                            <snmpv3_privprotocol>0</snmpv3_privprotocol>
+                            <snmpv3_privpassphrase/>
+                            <params/>
+                            <ipmi_sensor/>
+                            <authtype>0</authtype>
+                            <username/>
+                            <password/>
+                            <publickey/>
+                            <privatekey/>
+                            <port/>
+                            <description/>
+                            <inventory_link>0</inventory_link>
+                            <applications>
+                                <application>
+                                    <name>Varnish Cache</name>
+                                </application>
+                            </applications>
+                            <valuemap/>
+                            <logtimefmt/>
+                            <preprocessing>
+                                <step>
+                                    <type>10</type>
+                                    <params/>
+                                </step>
+                            </preprocessing>
+                            <jmx_endpoint/>
+                            <application_prototypes/>
+                            <master_item_prototype/>
+                        </item_prototype>
+                        <item_prototype>
+                            <name>Varnish Cache[{#LOCATION}] - MAIN.ws_client_overflow (workspace_client overflows / sec)</name>
+                            <type>2</type>
+                            <snmp_community/>
+                            <snmp_oid/>
+                            <key>varnish.stat[&quot;{#LOCATION_ID}&quot;,&quot;MAIN.ws_client_overflow&quot;]</key>
+                            <delay>0</delay>
+                            <history>{$VARNISH_CACHE_HISTORY_STORAGE_PERIOD:items:ws_client_overflow}</history>
+                            <trends>{$VARNISH_CACHE_TREND_STORAGE_PERIOD:items:ws_client_overflow}</trends>
+                            <status>0</status>
+                            <value_type>0</value_type>
+                            <allowed_hosts/>
+                            <units>eps</units>
+                            <snmpv3_contextname/>
+                            <snmpv3_securityname/>
+                            <snmpv3_securitylevel>0</snmpv3_securitylevel>
+                            <snmpv3_authprotocol>0</snmpv3_authprotocol>
+                            <snmpv3_authpassphrase/>
+                            <snmpv3_privprotocol>0</snmpv3_privprotocol>
+                            <snmpv3_privpassphrase/>
+                            <params/>
+                            <ipmi_sensor/>
+                            <authtype>0</authtype>
+                            <username/>
+                            <password/>
+                            <publickey/>
+                            <privatekey/>
+                            <port/>
+                            <description/>
+                            <inventory_link>0</inventory_link>
+                            <applications>
+                                <application>
+                                    <name>Varnish Cache</name>
+                                </application>
+                            </applications>
+                            <valuemap/>
+                            <logtimefmt/>
+                            <preprocessing>
+                                <step>
+                                    <type>10</type>
+                                    <params/>
+                                </step>
+                            </preprocessing>
+                            <jmx_endpoint/>
+                            <application_prototypes/>
+                            <master_item_prototype/>
+                        </item_prototype>
+                        <item_prototype>
+                            <name>Varnish Cache[{#LOCATION}] - MAIN.ws_session_overflow (workspace_session overflows / sec)</name>
+                            <type>2</type>
+                            <snmp_community/>
+                            <snmp_oid/>
+                            <key>varnish.stat[&quot;{#LOCATION_ID}&quot;,&quot;MAIN.ws_session_overflow&quot;]</key>
+                            <delay>0</delay>
+                            <history>{$VARNISH_CACHE_HISTORY_STORAGE_PERIOD:items:ws_session_overflow}</history>
+                            <trends>{$VARNISH_CACHE_TREND_STORAGE_PERIOD:items:ws_session_overflow}</trends>
+                            <status>0</status>
+                            <value_type>0</value_type>
+                            <allowed_hosts/>
+                            <units>eps</units>
+                            <snmpv3_contextname/>
+                            <snmpv3_securityname/>
+                            <snmpv3_securitylevel>0</snmpv3_securitylevel>
+                            <snmpv3_authprotocol>0</snmpv3_authprotocol>
+                            <snmpv3_authpassphrase/>
+                            <snmpv3_privprotocol>0</snmpv3_privprotocol>
+                            <snmpv3_privpassphrase/>
+                            <params/>
+                            <ipmi_sensor/>
+                            <authtype>0</authtype>
+                            <username/>
+                            <password/>
+                            <publickey/>
+                            <privatekey/>
+                            <port/>
+                            <description/>
+                            <inventory_link>0</inventory_link>
+                            <applications>
+                                <application>
+                                    <name>Varnish Cache</name>
+                                </application>
+                            </applications>
+                            <valuemap/>
+                            <logtimefmt/>
+                            <preprocessing>
+                                <step>
+                                    <type>10</type>
+                                    <params/>
+                                </step>
+                            </preprocessing>
+                            <jmx_endpoint/>
+                            <application_prototypes/>
+                            <master_item_prototype/>
+                        </item_prototype>
+                        <item_prototype>
+                            <name>Varnish Cache[{#LOCATION}] - MAIN.ws_thread_overflow (workspace_thread overflows / sec)</name>
+                            <type>2</type>
+                            <snmp_community/>
+                            <snmp_oid/>
+                            <key>varnish.stat[&quot;{#LOCATION_ID}&quot;,&quot;MAIN.ws_thread_overflow&quot;]</key>
+                            <delay>0</delay>
+                            <history>{$VARNISH_CACHE_HISTORY_STORAGE_PERIOD:items:ws_thread_overflow}</history>
+                            <trends>{$VARNISH_CACHE_TREND_STORAGE_PERIOD:items:ws_thread_overflow}</trends>
+                            <status>0</status>
+                            <value_type>0</value_type>
+                            <allowed_hosts/>
+                            <units>eps</units>
+                            <snmpv3_contextname/>
+                            <snmpv3_securityname/>
+                            <snmpv3_securitylevel>0</snmpv3_securitylevel>
+                            <snmpv3_authprotocol>0</snmpv3_authprotocol>
+                            <snmpv3_authpassphrase/>
+                            <snmpv3_privprotocol>0</snmpv3_privprotocol>
+                            <snmpv3_privpassphrase/>
+                            <params/>
+                            <ipmi_sensor/>
+                            <authtype>0</authtype>
+                            <username/>
+                            <password/>
+                            <publickey/>
+                            <privatekey/>
+                            <port/>
+                            <description/>
+                            <inventory_link>0</inventory_link>
+                            <applications>
+                                <application>
+                                    <name>Varnish Cache</name>
+                                </application>
+                            </applications>
+                            <valuemap/>
+                            <logtimefmt/>
+                            <preprocessing>
+                                <step>
+                                    <type>10</type>
+                                    <params/>
+                                </step>
+                            </preprocessing>
+                            <jmx_endpoint/>
+                            <application_prototypes/>
+                            <master_item_prototype/>
+                        </item_prototype>
+                        <item_prototype>
                             <name>Varnish Cache[{#LOCATION}] - MGT.uptime (management process uptime)</name>
                             <type>2</type>
                             <snmp_community/>
@@ -7587,6 +7963,142 @@
                                 </graph_item>
                             </graph_items>
                         </graph_prototype>
+                        <graph_prototype>
+                            <name>Varnish Cache[{#LOCATION}] &gt; VMOD goto</name>
+                            <width>900</width>
+                            <height>200</height>
+                            <yaxismin>0.0000</yaxismin>
+                            <yaxismax>100.0000</yaxismax>
+                            <show_work_period>1</show_work_period>
+                            <show_triggers>1</show_triggers>
+                            <type>0</type>
+                            <show_legend>1</show_legend>
+                            <show_3d>0</show_3d>
+                            <percent_left>0.0000</percent_left>
+                            <percent_right>0.0000</percent_right>
+                            <ymin_type_1>0</ymin_type_1>
+                            <ymax_type_1>0</ymax_type_1>
+                            <ymin_item_1>0</ymin_item_1>
+                            <ymax_item_1>0</ymax_item_1>
+                            <graph_items>
+                                <graph_item>
+                                    <sortorder>0</sortorder>
+                                    <drawtype>0</drawtype>
+                                    <color>C80000</color>
+                                    <yaxisside>0</yaxisside>
+                                    <calc_fnc>2</calc_fnc>
+                                    <type>0</type>
+                                    <item>
+                                        <host>Template App Varnish Cache</host>
+                                        <key>varnish.stat[&quot;{#LOCATION_ID}&quot;,&quot;MAIN.goto_dns_cache_hits&quot;]</key>
+                                    </item>
+                                </graph_item>
+                                <graph_item>
+                                    <sortorder>1</sortorder>
+                                    <drawtype>0</drawtype>
+                                    <color>00C800</color>
+                                    <yaxisside>0</yaxisside>
+                                    <calc_fnc>2</calc_fnc>
+                                    <type>0</type>
+                                    <item>
+                                        <host>Template App Varnish Cache</host>
+                                        <key>varnish.stat[&quot;{#LOCATION_ID}&quot;,&quot;MAIN.goto_dns_lookup_fails&quot;]</key>
+                                    </item>
+                                </graph_item>
+                                <graph_item>
+                                    <sortorder>2</sortorder>
+                                    <drawtype>0</drawtype>
+                                    <color>0000C8</color>
+                                    <yaxisside>0</yaxisside>
+                                    <calc_fnc>2</calc_fnc>
+                                    <type>0</type>
+                                    <item>
+                                        <host>Template App Varnish Cache</host>
+                                        <key>varnish.stat[&quot;{#LOCATION_ID}&quot;,&quot;MAIN.goto_dns_lookups&quot;]</key>
+                                    </item>
+                                </graph_item>
+                            </graph_items>
+                        </graph_prototype>
+                        <graph_prototype>
+                            <name>Varnish Cache[{#LOCATION}] &gt; Workspace overflows</name>
+                            <width>900</width>
+                            <height>200</height>
+                            <yaxismin>0.0000</yaxismin>
+                            <yaxismax>100.0000</yaxismax>
+                            <show_work_period>1</show_work_period>
+                            <show_triggers>1</show_triggers>
+                            <type>0</type>
+                            <show_legend>1</show_legend>
+                            <show_3d>0</show_3d>
+                            <percent_left>0.0000</percent_left>
+                            <percent_right>0.0000</percent_right>
+                            <ymin_type_1>0</ymin_type_1>
+                            <ymax_type_1>0</ymax_type_1>
+                            <ymin_item_1>0</ymin_item_1>
+                            <ymax_item_1>0</ymax_item_1>
+                            <graph_items>
+                                <graph_item>
+                                    <sortorder>0</sortorder>
+                                    <drawtype>0</drawtype>
+                                    <color>C80000</color>
+                                    <yaxisside>0</yaxisside>
+                                    <calc_fnc>2</calc_fnc>
+                                    <type>0</type>
+                                    <item>
+                                        <host>Template App Varnish Cache</host>
+                                        <key>varnish.stat[&quot;{#LOCATION_ID}&quot;,&quot;MAIN.client_resp_500&quot;]</key>
+                                    </item>
+                                </graph_item>
+                                <graph_item>
+                                    <sortorder>1</sortorder>
+                                    <drawtype>0</drawtype>
+                                    <color>00C800</color>
+                                    <yaxisside>0</yaxisside>
+                                    <calc_fnc>2</calc_fnc>
+                                    <type>0</type>
+                                    <item>
+                                        <host>Template App Varnish Cache</host>
+                                        <key>varnish.stat[&quot;{#LOCATION_ID}&quot;,&quot;MAIN.ws_backend_overflow&quot;]</key>
+                                    </item>
+                                </graph_item>
+                                <graph_item>
+                                    <sortorder>2</sortorder>
+                                    <drawtype>0</drawtype>
+                                    <color>0000C8</color>
+                                    <yaxisside>0</yaxisside>
+                                    <calc_fnc>2</calc_fnc>
+                                    <type>0</type>
+                                    <item>
+                                        <host>Template App Varnish Cache</host>
+                                        <key>varnish.stat[&quot;{#LOCATION_ID}&quot;,&quot;MAIN.ws_client_overflow&quot;]</key>
+                                    </item>
+                                </graph_item>
+                                <graph_item>
+                                    <sortorder>3</sortorder>
+                                    <drawtype>0</drawtype>
+                                    <color>C800C8</color>
+                                    <yaxisside>0</yaxisside>
+                                    <calc_fnc>2</calc_fnc>
+                                    <type>0</type>
+                                    <item>
+                                        <host>Template App Varnish Cache</host>
+                                        <key>varnish.stat[&quot;{#LOCATION_ID}&quot;,&quot;MAIN.ws_session_overflow&quot;]</key>
+                                    </item>
+                                </graph_item>
+                                <graph_item>
+                                    <sortorder>4</sortorder>
+                                    <drawtype>0</drawtype>
+                                    <color>00C8C8</color>
+                                    <yaxisside>0</yaxisside>
+                                    <calc_fnc>2</calc_fnc>
+                                    <type>0</type>
+                                    <item>
+                                        <host>Template App Varnish Cache</host>
+                                        <key>varnish.stat[&quot;{#LOCATION_ID}&quot;,&quot;MAIN.ws_thread_overflow&quot;]</key>
+                                    </item>
+                                </graph_item>
+                            </graph_items>
+                        </graph_prototype>
                     </graph_prototypes>
                     <host_prototypes/>
                     <jmx_endpoint/>
@@ -9001,6 +9513,48 @@
                             <master_item_prototype/>
                         </item_prototype>
                         <item_prototype>
+                            <name>Varnish Cache[{#LOCATION}] - STG.{#SUBJECT}.g_ykey_keys (number of YKeys registered)</name>
+                            <type>2</type>
+                            <snmp_community/>
+                            <snmp_oid/>
+                            <key>varnish.stat[&quot;{#LOCATION_ID}&quot;,&quot;STG.{#SUBJECT_ID}.g_ykey_keys&quot;]</key>
+                            <delay>0</delay>
+                            <history>{$VARNISH_CACHE_HISTORY_STORAGE_PERIOD:storages:g_ykey_keys}</history>
+                            <trends>{$VARNISH_CACHE_TREND_STORAGE_PERIOD:storages:g_ykey_keys}</trends>
+                            <status>0</status>
+                            <value_type>3</value_type>
+                            <allowed_hosts/>
+                            <units/>
+                            <snmpv3_contextname/>
+                            <snmpv3_securityname/>
+                            <snmpv3_securitylevel>0</snmpv3_securitylevel>
+                            <snmpv3_authprotocol>0</snmpv3_authprotocol>
+                            <snmpv3_authpassphrase/>
+                            <snmpv3_privprotocol>0</snmpv3_privprotocol>
+                            <snmpv3_privpassphrase/>
+                            <params/>
+                            <ipmi_sensor/>
+                            <authtype>0</authtype>
+                            <username/>
+                            <password/>
+                            <publickey/>
+                            <privatekey/>
+                            <port/>
+                            <description/>
+                            <inventory_link>0</inventory_link>
+                            <applications>
+                                <application>
+                                    <name>Varnish Cache</name>
+                                </application>
+                            </applications>
+                            <valuemap/>
+                            <logtimefmt/>
+                            <preprocessing/>
+                            <jmx_endpoint/>
+                            <application_prototypes/>
+                            <master_item_prototype/>
+                        </item_prototype>
+                        <item_prototype>
                             <name>Varnish Cache[{#LOCATION}] - STG.{#SUBJECT}.n_lru_moved (number of LRU move operations)</name>
                             <type>2</type>
                             <snmp_community/>
@@ -9456,6 +10010,38 @@
                                     <item>
                                         <host>Template App Varnish Cache</host>
                                         <key>varnish.stat[&quot;{#LOCATION_ID}&quot;,&quot;STG.{#SUBJECT_ID}.n_vary&quot;]</key>
+                                    </item>
+                                </graph_item>
+                            </graph_items>
+                        </graph_prototype>
+                        <graph_prototype>
+                            <name>Varnish Cache[{#LOCATION}] &gt; Storages[{#SUBJECT}]: number of YKeys registered</name>
+                            <width>900</width>
+                            <height>200</height>
+                            <yaxismin>0.0000</yaxismin>
+                            <yaxismax>100.0000</yaxismax>
+                            <show_work_period>1</show_work_period>
+                            <show_triggers>1</show_triggers>
+                            <type>0</type>
+                            <show_legend>1</show_legend>
+                            <show_3d>0</show_3d>
+                            <percent_left>0.0000</percent_left>
+                            <percent_right>0.0000</percent_right>
+                            <ymin_type_1>0</ymin_type_1>
+                            <ymax_type_1>0</ymax_type_1>
+                            <ymin_item_1>0</ymin_item_1>
+                            <ymax_item_1>0</ymax_item_1>
+                            <graph_items>
+                                <graph_item>
+                                    <sortorder>0</sortorder>
+                                    <drawtype>1</drawtype>
+                                    <color>00C800</color>
+                                    <yaxisside>0</yaxisside>
+                                    <calc_fnc>2</calc_fnc>
+                                    <type>0</type>
+                                    <item>
+                                        <host>Template App Varnish Cache</host>
+                                        <key>varnish.stat[&quot;{#LOCATION_ID}&quot;,&quot;STG.{#SUBJECT_ID}.g_ykey_keys&quot;]</key>
                                     </item>
                                 </graph_item>
                             </graph_items>

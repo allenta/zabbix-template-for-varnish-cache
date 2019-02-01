@@ -134,14 +134,25 @@ ITEMS = re.compile(
     # VCL failures.
     r'MAIN\.sc_vcl_failure|'
     r'MAIN\.vcl_fail|'
+    # VMOD goto.
+    r'MAIN\.goto_dns_cache_hits|'
+    r'MAIN\.goto_dns_lookup_fails|'
+    r'MAIN\.goto_dns_lookups|'
+    # Workspace overflows.
+    r'MAIN\.client_resp_500|'
+    r'MAIN\.ws_backend_overflow|'
+    r'MAIN\.ws_client_overflow|'
+    r'MAIN\.ws_session_overflow|'
+    r'MAIN\.ws_thread_overflow|'
     # Storages[...]
     #   - Bytes outstanding vs. available: g_space, g_bytes.
     #   - Allocator failures: c_fail.
     #   - Nukes: n_lru_nuked, n_lru_moved.
     #   - Spare nodes available: g_sparenode (XXX: VCP 4.1)
     #   - Vary headers: n_vary.
+    #   - Ykeys: g_ykey_keys.
     #   - Cache: c_memcache_hit, c_memcache_miss.
-    r'(?:MSE|SMA|SMF)\..+\.(?:c_fail|c_memcache_hit|c_memcache_miss|g_bytes|g_space|g_sparenode|n_lru_nuked|n_lru_moved|n_vary)|'
+    r'(?:MSE|SMA|SMF)\..+\.(?:c_fail|c_memcache_hit|c_memcache_miss|g_bytes|g_space|g_sparenode|g_ykey_keys|n_lru_nuked|n_lru_moved|n_vary)|'
     # MSE books[...]
     #   - Bytes outstanding vs. available: g_space, g_bytes.
     #   - Vary headers: n_vary.

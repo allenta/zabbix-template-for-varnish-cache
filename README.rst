@@ -42,6 +42,7 @@
    * ``{$VARNISH_CACHE_UPDATE_INTERVAL_DISCOVERY}``
    * ``{$VARNISH_CACHE_UPDATE_INTERVAL_ITEM}``
    * ``{$VARNISH_CACHE_VCL_FAILURES_ALLOWED}``
+   * ``{$VARNISH_CACHE_WORKSPACE_OVERFLOWS_ALLOWED}``
 
    It's also possible to use **contexts** on macros, for example:
 

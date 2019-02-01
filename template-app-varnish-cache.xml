@@ -6258,6 +6258,22 @@
                             <tags/>
                         </trigger_prototype>
                         <trigger_prototype>
+                            <expression>{Template App Varnish Cache:varnish.stat[&quot;{#LOCATION_ID}&quot;,&quot;MAIN.client_resp_500&quot;].last()}&gt;{$VARNISH_CACHE_WORKSPACE_OVERFLOWS_ALLOWED} or {Template App Varnish Cache:varnish.stat[&quot;{#LOCATION_ID}&quot;,&quot;MAIN.ws_backend_overflow&quot;].last()}&gt;{$VARNISH_CACHE_WORKSPACE_OVERFLOWS_ALLOWED} or {Template App Varnish Cache:varnish.stat[&quot;{#LOCATION_ID}&quot;,&quot;MAIN.ws_client_overflow&quot;].last()}&gt;{$VARNISH_CACHE_WORKSPACE_OVERFLOWS_ALLOWED} or {Template App Varnish Cache:varnish.stat[&quot;{#LOCATION_ID}&quot;,&quot;MAIN.ws_session_overflow&quot;].last()}&gt;{$VARNISH_CACHE_WORKSPACE_OVERFLOWS_ALLOWED} or {Template App Varnish Cache:varnish.stat[&quot;{#LOCATION_ID}&quot;,&quot;MAIN.ws_thread_overflow&quot;].last()}&gt;{$VARNISH_CACHE_WORKSPACE_OVERFLOWS_ALLOWED}</expression>
+                            <recovery_mode>0</recovery_mode>
+                            <recovery_expression/>
+                            <name>Varnish Cache[{#LOCATION}] is generating workspace overflows</name>
+                            <correlation_mode>0</correlation_mode>
+                            <correlation_tag/>
+                            <url/>
+                            <status>0</status>
+                            <priority>2</priority>
+                            <description/>
+                            <type>0</type>
+                            <manual_close>0</manual_close>
+                            <dependencies/>
+                            <tags/>
+                        </trigger_prototype>
+                        <trigger_prototype>
                             <expression>{Template App Varnish Cache:varnish.stat[&quot;{#LOCATION_ID}&quot;,&quot;MAIN.backend_fail&quot;].min({$VARNISH_CACHE_LAST_VALUES_TO_CHECK:items:backend_fail})}&gt;{$VARNISH_CACHE_BACKEND_CONN_FAILURES_ALLOWED}</expression>
                             <recovery_mode>0</recovery_mode>
                             <recovery_expression/>
@@ -10139,6 +10155,10 @@
                 </macro>
                 <macro>
                     <macro>{$VARNISH_CACHE_VCL_FAILURES_ALLOWED}</macro>
+                    <value>0.0</value>
+                </macro>
+                <macro>
+                    <macro>{$VARNISH_CACHE_WORKSPACE_OVERFLOWS_ALLOWED}</macro>
                     <value>0.0</value>
                 </macro>
             </macros>

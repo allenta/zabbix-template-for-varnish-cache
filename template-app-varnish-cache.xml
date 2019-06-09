@@ -1240,7 +1240,7 @@
                             <master_item_prototype/>
                         </item_prototype>
                         <item_prototype>
-                            <name>Varnish Cache[{#LOCATION}] - VBE.{#SUBJECT}.happy (last happy health probe)</name>
+                            <name>Varnish Cache[{#LOCATION}] - VBE.{#SUBJECT}.last_happy</name>
                             <type>15</type>
                             <snmp_community/>
                             <snmp_oid/>
@@ -6150,7 +6150,7 @@
                             <master_item_prototype/>
                         </item_prototype>
                         <item_prototype>
-                            <name>Varnish Cache[{#LOCATION}] - Cache hit ratio</name>
+                            <name>Varnish Cache[{#LOCATION}] - cache_hit_ratio</name>
                             <type>15</type>
                             <snmp_community/>
                             <snmp_oid/>
@@ -9697,7 +9697,7 @@
                             <master_item_prototype/>
                         </item_prototype>
                         <item_prototype>
-                            <name>Varnish Cache[{#LOCATION}] - STG.{#SUBJECT}: cache hit ratio</name>
+                            <name>Varnish Cache[{#LOCATION}] - STG.{#SUBJECT}.cache_hit_ratio</name>
                             <type>15</type>
                             <snmp_community/>
                             <snmp_oid/>

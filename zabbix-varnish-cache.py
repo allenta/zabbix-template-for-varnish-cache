@@ -99,7 +99,7 @@ ITEMS = re.compile(
     r'MAIN\.bans_obj_killed|'
     r'MAIN\.bans_lurker_obj_killed|'
     r'MAIN\.bans_lurker_obj_killed_cutoff|'
-    # Nuke_limit overflows.
+    # Objects: nuke limit overflows.
     r'MAIN\.n_lru_limited|'
     # Objects: purges.
     r'MAIN\.n_purges|'

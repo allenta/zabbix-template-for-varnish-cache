@@ -10031,7 +10031,7 @@
                             </graph_items>
                         </graph_prototype>
                         <graph_prototype>
-                            <name>Varnish Cache[{#LOCATION}] &gt; Storages[{#SUBJECT}]: number of YKeys registered</name>
+                            <name>Varnish Cache[{#LOCATION}] &gt; Storages[{#SUBJECT}]: YKeys</name>
                             <width>900</width>
                             <height>200</height>
                             <yaxismin>0.0000</yaxismin>

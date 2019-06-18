@@ -84,6 +84,7 @@ ITEMS = re.compile(
     # ESI: activity.
     r'MAIN\.esi_warnings|'
     r'MAIN\.esi_errors|'
+    r'MAIN\.esi_maxdepth|'
     # Gzip: activity.
     r'MAIN\.n_gzip|'
     r'MAIN\.n_gunzip|'
@@ -95,6 +96,7 @@ ITEMS = re.compile(
     # Objects: removals.
     r'MAIN\.n_expired|'
     r'MAIN\.n_lru_nuked|'
+    r'MAIN\.n_lru_moved|'
     r'MAIN\.n_obj_purged|'
     r'MAIN\.bans_obj_killed|'
     r'MAIN\.bans_lurker_obj_killed|'
@@ -131,13 +133,21 @@ ITEMS = re.compile(
     r'MAIN\.fetch_no_thread|'
     # Backends: number.
     r'MAIN\.n_backend|'
-    # VCL failures.
+    # VCLs: number.
+    r'MAIN\.n_vcl|'
+    # VCLs: failures.
     r'MAIN\.sc_vcl_failure|'
     r'MAIN\.vcl_fail|'
-    # VMOD goto.
+    # VMODs: number.
+    r'MAIN\.vmods|'
+    # VMODs: goto.
     r'MAIN\.goto_dns_cache_hits|'
     r'MAIN\.goto_dns_lookup_fails|'
     r'MAIN\.goto_dns_lookups|'
+    # VMODs: http.
+    r'VMOD_HTTP\.handle_requests|'
+    r'VMOD_HTTP\.handle_completed|'
+    r'VMOD_HTTP\.handle_abandon|'
     # Workspace overflows.
     r'MAIN\.client_resp_500|'
     r'MAIN\.ws_backend_overflow|'

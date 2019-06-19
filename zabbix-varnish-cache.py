@@ -154,6 +154,8 @@ ITEMS = re.compile(
     r'MAIN\.ws_client_overflow|'
     r'MAIN\.ws_session_overflow|'
     r'MAIN\.ws_thread_overflow|'
+    # VHA6.
+    r'KVSTORE\.vha6_stats\..+\.(?:broadcast_candidates|broadcast_nocache|broadcast_skip|broadcast_lowttl|broadcast_toolarge|broadcasts|fetch_self|fetch_peer|fetch_origin|fetch_origin_deliver|fetch_peer_insert|error_version_mismatch|error_no_token|error_bad_token|error_stale_token|error_rate_limited|error_fetch_insert|error_origin_mismatch|error_origin_miss)|'
     # Storages[...]
     #   - Bytes outstanding vs. available: g_space, g_bytes.
     #   - Allocator failures: c_fail.
@@ -187,6 +189,7 @@ ITEMS = re.compile(
     r')$')
 
 REWRITES = [
+    (re.compile(r'^KVSTORE\.vha6_stats\.[^\.]+'), r'VHA6'),
     (re.compile(r'^((?:MSE|SMA|SMF)\..+)$'), r'STG.\1'),
     (re.compile(r'^VBE\.(?:[^\.\(]+)((?:\.[^\.]*(?:\([^\)]*\))?)+\.[^\.]+)$'), r'VBE\1'),
     (re.compile(r'^(VBE\.goto)\.[0-9a-f]+\.\([^\)]*\)\.(.+)$'), r'\1.\2'),

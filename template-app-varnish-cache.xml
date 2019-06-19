@@ -9470,7 +9470,7 @@
                                     <type>0</type>
                                     <item>
                                         <host>Template App Varnish Cache</host>
-                                        <key>varnish.stat[&quot;{#LOCATION_ID}&quot;,&quot;VHA6.backend_retry&quot;]</key>
+                                        <key>varnish.stat[&quot;{#LOCATION_ID}&quot;,&quot;VHA6.error_bad_token&quot;]</key>
                                     </item>
                                 </graph_item>
                                 <graph_item>
@@ -9482,7 +9482,7 @@
                                     <type>0</type>
                                     <item>
                                         <host>Template App Varnish Cache</host>
-                                        <key>varnish.stat[&quot;{#LOCATION_ID}&quot;,&quot;VHA6.error_bad_token&quot;]</key>
+                                        <key>varnish.stat[&quot;{#LOCATION_ID}&quot;,&quot;VHA6.error_stale_token&quot;]</key>
                                     </item>
                                 </graph_item>
                                 <graph_item>
@@ -9494,7 +9494,7 @@
                                     <type>0</type>
                                     <item>
                                         <host>Template App Varnish Cache</host>
-                                        <key>varnish.stat[&quot;{#LOCATION_ID}&quot;,&quot;VHA6.error_stale_token&quot;]</key>
+                                        <key>varnish.stat[&quot;{#LOCATION_ID}&quot;,&quot;VHA6.error_rate_limited&quot;]</key>
                                     </item>
                                 </graph_item>
                                 <graph_item>
@@ -9506,7 +9506,7 @@
                                     <type>0</type>
                                     <item>
                                         <host>Template App Varnish Cache</host>
-                                        <key>varnish.stat[&quot;{#LOCATION_ID}&quot;,&quot;VHA6.error_rate_limited&quot;]</key>
+                                        <key>varnish.stat[&quot;{#LOCATION_ID}&quot;,&quot;VHA6.error_fetch_insert&quot;]</key>
                                     </item>
                                 </graph_item>
                                 <graph_item>
@@ -9518,25 +9518,13 @@
                                     <type>0</type>
                                     <item>
                                         <host>Template App Varnish Cache</host>
-                                        <key>varnish.stat[&quot;{#LOCATION_ID}&quot;,&quot;VHA6.error_fetch_insert&quot;]</key>
+                                        <key>varnish.stat[&quot;{#LOCATION_ID}&quot;,&quot;VHA6.error_origin_mismatch&quot;]</key>
                                     </item>
                                 </graph_item>
                                 <graph_item>
                                     <sortorder>7</sortorder>
                                     <drawtype>0</drawtype>
                                     <color>009600</color>
-                                    <yaxisside>0</yaxisside>
-                                    <calc_fnc>2</calc_fnc>
-                                    <type>0</type>
-                                    <item>
-                                        <host>Template App Varnish Cache</host>
-                                        <key>varnish.stat[&quot;{#LOCATION_ID}&quot;,&quot;VHA6.error_origin_mismatch&quot;]</key>
-                                    </item>
-                                </graph_item>
-                                <graph_item>
-                                    <sortorder>8</sortorder>
-                                    <drawtype>0</drawtype>
-                                    <color>960000</color>
                                     <yaxisside>0</yaxisside>
                                     <calc_fnc>2</calc_fnc>
                                     <type>0</type>

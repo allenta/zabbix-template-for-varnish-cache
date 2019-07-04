@@ -10958,7 +10958,7 @@
                             <master_item_prototype/>
                         </item_prototype>
                         <item_prototype>
-                            <name>Varnish Cache[{#LOCATION}] - STG.{#SUBJECT}.c_memcache_hit (stored objects cache hits / sec)</name>
+                            <name>Varnish Cache[{#LOCATION}] - STG.{#SUBJECT}.c_memcache_hit (stored objects cache hits bytes  / sec)</name>
                             <type>2</type>
                             <snmp_community/>
                             <snmp_oid/>
@@ -10969,7 +10969,7 @@
                             <status>0</status>
                             <value_type>0</value_type>
                             <allowed_hosts/>
-                            <units>eps</units>
+                            <units>Bps</units>
                             <snmpv3_contextname/>
                             <snmpv3_securityname/>
                             <snmpv3_securitylevel>0</snmpv3_securitylevel>
@@ -11005,7 +11005,7 @@
                             <master_item_prototype/>
                         </item_prototype>
                         <item_prototype>
-                            <name>Varnish Cache[{#LOCATION}] - STG.{#SUBJECT}.c_memcache_miss (stored objects cache misses / sec)</name>
+                            <name>Varnish Cache[{#LOCATION}] - STG.{#SUBJECT}.c_memcache_miss (stored objects cache misses bytes / sec)</name>
                             <type>2</type>
                             <snmp_community/>
                             <snmp_oid/>
@@ -11016,7 +11016,7 @@
                             <status>0</status>
                             <value_type>0</value_type>
                             <allowed_hosts/>
-                            <units>eps</units>
+                            <units>Bps</units>
                             <snmpv3_contextname/>
                             <snmpv3_securityname/>
                             <snmpv3_securitylevel>0</snmpv3_securitylevel>

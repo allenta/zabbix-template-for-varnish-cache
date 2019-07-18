@@ -162,7 +162,7 @@ ITEMS = re.compile(
     #   - Nukes: n_lru_nuked, n_lru_moved.
     #   - Spare nodes available: g_sparenode (XXX: VCP 4.1)
     #   - Vary headers: n_vary.
-    #   - Ykeys: g_ykey_keys.
+    #   - YKeys: g_ykey_keys.
     #   - Cache: c_memcache_hit, c_memcache_miss.
     r'(?:MSE|SMA|SMF)\..+\.(?:c_fail|c_memcache_hit|c_memcache_miss|g_bytes|g_space|g_sparenode|g_ykey_keys|n_lru_nuked|n_lru_moved|n_vary)|'
     # MSE books[...]
@@ -173,10 +173,11 @@ ITEMS = re.compile(
     # MSE stores[...]
     #   - Extents: g_alloc_bytes, g_free_bytes.
     #   - Objects: g_objects.
+    #   - YKeys: g_ykey_keys.
     #   - AIO operations: c_aio_finished_read, c_aio_finished_write.
     #   - AIO bytes read/written: c_aio_finished_bytes_read, c_aio_finished_bytes_write.
     #   - Waterlevel: c_waterlevel_queue, c_waterlevel_purge.
-    r'MSE_STORE\..+\.(?:c_aio_finished_read|c_aio_finished_write|c_aio_finished_bytes_read|c_aio_finished_bytes_write|c_waterlevel_purge|c_waterlevel_queue|g_alloc_bytes|g_free_bytes|g_objects)|'
+    r'MSE_STORE\..+\.(?:c_aio_finished_read|c_aio_finished_write|c_aio_finished_bytes_read|c_aio_finished_bytes_write|c_waterlevel_purge|c_waterlevel_queue|g_alloc_bytes|g_free_bytes|g_objects|g_ykey_keys)|'
     # Backends[...]
     #   - Healthiness: healthy, happy.
     #   - Requests sent to backend: req.

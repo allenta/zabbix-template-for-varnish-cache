@@ -15120,7 +15120,7 @@
                             </master_item>
                         </item_prototype>
                         <item_prototype>
-                            <name>Varnish Cache[{#LOCATION}] - STG.{#SUBJECT}.c_memcache_hit (stored objects cache hits bytes  / sec)</name>
+                            <name>Varnish Cache[{#LOCATION}] - STG.{#SUBJECT}.c_memcache_hit (stored objects cache hits bytes / sec)</name>
                             <type>18</type>
                             <snmp_community/>
                             <snmp_oid/>

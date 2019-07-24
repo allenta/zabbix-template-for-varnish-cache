@@ -2,7 +2,7 @@
   block:
     - name: Install Zabbix release
       apt:
-        deb: http://repo.zabbix.com/zabbix/3.4/ubuntu/pool/main/z/zabbix-release/zabbix-release_3.4-1+xenial_all.deb
+        deb: http://repo.zabbix.com/zabbix/4.0/ubuntu/pool/main/z/zabbix-release/zabbix-release_4.0-2+xenial_all.deb
 
     - name: Install Zabbix packages
       apt:
@@ -134,6 +134,7 @@
       notify: restart-zabbix-agent
       loop:
         - { name: UserParameter, value: "varnish.discovery[*],sudo /vagrant/zabbix-varnish-cache.py -i '$1' discover '$2'" }
+        - { name: UserParameter, value: "varnish.stats[*],sudo /vagrant/zabbix-varnish-cache.py -i '$1' stats" }
       lineinfile:
         path: /etc/zabbix/zabbix_agentd.conf
         # Can't use insertafter because of Ansible bug: https://github.com/ansible/ansible/issues/38655

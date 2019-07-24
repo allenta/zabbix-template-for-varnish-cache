@@ -8,17 +8,14 @@
 
 3. Grant sudo permissions to the ``zabbix`` user to execute the ``/usr/local/bin/zabbix-varnish-cache.py`` script. This is not mandatory but it's recommended in order to let the script execute ``varnishadm`` commands used to discover the current active VCL, discover healthiness of each backend, etc.
 
-4. Add the ``varnish.discovery`` user parameter to Zabbix::
+4. Add the ``varnish.discovery`` and ``varnish.stats`` user parameters to Zabbix::
 
     UserParameter=varnish.discovery[*],sudo /usr/local/bin/zabbix-varnish-cache.py -i '$1' discover $2
+    UserParameter=varnish.stats[*],sudo /usr/local/bin/zabbix-varnish-cache.py -i '$1' stats
 
-5. Add a new job to the ``zabbix`` user crontab (beware of the ``-i`` and ``-s`` options). This will submit Varnish Cache Plus metrics through Zabbix Sender::
+5. Import the Varnish Cache Plus template (``template-app-varnish.xml`` file).
 
-    * * * * * /usr/local/bin/zabbix-varnish-cache.py -i '' send -c /etc/zabbix/zabbix_agentd.conf -s dev > /dev/null 2>&1
-
-6. Import the Varnish Cache Plus template (``template-app-varnish.xml`` file).
-
-7. Add an existing / new host to the ``Varnish Cache servers`` group and link it to the ``Template App Varnish Cache`` template. Beware you must set a value for the ``{$VARNISH_CACHE_LOCATIONS}`` macro (comma-delimited list of Varnish Cache Plus instance names). Usually you should leave its value blank when running a single Varnish Cache Plus instance per server. The following macros are available:
+6. Add an existing / new host to the ``Varnish Cache servers`` group and link it to the ``Template App Varnish Cache`` template. Beware you must set a value for the ``{$VARNISH_CACHE_LOCATIONS}`` macro (comma-delimited list of Varnish Cache Plus instance names). Usually you should leave its value blank when running a single Varnish Cache Plus instance per server. The following macros are available:
 
    * ``{$VARNISH_CACHE_AGENT_INSTANCES}``
    * ``{$VARNISH_CACHE_ALLOCATOR_FAILS_ALLOWED}``
@@ -49,4 +46,4 @@
    * ``{$VARNISH_CACHE_HISTORY_STORAGE_PERIOD:items:sess_dropped}``
    * ``{$VARNISH_CACHE_TREND_STORAGE_PERIOD:items:backend_req}``
 
-8. Adjust triggers and trigger prototypes according with your preferences.
+7. Adjust triggers and trigger prototypes according with your preferences.

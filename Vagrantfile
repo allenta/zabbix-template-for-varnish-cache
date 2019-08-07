@@ -45,7 +45,7 @@ Vagrant.configure('2') do |config|
       },
     },
     :install_mode => 'pip',
-    :version => '2.6.4',
+    :version => '2.8.2',
   }
 
   config.vm.define :v60, primary: true do |machine|

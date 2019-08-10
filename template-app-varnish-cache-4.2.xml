@@ -467,7 +467,7 @@
                         <formula/>
                         <conditions/>
                     </filter>
-                    <lifetime>30d</lifetime>
+                    <lifetime>{$VARNISH_CACHE_KEEP_LOST_RESOURCES_PERIOD:backends}</lifetime>
                     <description/>
                     <item_prototypes>
                         <item_prototype>
@@ -2558,7 +2558,7 @@
                         <formula/>
                         <conditions/>
                     </filter>
-                    <lifetime>30d</lifetime>
+                    <lifetime>{$VARNISH_CACHE_KEEP_LOST_RESOURCES_PERIOD:items}</lifetime>
                     <description/>
                     <item_prototypes>
                         <item_prototype>
@@ -14011,6 +14011,139 @@
                     <master_item/>
                 </discovery_rule>
                 <discovery_rule>
+                    <name>Counters discovery</name>
+                    <type>7</type>
+                    <snmp_community/>
+                    <snmp_oid/>
+                    <key>varnish.discovery[{$VARNISH_CACHE_LOCATIONS},counters]</key>
+                    <delay>{$VARNISH_CACHE_UPDATE_INTERVAL_DISCOVERY:counters}</delay>
+                    <status>0</status>
+                    <allowed_hosts/>
+                    <snmpv3_contextname/>
+                    <snmpv3_securityname/>
+                    <snmpv3_securitylevel>0</snmpv3_securitylevel>
+                    <snmpv3_authprotocol>0</snmpv3_authprotocol>
+                    <snmpv3_authpassphrase/>
+                    <snmpv3_privprotocol>0</snmpv3_privprotocol>
+                    <snmpv3_privpassphrase/>
+                    <params/>
+                    <ipmi_sensor/>
+                    <authtype>0</authtype>
+                    <username/>
+                    <password/>
+                    <publickey/>
+                    <privatekey/>
+                    <port/>
+                    <filter>
+                        <evaltype>0</evaltype>
+                        <formula/>
+                        <conditions/>
+                    </filter>
+                    <lifetime>{$VARNISH_CACHE_KEEP_LOST_RESOURCES_PERIOD:counters}</lifetime>
+                    <description/>
+                    <item_prototypes>
+                        <item_prototype>
+                            <name>Varnish Cache[{#LOCATION}] - COUNTER.{#SUBJECT} (counter value / sec)</name>
+                            <type>18</type>
+                            <snmp_community/>
+                            <snmp_oid/>
+                            <key>varnish.stat[&quot;{#LOCATION_ID}&quot;,&quot;COUNTER.{#SUBJECT_ID}&quot;]</key>
+                            <delay>0</delay>
+                            <history>{$VARNISH_CACHE_HISTORY_STORAGE_PERIOD:counters}</history>
+                            <trends>{$VARNISH_CACHE_TREND_STORAGE_PERIOD:counters}</trends>
+                            <status>0</status>
+                            <value_type>3</value_type>
+                            <allowed_hosts/>
+                            <units>eps</units>
+                            <snmpv3_contextname/>
+                            <snmpv3_securityname/>
+                            <snmpv3_securitylevel>0</snmpv3_securitylevel>
+                            <snmpv3_authprotocol>0</snmpv3_authprotocol>
+                            <snmpv3_authpassphrase/>
+                            <snmpv3_privprotocol>0</snmpv3_privprotocol>
+                            <snmpv3_privpassphrase/>
+                            <params/>
+                            <ipmi_sensor/>
+                            <authtype>0</authtype>
+                            <username/>
+                            <password/>
+                            <publickey/>
+                            <privatekey/>
+                            <port/>
+                            <description/>
+                            <inventory_link>0</inventory_link>
+                            <applications>
+                                <application>
+                                    <name>Varnish Cache</name>
+                                </application>
+                            </applications>
+                            <valuemap/>
+                            <logtimefmt/>
+                            <preprocessing>
+                                <step>
+                                    <type>12</type>
+                                    <params>$['{#LOCATION_ID}.COUNTER.{#SUBJECT_ID}']</params>
+                                    <error_handler>1</error_handler>
+                                    <error_handler_params/>
+                                </step>
+                                <step>
+                                    <type>10</type>
+                                    <params/>
+                                    <error_handler>0</error_handler>
+                                    <error_handler_params/>
+                                </step>
+                            </preprocessing>
+                            <jmx_endpoint/>
+                            <timeout>3s</timeout>
+                            <url/>
+                            <query_fields/>
+                            <posts/>
+                            <status_codes>200</status_codes>
+                            <follow_redirects>1</follow_redirects>
+                            <post_type>0</post_type>
+                            <http_proxy/>
+                            <headers/>
+                            <retrieve_mode>0</retrieve_mode>
+                            <request_method>0</request_method>
+                            <output_format>0</output_format>
+                            <allow_traps>0</allow_traps>
+                            <ssl_cert_file/>
+                            <ssl_key_file/>
+                            <ssl_key_password/>
+                            <verify_peer>0</verify_peer>
+                            <verify_host>0</verify_host>
+                            <application_prototypes/>
+                            <master_item>
+                                <key>varnish.stats[{$VARNISH_CACHE_LOCATIONS}]</key>
+                            </master_item>
+                        </item_prototype>
+                    </item_prototypes>
+                    <trigger_prototypes/>
+                    <graph_prototypes/>
+                    <host_prototypes/>
+                    <jmx_endpoint/>
+                    <timeout>3s</timeout>
+                    <url/>
+                    <query_fields/>
+                    <posts/>
+                    <status_codes>200</status_codes>
+                    <follow_redirects>1</follow_redirects>
+                    <post_type>0</post_type>
+                    <http_proxy/>
+                    <headers/>
+                    <retrieve_mode>0</retrieve_mode>
+                    <request_method>0</request_method>
+                    <allow_traps>0</allow_traps>
+                    <ssl_cert_file/>
+                    <ssl_key_file/>
+                    <ssl_key_password/>
+                    <verify_peer>0</verify_peer>
+                    <verify_host>0</verify_host>
+                    <lld_macro_paths/>
+                    <preprocessing/>
+                    <master_item/>
+                </discovery_rule>
+                <discovery_rule>
                     <name>MSE books discovery</name>
                     <type>7</type>
                     <snmp_community/>
@@ -14039,7 +14172,7 @@
                         <formula/>
                         <conditions/>
                     </filter>
-                    <lifetime>30d</lifetime>
+                    <lifetime>{$VARNISH_CACHE_KEEP_LOST_RESOURCES_PERIOD:mse_books}</lifetime>
                     <description/>
                     <item_prototypes>
                         <item_prototype>
@@ -14685,7 +14818,7 @@
                         <formula/>
                         <conditions/>
                     </filter>
-                    <lifetime>30d</lifetime>
+                    <lifetime>{$VARNISH_CACHE_KEEP_LOST_RESOURCES_PERIOD:mse_stores}</lifetime>
                     <description/>
                     <item_prototypes>
                         <item_prototype>
@@ -15710,7 +15843,7 @@
                         <formula/>
                         <conditions/>
                     </filter>
-                    <lifetime>30d</lifetime>
+                    <lifetime>{$VARNISH_CACHE_KEEP_LOST_RESOURCES_PERIOD:storages}</lifetime>
                     <description/>
                     <item_prototypes>
                         <item_prototype>
@@ -16939,6 +17072,10 @@
                     <value>3600</value>
                 </macro>
                 <macro>
+                    <macro>{$VARNISH_CACHE_UPDATE_INTERVAL_DISCOVERY:counters}</macro>
+                    <value>60</value>
+                </macro>
+                <macro>
                     <macro>{$VARNISH_CACHE_UPDATE_INTERVAL_ITEM}</macro>
                     <value>60</value>
                 </macro>
@@ -16949,6 +17086,18 @@
                 <macro>
                     <macro>{$VARNISH_CACHE_WORKSPACE_OVERFLOWS_ALLOWED}</macro>
                     <value>0.0</value>
+                </macro>
+                <macro>
+                    <macro>{$VARNISH_CACHE_KEEP_LOST_RESOURCES_PERIOD}</macro>
+                    <value>30d</value>
+                </macro>
+                <macro>
+                    <macro>{$VARNISH_CACHE_KEEP_LOST_RESOURCES_PERIOD:backends}</macro>
+                    <value>1d</value>
+                </macro>
+                <macro>
+                    <macro>{$VARNISH_CACHE_KEEP_LOST_RESOURCES_PERIOD:counters}</macro>
+                    <value>1d</value>
                 </macro>
             </macros>
             <templates/>

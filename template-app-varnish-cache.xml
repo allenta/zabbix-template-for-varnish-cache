@@ -28,7 +28,7 @@
                     <type>7</type>
                     <snmp_community/>
                     <snmp_oid/>
-                    <key>varnish.stats[{$VARNISH_CACHE_LOCATIONS}]</key>
+                    <key>varnish.stats[&quot;{$VARNISH_CACHE_LOCATIONS}&quot;]</key>
                     <delay>{$VARNISH_CACHE_UPDATE_INTERVAL_ITEM:stats}</delay>
                     <history>{$VARNISH_CACHE_HISTORY_STORAGE_PERIOD:stats}</history>
                     <trends>0</trends>
@@ -443,7 +443,7 @@
                     <type>7</type>
                     <snmp_community/>
                     <snmp_oid/>
-                    <key>varnish.discovery[{$VARNISH_CACHE_LOCATIONS},backends]</key>
+                    <key>varnish.discovery[&quot;{$VARNISH_CACHE_LOCATIONS}&quot;,&quot;backends&quot;]</key>
                     <delay>{$VARNISH_CACHE_UPDATE_INTERVAL_DISCOVERY:backends}</delay>
                     <status>0</status>
                     <allowed_hosts/>
@@ -538,7 +538,7 @@
                             <verify_host>0</verify_host>
                             <application_prototypes/>
                             <master_item>
-                                <key>varnish.stats[{$VARNISH_CACHE_LOCATIONS}]</key>
+                                <key>varnish.stats[&quot;{$VARNISH_CACHE_LOCATIONS}&quot;]</key>
                             </master_item>
                         </item_prototype>
                         <item_prototype>
@@ -609,7 +609,7 @@
                             <verify_host>0</verify_host>
                             <application_prototypes/>
                             <master_item>
-                                <key>varnish.stats[{$VARNISH_CACHE_LOCATIONS}]</key>
+                                <key>varnish.stats[&quot;{$VARNISH_CACHE_LOCATIONS}&quot;]</key>
                             </master_item>
                         </item_prototype>
                         <item_prototype>
@@ -680,7 +680,7 @@
                             <verify_host>0</verify_host>
                             <application_prototypes/>
                             <master_item>
-                                <key>varnish.stats[{$VARNISH_CACHE_LOCATIONS}]</key>
+                                <key>varnish.stats[&quot;{$VARNISH_CACHE_LOCATIONS}&quot;]</key>
                             </master_item>
                         </item_prototype>
                         <item_prototype>
@@ -751,7 +751,7 @@
                             <verify_host>0</verify_host>
                             <application_prototypes/>
                             <master_item>
-                                <key>varnish.stats[{$VARNISH_CACHE_LOCATIONS}]</key>
+                                <key>varnish.stats[&quot;{$VARNISH_CACHE_LOCATIONS}&quot;]</key>
                             </master_item>
                         </item_prototype>
                         <item_prototype>
@@ -822,7 +822,7 @@
                             <verify_host>0</verify_host>
                             <application_prototypes/>
                             <master_item>
-                                <key>varnish.stats[{$VARNISH_CACHE_LOCATIONS}]</key>
+                                <key>varnish.stats[&quot;{$VARNISH_CACHE_LOCATIONS}&quot;]</key>
                             </master_item>
                         </item_prototype>
                         <item_prototype>
@@ -889,7 +889,7 @@
                             <verify_host>0</verify_host>
                             <application_prototypes/>
                             <master_item>
-                                <key>varnish.stats[{$VARNISH_CACHE_LOCATIONS}]</key>
+                                <key>varnish.stats[&quot;{$VARNISH_CACHE_LOCATIONS}&quot;]</key>
                             </master_item>
                         </item_prototype>
                         <item_prototype>
@@ -960,7 +960,7 @@
                             <verify_host>0</verify_host>
                             <application_prototypes/>
                             <master_item>
-                                <key>varnish.stats[{$VARNISH_CACHE_LOCATIONS}]</key>
+                                <key>varnish.stats[&quot;{$VARNISH_CACHE_LOCATIONS}&quot;]</key>
                             </master_item>
                         </item_prototype>
                         <item_prototype>
@@ -1031,7 +1031,7 @@
                             <verify_host>0</verify_host>
                             <application_prototypes/>
                             <master_item>
-                                <key>varnish.stats[{$VARNISH_CACHE_LOCATIONS}]</key>
+                                <key>varnish.stats[&quot;{$VARNISH_CACHE_LOCATIONS}&quot;]</key>
                             </master_item>
                         </item_prototype>
                         <item_prototype>
@@ -1102,7 +1102,7 @@
                             <verify_host>0</verify_host>
                             <application_prototypes/>
                             <master_item>
-                                <key>varnish.stats[{$VARNISH_CACHE_LOCATIONS}]</key>
+                                <key>varnish.stats[&quot;{$VARNISH_CACHE_LOCATIONS}&quot;]</key>
                             </master_item>
                         </item_prototype>
                         <item_prototype>
@@ -1173,7 +1173,7 @@
                             <verify_host>0</verify_host>
                             <application_prototypes/>
                             <master_item>
-                                <key>varnish.stats[{$VARNISH_CACHE_LOCATIONS}]</key>
+                                <key>varnish.stats[&quot;{$VARNISH_CACHE_LOCATIONS}&quot;]</key>
                             </master_item>
                         </item_prototype>
                         <item_prototype>
@@ -1244,7 +1244,7 @@
                             <verify_host>0</verify_host>
                             <application_prototypes/>
                             <master_item>
-                                <key>varnish.stats[{$VARNISH_CACHE_LOCATIONS}]</key>
+                                <key>varnish.stats[&quot;{$VARNISH_CACHE_LOCATIONS}&quot;]</key>
                             </master_item>
                         </item_prototype>
                         <item_prototype>
@@ -1315,7 +1315,7 @@
                             <verify_host>0</verify_host>
                             <application_prototypes/>
                             <master_item>
-                                <key>varnish.stats[{$VARNISH_CACHE_LOCATIONS}]</key>
+                                <key>varnish.stats[&quot;{$VARNISH_CACHE_LOCATIONS}&quot;]</key>
                             </master_item>
                         </item_prototype>
                         <item_prototype>
@@ -1386,7 +1386,7 @@
                             <verify_host>0</verify_host>
                             <application_prototypes/>
                             <master_item>
-                                <key>varnish.stats[{$VARNISH_CACHE_LOCATIONS}]</key>
+                                <key>varnish.stats[&quot;{$VARNISH_CACHE_LOCATIONS}&quot;]</key>
                             </master_item>
                         </item_prototype>
                         <item_prototype>
@@ -1453,7 +1453,7 @@
                             <verify_host>0</verify_host>
                             <application_prototypes/>
                             <master_item>
-                                <key>varnish.stats[{$VARNISH_CACHE_LOCATIONS}]</key>
+                                <key>varnish.stats[&quot;{$VARNISH_CACHE_LOCATIONS}&quot;]</key>
                             </master_item>
                         </item_prototype>
                         <item_prototype>
@@ -1524,7 +1524,7 @@
                             <verify_host>0</verify_host>
                             <application_prototypes/>
                             <master_item>
-                                <key>varnish.stats[{$VARNISH_CACHE_LOCATIONS}]</key>
+                                <key>varnish.stats[&quot;{$VARNISH_CACHE_LOCATIONS}&quot;]</key>
                             </master_item>
                         </item_prototype>
                         <item_prototype>
@@ -1595,7 +1595,7 @@
                             <verify_host>0</verify_host>
                             <application_prototypes/>
                             <master_item>
-                                <key>varnish.stats[{$VARNISH_CACHE_LOCATIONS}]</key>
+                                <key>varnish.stats[&quot;{$VARNISH_CACHE_LOCATIONS}&quot;]</key>
                             </master_item>
                         </item_prototype>
                         <item_prototype>
@@ -1666,7 +1666,7 @@
                             <verify_host>0</verify_host>
                             <application_prototypes/>
                             <master_item>
-                                <key>varnish.stats[{$VARNISH_CACHE_LOCATIONS}]</key>
+                                <key>varnish.stats[&quot;{$VARNISH_CACHE_LOCATIONS}&quot;]</key>
                             </master_item>
                         </item_prototype>
                         <item_prototype>
@@ -1737,7 +1737,7 @@
                             <verify_host>0</verify_host>
                             <application_prototypes/>
                             <master_item>
-                                <key>varnish.stats[{$VARNISH_CACHE_LOCATIONS}]</key>
+                                <key>varnish.stats[&quot;{$VARNISH_CACHE_LOCATIONS}&quot;]</key>
                             </master_item>
                         </item_prototype>
                         <item_prototype>
@@ -1808,7 +1808,7 @@
                             <verify_host>0</verify_host>
                             <application_prototypes/>
                             <master_item>
-                                <key>varnish.stats[{$VARNISH_CACHE_LOCATIONS}]</key>
+                                <key>varnish.stats[&quot;{$VARNISH_CACHE_LOCATIONS}&quot;]</key>
                             </master_item>
                         </item_prototype>
                         <item_prototype>
@@ -1879,7 +1879,7 @@
                             <verify_host>0</verify_host>
                             <application_prototypes/>
                             <master_item>
-                                <key>varnish.stats[{$VARNISH_CACHE_LOCATIONS}]</key>
+                                <key>varnish.stats[&quot;{$VARNISH_CACHE_LOCATIONS}&quot;]</key>
                             </master_item>
                         </item_prototype>
                         <item_prototype>
@@ -1950,7 +1950,7 @@
                             <verify_host>0</verify_host>
                             <application_prototypes/>
                             <master_item>
-                                <key>varnish.stats[{$VARNISH_CACHE_LOCATIONS}]</key>
+                                <key>varnish.stats[&quot;{$VARNISH_CACHE_LOCATIONS}&quot;]</key>
                             </master_item>
                         </item_prototype>
                         <item_prototype>
@@ -2451,7 +2451,7 @@
                     <type>7</type>
                     <snmp_community/>
                     <snmp_oid/>
-                    <key>varnish.discovery[{$VARNISH_CACHE_LOCATIONS},items]</key>
+                    <key>varnish.discovery[&quot;{$VARNISH_CACHE_LOCATIONS}&quot;,&quot;items&quot;]</key>
                     <delay>{$VARNISH_CACHE_UPDATE_INTERVAL_DISCOVERY:items}</delay>
                     <status>0</status>
                     <allowed_hosts/>
@@ -2546,7 +2546,7 @@
                             <verify_host>0</verify_host>
                             <application_prototypes/>
                             <master_item>
-                                <key>varnish.stats[{$VARNISH_CACHE_LOCATIONS}]</key>
+                                <key>varnish.stats[&quot;{$VARNISH_CACHE_LOCATIONS}&quot;]</key>
                             </master_item>
                         </item_prototype>
                         <item_prototype>
@@ -2617,7 +2617,7 @@
                             <verify_host>0</verify_host>
                             <application_prototypes/>
                             <master_item>
-                                <key>varnish.stats[{$VARNISH_CACHE_LOCATIONS}]</key>
+                                <key>varnish.stats[&quot;{$VARNISH_CACHE_LOCATIONS}&quot;]</key>
                             </master_item>
                         </item_prototype>
                         <item_prototype>
@@ -2688,7 +2688,7 @@
                             <verify_host>0</verify_host>
                             <application_prototypes/>
                             <master_item>
-                                <key>varnish.stats[{$VARNISH_CACHE_LOCATIONS}]</key>
+                                <key>varnish.stats[&quot;{$VARNISH_CACHE_LOCATIONS}&quot;]</key>
                             </master_item>
                         </item_prototype>
                         <item_prototype>
@@ -2759,7 +2759,7 @@
                             <verify_host>0</verify_host>
                             <application_prototypes/>
                             <master_item>
-                                <key>varnish.stats[{$VARNISH_CACHE_LOCATIONS}]</key>
+                                <key>varnish.stats[&quot;{$VARNISH_CACHE_LOCATIONS}&quot;]</key>
                             </master_item>
                         </item_prototype>
                         <item_prototype>
@@ -2830,7 +2830,7 @@
                             <verify_host>0</verify_host>
                             <application_prototypes/>
                             <master_item>
-                                <key>varnish.stats[{$VARNISH_CACHE_LOCATIONS}]</key>
+                                <key>varnish.stats[&quot;{$VARNISH_CACHE_LOCATIONS}&quot;]</key>
                             </master_item>
                         </item_prototype>
                         <item_prototype>
@@ -2901,7 +2901,7 @@
                             <verify_host>0</verify_host>
                             <application_prototypes/>
                             <master_item>
-                                <key>varnish.stats[{$VARNISH_CACHE_LOCATIONS}]</key>
+                                <key>varnish.stats[&quot;{$VARNISH_CACHE_LOCATIONS}&quot;]</key>
                             </master_item>
                         </item_prototype>
                         <item_prototype>
@@ -2972,7 +2972,7 @@
                             <verify_host>0</verify_host>
                             <application_prototypes/>
                             <master_item>
-                                <key>varnish.stats[{$VARNISH_CACHE_LOCATIONS}]</key>
+                                <key>varnish.stats[&quot;{$VARNISH_CACHE_LOCATIONS}&quot;]</key>
                             </master_item>
                         </item_prototype>
                         <item_prototype>
@@ -3043,7 +3043,7 @@
                             <verify_host>0</verify_host>
                             <application_prototypes/>
                             <master_item>
-                                <key>varnish.stats[{$VARNISH_CACHE_LOCATIONS}]</key>
+                                <key>varnish.stats[&quot;{$VARNISH_CACHE_LOCATIONS}&quot;]</key>
                             </master_item>
                         </item_prototype>
                         <item_prototype>
@@ -3110,7 +3110,7 @@
                             <verify_host>0</verify_host>
                             <application_prototypes/>
                             <master_item>
-                                <key>varnish.stats[{$VARNISH_CACHE_LOCATIONS}]</key>
+                                <key>varnish.stats[&quot;{$VARNISH_CACHE_LOCATIONS}&quot;]</key>
                             </master_item>
                         </item_prototype>
                         <item_prototype>
@@ -3181,7 +3181,7 @@
                             <verify_host>0</verify_host>
                             <application_prototypes/>
                             <master_item>
-                                <key>varnish.stats[{$VARNISH_CACHE_LOCATIONS}]</key>
+                                <key>varnish.stats[&quot;{$VARNISH_CACHE_LOCATIONS}&quot;]</key>
                             </master_item>
                         </item_prototype>
                         <item_prototype>
@@ -3252,7 +3252,7 @@
                             <verify_host>0</verify_host>
                             <application_prototypes/>
                             <master_item>
-                                <key>varnish.stats[{$VARNISH_CACHE_LOCATIONS}]</key>
+                                <key>varnish.stats[&quot;{$VARNISH_CACHE_LOCATIONS}&quot;]</key>
                             </master_item>
                         </item_prototype>
                         <item_prototype>
@@ -3323,7 +3323,7 @@
                             <verify_host>0</verify_host>
                             <application_prototypes/>
                             <master_item>
-                                <key>varnish.stats[{$VARNISH_CACHE_LOCATIONS}]</key>
+                                <key>varnish.stats[&quot;{$VARNISH_CACHE_LOCATIONS}&quot;]</key>
                             </master_item>
                         </item_prototype>
                         <item_prototype>
@@ -3394,7 +3394,7 @@
                             <verify_host>0</verify_host>
                             <application_prototypes/>
                             <master_item>
-                                <key>varnish.stats[{$VARNISH_CACHE_LOCATIONS}]</key>
+                                <key>varnish.stats[&quot;{$VARNISH_CACHE_LOCATIONS}&quot;]</key>
                             </master_item>
                         </item_prototype>
                         <item_prototype>
@@ -3465,7 +3465,7 @@
                             <verify_host>0</verify_host>
                             <application_prototypes/>
                             <master_item>
-                                <key>varnish.stats[{$VARNISH_CACHE_LOCATIONS}]</key>
+                                <key>varnish.stats[&quot;{$VARNISH_CACHE_LOCATIONS}&quot;]</key>
                             </master_item>
                         </item_prototype>
                         <item_prototype>
@@ -3536,7 +3536,7 @@
                             <verify_host>0</verify_host>
                             <application_prototypes/>
                             <master_item>
-                                <key>varnish.stats[{$VARNISH_CACHE_LOCATIONS}]</key>
+                                <key>varnish.stats[&quot;{$VARNISH_CACHE_LOCATIONS}&quot;]</key>
                             </master_item>
                         </item_prototype>
                         <item_prototype>
@@ -3607,7 +3607,7 @@
                             <verify_host>0</verify_host>
                             <application_prototypes/>
                             <master_item>
-                                <key>varnish.stats[{$VARNISH_CACHE_LOCATIONS}]</key>
+                                <key>varnish.stats[&quot;{$VARNISH_CACHE_LOCATIONS}&quot;]</key>
                             </master_item>
                         </item_prototype>
                         <item_prototype>
@@ -3678,7 +3678,7 @@
                             <verify_host>0</verify_host>
                             <application_prototypes/>
                             <master_item>
-                                <key>varnish.stats[{$VARNISH_CACHE_LOCATIONS}]</key>
+                                <key>varnish.stats[&quot;{$VARNISH_CACHE_LOCATIONS}&quot;]</key>
                             </master_item>
                         </item_prototype>
                         <item_prototype>
@@ -3749,7 +3749,7 @@
                             <verify_host>0</verify_host>
                             <application_prototypes/>
                             <master_item>
-                                <key>varnish.stats[{$VARNISH_CACHE_LOCATIONS}]</key>
+                                <key>varnish.stats[&quot;{$VARNISH_CACHE_LOCATIONS}&quot;]</key>
                             </master_item>
                         </item_prototype>
                         <item_prototype>
@@ -3820,7 +3820,7 @@
                             <verify_host>0</verify_host>
                             <application_prototypes/>
                             <master_item>
-                                <key>varnish.stats[{$VARNISH_CACHE_LOCATIONS}]</key>
+                                <key>varnish.stats[&quot;{$VARNISH_CACHE_LOCATIONS}&quot;]</key>
                             </master_item>
                         </item_prototype>
                         <item_prototype>
@@ -3891,7 +3891,7 @@
                             <verify_host>0</verify_host>
                             <application_prototypes/>
                             <master_item>
-                                <key>varnish.stats[{$VARNISH_CACHE_LOCATIONS}]</key>
+                                <key>varnish.stats[&quot;{$VARNISH_CACHE_LOCATIONS}&quot;]</key>
                             </master_item>
                         </item_prototype>
                         <item_prototype>
@@ -3962,7 +3962,7 @@
                             <verify_host>0</verify_host>
                             <application_prototypes/>
                             <master_item>
-                                <key>varnish.stats[{$VARNISH_CACHE_LOCATIONS}]</key>
+                                <key>varnish.stats[&quot;{$VARNISH_CACHE_LOCATIONS}&quot;]</key>
                             </master_item>
                         </item_prototype>
                         <item_prototype>
@@ -4033,7 +4033,7 @@
                             <verify_host>0</verify_host>
                             <application_prototypes/>
                             <master_item>
-                                <key>varnish.stats[{$VARNISH_CACHE_LOCATIONS}]</key>
+                                <key>varnish.stats[&quot;{$VARNISH_CACHE_LOCATIONS}&quot;]</key>
                             </master_item>
                         </item_prototype>
                         <item_prototype>
@@ -4104,7 +4104,7 @@
                             <verify_host>0</verify_host>
                             <application_prototypes/>
                             <master_item>
-                                <key>varnish.stats[{$VARNISH_CACHE_LOCATIONS}]</key>
+                                <key>varnish.stats[&quot;{$VARNISH_CACHE_LOCATIONS}&quot;]</key>
                             </master_item>
                         </item_prototype>
                         <item_prototype>
@@ -4175,7 +4175,7 @@
                             <verify_host>0</verify_host>
                             <application_prototypes/>
                             <master_item>
-                                <key>varnish.stats[{$VARNISH_CACHE_LOCATIONS}]</key>
+                                <key>varnish.stats[&quot;{$VARNISH_CACHE_LOCATIONS}&quot;]</key>
                             </master_item>
                         </item_prototype>
                         <item_prototype>
@@ -4246,7 +4246,7 @@
                             <verify_host>0</verify_host>
                             <application_prototypes/>
                             <master_item>
-                                <key>varnish.stats[{$VARNISH_CACHE_LOCATIONS}]</key>
+                                <key>varnish.stats[&quot;{$VARNISH_CACHE_LOCATIONS}&quot;]</key>
                             </master_item>
                         </item_prototype>
                         <item_prototype>
@@ -4317,7 +4317,7 @@
                             <verify_host>0</verify_host>
                             <application_prototypes/>
                             <master_item>
-                                <key>varnish.stats[{$VARNISH_CACHE_LOCATIONS}]</key>
+                                <key>varnish.stats[&quot;{$VARNISH_CACHE_LOCATIONS}&quot;]</key>
                             </master_item>
                         </item_prototype>
                         <item_prototype>
@@ -4388,7 +4388,7 @@
                             <verify_host>0</verify_host>
                             <application_prototypes/>
                             <master_item>
-                                <key>varnish.stats[{$VARNISH_CACHE_LOCATIONS}]</key>
+                                <key>varnish.stats[&quot;{$VARNISH_CACHE_LOCATIONS}&quot;]</key>
                             </master_item>
                         </item_prototype>
                         <item_prototype>
@@ -4459,7 +4459,7 @@
                             <verify_host>0</verify_host>
                             <application_prototypes/>
                             <master_item>
-                                <key>varnish.stats[{$VARNISH_CACHE_LOCATIONS}]</key>
+                                <key>varnish.stats[&quot;{$VARNISH_CACHE_LOCATIONS}&quot;]</key>
                             </master_item>
                         </item_prototype>
                         <item_prototype>
@@ -4530,7 +4530,7 @@
                             <verify_host>0</verify_host>
                             <application_prototypes/>
                             <master_item>
-                                <key>varnish.stats[{$VARNISH_CACHE_LOCATIONS}]</key>
+                                <key>varnish.stats[&quot;{$VARNISH_CACHE_LOCATIONS}&quot;]</key>
                             </master_item>
                         </item_prototype>
                         <item_prototype>
@@ -4601,7 +4601,7 @@
                             <verify_host>0</verify_host>
                             <application_prototypes/>
                             <master_item>
-                                <key>varnish.stats[{$VARNISH_CACHE_LOCATIONS}]</key>
+                                <key>varnish.stats[&quot;{$VARNISH_CACHE_LOCATIONS}&quot;]</key>
                             </master_item>
                         </item_prototype>
                         <item_prototype>
@@ -4672,7 +4672,7 @@
                             <verify_host>0</verify_host>
                             <application_prototypes/>
                             <master_item>
-                                <key>varnish.stats[{$VARNISH_CACHE_LOCATIONS}]</key>
+                                <key>varnish.stats[&quot;{$VARNISH_CACHE_LOCATIONS}&quot;]</key>
                             </master_item>
                         </item_prototype>
                         <item_prototype>
@@ -4743,7 +4743,7 @@
                             <verify_host>0</verify_host>
                             <application_prototypes/>
                             <master_item>
-                                <key>varnish.stats[{$VARNISH_CACHE_LOCATIONS}]</key>
+                                <key>varnish.stats[&quot;{$VARNISH_CACHE_LOCATIONS}&quot;]</key>
                             </master_item>
                         </item_prototype>
                         <item_prototype>
@@ -4814,7 +4814,7 @@
                             <verify_host>0</verify_host>
                             <application_prototypes/>
                             <master_item>
-                                <key>varnish.stats[{$VARNISH_CACHE_LOCATIONS}]</key>
+                                <key>varnish.stats[&quot;{$VARNISH_CACHE_LOCATIONS}&quot;]</key>
                             </master_item>
                         </item_prototype>
                         <item_prototype>
@@ -4885,7 +4885,7 @@
                             <verify_host>0</verify_host>
                             <application_prototypes/>
                             <master_item>
-                                <key>varnish.stats[{$VARNISH_CACHE_LOCATIONS}]</key>
+                                <key>varnish.stats[&quot;{$VARNISH_CACHE_LOCATIONS}&quot;]</key>
                             </master_item>
                         </item_prototype>
                         <item_prototype>
@@ -4956,7 +4956,7 @@
                             <verify_host>0</verify_host>
                             <application_prototypes/>
                             <master_item>
-                                <key>varnish.stats[{$VARNISH_CACHE_LOCATIONS}]</key>
+                                <key>varnish.stats[&quot;{$VARNISH_CACHE_LOCATIONS}&quot;]</key>
                             </master_item>
                         </item_prototype>
                         <item_prototype>
@@ -5027,7 +5027,7 @@
                             <verify_host>0</verify_host>
                             <application_prototypes/>
                             <master_item>
-                                <key>varnish.stats[{$VARNISH_CACHE_LOCATIONS}]</key>
+                                <key>varnish.stats[&quot;{$VARNISH_CACHE_LOCATIONS}&quot;]</key>
                             </master_item>
                         </item_prototype>
                         <item_prototype>
@@ -5098,7 +5098,7 @@
                             <verify_host>0</verify_host>
                             <application_prototypes/>
                             <master_item>
-                                <key>varnish.stats[{$VARNISH_CACHE_LOCATIONS}]</key>
+                                <key>varnish.stats[&quot;{$VARNISH_CACHE_LOCATIONS}&quot;]</key>
                             </master_item>
                         </item_prototype>
                         <item_prototype>
@@ -5169,7 +5169,7 @@
                             <verify_host>0</verify_host>
                             <application_prototypes/>
                             <master_item>
-                                <key>varnish.stats[{$VARNISH_CACHE_LOCATIONS}]</key>
+                                <key>varnish.stats[&quot;{$VARNISH_CACHE_LOCATIONS}&quot;]</key>
                             </master_item>
                         </item_prototype>
                         <item_prototype>
@@ -5240,7 +5240,7 @@
                             <verify_host>0</verify_host>
                             <application_prototypes/>
                             <master_item>
-                                <key>varnish.stats[{$VARNISH_CACHE_LOCATIONS}]</key>
+                                <key>varnish.stats[&quot;{$VARNISH_CACHE_LOCATIONS}&quot;]</key>
                             </master_item>
                         </item_prototype>
                         <item_prototype>
@@ -5311,7 +5311,7 @@
                             <verify_host>0</verify_host>
                             <application_prototypes/>
                             <master_item>
-                                <key>varnish.stats[{$VARNISH_CACHE_LOCATIONS}]</key>
+                                <key>varnish.stats[&quot;{$VARNISH_CACHE_LOCATIONS}&quot;]</key>
                             </master_item>
                         </item_prototype>
                         <item_prototype>
@@ -5382,7 +5382,7 @@
                             <verify_host>0</verify_host>
                             <application_prototypes/>
                             <master_item>
-                                <key>varnish.stats[{$VARNISH_CACHE_LOCATIONS}]</key>
+                                <key>varnish.stats[&quot;{$VARNISH_CACHE_LOCATIONS}&quot;]</key>
                             </master_item>
                         </item_prototype>
                         <item_prototype>
@@ -5453,7 +5453,7 @@
                             <verify_host>0</verify_host>
                             <application_prototypes/>
                             <master_item>
-                                <key>varnish.stats[{$VARNISH_CACHE_LOCATIONS}]</key>
+                                <key>varnish.stats[&quot;{$VARNISH_CACHE_LOCATIONS}&quot;]</key>
                             </master_item>
                         </item_prototype>
                         <item_prototype>
@@ -5524,7 +5524,7 @@
                             <verify_host>0</verify_host>
                             <application_prototypes/>
                             <master_item>
-                                <key>varnish.stats[{$VARNISH_CACHE_LOCATIONS}]</key>
+                                <key>varnish.stats[&quot;{$VARNISH_CACHE_LOCATIONS}&quot;]</key>
                             </master_item>
                         </item_prototype>
                         <item_prototype>
@@ -5595,7 +5595,7 @@
                             <verify_host>0</verify_host>
                             <application_prototypes/>
                             <master_item>
-                                <key>varnish.stats[{$VARNISH_CACHE_LOCATIONS}]</key>
+                                <key>varnish.stats[&quot;{$VARNISH_CACHE_LOCATIONS}&quot;]</key>
                             </master_item>
                         </item_prototype>
                         <item_prototype>
@@ -5666,7 +5666,7 @@
                             <verify_host>0</verify_host>
                             <application_prototypes/>
                             <master_item>
-                                <key>varnish.stats[{$VARNISH_CACHE_LOCATIONS}]</key>
+                                <key>varnish.stats[&quot;{$VARNISH_CACHE_LOCATIONS}&quot;]</key>
                             </master_item>
                         </item_prototype>
                         <item_prototype>
@@ -5733,7 +5733,7 @@
                             <verify_host>0</verify_host>
                             <application_prototypes/>
                             <master_item>
-                                <key>varnish.stats[{$VARNISH_CACHE_LOCATIONS}]</key>
+                                <key>varnish.stats[&quot;{$VARNISH_CACHE_LOCATIONS}&quot;]</key>
                             </master_item>
                         </item_prototype>
                         <item_prototype>
@@ -5800,7 +5800,7 @@
                             <verify_host>0</verify_host>
                             <application_prototypes/>
                             <master_item>
-                                <key>varnish.stats[{$VARNISH_CACHE_LOCATIONS}]</key>
+                                <key>varnish.stats[&quot;{$VARNISH_CACHE_LOCATIONS}&quot;]</key>
                             </master_item>
                         </item_prototype>
                         <item_prototype>
@@ -5867,7 +5867,7 @@
                             <verify_host>0</verify_host>
                             <application_prototypes/>
                             <master_item>
-                                <key>varnish.stats[{$VARNISH_CACHE_LOCATIONS}]</key>
+                                <key>varnish.stats[&quot;{$VARNISH_CACHE_LOCATIONS}&quot;]</key>
                             </master_item>
                         </item_prototype>
                         <item_prototype>
@@ -5938,7 +5938,7 @@
                             <verify_host>0</verify_host>
                             <application_prototypes/>
                             <master_item>
-                                <key>varnish.stats[{$VARNISH_CACHE_LOCATIONS}]</key>
+                                <key>varnish.stats[&quot;{$VARNISH_CACHE_LOCATIONS}&quot;]</key>
                             </master_item>
                         </item_prototype>
                         <item_prototype>
@@ -6009,7 +6009,7 @@
                             <verify_host>0</verify_host>
                             <application_prototypes/>
                             <master_item>
-                                <key>varnish.stats[{$VARNISH_CACHE_LOCATIONS}]</key>
+                                <key>varnish.stats[&quot;{$VARNISH_CACHE_LOCATIONS}&quot;]</key>
                             </master_item>
                         </item_prototype>
                         <item_prototype>
@@ -6080,7 +6080,7 @@
                             <verify_host>0</verify_host>
                             <application_prototypes/>
                             <master_item>
-                                <key>varnish.stats[{$VARNISH_CACHE_LOCATIONS}]</key>
+                                <key>varnish.stats[&quot;{$VARNISH_CACHE_LOCATIONS}&quot;]</key>
                             </master_item>
                         </item_prototype>
                         <item_prototype>
@@ -6151,7 +6151,7 @@
                             <verify_host>0</verify_host>
                             <application_prototypes/>
                             <master_item>
-                                <key>varnish.stats[{$VARNISH_CACHE_LOCATIONS}]</key>
+                                <key>varnish.stats[&quot;{$VARNISH_CACHE_LOCATIONS}&quot;]</key>
                             </master_item>
                         </item_prototype>
                         <item_prototype>
@@ -6222,7 +6222,7 @@
                             <verify_host>0</verify_host>
                             <application_prototypes/>
                             <master_item>
-                                <key>varnish.stats[{$VARNISH_CACHE_LOCATIONS}]</key>
+                                <key>varnish.stats[&quot;{$VARNISH_CACHE_LOCATIONS}&quot;]</key>
                             </master_item>
                         </item_prototype>
                         <item_prototype>
@@ -6293,7 +6293,7 @@
                             <verify_host>0</verify_host>
                             <application_prototypes/>
                             <master_item>
-                                <key>varnish.stats[{$VARNISH_CACHE_LOCATIONS}]</key>
+                                <key>varnish.stats[&quot;{$VARNISH_CACHE_LOCATIONS}&quot;]</key>
                             </master_item>
                         </item_prototype>
                         <item_prototype>
@@ -6360,7 +6360,7 @@
                             <verify_host>0</verify_host>
                             <application_prototypes/>
                             <master_item>
-                                <key>varnish.stats[{$VARNISH_CACHE_LOCATIONS}]</key>
+                                <key>varnish.stats[&quot;{$VARNISH_CACHE_LOCATIONS}&quot;]</key>
                             </master_item>
                         </item_prototype>
                         <item_prototype>
@@ -6427,7 +6427,7 @@
                             <verify_host>0</verify_host>
                             <application_prototypes/>
                             <master_item>
-                                <key>varnish.stats[{$VARNISH_CACHE_LOCATIONS}]</key>
+                                <key>varnish.stats[&quot;{$VARNISH_CACHE_LOCATIONS}&quot;]</key>
                             </master_item>
                         </item_prototype>
                         <item_prototype>
@@ -6494,7 +6494,7 @@
                             <verify_host>0</verify_host>
                             <application_prototypes/>
                             <master_item>
-                                <key>varnish.stats[{$VARNISH_CACHE_LOCATIONS}]</key>
+                                <key>varnish.stats[&quot;{$VARNISH_CACHE_LOCATIONS}&quot;]</key>
                             </master_item>
                         </item_prototype>
                         <item_prototype>
@@ -6565,7 +6565,7 @@
                             <verify_host>0</verify_host>
                             <application_prototypes/>
                             <master_item>
-                                <key>varnish.stats[{$VARNISH_CACHE_LOCATIONS}]</key>
+                                <key>varnish.stats[&quot;{$VARNISH_CACHE_LOCATIONS}&quot;]</key>
                             </master_item>
                         </item_prototype>
                         <item_prototype>
@@ -6636,7 +6636,7 @@
                             <verify_host>0</verify_host>
                             <application_prototypes/>
                             <master_item>
-                                <key>varnish.stats[{$VARNISH_CACHE_LOCATIONS}]</key>
+                                <key>varnish.stats[&quot;{$VARNISH_CACHE_LOCATIONS}&quot;]</key>
                             </master_item>
                         </item_prototype>
                         <item_prototype>
@@ -6707,7 +6707,7 @@
                             <verify_host>0</verify_host>
                             <application_prototypes/>
                             <master_item>
-                                <key>varnish.stats[{$VARNISH_CACHE_LOCATIONS}]</key>
+                                <key>varnish.stats[&quot;{$VARNISH_CACHE_LOCATIONS}&quot;]</key>
                             </master_item>
                         </item_prototype>
                         <item_prototype>
@@ -6778,7 +6778,7 @@
                             <verify_host>0</verify_host>
                             <application_prototypes/>
                             <master_item>
-                                <key>varnish.stats[{$VARNISH_CACHE_LOCATIONS}]</key>
+                                <key>varnish.stats[&quot;{$VARNISH_CACHE_LOCATIONS}&quot;]</key>
                             </master_item>
                         </item_prototype>
                         <item_prototype>
@@ -6849,7 +6849,7 @@
                             <verify_host>0</verify_host>
                             <application_prototypes/>
                             <master_item>
-                                <key>varnish.stats[{$VARNISH_CACHE_LOCATIONS}]</key>
+                                <key>varnish.stats[&quot;{$VARNISH_CACHE_LOCATIONS}&quot;]</key>
                             </master_item>
                         </item_prototype>
                         <item_prototype>
@@ -6920,7 +6920,7 @@
                             <verify_host>0</verify_host>
                             <application_prototypes/>
                             <master_item>
-                                <key>varnish.stats[{$VARNISH_CACHE_LOCATIONS}]</key>
+                                <key>varnish.stats[&quot;{$VARNISH_CACHE_LOCATIONS}&quot;]</key>
                             </master_item>
                         </item_prototype>
                         <item_prototype>
@@ -6991,7 +6991,7 @@
                             <verify_host>0</verify_host>
                             <application_prototypes/>
                             <master_item>
-                                <key>varnish.stats[{$VARNISH_CACHE_LOCATIONS}]</key>
+                                <key>varnish.stats[&quot;{$VARNISH_CACHE_LOCATIONS}&quot;]</key>
                             </master_item>
                         </item_prototype>
                         <item_prototype>
@@ -7062,7 +7062,7 @@
                             <verify_host>0</verify_host>
                             <application_prototypes/>
                             <master_item>
-                                <key>varnish.stats[{$VARNISH_CACHE_LOCATIONS}]</key>
+                                <key>varnish.stats[&quot;{$VARNISH_CACHE_LOCATIONS}&quot;]</key>
                             </master_item>
                         </item_prototype>
                         <item_prototype>
@@ -7133,7 +7133,7 @@
                             <verify_host>0</verify_host>
                             <application_prototypes/>
                             <master_item>
-                                <key>varnish.stats[{$VARNISH_CACHE_LOCATIONS}]</key>
+                                <key>varnish.stats[&quot;{$VARNISH_CACHE_LOCATIONS}&quot;]</key>
                             </master_item>
                         </item_prototype>
                         <item_prototype>
@@ -7204,7 +7204,7 @@
                             <verify_host>0</verify_host>
                             <application_prototypes/>
                             <master_item>
-                                <key>varnish.stats[{$VARNISH_CACHE_LOCATIONS}]</key>
+                                <key>varnish.stats[&quot;{$VARNISH_CACHE_LOCATIONS}&quot;]</key>
                             </master_item>
                         </item_prototype>
                         <item_prototype>
@@ -7275,7 +7275,7 @@
                             <verify_host>0</verify_host>
                             <application_prototypes/>
                             <master_item>
-                                <key>varnish.stats[{$VARNISH_CACHE_LOCATIONS}]</key>
+                                <key>varnish.stats[&quot;{$VARNISH_CACHE_LOCATIONS}&quot;]</key>
                             </master_item>
                         </item_prototype>
                         <item_prototype>
@@ -7346,7 +7346,7 @@
                             <verify_host>0</verify_host>
                             <application_prototypes/>
                             <master_item>
-                                <key>varnish.stats[{$VARNISH_CACHE_LOCATIONS}]</key>
+                                <key>varnish.stats[&quot;{$VARNISH_CACHE_LOCATIONS}&quot;]</key>
                             </master_item>
                         </item_prototype>
                         <item_prototype>
@@ -7417,7 +7417,7 @@
                             <verify_host>0</verify_host>
                             <application_prototypes/>
                             <master_item>
-                                <key>varnish.stats[{$VARNISH_CACHE_LOCATIONS}]</key>
+                                <key>varnish.stats[&quot;{$VARNISH_CACHE_LOCATIONS}&quot;]</key>
                             </master_item>
                         </item_prototype>
                         <item_prototype>
@@ -7488,7 +7488,7 @@
                             <verify_host>0</verify_host>
                             <application_prototypes/>
                             <master_item>
-                                <key>varnish.stats[{$VARNISH_CACHE_LOCATIONS}]</key>
+                                <key>varnish.stats[&quot;{$VARNISH_CACHE_LOCATIONS}&quot;]</key>
                             </master_item>
                         </item_prototype>
                         <item_prototype>
@@ -7559,7 +7559,7 @@
                             <verify_host>0</verify_host>
                             <application_prototypes/>
                             <master_item>
-                                <key>varnish.stats[{$VARNISH_CACHE_LOCATIONS}]</key>
+                                <key>varnish.stats[&quot;{$VARNISH_CACHE_LOCATIONS}&quot;]</key>
                             </master_item>
                         </item_prototype>
                         <item_prototype>
@@ -7630,7 +7630,7 @@
                             <verify_host>0</verify_host>
                             <application_prototypes/>
                             <master_item>
-                                <key>varnish.stats[{$VARNISH_CACHE_LOCATIONS}]</key>
+                                <key>varnish.stats[&quot;{$VARNISH_CACHE_LOCATIONS}&quot;]</key>
                             </master_item>
                         </item_prototype>
                         <item_prototype>
@@ -7701,7 +7701,7 @@
                             <verify_host>0</verify_host>
                             <application_prototypes/>
                             <master_item>
-                                <key>varnish.stats[{$VARNISH_CACHE_LOCATIONS}]</key>
+                                <key>varnish.stats[&quot;{$VARNISH_CACHE_LOCATIONS}&quot;]</key>
                             </master_item>
                         </item_prototype>
                         <item_prototype>
@@ -7772,7 +7772,7 @@
                             <verify_host>0</verify_host>
                             <application_prototypes/>
                             <master_item>
-                                <key>varnish.stats[{$VARNISH_CACHE_LOCATIONS}]</key>
+                                <key>varnish.stats[&quot;{$VARNISH_CACHE_LOCATIONS}&quot;]</key>
                             </master_item>
                         </item_prototype>
                         <item_prototype>
@@ -7843,7 +7843,7 @@
                             <verify_host>0</verify_host>
                             <application_prototypes/>
                             <master_item>
-                                <key>varnish.stats[{$VARNISH_CACHE_LOCATIONS}]</key>
+                                <key>varnish.stats[&quot;{$VARNISH_CACHE_LOCATIONS}&quot;]</key>
                             </master_item>
                         </item_prototype>
                         <item_prototype>
@@ -7914,7 +7914,7 @@
                             <verify_host>0</verify_host>
                             <application_prototypes/>
                             <master_item>
-                                <key>varnish.stats[{$VARNISH_CACHE_LOCATIONS}]</key>
+                                <key>varnish.stats[&quot;{$VARNISH_CACHE_LOCATIONS}&quot;]</key>
                             </master_item>
                         </item_prototype>
                         <item_prototype>
@@ -7985,7 +7985,7 @@
                             <verify_host>0</verify_host>
                             <application_prototypes/>
                             <master_item>
-                                <key>varnish.stats[{$VARNISH_CACHE_LOCATIONS}]</key>
+                                <key>varnish.stats[&quot;{$VARNISH_CACHE_LOCATIONS}&quot;]</key>
                             </master_item>
                         </item_prototype>
                         <item_prototype>
@@ -8056,7 +8056,7 @@
                             <verify_host>0</verify_host>
                             <application_prototypes/>
                             <master_item>
-                                <key>varnish.stats[{$VARNISH_CACHE_LOCATIONS}]</key>
+                                <key>varnish.stats[&quot;{$VARNISH_CACHE_LOCATIONS}&quot;]</key>
                             </master_item>
                         </item_prototype>
                         <item_prototype>
@@ -8127,7 +8127,7 @@
                             <verify_host>0</verify_host>
                             <application_prototypes/>
                             <master_item>
-                                <key>varnish.stats[{$VARNISH_CACHE_LOCATIONS}]</key>
+                                <key>varnish.stats[&quot;{$VARNISH_CACHE_LOCATIONS}&quot;]</key>
                             </master_item>
                         </item_prototype>
                         <item_prototype>
@@ -8198,7 +8198,7 @@
                             <verify_host>0</verify_host>
                             <application_prototypes/>
                             <master_item>
-                                <key>varnish.stats[{$VARNISH_CACHE_LOCATIONS}]</key>
+                                <key>varnish.stats[&quot;{$VARNISH_CACHE_LOCATIONS}&quot;]</key>
                             </master_item>
                         </item_prototype>
                         <item_prototype>
@@ -8269,7 +8269,7 @@
                             <verify_host>0</verify_host>
                             <application_prototypes/>
                             <master_item>
-                                <key>varnish.stats[{$VARNISH_CACHE_LOCATIONS}]</key>
+                                <key>varnish.stats[&quot;{$VARNISH_CACHE_LOCATIONS}&quot;]</key>
                             </master_item>
                         </item_prototype>
                         <item_prototype>
@@ -8340,7 +8340,7 @@
                             <verify_host>0</verify_host>
                             <application_prototypes/>
                             <master_item>
-                                <key>varnish.stats[{$VARNISH_CACHE_LOCATIONS}]</key>
+                                <key>varnish.stats[&quot;{$VARNISH_CACHE_LOCATIONS}&quot;]</key>
                             </master_item>
                         </item_prototype>
                         <item_prototype>
@@ -8411,7 +8411,7 @@
                             <verify_host>0</verify_host>
                             <application_prototypes/>
                             <master_item>
-                                <key>varnish.stats[{$VARNISH_CACHE_LOCATIONS}]</key>
+                                <key>varnish.stats[&quot;{$VARNISH_CACHE_LOCATIONS}&quot;]</key>
                             </master_item>
                         </item_prototype>
                         <item_prototype>
@@ -8482,7 +8482,7 @@
                             <verify_host>0</verify_host>
                             <application_prototypes/>
                             <master_item>
-                                <key>varnish.stats[{$VARNISH_CACHE_LOCATIONS}]</key>
+                                <key>varnish.stats[&quot;{$VARNISH_CACHE_LOCATIONS}&quot;]</key>
                             </master_item>
                         </item_prototype>
                         <item_prototype>
@@ -8553,7 +8553,7 @@
                             <verify_host>0</verify_host>
                             <application_prototypes/>
                             <master_item>
-                                <key>varnish.stats[{$VARNISH_CACHE_LOCATIONS}]</key>
+                                <key>varnish.stats[&quot;{$VARNISH_CACHE_LOCATIONS}&quot;]</key>
                             </master_item>
                         </item_prototype>
                         <item_prototype>
@@ -8624,7 +8624,7 @@
                             <verify_host>0</verify_host>
                             <application_prototypes/>
                             <master_item>
-                                <key>varnish.stats[{$VARNISH_CACHE_LOCATIONS}]</key>
+                                <key>varnish.stats[&quot;{$VARNISH_CACHE_LOCATIONS}&quot;]</key>
                             </master_item>
                         </item_prototype>
                         <item_prototype>
@@ -8695,7 +8695,7 @@
                             <verify_host>0</verify_host>
                             <application_prototypes/>
                             <master_item>
-                                <key>varnish.stats[{$VARNISH_CACHE_LOCATIONS}]</key>
+                                <key>varnish.stats[&quot;{$VARNISH_CACHE_LOCATIONS}&quot;]</key>
                             </master_item>
                         </item_prototype>
                         <item_prototype>
@@ -8766,7 +8766,7 @@
                             <verify_host>0</verify_host>
                             <application_prototypes/>
                             <master_item>
-                                <key>varnish.stats[{$VARNISH_CACHE_LOCATIONS}]</key>
+                                <key>varnish.stats[&quot;{$VARNISH_CACHE_LOCATIONS}&quot;]</key>
                             </master_item>
                         </item_prototype>
                         <item_prototype>
@@ -8833,7 +8833,7 @@
                             <verify_host>0</verify_host>
                             <application_prototypes/>
                             <master_item>
-                                <key>varnish.stats[{$VARNISH_CACHE_LOCATIONS}]</key>
+                                <key>varnish.stats[&quot;{$VARNISH_CACHE_LOCATIONS}&quot;]</key>
                             </master_item>
                         </item_prototype>
                         <item_prototype>
@@ -8904,7 +8904,7 @@
                             <verify_host>0</verify_host>
                             <application_prototypes/>
                             <master_item>
-                                <key>varnish.stats[{$VARNISH_CACHE_LOCATIONS}]</key>
+                                <key>varnish.stats[&quot;{$VARNISH_CACHE_LOCATIONS}&quot;]</key>
                             </master_item>
                         </item_prototype>
                         <item_prototype>
@@ -8975,7 +8975,7 @@
                             <verify_host>0</verify_host>
                             <application_prototypes/>
                             <master_item>
-                                <key>varnish.stats[{$VARNISH_CACHE_LOCATIONS}]</key>
+                                <key>varnish.stats[&quot;{$VARNISH_CACHE_LOCATIONS}&quot;]</key>
                             </master_item>
                         </item_prototype>
                         <item_prototype>
@@ -9046,7 +9046,7 @@
                             <verify_host>0</verify_host>
                             <application_prototypes/>
                             <master_item>
-                                <key>varnish.stats[{$VARNISH_CACHE_LOCATIONS}]</key>
+                                <key>varnish.stats[&quot;{$VARNISH_CACHE_LOCATIONS}&quot;]</key>
                             </master_item>
                         </item_prototype>
                         <item_prototype>
@@ -9117,7 +9117,7 @@
                             <verify_host>0</verify_host>
                             <application_prototypes/>
                             <master_item>
-                                <key>varnish.stats[{$VARNISH_CACHE_LOCATIONS}]</key>
+                                <key>varnish.stats[&quot;{$VARNISH_CACHE_LOCATIONS}&quot;]</key>
                             </master_item>
                         </item_prototype>
                         <item_prototype>
@@ -9184,7 +9184,7 @@
                             <verify_host>0</verify_host>
                             <application_prototypes/>
                             <master_item>
-                                <key>varnish.stats[{$VARNISH_CACHE_LOCATIONS}]</key>
+                                <key>varnish.stats[&quot;{$VARNISH_CACHE_LOCATIONS}&quot;]</key>
                             </master_item>
                         </item_prototype>
                         <item_prototype>
@@ -9251,7 +9251,7 @@
                             <verify_host>0</verify_host>
                             <application_prototypes/>
                             <master_item>
-                                <key>varnish.stats[{$VARNISH_CACHE_LOCATIONS}]</key>
+                                <key>varnish.stats[&quot;{$VARNISH_CACHE_LOCATIONS}&quot;]</key>
                             </master_item>
                         </item_prototype>
                         <item_prototype>
@@ -9322,7 +9322,7 @@
                             <verify_host>0</verify_host>
                             <application_prototypes/>
                             <master_item>
-                                <key>varnish.stats[{$VARNISH_CACHE_LOCATIONS}]</key>
+                                <key>varnish.stats[&quot;{$VARNISH_CACHE_LOCATIONS}&quot;]</key>
                             </master_item>
                         </item_prototype>
                         <item_prototype>
@@ -9393,7 +9393,7 @@
                             <verify_host>0</verify_host>
                             <application_prototypes/>
                             <master_item>
-                                <key>varnish.stats[{$VARNISH_CACHE_LOCATIONS}]</key>
+                                <key>varnish.stats[&quot;{$VARNISH_CACHE_LOCATIONS}&quot;]</key>
                             </master_item>
                         </item_prototype>
                         <item_prototype>
@@ -9464,7 +9464,7 @@
                             <verify_host>0</verify_host>
                             <application_prototypes/>
                             <master_item>
-                                <key>varnish.stats[{$VARNISH_CACHE_LOCATIONS}]</key>
+                                <key>varnish.stats[&quot;{$VARNISH_CACHE_LOCATIONS}&quot;]</key>
                             </master_item>
                         </item_prototype>
                         <item_prototype>
@@ -9535,7 +9535,7 @@
                             <verify_host>0</verify_host>
                             <application_prototypes/>
                             <master_item>
-                                <key>varnish.stats[{$VARNISH_CACHE_LOCATIONS}]</key>
+                                <key>varnish.stats[&quot;{$VARNISH_CACHE_LOCATIONS}&quot;]</key>
                             </master_item>
                         </item_prototype>
                         <item_prototype>
@@ -9606,7 +9606,7 @@
                             <verify_host>0</verify_host>
                             <application_prototypes/>
                             <master_item>
-                                <key>varnish.stats[{$VARNISH_CACHE_LOCATIONS}]</key>
+                                <key>varnish.stats[&quot;{$VARNISH_CACHE_LOCATIONS}&quot;]</key>
                             </master_item>
                         </item_prototype>
                         <item_prototype>
@@ -9673,7 +9673,7 @@
                             <verify_host>0</verify_host>
                             <application_prototypes/>
                             <master_item>
-                                <key>varnish.stats[{$VARNISH_CACHE_LOCATIONS}]</key>
+                                <key>varnish.stats[&quot;{$VARNISH_CACHE_LOCATIONS}&quot;]</key>
                             </master_item>
                         </item_prototype>
                         <item_prototype>
@@ -9804,7 +9804,7 @@
                             <verify_host>0</verify_host>
                             <application_prototypes/>
                             <master_item>
-                                <key>varnish.stats[{$VARNISH_CACHE_LOCATIONS}]</key>
+                                <key>varnish.stats[&quot;{$VARNISH_CACHE_LOCATIONS}&quot;]</key>
                             </master_item>
                         </item_prototype>
                         <item_prototype>
@@ -9875,7 +9875,7 @@
                             <verify_host>0</verify_host>
                             <application_prototypes/>
                             <master_item>
-                                <key>varnish.stats[{$VARNISH_CACHE_LOCATIONS}]</key>
+                                <key>varnish.stats[&quot;{$VARNISH_CACHE_LOCATIONS}&quot;]</key>
                             </master_item>
                         </item_prototype>
                         <item_prototype>
@@ -9946,7 +9946,7 @@
                             <verify_host>0</verify_host>
                             <application_prototypes/>
                             <master_item>
-                                <key>varnish.stats[{$VARNISH_CACHE_LOCATIONS}]</key>
+                                <key>varnish.stats[&quot;{$VARNISH_CACHE_LOCATIONS}&quot;]</key>
                             </master_item>
                         </item_prototype>
                         <item_prototype>
@@ -10017,7 +10017,7 @@
                             <verify_host>0</verify_host>
                             <application_prototypes/>
                             <master_item>
-                                <key>varnish.stats[{$VARNISH_CACHE_LOCATIONS}]</key>
+                                <key>varnish.stats[&quot;{$VARNISH_CACHE_LOCATIONS}&quot;]</key>
                             </master_item>
                         </item_prototype>
                         <item_prototype>
@@ -10088,7 +10088,7 @@
                             <verify_host>0</verify_host>
                             <application_prototypes/>
                             <master_item>
-                                <key>varnish.stats[{$VARNISH_CACHE_LOCATIONS}]</key>
+                                <key>varnish.stats[&quot;{$VARNISH_CACHE_LOCATIONS}&quot;]</key>
                             </master_item>
                         </item_prototype>
                         <item_prototype>
@@ -10159,7 +10159,7 @@
                             <verify_host>0</verify_host>
                             <application_prototypes/>
                             <master_item>
-                                <key>varnish.stats[{$VARNISH_CACHE_LOCATIONS}]</key>
+                                <key>varnish.stats[&quot;{$VARNISH_CACHE_LOCATIONS}&quot;]</key>
                             </master_item>
                         </item_prototype>
                         <item_prototype>
@@ -10230,7 +10230,7 @@
                             <verify_host>0</verify_host>
                             <application_prototypes/>
                             <master_item>
-                                <key>varnish.stats[{$VARNISH_CACHE_LOCATIONS}]</key>
+                                <key>varnish.stats[&quot;{$VARNISH_CACHE_LOCATIONS}&quot;]</key>
                             </master_item>
                         </item_prototype>
                         <item_prototype>
@@ -10301,7 +10301,7 @@
                             <verify_host>0</verify_host>
                             <application_prototypes/>
                             <master_item>
-                                <key>varnish.stats[{$VARNISH_CACHE_LOCATIONS}]</key>
+                                <key>varnish.stats[&quot;{$VARNISH_CACHE_LOCATIONS}&quot;]</key>
                             </master_item>
                         </item_prototype>
                         <item_prototype>
@@ -10372,7 +10372,7 @@
                             <verify_host>0</verify_host>
                             <application_prototypes/>
                             <master_item>
-                                <key>varnish.stats[{$VARNISH_CACHE_LOCATIONS}]</key>
+                                <key>varnish.stats[&quot;{$VARNISH_CACHE_LOCATIONS}&quot;]</key>
                             </master_item>
                         </item_prototype>
                         <item_prototype>
@@ -10443,7 +10443,7 @@
                             <verify_host>0</verify_host>
                             <application_prototypes/>
                             <master_item>
-                                <key>varnish.stats[{$VARNISH_CACHE_LOCATIONS}]</key>
+                                <key>varnish.stats[&quot;{$VARNISH_CACHE_LOCATIONS}&quot;]</key>
                             </master_item>
                         </item_prototype>
                         <item_prototype>
@@ -10514,7 +10514,7 @@
                             <verify_host>0</verify_host>
                             <application_prototypes/>
                             <master_item>
-                                <key>varnish.stats[{$VARNISH_CACHE_LOCATIONS}]</key>
+                                <key>varnish.stats[&quot;{$VARNISH_CACHE_LOCATIONS}&quot;]</key>
                             </master_item>
                         </item_prototype>
                         <item_prototype>
@@ -10585,7 +10585,7 @@
                             <verify_host>0</verify_host>
                             <application_prototypes/>
                             <master_item>
-                                <key>varnish.stats[{$VARNISH_CACHE_LOCATIONS}]</key>
+                                <key>varnish.stats[&quot;{$VARNISH_CACHE_LOCATIONS}&quot;]</key>
                             </master_item>
                         </item_prototype>
                         <item_prototype>
@@ -10656,7 +10656,7 @@
                             <verify_host>0</verify_host>
                             <application_prototypes/>
                             <master_item>
-                                <key>varnish.stats[{$VARNISH_CACHE_LOCATIONS}]</key>
+                                <key>varnish.stats[&quot;{$VARNISH_CACHE_LOCATIONS}&quot;]</key>
                             </master_item>
                         </item_prototype>
                         <item_prototype>
@@ -10727,7 +10727,7 @@
                             <verify_host>0</verify_host>
                             <application_prototypes/>
                             <master_item>
-                                <key>varnish.stats[{$VARNISH_CACHE_LOCATIONS}]</key>
+                                <key>varnish.stats[&quot;{$VARNISH_CACHE_LOCATIONS}&quot;]</key>
                             </master_item>
                         </item_prototype>
                         <item_prototype>
@@ -10798,7 +10798,7 @@
                             <verify_host>0</verify_host>
                             <application_prototypes/>
                             <master_item>
-                                <key>varnish.stats[{$VARNISH_CACHE_LOCATIONS}]</key>
+                                <key>varnish.stats[&quot;{$VARNISH_CACHE_LOCATIONS}&quot;]</key>
                             </master_item>
                         </item_prototype>
                         <item_prototype>
@@ -10869,7 +10869,7 @@
                             <verify_host>0</verify_host>
                             <application_prototypes/>
                             <master_item>
-                                <key>varnish.stats[{$VARNISH_CACHE_LOCATIONS}]</key>
+                                <key>varnish.stats[&quot;{$VARNISH_CACHE_LOCATIONS}&quot;]</key>
                             </master_item>
                         </item_prototype>
                         <item_prototype>
@@ -10940,7 +10940,7 @@
                             <verify_host>0</verify_host>
                             <application_prototypes/>
                             <master_item>
-                                <key>varnish.stats[{$VARNISH_CACHE_LOCATIONS}]</key>
+                                <key>varnish.stats[&quot;{$VARNISH_CACHE_LOCATIONS}&quot;]</key>
                             </master_item>
                         </item_prototype>
                         <item_prototype>
@@ -11011,7 +11011,7 @@
                             <verify_host>0</verify_host>
                             <application_prototypes/>
                             <master_item>
-                                <key>varnish.stats[{$VARNISH_CACHE_LOCATIONS}]</key>
+                                <key>varnish.stats[&quot;{$VARNISH_CACHE_LOCATIONS}&quot;]</key>
                             </master_item>
                         </item_prototype>
                         <item_prototype>
@@ -11082,7 +11082,7 @@
                             <verify_host>0</verify_host>
                             <application_prototypes/>
                             <master_item>
-                                <key>varnish.stats[{$VARNISH_CACHE_LOCATIONS}]</key>
+                                <key>varnish.stats[&quot;{$VARNISH_CACHE_LOCATIONS}&quot;]</key>
                             </master_item>
                         </item_prototype>
                     </item_prototypes>
@@ -13467,7 +13467,7 @@
                     <type>7</type>
                     <snmp_community/>
                     <snmp_oid/>
-                    <key>varnish.discovery[{$VARNISH_CACHE_LOCATIONS},counters]</key>
+                    <key>varnish.discovery[&quot;{$VARNISH_CACHE_LOCATIONS}&quot;,&quot;counters&quot;]</key>
                     <delay>{$VARNISH_CACHE_UPDATE_INTERVAL_DISCOVERY:counters}</delay>
                     <status>0</status>
                     <allowed_hosts/>
@@ -13562,7 +13562,7 @@
                             <verify_host>0</verify_host>
                             <application_prototypes/>
                             <master_item>
-                                <key>varnish.stats[{$VARNISH_CACHE_LOCATIONS}]</key>
+                                <key>varnish.stats[&quot;{$VARNISH_CACHE_LOCATIONS}&quot;]</key>
                             </master_item>
                         </item_prototype>
                     </item_prototypes>
@@ -13593,7 +13593,7 @@
                     <type>7</type>
                     <snmp_community/>
                     <snmp_oid/>
-                    <key>varnish.discovery[{$VARNISH_CACHE_LOCATIONS},mse_books]</key>
+                    <key>varnish.discovery[&quot;{$VARNISH_CACHE_LOCATIONS}&quot;,&quot;mse_books&quot;]</key>
                     <delay>{$VARNISH_CACHE_UPDATE_INTERVAL_DISCOVERY:mse_books}</delay>
                     <status>0</status>
                     <allowed_hosts/>
@@ -13688,7 +13688,7 @@
                             <verify_host>0</verify_host>
                             <application_prototypes/>
                             <master_item>
-                                <key>varnish.stats[{$VARNISH_CACHE_LOCATIONS}]</key>
+                                <key>varnish.stats[&quot;{$VARNISH_CACHE_LOCATIONS}&quot;]</key>
                             </master_item>
                         </item_prototype>
                         <item_prototype>
@@ -13759,7 +13759,7 @@
                             <verify_host>0</verify_host>
                             <application_prototypes/>
                             <master_item>
-                                <key>varnish.stats[{$VARNISH_CACHE_LOCATIONS}]</key>
+                                <key>varnish.stats[&quot;{$VARNISH_CACHE_LOCATIONS}&quot;]</key>
                             </master_item>
                         </item_prototype>
                         <item_prototype>
@@ -13830,7 +13830,7 @@
                             <verify_host>0</verify_host>
                             <application_prototypes/>
                             <master_item>
-                                <key>varnish.stats[{$VARNISH_CACHE_LOCATIONS}]</key>
+                                <key>varnish.stats[&quot;{$VARNISH_CACHE_LOCATIONS}&quot;]</key>
                             </master_item>
                         </item_prototype>
                         <item_prototype>
@@ -13897,7 +13897,7 @@
                             <verify_host>0</verify_host>
                             <application_prototypes/>
                             <master_item>
-                                <key>varnish.stats[{$VARNISH_CACHE_LOCATIONS}]</key>
+                                <key>varnish.stats[&quot;{$VARNISH_CACHE_LOCATIONS}&quot;]</key>
                             </master_item>
                         </item_prototype>
                         <item_prototype>
@@ -13964,7 +13964,7 @@
                             <verify_host>0</verify_host>
                             <application_prototypes/>
                             <master_item>
-                                <key>varnish.stats[{$VARNISH_CACHE_LOCATIONS}]</key>
+                                <key>varnish.stats[&quot;{$VARNISH_CACHE_LOCATIONS}&quot;]</key>
                             </master_item>
                         </item_prototype>
                         <item_prototype>
@@ -14035,7 +14035,7 @@
                             <verify_host>0</verify_host>
                             <application_prototypes/>
                             <master_item>
-                                <key>varnish.stats[{$VARNISH_CACHE_LOCATIONS}]</key>
+                                <key>varnish.stats[&quot;{$VARNISH_CACHE_LOCATIONS}&quot;]</key>
                             </master_item>
                         </item_prototype>
                     </item_prototypes>
@@ -14216,7 +14216,7 @@
                     <type>7</type>
                     <snmp_community/>
                     <snmp_oid/>
-                    <key>varnish.discovery[{$VARNISH_CACHE_LOCATIONS},mse_stores]</key>
+                    <key>varnish.discovery[&quot;{$VARNISH_CACHE_LOCATIONS}&quot;,&quot;mse_stores&quot;]</key>
                     <delay>{$VARNISH_CACHE_UPDATE_INTERVAL_DISCOVERY:mse_stores}</delay>
                     <status>0</status>
                     <allowed_hosts/>
@@ -14311,7 +14311,7 @@
                             <verify_host>0</verify_host>
                             <application_prototypes/>
                             <master_item>
-                                <key>varnish.stats[{$VARNISH_CACHE_LOCATIONS}]</key>
+                                <key>varnish.stats[&quot;{$VARNISH_CACHE_LOCATIONS}&quot;]</key>
                             </master_item>
                         </item_prototype>
                         <item_prototype>
@@ -14382,7 +14382,7 @@
                             <verify_host>0</verify_host>
                             <application_prototypes/>
                             <master_item>
-                                <key>varnish.stats[{$VARNISH_CACHE_LOCATIONS}]</key>
+                                <key>varnish.stats[&quot;{$VARNISH_CACHE_LOCATIONS}&quot;]</key>
                             </master_item>
                         </item_prototype>
                         <item_prototype>
@@ -14453,7 +14453,7 @@
                             <verify_host>0</verify_host>
                             <application_prototypes/>
                             <master_item>
-                                <key>varnish.stats[{$VARNISH_CACHE_LOCATIONS}]</key>
+                                <key>varnish.stats[&quot;{$VARNISH_CACHE_LOCATIONS}&quot;]</key>
                             </master_item>
                         </item_prototype>
                         <item_prototype>
@@ -14524,7 +14524,7 @@
                             <verify_host>0</verify_host>
                             <application_prototypes/>
                             <master_item>
-                                <key>varnish.stats[{$VARNISH_CACHE_LOCATIONS}]</key>
+                                <key>varnish.stats[&quot;{$VARNISH_CACHE_LOCATIONS}&quot;]</key>
                             </master_item>
                         </item_prototype>
                         <item_prototype>
@@ -14595,7 +14595,7 @@
                             <verify_host>0</verify_host>
                             <application_prototypes/>
                             <master_item>
-                                <key>varnish.stats[{$VARNISH_CACHE_LOCATIONS}]</key>
+                                <key>varnish.stats[&quot;{$VARNISH_CACHE_LOCATIONS}&quot;]</key>
                             </master_item>
                         </item_prototype>
                         <item_prototype>
@@ -14666,7 +14666,7 @@
                             <verify_host>0</verify_host>
                             <application_prototypes/>
                             <master_item>
-                                <key>varnish.stats[{$VARNISH_CACHE_LOCATIONS}]</key>
+                                <key>varnish.stats[&quot;{$VARNISH_CACHE_LOCATIONS}&quot;]</key>
                             </master_item>
                         </item_prototype>
                         <item_prototype>
@@ -14733,7 +14733,7 @@
                             <verify_host>0</verify_host>
                             <application_prototypes/>
                             <master_item>
-                                <key>varnish.stats[{$VARNISH_CACHE_LOCATIONS}]</key>
+                                <key>varnish.stats[&quot;{$VARNISH_CACHE_LOCATIONS}&quot;]</key>
                             </master_item>
                         </item_prototype>
                         <item_prototype>
@@ -14800,7 +14800,7 @@
                             <verify_host>0</verify_host>
                             <application_prototypes/>
                             <master_item>
-                                <key>varnish.stats[{$VARNISH_CACHE_LOCATIONS}]</key>
+                                <key>varnish.stats[&quot;{$VARNISH_CACHE_LOCATIONS}&quot;]</key>
                             </master_item>
                         </item_prototype>
                         <item_prototype>
@@ -14867,7 +14867,7 @@
                             <verify_host>0</verify_host>
                             <application_prototypes/>
                             <master_item>
-                                <key>varnish.stats[{$VARNISH_CACHE_LOCATIONS}]</key>
+                                <key>varnish.stats[&quot;{$VARNISH_CACHE_LOCATIONS}&quot;]</key>
                             </master_item>
                         </item_prototype>
                         <item_prototype>
@@ -14934,7 +14934,7 @@
                             <verify_host>0</verify_host>
                             <application_prototypes/>
                             <master_item>
-                                <key>varnish.stats[{$VARNISH_CACHE_LOCATIONS}]</key>
+                                <key>varnish.stats[&quot;{$VARNISH_CACHE_LOCATIONS}&quot;]</key>
                             </master_item>
                         </item_prototype>
                     </item_prototypes>
@@ -15206,7 +15206,7 @@
                     <type>7</type>
                     <snmp_community/>
                     <snmp_oid/>
-                    <key>varnish.discovery[{$VARNISH_CACHE_LOCATIONS},storages]</key>
+                    <key>varnish.discovery[&quot;{$VARNISH_CACHE_LOCATIONS}&quot;,&quot;storages&quot;]</key>
                     <delay>{$VARNISH_CACHE_UPDATE_INTERVAL_DISCOVERY:storages}</delay>
                     <status>0</status>
                     <allowed_hosts/>
@@ -15301,7 +15301,7 @@
                             <verify_host>0</verify_host>
                             <application_prototypes/>
                             <master_item>
-                                <key>varnish.stats[{$VARNISH_CACHE_LOCATIONS}]</key>
+                                <key>varnish.stats[&quot;{$VARNISH_CACHE_LOCATIONS}&quot;]</key>
                             </master_item>
                         </item_prototype>
                         <item_prototype>
@@ -15372,7 +15372,7 @@
                             <verify_host>0</verify_host>
                             <application_prototypes/>
                             <master_item>
-                                <key>varnish.stats[{$VARNISH_CACHE_LOCATIONS}]</key>
+                                <key>varnish.stats[&quot;{$VARNISH_CACHE_LOCATIONS}&quot;]</key>
                             </master_item>
                         </item_prototype>
                         <item_prototype>
@@ -15443,7 +15443,7 @@
                             <verify_host>0</verify_host>
                             <application_prototypes/>
                             <master_item>
-                                <key>varnish.stats[{$VARNISH_CACHE_LOCATIONS}]</key>
+                                <key>varnish.stats[&quot;{$VARNISH_CACHE_LOCATIONS}&quot;]</key>
                             </master_item>
                         </item_prototype>
                         <item_prototype>
@@ -15510,7 +15510,7 @@
                             <verify_host>0</verify_host>
                             <application_prototypes/>
                             <master_item>
-                                <key>varnish.stats[{$VARNISH_CACHE_LOCATIONS}]</key>
+                                <key>varnish.stats[&quot;{$VARNISH_CACHE_LOCATIONS}&quot;]</key>
                             </master_item>
                         </item_prototype>
                         <item_prototype>
@@ -15577,7 +15577,7 @@
                             <verify_host>0</verify_host>
                             <application_prototypes/>
                             <master_item>
-                                <key>varnish.stats[{$VARNISH_CACHE_LOCATIONS}]</key>
+                                <key>varnish.stats[&quot;{$VARNISH_CACHE_LOCATIONS}&quot;]</key>
                             </master_item>
                         </item_prototype>
                         <item_prototype>
@@ -15644,7 +15644,7 @@
                             <verify_host>0</verify_host>
                             <application_prototypes/>
                             <master_item>
-                                <key>varnish.stats[{$VARNISH_CACHE_LOCATIONS}]</key>
+                                <key>varnish.stats[&quot;{$VARNISH_CACHE_LOCATIONS}&quot;]</key>
                             </master_item>
                         </item_prototype>
                         <item_prototype>
@@ -15711,7 +15711,7 @@
                             <verify_host>0</verify_host>
                             <application_prototypes/>
                             <master_item>
-                                <key>varnish.stats[{$VARNISH_CACHE_LOCATIONS}]</key>
+                                <key>varnish.stats[&quot;{$VARNISH_CACHE_LOCATIONS}&quot;]</key>
                             </master_item>
                         </item_prototype>
                         <item_prototype>
@@ -15782,7 +15782,7 @@
                             <verify_host>0</verify_host>
                             <application_prototypes/>
                             <master_item>
-                                <key>varnish.stats[{$VARNISH_CACHE_LOCATIONS}]</key>
+                                <key>varnish.stats[&quot;{$VARNISH_CACHE_LOCATIONS}&quot;]</key>
                             </master_item>
                         </item_prototype>
                         <item_prototype>
@@ -15853,7 +15853,7 @@
                             <verify_host>0</verify_host>
                             <application_prototypes/>
                             <master_item>
-                                <key>varnish.stats[{$VARNISH_CACHE_LOCATIONS}]</key>
+                                <key>varnish.stats[&quot;{$VARNISH_CACHE_LOCATIONS}&quot;]</key>
                             </master_item>
                         </item_prototype>
                         <item_prototype>
@@ -15924,7 +15924,7 @@
                             <verify_host>0</verify_host>
                             <application_prototypes/>
                             <master_item>
-                                <key>varnish.stats[{$VARNISH_CACHE_LOCATIONS}]</key>
+                                <key>varnish.stats[&quot;{$VARNISH_CACHE_LOCATIONS}&quot;]</key>
                             </master_item>
                         </item_prototype>
                         <item_prototype>

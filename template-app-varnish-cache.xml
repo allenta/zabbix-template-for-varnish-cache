@@ -480,7 +480,7 @@
                             <history>{$VARNISH_CACHE_HISTORY_STORAGE_PERIOD:backends:bereq_bodybytes}</history>
                             <trends>{$VARNISH_CACHE_TREND_STORAGE_PERIOD:backends:bereq_bodybytes}</trends>
                             <status>0</status>
-                            <value_type>3</value_type>
+                            <value_type>0</value_type>
                             <allowed_hosts/>
                             <units>Bps</units>
                             <snmpv3_contextname/>
@@ -551,7 +551,7 @@
                             <history>{$VARNISH_CACHE_HISTORY_STORAGE_PERIOD:backends:bereq_hdrbytes}</history>
                             <trends>{$VARNISH_CACHE_TREND_STORAGE_PERIOD:backends:bereq_hdrbytes}</trends>
                             <status>0</status>
-                            <value_type>3</value_type>
+                            <value_type>0</value_type>
                             <allowed_hosts/>
                             <units>Bps</units>
                             <snmpv3_contextname/>
@@ -622,7 +622,7 @@
                             <history>{$VARNISH_CACHE_HISTORY_STORAGE_PERIOD:backends:beresp_bodybytes}</history>
                             <trends>{$VARNISH_CACHE_TREND_STORAGE_PERIOD:backends:beresp_bodybytes}</trends>
                             <status>0</status>
-                            <value_type>3</value_type>
+                            <value_type>0</value_type>
                             <allowed_hosts/>
                             <units>Bps</units>
                             <snmpv3_contextname/>
@@ -693,7 +693,7 @@
                             <history>{$VARNISH_CACHE_HISTORY_STORAGE_PERIOD:backends:beresp_hdrbytes}</history>
                             <trends>{$VARNISH_CACHE_TREND_STORAGE_PERIOD:backends:beresp_hdrbytes}</trends>
                             <status>0</status>
-                            <value_type>3</value_type>
+                            <value_type>0</value_type>
                             <allowed_hosts/>
                             <units>Bps</units>
                             <snmpv3_contextname/>
@@ -1608,7 +1608,7 @@
                             <history>{$VARNISH_CACHE_HISTORY_STORAGE_PERIOD:backends:pipe_hdrbytes}</history>
                             <trends>{$VARNISH_CACHE_TREND_STORAGE_PERIOD:backends:pipe_hdrbytes}</trends>
                             <status>0</status>
-                            <value_type>3</value_type>
+                            <value_type>0</value_type>
                             <allowed_hosts/>
                             <units>Bps</units>
                             <snmpv3_contextname/>
@@ -1679,7 +1679,7 @@
                             <history>{$VARNISH_CACHE_HISTORY_STORAGE_PERIOD:backends:pipe_in}</history>
                             <trends>{$VARNISH_CACHE_TREND_STORAGE_PERIOD:backends:pipe_in}</trends>
                             <status>0</status>
-                            <value_type>3</value_type>
+                            <value_type>0</value_type>
                             <allowed_hosts/>
                             <units>Bps</units>
                             <snmpv3_contextname/>
@@ -1750,7 +1750,7 @@
                             <history>{$VARNISH_CACHE_HISTORY_STORAGE_PERIOD:backends:pipe_out}</history>
                             <trends>{$VARNISH_CACHE_TREND_STORAGE_PERIOD:backends:pipe_out}</trends>
                             <status>0</status>
-                            <value_type>3</value_type>
+                            <value_type>0</value_type>
                             <allowed_hosts/>
                             <units>Bps</units>
                             <snmpv3_contextname/>
@@ -8069,7 +8069,7 @@
                             <history>{$VARNISH_CACHE_HISTORY_STORAGE_PERIOD:items:s_pipe_hdrbytes}</history>
                             <trends>{$VARNISH_CACHE_TREND_STORAGE_PERIOD:items:s_pipe_hdrbytes}</trends>
                             <status>0</status>
-                            <value_type>3</value_type>
+                            <value_type>0</value_type>
                             <allowed_hosts/>
                             <units>Bps</units>
                             <snmpv3_contextname/>
@@ -8140,7 +8140,7 @@
                             <history>{$VARNISH_CACHE_HISTORY_STORAGE_PERIOD:items:s_pipe_in}</history>
                             <trends>{$VARNISH_CACHE_TREND_STORAGE_PERIOD:items:s_pipe_in}</trends>
                             <status>0</status>
-                            <value_type>3</value_type>
+                            <value_type>0</value_type>
                             <allowed_hosts/>
                             <units>Bps</units>
                             <snmpv3_contextname/>
@@ -8211,7 +8211,7 @@
                             <history>{$VARNISH_CACHE_HISTORY_STORAGE_PERIOD:items:s_pipe_out}</history>
                             <trends>{$VARNISH_CACHE_TREND_STORAGE_PERIOD:items:s_pipe_out}</trends>
                             <status>0</status>
-                            <value_type>3</value_type>
+                            <value_type>0</value_type>
                             <allowed_hosts/>
                             <units>Bps</units>
                             <snmpv3_contextname/>
@@ -8353,7 +8353,7 @@
                             <history>{$VARNISH_CACHE_HISTORY_STORAGE_PERIOD:items:s_req_bodybytes}</history>
                             <trends>{$VARNISH_CACHE_TREND_STORAGE_PERIOD:items:s_req_bodybytes}</trends>
                             <status>0</status>
-                            <value_type>3</value_type>
+                            <value_type>0</value_type>
                             <allowed_hosts/>
                             <units>Bps</units>
                             <snmpv3_contextname/>
@@ -8424,7 +8424,7 @@
                             <history>{$VARNISH_CACHE_HISTORY_STORAGE_PERIOD:items:s_req_hdrbytes}</history>
                             <trends>{$VARNISH_CACHE_TREND_STORAGE_PERIOD:items:s_req_hdrbytes}</trends>
                             <status>0</status>
-                            <value_type>3</value_type>
+                            <value_type>0</value_type>
                             <allowed_hosts/>
                             <units>Bps</units>
                             <snmpv3_contextname/>
@@ -8495,7 +8495,7 @@
                             <history>{$VARNISH_CACHE_HISTORY_STORAGE_PERIOD:items:s_resp_bodybytes}</history>
                             <trends>{$VARNISH_CACHE_TREND_STORAGE_PERIOD:items:s_resp_bodybytes}</trends>
                             <status>0</status>
-                            <value_type>3</value_type>
+                            <value_type>0</value_type>
                             <allowed_hosts/>
                             <units>Bps</units>
                             <snmpv3_contextname/>
@@ -8566,7 +8566,7 @@
                             <history>{$VARNISH_CACHE_HISTORY_STORAGE_PERIOD:items:s_resp_hdrbytes}</history>
                             <trends>{$VARNISH_CACHE_TREND_STORAGE_PERIOD:items:s_resp_hdrbytes}</trends>
                             <status>0</status>
-                            <value_type>3</value_type>
+                            <value_type>0</value_type>
                             <allowed_hosts/>
                             <units>Bps</units>
                             <snmpv3_contextname/>
@@ -9686,7 +9686,7 @@
                             <history>{$VARNISH_CACHE_HISTORY_STORAGE_PERIOD:items:cache_hit_ratio}</history>
                             <trends>{$VARNISH_CACHE_TREND_STORAGE_PERIOD:items:cache_hit_ratio}</trends>
                             <status>0</status>
-                            <value_type>3</value_type>
+                            <value_type>0</value_type>
                             <allowed_hosts/>
                             <units>%</units>
                             <snmpv3_contextname/>
@@ -13504,7 +13504,7 @@
                             <history>{$VARNISH_CACHE_HISTORY_STORAGE_PERIOD:counters}</history>
                             <trends>{$VARNISH_CACHE_TREND_STORAGE_PERIOD:counters}</trends>
                             <status>0</status>
-                            <value_type>3</value_type>
+                            <value_type>0</value_type>
                             <allowed_hosts/>
                             <units>eps</units>
                             <snmpv3_contextname/>
@@ -13630,7 +13630,7 @@
                             <history>{$VARNISH_CACHE_HISTORY_STORAGE_PERIOD:mse_books:c_waterlevel_purge}</history>
                             <trends>{$VARNISH_CACHE_TREND_STORAGE_PERIOD:mse_books:c_waterlevel_purge}</trends>
                             <status>0</status>
-                            <value_type>3</value_type>
+                            <value_type>0</value_type>
                             <allowed_hosts/>
                             <units>eps</units>
                             <snmpv3_contextname/>
@@ -13701,7 +13701,7 @@
                             <history>{$VARNISH_CACHE_HISTORY_STORAGE_PERIOD:mse_books:c_waterlevel_queue}</history>
                             <trends>{$VARNISH_CACHE_TREND_STORAGE_PERIOD:mse_books:c_waterlevel_queue}</trends>
                             <status>0</status>
-                            <value_type>3</value_type>
+                            <value_type>0</value_type>
                             <allowed_hosts/>
                             <units>eps</units>
                             <snmpv3_contextname/>
@@ -13772,7 +13772,7 @@
                             <history>{$VARNISH_CACHE_HISTORY_STORAGE_PERIOD:mse_books:c_waterlevel_runs}</history>
                             <trends>{$VARNISH_CACHE_TREND_STORAGE_PERIOD:mse_books:c_waterlevel_runs}</trends>
                             <status>0</status>
-                            <value_type>3</value_type>
+                            <value_type>0</value_type>
                             <allowed_hosts/>
                             <units>eps</units>
                             <snmpv3_contextname/>
@@ -15937,7 +15937,7 @@
                             <history>{$VARNISH_CACHE_HISTORY_STORAGE_PERIOD:storages:cache_hit_ratio}</history>
                             <trends>{$VARNISH_CACHE_TREND_STORAGE_PERIOD:storages:cache_hit_ratio}</trends>
                             <status>0</status>
-                            <value_type>3</value_type>
+                            <value_type>0</value_type>
                             <allowed_hosts/>
                             <units>%</units>
                             <snmpv3_contextname/>

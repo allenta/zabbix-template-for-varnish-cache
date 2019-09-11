@@ -11633,7 +11633,7 @@
                     </item_prototypes>
                     <trigger_prototypes>
                         <trigger_prototype>
-                            <expression>{Template App Varnish Cache:varnish.stat[&quot;{#LOCATION_ID}&quot;,&quot;MAIN.uptime&quot;].last()}&lt;{$VARNISH_CACHE.MAIN_UPTIME.MIN} or {Template App Varnish Cache:varnish.stat[&quot;{#LOCATION_ID}&quot;,&quot;MGT.uptime&quot;].last()}&lt;{$VARNISH_CACHE.MGT_UPTIME.MIN}</expression>
+                            <expression>{Template App Varnish Cache:varnish.stat[&quot;{#LOCATION_ID}&quot;,&quot;MAIN.uptime&quot;].max({$VARNISH_CACHE.LAST_VALUES_TO_CHECK:items:MAIN-uptime})}&lt;{$VARNISH_CACHE.MAIN_UPTIME.MIN} or {Template App Varnish Cache:varnish.stat[&quot;{#LOCATION_ID}&quot;,&quot;MGT.uptime&quot;].max({$VARNISH_CACHE.LAST_VALUES_TO_CHECK:items:MGT-uptime})}&lt;{$VARNISH_CACHE.MGT_UPTIME.MIN}</expression>
                             <recovery_mode>0</recovery_mode>
                             <recovery_expression/>
                             <name>Varnish Cache[{#LOCATION}] has been restarted</name>
@@ -11649,7 +11649,7 @@
                             <tags/>
                         </trigger_prototype>
                         <trigger_prototype>
-                            <expression>{Template App Varnish Cache:varnish.stat[&quot;{#LOCATION_ID}&quot;,&quot;MAIN.threads&quot;].last()}&gt;{$VARNISH_CACHE.THREADS.MAX}</expression>
+                            <expression>{Template App Varnish Cache:varnish.stat[&quot;{#LOCATION_ID}&quot;,&quot;MAIN.threads&quot;].min({$VARNISH_CACHE.LAST_VALUES_TO_CHECK:items:threads})}&gt;{$VARNISH_CACHE.THREADS.MAX}</expression>
                             <recovery_mode>0</recovery_mode>
                             <recovery_expression/>
                             <name>Varnish Cache[{#LOCATION}] has surpassed {$VARNISH_CACHE.THREADS.MAX} threads</name>
@@ -11665,7 +11665,7 @@
                             <tags/>
                         </trigger_prototype>
                         <trigger_prototype>
-                            <expression>{Template App Varnish Cache:varnish.stat[&quot;{#LOCATION_ID}&quot;,&quot;MAIN.losthdr&quot;].last()}&gt;{$VARNISH_CACHE.HTTP_HEADER_OVERFLOWS_RATE.MAX}</expression>
+                            <expression>{Template App Varnish Cache:varnish.stat[&quot;{#LOCATION_ID}&quot;,&quot;MAIN.losthdr&quot;].min({$VARNISH_CACHE.LAST_VALUES_TO_CHECK:items:losthdr})}&gt;{$VARNISH_CACHE.HTTP_HEADER_OVERFLOWS_RATE.MAX}</expression>
                             <recovery_mode>0</recovery_mode>
                             <recovery_expression/>
                             <name>Varnish Cache[{#LOCATION}] is generating HTTP header overflows</name>
@@ -11681,7 +11681,7 @@
                             <tags/>
                         </trigger_prototype>
                         <trigger_prototype>
-                            <expression>{Template App Varnish Cache:varnish.stat[&quot;{#LOCATION_ID}&quot;,&quot;MAIN.vcl_fail&quot;].last()}&gt;{$VARNISH_CACHE.VCL_FAILURES_RATE.MAX}</expression>
+                            <expression>{Template App Varnish Cache:varnish.stat[&quot;{#LOCATION_ID}&quot;,&quot;MAIN.vcl_fail&quot;].min({$VARNISH_CACHE.LAST_VALUES_TO_CHECK:items:vcl_fail})}&gt;{$VARNISH_CACHE.VCL_FAILURES_RATE.MAX}</expression>
                             <recovery_mode>0</recovery_mode>
                             <recovery_expression/>
                             <name>Varnish Cache[{#LOCATION}] is generating VCL failures</name>
@@ -11697,7 +11697,7 @@
                             <tags/>
                         </trigger_prototype>
                         <trigger_prototype>
-                            <expression>{Template App Varnish Cache:varnish.stat[&quot;{#LOCATION_ID}&quot;,&quot;MAIN.client_resp_500&quot;].last()}&gt;{$VARNISH_CACHE.WORKSPACE_OVERFLOWS_RATE.MAX} or {Template App Varnish Cache:varnish.stat[&quot;{#LOCATION_ID}&quot;,&quot;MAIN.ws_backend_overflow&quot;].last()}&gt;{$VARNISH_CACHE.WORKSPACE_OVERFLOWS_RATE.MAX} or {Template App Varnish Cache:varnish.stat[&quot;{#LOCATION_ID}&quot;,&quot;MAIN.ws_client_overflow&quot;].last()}&gt;{$VARNISH_CACHE.WORKSPACE_OVERFLOWS_RATE.MAX} or {Template App Varnish Cache:varnish.stat[&quot;{#LOCATION_ID}&quot;,&quot;MAIN.ws_session_overflow&quot;].last()}&gt;{$VARNISH_CACHE.WORKSPACE_OVERFLOWS_RATE.MAX} or {Template App Varnish Cache:varnish.stat[&quot;{#LOCATION_ID}&quot;,&quot;MAIN.ws_thread_overflow&quot;].last()}&gt;{$VARNISH_CACHE.WORKSPACE_OVERFLOWS_RATE.MAX}</expression>
+                            <expression>{Template App Varnish Cache:varnish.stat[&quot;{#LOCATION_ID}&quot;,&quot;MAIN.client_resp_500&quot;].min({$VARNISH_CACHE.LAST_VALUES_TO_CHECK:items:client_resp_500})}&gt;{$VARNISH_CACHE.WORKSPACE_OVERFLOWS_RATE.MAX} or {Template App Varnish Cache:varnish.stat[&quot;{#LOCATION_ID}&quot;,&quot;MAIN.ws_backend_overflow&quot;].min({$VARNISH_CACHE.LAST_VALUES_TO_CHECK:items:ws_backend_overflow})}&gt;{$VARNISH_CACHE.WORKSPACE_OVERFLOWS_RATE.MAX} or {Template App Varnish Cache:varnish.stat[&quot;{#LOCATION_ID}&quot;,&quot;MAIN.ws_client_overflow&quot;].min({$VARNISH_CACHE.LAST_VALUES_TO_CHECK:items:ws_client_overflow})}&gt;{$VARNISH_CACHE.WORKSPACE_OVERFLOWS_RATE.MAX} or {Template App Varnish Cache:varnish.stat[&quot;{#LOCATION_ID}&quot;,&quot;MAIN.ws_session_overflow&quot;].min({$VARNISH_CACHE.LAST_VALUES_TO_CHECK:items:ws_session_overflow})}&gt;{$VARNISH_CACHE.WORKSPACE_OVERFLOWS_RATE.MAX} or {Template App Varnish Cache:varnish.stat[&quot;{#LOCATION_ID}&quot;,&quot;MAIN.ws_thread_overflow&quot;].min({$VARNISH_CACHE.LAST_VALUES_TO_CHECK:items:ws_thread_overflow})}&gt;{$VARNISH_CACHE.WORKSPACE_OVERFLOWS_RATE.MAX}</expression>
                             <recovery_mode>0</recovery_mode>
                             <recovery_expression/>
                             <name>Varnish Cache[{#LOCATION}] is generating workspace overflows</name>
@@ -11745,7 +11745,7 @@
                             <tags/>
                         </trigger_prototype>
                         <trigger_prototype>
-                            <expression>{Template App Varnish Cache:varnish.stat[&quot;{#LOCATION_ID}&quot;,&quot;MAIN.n_lru_limited&quot;].last()}&gt;{$VARNISH_CACHE.NUKE_LIMIT_REACHS_RATE.MAX}</expression>
+                            <expression>{Template App Varnish Cache:varnish.stat[&quot;{#LOCATION_ID}&quot;,&quot;MAIN.n_lru_limited&quot;].min({$VARNISH_CACHE.LAST_VALUES_TO_CHECK:items:n_lru_limited})}&gt;{$VARNISH_CACHE.NUKE_LIMIT_REACHS_RATE.MAX}</expression>
                             <recovery_mode>0</recovery_mode>
                             <recovery_expression/>
                             <name>Varnish Cache[{#LOCATION}] is reaching nuke_limit</name>
@@ -14616,7 +14616,7 @@
                     </item_prototypes>
                     <trigger_prototypes>
                         <trigger_prototype>
-                            <expression>{Template App Varnish Cache:varnish.stat[&quot;{#LOCATION_ID}&quot;,&quot;MSE_BOOK.{#SUBJECT_ID}.g_space&quot;].last()}&lt;{$VARNISH_CACHE.MSE_BOOK_SPACE.MIN}</expression>
+                            <expression>{Template App Varnish Cache:varnish.stat[&quot;{#LOCATION_ID}&quot;,&quot;MSE_BOOK.{#SUBJECT_ID}.g_space&quot;].max({$VARNISH_CACHE.LAST_VALUES_TO_CHECK:mse_books:g_space})}&lt;{$VARNISH_CACHE.MSE_BOOK_SPACE.MIN}</expression>
                             <recovery_mode>0</recovery_mode>
                             <recovery_expression/>
                             <name>Varnish Cache[{#LOCATION}] {#SUBJECT} MSE book is running out of space</name>
@@ -16635,7 +16635,7 @@
                     </item_prototypes>
                     <trigger_prototypes>
                         <trigger_prototype>
-                            <expression>{Template App Varnish Cache:varnish.stat[&quot;{#LOCATION_ID}&quot;,&quot;STG.{#SUBJECT_ID}.c_fail&quot;].last()}&gt;{$VARNISH_CACHE.ALLOCATOR_FAILURES_RATE.MAX}</expression>
+                            <expression>{Template App Varnish Cache:varnish.stat[&quot;{#LOCATION_ID}&quot;,&quot;STG.{#SUBJECT_ID}.c_fail&quot;].min({$VARNISH_CACHE.LAST_VALUES_TO_CHECK:storages:c_fail})}&gt;{$VARNISH_CACHE.ALLOCATOR_FAILURES_RATE.MAX}</expression>
                             <recovery_mode>0</recovery_mode>
                             <recovery_expression/>
                             <name>Varnish Cache[{#LOCATION}] {#SUBJECT} storage failed to allocate space</name>
@@ -17021,6 +17021,18 @@
                 </macro>
                 <macro>
                     <macro>{$VARNISH_CACHE.LAST_VALUES_TO_CHECK}</macro>
+                    <value>#1</value>
+                </macro>
+                <macro>
+                    <macro>{$VARNISH_CACHE.LAST_VALUES_TO_CHECK:items:backend_fail}</macro>
+                    <value>#10</value>
+                </macro>
+                <macro>
+                    <macro>{$VARNISH_CACHE.LAST_VALUES_TO_CHECK:items:n_lru_nuked}</macro>
+                    <value>#10</value>
+                </macro>
+                <macro>
+                    <macro>{$VARNISH_CACHE.LAST_VALUES_TO_CHECK:storages:g_sparenode}</macro>
                     <value>#10</value>
                 </macro>
                 <macro>
@@ -17107,7 +17119,7 @@
     </templates>
     <triggers>
         <trigger>
-            <expression>{Template App Varnish Cache:proc.num[varnish-agent].last()}&lt;{$VARNISH_CACHE.AGENT_PROCESSES.MIN}</expression>
+            <expression>{Template App Varnish Cache:proc.num[varnish-agent].max({$VARNISH_CACHE.LAST_VALUES_TO_CHECK:proc.num-varnish_agent})}&lt;{$VARNISH_CACHE.AGENT_PROCESSES.MIN}</expression>
             <recovery_mode>0</recovery_mode>
             <recovery_expression/>
             <name>Varnish Agent is not running</name>
@@ -17123,7 +17135,7 @@
             <tags/>
         </trigger>
         <trigger>
-            <expression>{Template App Varnish Cache:proc.num[broadcaster].last()}&lt;{$VARNISH_CACHE.BROADCASTER_PROCESSES.MIN}</expression>
+            <expression>{Template App Varnish Cache:proc.num[broadcaster].max({$VARNISH_CACHE.LAST_VALUES_TO_CHECK:proc.num-broadcaster})}&lt;{$VARNISH_CACHE.BROADCASTER_PROCESSES.MIN}</expression>
             <recovery_mode>0</recovery_mode>
             <recovery_expression/>
             <name>Varnish Broadcaster is not running</name>
@@ -17139,7 +17151,7 @@
             <tags/>
         </trigger>
         <trigger>
-            <expression>{Template App Varnish Cache:proc.num[varnishd].last()}&lt;{$VARNISH_CACHE.VARNISH_PROCESSES.MIN}</expression>
+            <expression>{Template App Varnish Cache:proc.num[varnishd].max({$VARNISH_CACHE.LAST_VALUES_TO_CHECK:proc.num-varnishd})}&lt;{$VARNISH_CACHE.VARNISH_PROCESSES.MIN}</expression>
             <recovery_mode>0</recovery_mode>
             <recovery_expression/>
             <name>Varnish Cache is not running</name>
@@ -17155,7 +17167,7 @@
             <tags/>
         </trigger>
         <trigger>
-            <expression>{Template App Varnish Cache:proc.num[varnishncsa].last()}&lt;{$VARNISH_CACHE.NCSA_PROCESSES.MIN}</expression>
+            <expression>{Template App Varnish Cache:proc.num[varnishncsa].max({$VARNISH_CACHE.LAST_VALUES_TO_CHECK:proc.num-varnishncsa})}&lt;{$VARNISH_CACHE.NCSA_PROCESSES.MIN}</expression>
             <recovery_mode>0</recovery_mode>
             <recovery_expression/>
             <name>Varnish NCSA log is not running</name>
@@ -17171,7 +17183,7 @@
             <tags/>
         </trigger>
         <trigger>
-            <expression>{Template App Varnish Cache:proc.num[varnishlog].last()}&lt;{$VARNISH_CACHE.RAW_LOG_PROCESSES.MIN}</expression>
+            <expression>{Template App Varnish Cache:proc.num[varnishlog].max({$VARNISH_CACHE.LAST_VALUES_TO_CHECK:proc.num-varnishlog})}&lt;{$VARNISH_CACHE.RAW_LOG_PROCESSES.MIN}</expression>
             <recovery_mode>0</recovery_mode>
             <recovery_expression/>
             <name>Varnish raw log is not running</name>
@@ -17187,7 +17199,7 @@
             <tags/>
         </trigger>
         <trigger>
-            <expression>{Template App Varnish Cache:proc.num[vcs-agent].last()}&lt;{$VARNISH_CACHE.VCS_AGENT_PROCESSES.MIN}</expression>
+            <expression>{Template App Varnish Cache:proc.num[vcs-agent].max({$VARNISH_CACHE.LAST_VALUES_TO_CHECK:proc.num-vcs-agent})}&lt;{$VARNISH_CACHE.VCS_AGENT_PROCESSES.MIN}</expression>
             <recovery_mode>0</recovery_mode>
             <recovery_expression/>
             <name>VCS Agent is not running</name>

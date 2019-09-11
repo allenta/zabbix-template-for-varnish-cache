@@ -17000,28 +17000,24 @@
                     <value>1</value>
                 </macro>
                 <macro>
-                    <macro>{$VARNISH_CACHE.VCS_AGENT_PROCESSES.MIN}</macro>
-                    <value>1</value>
-                </macro>
-                <macro>
-                    <macro>{$VARNISH_CACHE.THREADS.MAX}</macro>
-                    <value>1000</value>
-                </macro>
-                <macro>
-                    <macro>{$VARNISH_CACHE.ITEM_HISTORY_STORAGE_PERIOD}</macro>
-                    <value>30d</value>
+                    <macro>{$VARNISH_CACHE.HTTP_HEADER_OVERFLOWS_RATE.MAX}</macro>
+                    <value>0.0</value>
                 </macro>
                 <macro>
                     <macro>{$VARNISH_CACHE.ITEM_HISTORY_STORAGE_PERIOD:stats}</macro>
                     <value>0</value>
                 </macro>
                 <macro>
-                    <macro>{$VARNISH_CACHE.VARNISH_PROCESSES.MIN}</macro>
-                    <value>2</value>
+                    <macro>{$VARNISH_CACHE.ITEM_HISTORY_STORAGE_PERIOD}</macro>
+                    <value>30d</value>
                 </macro>
                 <macro>
-                    <macro>{$VARNISH_CACHE.LAST_VALUES_TO_CHECK}</macro>
-                    <value>#1</value>
+                    <macro>{$VARNISH_CACHE.ITEM_TREND_STORAGE_PERIOD}</macro>
+                    <value>365d</value>
+                </macro>
+                <macro>
+                    <macro>{$VARNISH_CACHE.ITEM_UPDATE_INTERVAL}</macro>
+                    <value>60s</value>
                 </macro>
                 <macro>
                     <macro>{$VARNISH_CACHE.LAST_VALUES_TO_CHECK:items:backend_fail}</macro>
@@ -17036,32 +17032,42 @@
                     <value>#10</value>
                 </macro>
                 <macro>
-                    <macro>{$VARNISH_CACHE.SPARE_NODES.MIN.CRIT}</macro>
-                    <value>100</value>
+                    <macro>{$VARNISH_CACHE.LAST_VALUES_TO_CHECK}</macro>
+                    <value>#1</value>
                 </macro>
                 <macro>
-                    <macro>{$VARNISH_CACHE.LOCATIONS}</macro>
-                    <value/>
+                    <macro>{$VARNISH_CACHE.LLD_KEEP_LOST_RESOURCES_PERIOD:backends}</macro>
+                    <value>1d</value>
                 </macro>
                 <macro>
-                    <macro>{$VARNISH_CACHE.HTTP_HEADER_OVERFLOWS_RATE.MAX}</macro>
-                    <value>0.0</value>
+                    <macro>{$VARNISH_CACHE.LLD_KEEP_LOST_RESOURCES_PERIOD:counters}</macro>
+                    <value>1d</value>
+                </macro>
+                <macro>
+                    <macro>{$VARNISH_CACHE.LLD_KEEP_LOST_RESOURCES_PERIOD}</macro>
+                    <value>30d</value>
+                </macro>
+                <macro>
+                    <macro>{$VARNISH_CACHE.LLD_UPDATE_INTERVAL:counters}</macro>
+                    <value>60s</value>
+                </macro>
+                <macro>
+                    <macro>{$VARNISH_CACHE.LLD_UPDATE_INTERVAL}</macro>
+                    <value>3600s</value>
+                </macro>
+                <macro>
+                    <macro>{$VARNISH_CACHE.LOCATIONS}</macro><value/></macro>
+                <macro>
+                    <macro>{$VARNISH_CACHE.MAIN_UPTIME.MIN}</macro>
+                    <value>600s</value>
+                </macro>
+                <macro>
+                    <macro>{$VARNISH_CACHE.MGT_UPTIME.MIN}</macro>
+                    <value>600s</value>
                 </macro>
                 <macro>
                     <macro>{$VARNISH_CACHE.MSE_BOOK_SPACE.MIN}</macro>
                     <value>100000000</value>
-                </macro>
-                <macro>
-                    <macro>{$VARNISH_CACHE.SPARE_NODES.MIN.WARN}</macro>
-                    <value>1000000</value>
-                </macro>
-                <macro>
-                    <macro>{$VARNISH_CACHE.MAIN_UPTIME.MIN}</macro>
-                    <value>600</value>
-                </macro>
-                <macro>
-                    <macro>{$VARNISH_CACHE.MGT_UPTIME.MIN}</macro>
-                    <value>600</value>
                 </macro>
                 <macro>
                     <macro>{$VARNISH_CACHE.NCSA_PROCESSES.MIN}</macro>
@@ -17076,40 +17082,32 @@
                     <value>1</value>
                 </macro>
                 <macro>
-                    <macro>{$VARNISH_CACHE.ITEM_TREND_STORAGE_PERIOD}</macro>
-                    <value>365d</value>
+                    <macro>{$VARNISH_CACHE.SPARE_NODES.MIN.CRIT}</macro>
+                    <value>100</value>
                 </macro>
                 <macro>
-                    <macro>{$VARNISH_CACHE.LLD_UPDATE_INTERVAL}</macro>
-                    <value>3600</value>
+                    <macro>{$VARNISH_CACHE.SPARE_NODES.MIN.WARN}</macro>
+                    <value>1000000</value>
                 </macro>
                 <macro>
-                    <macro>{$VARNISH_CACHE.LLD_UPDATE_INTERVAL:counters}</macro>
-                    <value>60</value>
+                    <macro>{$VARNISH_CACHE.THREADS.MAX}</macro>
+                    <value>1000</value>
                 </macro>
                 <macro>
-                    <macro>{$VARNISH_CACHE.ITEM_UPDATE_INTERVAL}</macro>
-                    <value>60</value>
+                    <macro>{$VARNISH_CACHE.VARNISH_PROCESSES.MIN}</macro>
+                    <value>2</value>
                 </macro>
                 <macro>
                     <macro>{$VARNISH_CACHE.VCL_FAILURES_RATE.MAX}</macro>
                     <value>0.0</value>
                 </macro>
                 <macro>
+                    <macro>{$VARNISH_CACHE.VCS_AGENT_PROCESSES.MIN}</macro>
+                    <value>1</value>
+                </macro>
+                <macro>
                     <macro>{$VARNISH_CACHE.WORKSPACE_OVERFLOWS_RATE.MAX}</macro>
                     <value>0.0</value>
-                </macro>
-                <macro>
-                    <macro>{$VARNISH_CACHE.LLD_KEEP_LOST_RESOURCES_PERIOD}</macro>
-                    <value>30d</value>
-                </macro>
-                <macro>
-                    <macro>{$VARNISH_CACHE.LLD_KEEP_LOST_RESOURCES_PERIOD:backends}</macro>
-                    <value>1d</value>
-                </macro>
-                <macro>
-                    <macro>{$VARNISH_CACHE.LLD_KEEP_LOST_RESOURCES_PERIOD:counters}</macro>
-                    <value>1d</value>
                 </macro>
             </macros>
             <templates/>

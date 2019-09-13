@@ -17056,7 +17056,9 @@
                     <value>3600s</value>
                 </macro>
                 <macro>
-                    <macro>{$VARNISH_CACHE.LOCATIONS}</macro><value/></macro>
+                    <macro>{$VARNISH_CACHE.LOCATIONS}</macro>
+                    <value/>
+                </macro>
                 <macro>
                     <macro>{$VARNISH_CACHE.MAIN_UPTIME.MIN}</macro>
                     <value>600s</value>

@@ -17114,7 +17114,12 @@
             </macros>
             <templates/>
             <screens/>
-            <tags/>
+            <tags>
+                <tag>
+                    <tag>App</tag>
+                    <value>Varnish Cache</value>
+                </tag>
+            </tags>
         </template>
     </templates>
     <triggers>

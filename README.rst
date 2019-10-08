@@ -13,7 +13,7 @@
     UserParameter=varnish.discovery[*],sudo /usr/local/bin/zabbix-varnish-cache.py -i '$1' discover $2
     UserParameter=varnish.stats[*],sudo /usr/local/bin/zabbix-varnish-cache.py -i '$1' stats
 
-5. Generate the Varnish Cache Plus template template using the Jinja2 skeleton and import it::
+5. Generate the Varnish Cache Plus template using the Jinja2 skeleton and import it::
 
     $ pip install jinja2-cli
     $ jinja2 --strict -D version='{4.0,4.2}' -o template.xml template-app-varnish-cache.j2

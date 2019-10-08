@@ -72,7 +72,11 @@
                         <delay>0</delay>
                     {% endif %}
                     <history>{$VARNISH_CACHE.ITEM_HISTORY_STORAGE_PERIOD:{{ item.context }}}</history>
-                    <trends>{$VARNISH_CACHE.ITEM_TREND_STORAGE_PERIOD:{{ item.context }}}</trends>
+                    {% if 'trends' in item and not item.trends %}
+                        <trends>0</trends>
+                    {% else %}
+                        <trends>{$VARNISH_CACHE.ITEM_TREND_STORAGE_PERIOD:{{ item.context }}}</trends>
+                    {% endif %}
                     <status>0</status>
                     <value_type>{{ item.value_type }}</value_type>
                     <allowed_hosts/>

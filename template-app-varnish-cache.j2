@@ -2,6 +2,16 @@
 {#- HELPERS -#}
 {#-#########################################################################-#}
 
+{%- set name = name|default('Varnish Cache') -%}
+
+{%- set lite = lite|default(0)|int > 0 -%}
+
+{%- if lite -%}
+    {%- set master = 'varnish.lite_stats["{$VARNISH_CACHE.LOCATIONS}"]' -%}
+{%- else -%}
+    {%- set master = 'varnish.stats["{$VARNISH_CACHE.LOCATIONS}"]' -%}
+{%- endif -%}
+
 {%- macro discovery_rule(rule, items, triggers, graphs) -%}
     <discovery_rule>
         <name>{{ rule.name|e }}</name>
@@ -200,7 +210,7 @@
                                 <calc_fnc>{{ gitem.calc_fnc|default(2) }}</calc_fnc>
                                 <type>0</type>
                                 <item>
-                                    <host>Template App Varnish Cache</host>
+                                    <host>Template App {{ name }}</host>
                                     <key>{{ gitem.key|e }}</key>
                                 </item>
                             </graph_item>
@@ -227,8 +237,8 @@
     </groups>
     <templates>
         <template>
-            <template>Template App Varnish Cache</template>
-            <name>Template App Varnish Cache</name>
+            <template>Template App {{ name }}</template>
+            <name>Template App {{ name }}</name>
             <description/>
             <groups>
                 <group>
@@ -260,7 +270,7 @@
                 {% for item in [
                         {
                             'name': 'stats',
-                            'key': 'varnish.stats["{$VARNISH_CACHE.LOCATIONS}"]',
+                            'key': master,
                             'context': 'stats',
                             'trends': false,
                             'value_type': 4,
@@ -391,7 +401,7 @@
                             'context': 'items:backend_busy',
                             'value_type': 0,
                             'units': 'eps',
-                            'master_item_key': 'varnish.stats["{$VARNISH_CACHE.LOCATIONS}"]',
+                            'master_item_key': master,
                             'preprocessing': [
                                 {
                                     'type': 12,
@@ -410,7 +420,7 @@
                             'context': 'items:backend_conn',
                             'value_type': 0,
                             'units': 'eps',
-                            'master_item_key': 'varnish.stats["{$VARNISH_CACHE.LOCATIONS}"]',
+                            'master_item_key': master,
                             'preprocessing': [
                                 {
                                     'type': 12,
@@ -429,7 +439,7 @@
                             'context': 'items:backend_fail',
                             'value_type': 0,
                             'units': 'eps',
-                            'master_item_key': 'varnish.stats["{$VARNISH_CACHE.LOCATIONS}"]',
+                            'master_item_key': master,
                             'preprocessing': [
                                 {
                                     'type': 12,
@@ -448,7 +458,7 @@
                             'context': 'items:backend_recycle',
                             'value_type': 0,
                             'units': 'eps',
-                            'master_item_key': 'varnish.stats["{$VARNISH_CACHE.LOCATIONS}"]',
+                            'master_item_key': master,
                             'preprocessing': [
                                 {
                                     'type': 12,
@@ -467,7 +477,7 @@
                             'context': 'items:backend_req',
                             'value_type': 0,
                             'units': 'eps',
-                            'master_item_key': 'varnish.stats["{$VARNISH_CACHE.LOCATIONS}"]',
+                            'master_item_key': master,
                             'preprocessing': [
                                 {
                                     'type': 12,
@@ -486,7 +496,7 @@
                             'context': 'items:backend_retry',
                             'value_type': 0,
                             'units': 'eps',
-                            'master_item_key': 'varnish.stats["{$VARNISH_CACHE.LOCATIONS}"]',
+                            'master_item_key': master,
                             'preprocessing': [
                                 {
                                     'type': 12,
@@ -505,7 +515,7 @@
                             'context': 'items:backend_reuse',
                             'value_type': 0,
                             'units': 'eps',
-                            'master_item_key': 'varnish.stats["{$VARNISH_CACHE.LOCATIONS}"]',
+                            'master_item_key': master,
                             'preprocessing': [
                                 {
                                     'type': 12,
@@ -524,7 +534,7 @@
                             'context': 'items:backend_unhealthy',
                             'value_type': 0,
                             'units': 'eps',
-                            'master_item_key': 'varnish.stats["{$VARNISH_CACHE.LOCATIONS}"]',
+                            'master_item_key': master,
                             'preprocessing': [
                                 {
                                     'type': 12,
@@ -542,7 +552,7 @@
                             'key': 'varnish.stat["{#LOCATION_ID}","MAIN.bans"]',
                             'context': 'items:bans',
                             'value_type': 3,
-                            'master_item_key': 'varnish.stats["{$VARNISH_CACHE.LOCATIONS}"]',
+                            'master_item_key': master,
                             'preprocessing': [
                                 {
                                     'type': 12,
@@ -558,7 +568,7 @@
                             'context': 'items:bans_lurker_obj_killed',
                             'value_type': 0,
                             'units': 'eps',
-                            'master_item_key': 'varnish.stats["{$VARNISH_CACHE.LOCATIONS}"]',
+                            'master_item_key': master,
                             'preprocessing': [
                                 {
                                     'type': 12,
@@ -577,7 +587,7 @@
                             'context': 'items:bans_lurker_obj_killed_cutoff',
                             'value_type': 0,
                             'units': 'eps',
-                            'master_item_key': 'varnish.stats["{$VARNISH_CACHE.LOCATIONS}"]',
+                            'master_item_key': master,
                             'preprocessing': [
                                 {
                                     'type': 12,
@@ -596,7 +606,7 @@
                             'context': 'items:bans_obj_killed',
                             'value_type': 0,
                             'units': 'eps',
-                            'master_item_key': 'varnish.stats["{$VARNISH_CACHE.LOCATIONS}"]',
+                            'master_item_key': master,
                             'preprocessing': [
                                 {
                                     'type': 12,
@@ -615,7 +625,7 @@
                             'context': 'items:busy_killed',
                             'value_type': 0,
                             'units': 'eps',
-                            'master_item_key': 'varnish.stats["{$VARNISH_CACHE.LOCATIONS}"]',
+                            'master_item_key': master,
                             'preprocessing': [
                                 {
                                     'type': 12,
@@ -634,7 +644,7 @@
                             'context': 'items:busy_sleep',
                             'value_type': 0,
                             'units': 'eps',
-                            'master_item_key': 'varnish.stats["{$VARNISH_CACHE.LOCATIONS}"]',
+                            'master_item_key': master,
                             'preprocessing': [
                                 {
                                     'type': 12,
@@ -653,7 +663,7 @@
                             'context': 'items:busy_wakeup',
                             'value_type': 0,
                             'units': 'eps',
-                            'master_item_key': 'varnish.stats["{$VARNISH_CACHE.LOCATIONS}"]',
+                            'master_item_key': master,
                             'preprocessing': [
                                 {
                                     'type': 12,
@@ -672,7 +682,7 @@
                             'context': 'items:cache_hit',
                             'value_type': 0,
                             'units': 'eps',
-                            'master_item_key': 'varnish.stats["{$VARNISH_CACHE.LOCATIONS}"]',
+                            'master_item_key': master,
                             'preprocessing': [
                                 {
                                     'type': 12,
@@ -691,7 +701,7 @@
                             'context': 'items:cache_hitmiss',
                             'value_type': 0,
                             'units': 'eps',
-                            'master_item_key': 'varnish.stats["{$VARNISH_CACHE.LOCATIONS}"]',
+                            'master_item_key': master,
                             'preprocessing': [
                                 {
                                     'type': 12,
@@ -710,7 +720,7 @@
                             'context': 'items:cache_hitpass',
                             'value_type': 0,
                             'units': 'eps',
-                            'master_item_key': 'varnish.stats["{$VARNISH_CACHE.LOCATIONS}"]',
+                            'master_item_key': master,
                             'preprocessing': [
                                 {
                                     'type': 12,
@@ -729,7 +739,7 @@
                             'context': 'items:cache_hit_grace',
                             'value_type': 0,
                             'units': 'eps',
-                            'master_item_key': 'varnish.stats["{$VARNISH_CACHE.LOCATIONS}"]',
+                            'master_item_key': master,
                             'preprocessing': [
                                 {
                                     'type': 12,
@@ -748,7 +758,7 @@
                             'context': 'items:cache_miss',
                             'value_type': 0,
                             'units': 'eps',
-                            'master_item_key': 'varnish.stats["{$VARNISH_CACHE.LOCATIONS}"]',
+                            'master_item_key': master,
                             'preprocessing': [
                                 {
                                     'type': 12,
@@ -767,7 +777,7 @@
                             'context': 'items:client_resp_500',
                             'value_type': 0,
                             'units': 'eps',
-                            'master_item_key': 'varnish.stats["{$VARNISH_CACHE.LOCATIONS}"]',
+                            'master_item_key': master,
                             'preprocessing': [
                                 {
                                     'type': 12,
@@ -786,7 +796,7 @@
                             'context': 'items:client_req',
                             'value_type': 0,
                             'units': 'eps',
-                            'master_item_key': 'varnish.stats["{$VARNISH_CACHE.LOCATIONS}"]',
+                            'master_item_key': master,
                             'preprocessing': [
                                 {
                                     'type': 12,
@@ -805,7 +815,7 @@
                             'context': 'items:client_req_400',
                             'value_type': 0,
                             'units': 'eps',
-                            'master_item_key': 'varnish.stats["{$VARNISH_CACHE.LOCATIONS}"]',
+                            'master_item_key': master,
                             'preprocessing': [
                                 {
                                     'type': 12,
@@ -824,7 +834,7 @@
                             'context': 'items:client_req_417',
                             'value_type': 0,
                             'units': 'eps',
-                            'master_item_key': 'varnish.stats["{$VARNISH_CACHE.LOCATIONS}"]',
+                            'master_item_key': master,
                             'preprocessing': [
                                 {
                                     'type': 12,
@@ -843,7 +853,7 @@
                             'context': 'items:esi_errors',
                             'value_type': 0,
                             'units': 'eps',
-                            'master_item_key': 'varnish.stats["{$VARNISH_CACHE.LOCATIONS}"]',
+                            'master_item_key': master,
                             'preprocessing': [
                                 {
                                     'type': 12,
@@ -862,7 +872,7 @@
                             'context': 'items:esi_maxdepth',
                             'value_type': 0,
                             'units': 'eps',
-                            'master_item_key': 'varnish.stats["{$VARNISH_CACHE.LOCATIONS}"]',
+                            'master_item_key': master,
                             'preprocessing': [
                                 {
                                     'type': 12,
@@ -881,7 +891,7 @@
                             'context': 'items:esi_warnings',
                             'value_type': 0,
                             'units': 'eps',
-                            'master_item_key': 'varnish.stats["{$VARNISH_CACHE.LOCATIONS}"]',
+                            'master_item_key': master,
                             'preprocessing': [
                                 {
                                     'type': 12,
@@ -900,7 +910,7 @@
                             'context': 'items:fetch_1xx',
                             'value_type': 0,
                             'units': 'eps',
-                            'master_item_key': 'varnish.stats["{$VARNISH_CACHE.LOCATIONS}"]',
+                            'master_item_key': master,
                             'preprocessing': [
                                 {
                                     'type': 12,
@@ -919,7 +929,7 @@
                             'context': 'items:fetch_204',
                             'value_type': 0,
                             'units': 'eps',
-                            'master_item_key': 'varnish.stats["{$VARNISH_CACHE.LOCATIONS}"]',
+                            'master_item_key': master,
                             'preprocessing': [
                                 {
                                     'type': 12,
@@ -938,7 +948,7 @@
                             'context': 'items:fetch_304',
                             'value_type': 0,
                             'units': 'eps',
-                            'master_item_key': 'varnish.stats["{$VARNISH_CACHE.LOCATIONS}"]',
+                            'master_item_key': master,
                             'preprocessing': [
                                 {
                                     'type': 12,
@@ -957,7 +967,7 @@
                             'context': 'items:fetch_bad',
                             'value_type': 0,
                             'units': 'eps',
-                            'master_item_key': 'varnish.stats["{$VARNISH_CACHE.LOCATIONS}"]',
+                            'master_item_key': master,
                             'preprocessing': [
                                 {
                                     'type': 12,
@@ -976,7 +986,7 @@
                             'context': 'items:fetch_chunked',
                             'value_type': 0,
                             'units': 'eps',
-                            'master_item_key': 'varnish.stats["{$VARNISH_CACHE.LOCATIONS}"]',
+                            'master_item_key': master,
                             'preprocessing': [
                                 {
                                     'type': 12,
@@ -995,7 +1005,7 @@
                             'context': 'items:fetch_eof',
                             'value_type': 0,
                             'units': 'eps',
-                            'master_item_key': 'varnish.stats["{$VARNISH_CACHE.LOCATIONS}"]',
+                            'master_item_key': master,
                             'preprocessing': [
                                 {
                                     'type': 12,
@@ -1014,7 +1024,7 @@
                             'context': 'items:fetch_failed',
                             'value_type': 0,
                             'units': 'eps',
-                            'master_item_key': 'varnish.stats["{$VARNISH_CACHE.LOCATIONS}"]',
+                            'master_item_key': master,
                             'preprocessing': [
                                 {
                                     'type': 12,
@@ -1033,7 +1043,7 @@
                             'context': 'items:fetch_head',
                             'value_type': 0,
                             'units': 'eps',
-                            'master_item_key': 'varnish.stats["{$VARNISH_CACHE.LOCATIONS}"]',
+                            'master_item_key': master,
                             'preprocessing': [
                                 {
                                     'type': 12,
@@ -1052,7 +1062,7 @@
                             'context': 'items:fetch_length',
                             'value_type': 0,
                             'units': 'eps',
-                            'master_item_key': 'varnish.stats["{$VARNISH_CACHE.LOCATIONS}"]',
+                            'master_item_key': master,
                             'preprocessing': [
                                 {
                                     'type': 12,
@@ -1071,7 +1081,7 @@
                             'context': 'items:fetch_none',
                             'value_type': 0,
                             'units': 'eps',
-                            'master_item_key': 'varnish.stats["{$VARNISH_CACHE.LOCATIONS}"]',
+                            'master_item_key': master,
                             'preprocessing': [
                                 {
                                     'type': 12,
@@ -1090,7 +1100,7 @@
                             'context': 'items:fetch_no_thread',
                             'value_type': 0,
                             'units': 'eps',
-                            'master_item_key': 'varnish.stats["{$VARNISH_CACHE.LOCATIONS}"]',
+                            'master_item_key': master,
                             'preprocessing': [
                                 {
                                     'type': 12,
@@ -1109,7 +1119,7 @@
                             'context': 'items:goto_dns_cache_hits',
                             'value_type': 0,
                             'units': 'eps',
-                            'master_item_key': 'varnish.stats["{$VARNISH_CACHE.LOCATIONS}"]',
+                            'master_item_key': master,
                             'preprocessing': [
                                 {
                                     'type': 12,
@@ -1128,7 +1138,7 @@
                             'context': 'items:goto_dns_lookup_fails',
                             'value_type': 0,
                             'units': 'eps',
-                            'master_item_key': 'varnish.stats["{$VARNISH_CACHE.LOCATIONS}"]',
+                            'master_item_key': master,
                             'preprocessing': [
                                 {
                                     'type': 12,
@@ -1147,7 +1157,7 @@
                             'context': 'items:goto_dns_lookups',
                             'value_type': 0,
                             'units': 'eps',
-                            'master_item_key': 'varnish.stats["{$VARNISH_CACHE.LOCATIONS}"]',
+                            'master_item_key': master,
                             'preprocessing': [
                                 {
                                     'type': 12,
@@ -1166,7 +1176,7 @@
                             'context': 'items:vmod_http_handle_requests',
                             'value_type': 0,
                             'units': 'eps',
-                            'master_item_key': 'varnish.stats["{$VARNISH_CACHE.LOCATIONS}"]',
+                            'master_item_key': master,
                             'preprocessing': [
                                 {
                                     'type': 12,
@@ -1185,7 +1195,7 @@
                             'context': 'items:vmod_http_handle_completed',
                             'value_type': 0,
                             'units': 'eps',
-                            'master_item_key': 'varnish.stats["{$VARNISH_CACHE.LOCATIONS}"]',
+                            'master_item_key': master,
                             'preprocessing': [
                                 {
                                     'type': 12,
@@ -1204,7 +1214,7 @@
                             'context': 'items:vmod_http_handle_abandon',
                             'value_type': 0,
                             'units': 'eps',
-                            'master_item_key': 'varnish.stats["{$VARNISH_CACHE.LOCATIONS}"]',
+                            'master_item_key': master,
                             'preprocessing': [
                                 {
                                     'type': 12,
@@ -1223,7 +1233,7 @@
                             'context': 'items:losthdr',
                             'value_type': 0,
                             'units': 'eps',
-                            'master_item_key': 'varnish.stats["{$VARNISH_CACHE.LOCATIONS}"]',
+                            'master_item_key': master,
                             'preprocessing': [
                                 {
                                     'type': 12,
@@ -1241,7 +1251,7 @@
                             'key': 'varnish.stat["{#LOCATION_ID}","MAIN.n_backend"]',
                             'context': 'items:n_backend',
                             'value_type': 3,
-                            'master_item_key': 'varnish.stats["{$VARNISH_CACHE.LOCATIONS}"]',
+                            'master_item_key': master,
                             'preprocessing': [
                                 {
                                     'type': 12,
@@ -1256,7 +1266,7 @@
                             'key': 'varnish.stat["{#LOCATION_ID}","MAIN.n_vcl"]',
                             'context': 'items:n_vcl',
                             'value_type': 3,
-                            'master_item_key': 'varnish.stats["{$VARNISH_CACHE.LOCATIONS}"]',
+                            'master_item_key': master,
                             'preprocessing': [
                                 {
                                     'type': 12,
@@ -1271,7 +1281,7 @@
                             'key': 'varnish.stat["{#LOCATION_ID}","MAIN.vmods"]',
                             'context': 'items:vmods',
                             'value_type': 3,
-                            'master_item_key': 'varnish.stats["{$VARNISH_CACHE.LOCATIONS}"]',
+                            'master_item_key': master,
                             'preprocessing': [
                                 {
                                     'type': 12,
@@ -1287,7 +1297,7 @@
                             'context': 'items:n_expired',
                             'value_type': 0,
                             'units': 'eps',
-                            'master_item_key': 'varnish.stats["{$VARNISH_CACHE.LOCATIONS}"]',
+                            'master_item_key': master,
                             'preprocessing': [
                                 {
                                     'type': 12,
@@ -1306,7 +1316,7 @@
                             'context': 'items:n_gunzip',
                             'value_type': 0,
                             'units': 'eps',
-                            'master_item_key': 'varnish.stats["{$VARNISH_CACHE.LOCATIONS}"]',
+                            'master_item_key': master,
                             'preprocessing': [
                                 {
                                     'type': 12,
@@ -1325,7 +1335,7 @@
                             'context': 'items:n_gzip',
                             'value_type': 0,
                             'units': 'eps',
-                            'master_item_key': 'varnish.stats["{$VARNISH_CACHE.LOCATIONS}"]',
+                            'master_item_key': master,
                             'preprocessing': [
                                 {
                                     'type': 12,
@@ -1344,7 +1354,7 @@
                             'context': 'items:n_lru_limited',
                             'value_type': 0,
                             'units': 'eps',
-                            'master_item_key': 'varnish.stats["{$VARNISH_CACHE.LOCATIONS}"]',
+                            'master_item_key': master,
                             'preprocessing': [
                                 {
                                     'type': 12,
@@ -1363,7 +1373,7 @@
                             'context': 'items:n_lru_nuked',
                             'value_type': 0,
                             'units': 'eps',
-                            'master_item_key': 'varnish.stats["{$VARNISH_CACHE.LOCATIONS}"]',
+                            'master_item_key': master,
                             'preprocessing': [
                                 {
                                     'type': 12,
@@ -1382,7 +1392,7 @@
                             'context': 'items:n_lru_moved',
                             'value_type': 0,
                             'units': 'eps',
-                            'master_item_key': 'varnish.stats["{$VARNISH_CACHE.LOCATIONS}"]',
+                            'master_item_key': master,
                             'preprocessing': [
                                 {
                                     'type': 12,
@@ -1400,7 +1410,7 @@
                             'key': 'varnish.stat["{#LOCATION_ID}","MAIN.n_object"]',
                             'context': 'items:n_object',
                             'value_type': 3,
-                            'master_item_key': 'varnish.stats["{$VARNISH_CACHE.LOCATIONS}"]',
+                            'master_item_key': master,
                             'preprocessing': [
                                 {
                                     'type': 12,
@@ -1415,7 +1425,7 @@
                             'key': 'varnish.stat["{#LOCATION_ID}","MAIN.n_objectcore"]',
                             'context': 'items:n_objectcore',
                             'value_type': 3,
-                            'master_item_key': 'varnish.stats["{$VARNISH_CACHE.LOCATIONS}"]',
+                            'master_item_key': master,
                             'preprocessing': [
                                 {
                                     'type': 12,
@@ -1430,7 +1440,7 @@
                             'key': 'varnish.stat["{#LOCATION_ID}","MAIN.n_objecthead"]',
                             'context': 'items:n_objecthead',
                             'value_type': 3,
-                            'master_item_key': 'varnish.stats["{$VARNISH_CACHE.LOCATIONS}"]',
+                            'master_item_key': master,
                             'preprocessing': [
                                 {
                                     'type': 12,
@@ -1446,7 +1456,7 @@
                             'context': 'items:n_obj_purged',
                             'value_type': 0,
                             'units': 'eps',
-                            'master_item_key': 'varnish.stats["{$VARNISH_CACHE.LOCATIONS}"]',
+                            'master_item_key': master,
                             'preprocessing': [
                                 {
                                     'type': 12,
@@ -1465,7 +1475,7 @@
                             'context': 'items:n_purges',
                             'value_type': 0,
                             'units': 'eps',
-                            'master_item_key': 'varnish.stats["{$VARNISH_CACHE.LOCATIONS}"]',
+                            'master_item_key': master,
                             'preprocessing': [
                                 {
                                     'type': 12,
@@ -1484,7 +1494,7 @@
                             'context': 'items:n_test_gunzip',
                             'value_type': 0,
                             'units': 'eps',
-                            'master_item_key': 'varnish.stats["{$VARNISH_CACHE.LOCATIONS}"]',
+                            'master_item_key': master,
                             'preprocessing': [
                                 {
                                     'type': 12,
@@ -1503,7 +1513,7 @@
                             'context': 'items:req_dropped',
                             'value_type': 0,
                             'units': 'eps',
-                            'master_item_key': 'varnish.stats["{$VARNISH_CACHE.LOCATIONS}"]',
+                            'master_item_key': master,
                             'preprocessing': [
                                 {
                                     'type': 12,
@@ -1522,7 +1532,7 @@
                             'context': 'items:sc_vcl_failure',
                             'value_type': 0,
                             'units': 'eps',
-                            'master_item_key': 'varnish.stats["{$VARNISH_CACHE.LOCATIONS}"]',
+                            'master_item_key': master,
                             'preprocessing': [
                                 {
                                     'type': 12,
@@ -1541,7 +1551,7 @@
                             'context': 'items:sess_closed',
                             'value_type': 0,
                             'units': 'eps',
-                            'master_item_key': 'varnish.stats["{$VARNISH_CACHE.LOCATIONS}"]',
+                            'master_item_key': master,
                             'preprocessing': [
                                 {
                                     'type': 12,
@@ -1560,7 +1570,7 @@
                             'context': 'items:sess_closed_err',
                             'value_type': 0,
                             'units': 'eps',
-                            'master_item_key': 'varnish.stats["{$VARNISH_CACHE.LOCATIONS}"]',
+                            'master_item_key': master,
                             'preprocessing': [
                                 {
                                     'type': 12,
@@ -1579,7 +1589,7 @@
                             'context': 'items:sess_conn',
                             'value_type': 0,
                             'units': 'eps',
-                            'master_item_key': 'varnish.stats["{$VARNISH_CACHE.LOCATIONS}"]',
+                            'master_item_key': master,
                             'preprocessing': [
                                 {
                                     'type': 12,
@@ -1598,7 +1608,7 @@
                             'context': 'items:sess_drop',
                             'value_type': 0,
                             'units': 'eps',
-                            'master_item_key': 'varnish.stats["{$VARNISH_CACHE.LOCATIONS}"]',
+                            'master_item_key': master,
                             'preprocessing': [
                                 {
                                     'type': 12,
@@ -1617,7 +1627,7 @@
                             'context': 'items:sess_dropped',
                             'value_type': 0,
                             'units': 'eps',
-                            'master_item_key': 'varnish.stats["{$VARNISH_CACHE.LOCATIONS}"]',
+                            'master_item_key': master,
                             'preprocessing': [
                                 {
                                     'type': 12,
@@ -1636,7 +1646,7 @@
                             'context': 'items:sess_fail',
                             'value_type': 0,
                             'units': 'eps',
-                            'master_item_key': 'varnish.stats["{$VARNISH_CACHE.LOCATIONS}"]',
+                            'master_item_key': master,
                             'preprocessing': [
                                 {
                                     'type': 12,
@@ -1655,7 +1665,7 @@
                             'context': 'items:sess_fail_ebadf',
                             'value_type': 0,
                             'units': 'eps',
-                            'master_item_key': 'varnish.stats["{$VARNISH_CACHE.LOCATIONS}"]',
+                            'master_item_key': master,
                             'preprocessing': [
                                 {
                                     'type': 12,
@@ -1674,7 +1684,7 @@
                             'context': 'items:sess_fail_econnaborted',
                             'value_type': 0,
                             'units': 'eps',
-                            'master_item_key': 'varnish.stats["{$VARNISH_CACHE.LOCATIONS}"]',
+                            'master_item_key': master,
                             'preprocessing': [
                                 {
                                     'type': 12,
@@ -1693,7 +1703,7 @@
                             'context': 'items:sess_fail_eintr',
                             'value_type': 0,
                             'units': 'eps',
-                            'master_item_key': 'varnish.stats["{$VARNISH_CACHE.LOCATIONS}"]',
+                            'master_item_key': master,
                             'preprocessing': [
                                 {
                                     'type': 12,
@@ -1712,7 +1722,7 @@
                             'context': 'items:sess_fail_emfile',
                             'value_type': 0,
                             'units': 'eps',
-                            'master_item_key': 'varnish.stats["{$VARNISH_CACHE.LOCATIONS}"]',
+                            'master_item_key': master,
                             'preprocessing': [
                                 {
                                     'type': 12,
@@ -1731,7 +1741,7 @@
                             'context': 'items:sess_fail_enomem',
                             'value_type': 0,
                             'units': 'eps',
-                            'master_item_key': 'varnish.stats["{$VARNISH_CACHE.LOCATIONS}"]',
+                            'master_item_key': master,
                             'preprocessing': [
                                 {
                                     'type': 12,
@@ -1750,7 +1760,7 @@
                             'context': 'items:sess_fail_other',
                             'value_type': 0,
                             'units': 'eps',
-                            'master_item_key': 'varnish.stats["{$VARNISH_CACHE.LOCATIONS}"]',
+                            'master_item_key': master,
                             'preprocessing': [
                                 {
                                     'type': 12,
@@ -1769,7 +1779,7 @@
                             'context': 'items:sess_queued',
                             'value_type': 0,
                             'units': 'eps',
-                            'master_item_key': 'varnish.stats["{$VARNISH_CACHE.LOCATIONS}"]',
+                            'master_item_key': master,
                             'preprocessing': [
                                 {
                                     'type': 12,
@@ -1788,7 +1798,7 @@
                             'context': 'items:sess_readahead',
                             'value_type': 0,
                             'units': 'eps',
-                            'master_item_key': 'varnish.stats["{$VARNISH_CACHE.LOCATIONS}"]',
+                            'master_item_key': master,
                             'preprocessing': [
                                 {
                                     'type': 12,
@@ -1807,7 +1817,7 @@
                             'context': 'items:s_fetch',
                             'value_type': 0,
                             'units': 'eps',
-                            'master_item_key': 'varnish.stats["{$VARNISH_CACHE.LOCATIONS}"]',
+                            'master_item_key': master,
                             'preprocessing': [
                                 {
                                     'type': 12,
@@ -1826,7 +1836,7 @@
                             'context': 'items:s_pass',
                             'value_type': 0,
                             'units': 'eps',
-                            'master_item_key': 'varnish.stats["{$VARNISH_CACHE.LOCATIONS}"]',
+                            'master_item_key': master,
                             'preprocessing': [
                                 {
                                     'type': 12,
@@ -1845,7 +1855,7 @@
                             'context': 'items:s_pipe',
                             'value_type': 0,
                             'units': 'eps',
-                            'master_item_key': 'varnish.stats["{$VARNISH_CACHE.LOCATIONS}"]',
+                            'master_item_key': master,
                             'preprocessing': [
                                 {
                                     'type': 12,
@@ -1864,7 +1874,7 @@
                             'context': 'items:s_pipe_hdrbytes',
                             'value_type': 0,
                             'units': 'Bps',
-                            'master_item_key': 'varnish.stats["{$VARNISH_CACHE.LOCATIONS}"]',
+                            'master_item_key': master,
                             'preprocessing': [
                                 {
                                     'type': 12,
@@ -1883,7 +1893,7 @@
                             'context': 'items:s_pipe_in',
                             'value_type': 0,
                             'units': 'Bps',
-                            'master_item_key': 'varnish.stats["{$VARNISH_CACHE.LOCATIONS}"]',
+                            'master_item_key': master,
                             'preprocessing': [
                                 {
                                     'type': 12,
@@ -1902,7 +1912,7 @@
                             'context': 'items:s_pipe_out',
                             'value_type': 0,
                             'units': 'Bps',
-                            'master_item_key': 'varnish.stats["{$VARNISH_CACHE.LOCATIONS}"]',
+                            'master_item_key': master,
                             'preprocessing': [
                                 {
                                     'type': 12,
@@ -1921,7 +1931,7 @@
                             'context': 'items:s_req',
                             'value_type': 0,
                             'units': 'eps',
-                            'master_item_key': 'varnish.stats["{$VARNISH_CACHE.LOCATIONS}"]',
+                            'master_item_key': master,
                             'preprocessing': [
                                 {
                                     'type': 12,
@@ -1940,7 +1950,7 @@
                             'context': 'items:s_req_bodybytes',
                             'value_type': 0,
                             'units': 'Bps',
-                            'master_item_key': 'varnish.stats["{$VARNISH_CACHE.LOCATIONS}"]',
+                            'master_item_key': master,
                             'preprocessing': [
                                 {
                                     'type': 12,
@@ -1959,7 +1969,7 @@
                             'context': 'items:s_req_hdrbytes',
                             'value_type': 0,
                             'units': 'Bps',
-                            'master_item_key': 'varnish.stats["{$VARNISH_CACHE.LOCATIONS}"]',
+                            'master_item_key': master,
                             'preprocessing': [
                                 {
                                     'type': 12,
@@ -1978,7 +1988,7 @@
                             'context': 'items:s_resp_bodybytes',
                             'value_type': 0,
                             'units': 'Bps',
-                            'master_item_key': 'varnish.stats["{$VARNISH_CACHE.LOCATIONS}"]',
+                            'master_item_key': master,
                             'preprocessing': [
                                 {
                                     'type': 12,
@@ -1997,7 +2007,7 @@
                             'context': 'items:s_resp_hdrbytes',
                             'value_type': 0,
                             'units': 'Bps',
-                            'master_item_key': 'varnish.stats["{$VARNISH_CACHE.LOCATIONS}"]',
+                            'master_item_key': master,
                             'preprocessing': [
                                 {
                                     'type': 12,
@@ -2016,7 +2026,7 @@
                             'context': 'items:s_sess',
                             'value_type': 0,
                             'units': 'eps',
-                            'master_item_key': 'varnish.stats["{$VARNISH_CACHE.LOCATIONS}"]',
+                            'master_item_key': master,
                             'preprocessing': [
                                 {
                                     'type': 12,
@@ -2035,7 +2045,7 @@
                             'context': 'items:s_synth',
                             'value_type': 0,
                             'units': 'eps',
-                            'master_item_key': 'varnish.stats["{$VARNISH_CACHE.LOCATIONS}"]',
+                            'master_item_key': master,
                             'preprocessing': [
                                 {
                                     'type': 12,
@@ -2053,7 +2063,7 @@
                             'key': 'varnish.stat["{#LOCATION_ID}","MAIN.threads"]',
                             'context': 'items:threads',
                             'value_type': 3,
-                            'master_item_key': 'varnish.stats["{$VARNISH_CACHE.LOCATIONS}"]',
+                            'master_item_key': master,
                             'preprocessing': [
                                 {
                                     'type': 12,
@@ -2069,7 +2079,7 @@
                             'context': 'items:threads_created',
                             'value_type': 0,
                             'units': 'eps',
-                            'master_item_key': 'varnish.stats["{$VARNISH_CACHE.LOCATIONS}"]',
+                            'master_item_key': master,
                             'preprocessing': [
                                 {
                                     'type': 12,
@@ -2088,7 +2098,7 @@
                             'context': 'items:threads_destroyed',
                             'value_type': 0,
                             'units': 'eps',
-                            'master_item_key': 'varnish.stats["{$VARNISH_CACHE.LOCATIONS}"]',
+                            'master_item_key': master,
                             'preprocessing': [
                                 {
                                     'type': 12,
@@ -2107,7 +2117,7 @@
                             'context': 'items:threads_failed',
                             'value_type': 0,
                             'units': 'eps',
-                            'master_item_key': 'varnish.stats["{$VARNISH_CACHE.LOCATIONS}"]',
+                            'master_item_key': master,
                             'preprocessing': [
                                 {
                                     'type': 12,
@@ -2126,7 +2136,7 @@
                             'context': 'items:threads_limited',
                             'value_type': 0,
                             'units': 'eps',
-                            'master_item_key': 'varnish.stats["{$VARNISH_CACHE.LOCATIONS}"]',
+                            'master_item_key': master,
                             'preprocessing': [
                                 {
                                     'type': 12,
@@ -2144,7 +2154,7 @@
                             'key': 'varnish.stat["{#LOCATION_ID}","MAIN.thread_queue_len"]',
                             'context': 'items:threads_queue_len',
                             'value_type': 3,
-                            'master_item_key': 'varnish.stats["{$VARNISH_CACHE.LOCATIONS}"]',
+                            'master_item_key': master,
                             'preprocessing': [
                                 {
                                     'type': 12,
@@ -2160,7 +2170,7 @@
                             'context': 'items:MAIN-uptime',
                             'value_type': 3,
                             'units': 'uptime',
-                            'master_item_key': 'varnish.stats["{$VARNISH_CACHE.LOCATIONS}"]',
+                            'master_item_key': master,
                             'preprocessing': [
                                 {
                                     'type': 12,
@@ -2176,7 +2186,7 @@
                             'context': 'items:vcl_fail',
                             'value_type': 0,
                             'units': 'eps',
-                            'master_item_key': 'varnish.stats["{$VARNISH_CACHE.LOCATIONS}"]',
+                            'master_item_key': master,
                             'preprocessing': [
                                 {
                                     'type': 12,
@@ -2195,7 +2205,7 @@
                             'context': 'items:ws_backend_overflow',
                             'value_type': 0,
                             'units': 'eps',
-                            'master_item_key': 'varnish.stats["{$VARNISH_CACHE.LOCATIONS}"]',
+                            'master_item_key': master,
                             'preprocessing': [
                                 {
                                     'type': 12,
@@ -2214,7 +2224,7 @@
                             'context': 'items:ws_client_overflow',
                             'value_type': 0,
                             'units': 'eps',
-                            'master_item_key': 'varnish.stats["{$VARNISH_CACHE.LOCATIONS}"]',
+                            'master_item_key': master,
                             'preprocessing': [
                                 {
                                     'type': 12,
@@ -2233,7 +2243,7 @@
                             'context': 'items:ws_session_overflow',
                             'value_type': 0,
                             'units': 'eps',
-                            'master_item_key': 'varnish.stats["{$VARNISH_CACHE.LOCATIONS}"]',
+                            'master_item_key': master,
                             'preprocessing': [
                                 {
                                     'type': 12,
@@ -2252,7 +2262,7 @@
                             'context': 'items:ws_thread_overflow',
                             'value_type': 0,
                             'units': 'eps',
-                            'master_item_key': 'varnish.stats["{$VARNISH_CACHE.LOCATIONS}"]',
+                            'master_item_key': master,
                             'preprocessing': [
                                 {
                                     'type': 12,
@@ -2271,7 +2281,7 @@
                             'context': 'items:MGT-uptime',
                             'value_type': 3,
                             'units': 'uptime',
-                            'master_item_key': 'varnish.stats["{$VARNISH_CACHE.LOCATIONS}"]',
+                            'master_item_key': master,
                             'preprocessing': [
                                 {
                                     'type': 12,
@@ -2297,7 +2307,7 @@
                             'context': 'items:vha6_broadcast_candidates',
                             'value_type': 0,
                             'units': 'eps',
-                            'master_item_key': 'varnish.stats["{$VARNISH_CACHE.LOCATIONS}"]',
+                            'master_item_key': master,
                             'preprocessing': [
                                 {
                                     'type': 12,
@@ -2316,7 +2326,7 @@
                             'context': 'items:vha6_broadcast_nocache',
                             'value_type': 0,
                             'units': 'eps',
-                            'master_item_key': 'varnish.stats["{$VARNISH_CACHE.LOCATIONS}"]',
+                            'master_item_key': master,
                             'preprocessing': [
                                 {
                                     'type': 12,
@@ -2335,7 +2345,7 @@
                             'context': 'items:vha6_broadcast_skip',
                             'value_type': 0,
                             'units': 'eps',
-                            'master_item_key': 'varnish.stats["{$VARNISH_CACHE.LOCATIONS}"]',
+                            'master_item_key': master,
                             'preprocessing': [
                                 {
                                     'type': 12,
@@ -2354,7 +2364,7 @@
                             'context': 'items:vha6_broadcast_lowttl',
                             'value_type': 0,
                             'units': 'eps',
-                            'master_item_key': 'varnish.stats["{$VARNISH_CACHE.LOCATIONS}"]',
+                            'master_item_key': master,
                             'preprocessing': [
                                 {
                                     'type': 12,
@@ -2373,7 +2383,7 @@
                             'context': 'items:vha6_broadcast_toolarge',
                             'value_type': 0,
                             'units': 'eps',
-                            'master_item_key': 'varnish.stats["{$VARNISH_CACHE.LOCATIONS}"]',
+                            'master_item_key': master,
                             'preprocessing': [
                                 {
                                     'type': 12,
@@ -2392,7 +2402,7 @@
                             'context': 'items:vha6_broadcasts',
                             'value_type': 0,
                             'units': 'eps',
-                            'master_item_key': 'varnish.stats["{$VARNISH_CACHE.LOCATIONS}"]',
+                            'master_item_key': master,
                             'preprocessing': [
                                 {
                                     'type': 12,
@@ -2411,7 +2421,7 @@
                             'context': 'items:vha6_fetch_self',
                             'value_type': 0,
                             'units': 'eps',
-                            'master_item_key': 'varnish.stats["{$VARNISH_CACHE.LOCATIONS}"]',
+                            'master_item_key': master,
                             'preprocessing': [
                                 {
                                     'type': 12,
@@ -2430,7 +2440,7 @@
                             'context': 'items:vha6_fetch_peer',
                             'value_type': 0,
                             'units': 'eps',
-                            'master_item_key': 'varnish.stats["{$VARNISH_CACHE.LOCATIONS}"]',
+                            'master_item_key': master,
                             'preprocessing': [
                                 {
                                     'type': 12,
@@ -2449,7 +2459,7 @@
                             'context': 'items:vha6_fetch_origin',
                             'value_type': 0,
                             'units': 'eps',
-                            'master_item_key': 'varnish.stats["{$VARNISH_CACHE.LOCATIONS}"]',
+                            'master_item_key': master,
                             'preprocessing': [
                                 {
                                     'type': 12,
@@ -2468,7 +2478,7 @@
                             'context': 'items:vha6_fetch_origin_deliver',
                             'value_type': 0,
                             'units': 'eps',
-                            'master_item_key': 'varnish.stats["{$VARNISH_CACHE.LOCATIONS}"]',
+                            'master_item_key': master,
                             'preprocessing': [
                                 {
                                     'type': 12,
@@ -2487,7 +2497,7 @@
                             'context': 'items:vha6_fetch_peer_insert',
                             'value_type': 0,
                             'units': 'eps',
-                            'master_item_key': 'varnish.stats["{$VARNISH_CACHE.LOCATIONS}"]',
+                            'master_item_key': master,
                             'preprocessing': [
                                 {
                                     'type': 12,
@@ -2506,7 +2516,7 @@
                             'context': 'items:vha6_error_version_mismatch',
                             'value_type': 0,
                             'units': 'eps',
-                            'master_item_key': 'varnish.stats["{$VARNISH_CACHE.LOCATIONS}"]',
+                            'master_item_key': master,
                             'preprocessing': [
                                 {
                                     'type': 12,
@@ -2525,7 +2535,7 @@
                             'context': 'items:vha6_error_no_token',
                             'value_type': 0,
                             'units': 'eps',
-                            'master_item_key': 'varnish.stats["{$VARNISH_CACHE.LOCATIONS}"]',
+                            'master_item_key': master,
                             'preprocessing': [
                                 {
                                     'type': 12,
@@ -2544,7 +2554,7 @@
                             'context': 'items:vha6_error_bad_token',
                             'value_type': 0,
                             'units': 'eps',
-                            'master_item_key': 'varnish.stats["{$VARNISH_CACHE.LOCATIONS}"]',
+                            'master_item_key': master,
                             'preprocessing': [
                                 {
                                     'type': 12,
@@ -2563,7 +2573,7 @@
                             'context': 'items:vha6_error_stale_token',
                             'value_type': 0,
                             'units': 'eps',
-                            'master_item_key': 'varnish.stats["{$VARNISH_CACHE.LOCATIONS}"]',
+                            'master_item_key': master,
                             'preprocessing': [
                                 {
                                     'type': 12,
@@ -2582,7 +2592,7 @@
                             'context': 'items:vha6_error_rate_limited',
                             'value_type': 0,
                             'units': 'eps',
-                            'master_item_key': 'varnish.stats["{$VARNISH_CACHE.LOCATIONS}"]',
+                            'master_item_key': master,
                             'preprocessing': [
                                 {
                                     'type': 12,
@@ -2601,7 +2611,7 @@
                             'context': 'items:vha6_error_fetch_insert',
                             'value_type': 0,
                             'units': 'eps',
-                            'master_item_key': 'varnish.stats["{$VARNISH_CACHE.LOCATIONS}"]',
+                            'master_item_key': master,
                             'preprocessing': [
                                 {
                                     'type': 12,
@@ -2620,7 +2630,7 @@
                             'context': 'items:vha6_error_origin_mismatch',
                             'value_type': 0,
                             'units': 'eps',
-                            'master_item_key': 'varnish.stats["{$VARNISH_CACHE.LOCATIONS}"]',
+                            'master_item_key': master,
                             'preprocessing': [
                                 {
                                     'type': 12,
@@ -2639,7 +2649,7 @@
                             'context': 'items:vha6_error_origin_miss',
                             'value_type': 0,
                             'units': 'eps',
-                            'master_item_key': 'varnish.stats["{$VARNISH_CACHE.LOCATIONS}"]',
+                            'master_item_key': master,
                             'preprocessing': [
                                 {
                                     'type': 12,
@@ -2656,66 +2666,66 @@
                         {
                             'name': 'has been restarted',
                             'expression':
-                                '{Template App Varnish Cache:varnish.stat["{#LOCATION_ID}","MAIN.uptime"].max({$VARNISH_CACHE.LAST_VALUES_TO_CHECK:items:MAIN-uptime})}'
+                                '{Template App ' + name + ':varnish.stat["{#LOCATION_ID}","MAIN.uptime"].max({$VARNISH_CACHE.LAST_VALUES_TO_CHECK:items:MAIN-uptime})}'
                                 '<{$VARNISH_CACHE.MAIN_UPTIME.MIN} or'
-                                ' {Template App Varnish Cache:varnish.stat["{#LOCATION_ID}","MGT.uptime"].max({$VARNISH_CACHE.LAST_VALUES_TO_CHECK:items:MGT-uptime})}'
+                                ' {Template App ' + name + ':varnish.stat["{#LOCATION_ID}","MGT.uptime"].max({$VARNISH_CACHE.LAST_VALUES_TO_CHECK:items:MGT-uptime})}'
                                 '<{$VARNISH_CACHE.MGT_UPTIME.MIN}',
                             'priority': 4,
                         },
                         {
                             'name': 'has surpassed {$VARNISH_CACHE.THREADS.MAX} threads',
                             'expression':
-                                '{Template App Varnish Cache:varnish.stat["{#LOCATION_ID}","MAIN.threads"].min({$VARNISH_CACHE.LAST_VALUES_TO_CHECK:items:threads})}'
+                                '{Template App ' + name + ':varnish.stat["{#LOCATION_ID}","MAIN.threads"].min({$VARNISH_CACHE.LAST_VALUES_TO_CHECK:items:threads})}'
                                 '>{$VARNISH_CACHE.THREADS.MAX}',
                             'priority': 2,
                         },
                         {
                             'name': 'is generating HTTP header overflows',
                             'expression':
-                                '{Template App Varnish Cache:varnish.stat["{#LOCATION_ID}","MAIN.losthdr"].min({$VARNISH_CACHE.LAST_VALUES_TO_CHECK:items:losthdr})}'
+                                '{Template App ' + name + ':varnish.stat["{#LOCATION_ID}","MAIN.losthdr"].min({$VARNISH_CACHE.LAST_VALUES_TO_CHECK:items:losthdr})}'
                                 '>{$VARNISH_CACHE.HTTP_HEADER_OVERFLOWS_RATE.MAX}',
                             'priority': 2,
                         },
                         {
                             'name': 'is generating VCL failures',
                             'expression':
-                                '{Template App Varnish Cache:varnish.stat["{#LOCATION_ID}","MAIN.vcl_fail"].min({$VARNISH_CACHE.LAST_VALUES_TO_CHECK:items:vcl_fail})}'
+                                '{Template App ' + name + ':varnish.stat["{#LOCATION_ID}","MAIN.vcl_fail"].min({$VARNISH_CACHE.LAST_VALUES_TO_CHECK:items:vcl_fail})}'
                                 '>{$VARNISH_CACHE.VCL_FAILURES_RATE.MAX}',
                             'priority': 2,
                         },
                         {
                             'name': 'is generating workspace overflows',
                             'expression':
-                                '{Template App Varnish Cache:varnish.stat["{#LOCATION_ID}","MAIN.client_resp_500"].min({$VARNISH_CACHE.LAST_VALUES_TO_CHECK:items:client_resp_500})}'
+                                '{Template App ' + name + ':varnish.stat["{#LOCATION_ID}","MAIN.client_resp_500"].min({$VARNISH_CACHE.LAST_VALUES_TO_CHECK:items:client_resp_500})}'
                                 '>{$VARNISH_CACHE.WORKSPACE_OVERFLOWS_RATE.MAX} or'
-                                ' {Template App Varnish Cache:varnish.stat["{#LOCATION_ID}","MAIN.ws_backend_overflow"].min({$VARNISH_CACHE.LAST_VALUES_TO_CHECK:items:ws_backend_overflow})}'
+                                ' {Template App ' + name + ':varnish.stat["{#LOCATION_ID}","MAIN.ws_backend_overflow"].min({$VARNISH_CACHE.LAST_VALUES_TO_CHECK:items:ws_backend_overflow})}'
                                 '>{$VARNISH_CACHE.WORKSPACE_OVERFLOWS_RATE.MAX} or'
-                                ' {Template App Varnish Cache:varnish.stat["{#LOCATION_ID}","MAIN.ws_client_overflow"].min({$VARNISH_CACHE.LAST_VALUES_TO_CHECK:items:ws_client_overflow})}'
+                                ' {Template App ' + name + ':varnish.stat["{#LOCATION_ID}","MAIN.ws_client_overflow"].min({$VARNISH_CACHE.LAST_VALUES_TO_CHECK:items:ws_client_overflow})}'
                                 '>{$VARNISH_CACHE.WORKSPACE_OVERFLOWS_RATE.MAX} or'
-                                ' {Template App Varnish Cache:varnish.stat["{#LOCATION_ID}","MAIN.ws_session_overflow"].min({$VARNISH_CACHE.LAST_VALUES_TO_CHECK:items:ws_session_overflow})}'
+                                ' {Template App ' + name + ':varnish.stat["{#LOCATION_ID}","MAIN.ws_session_overflow"].min({$VARNISH_CACHE.LAST_VALUES_TO_CHECK:items:ws_session_overflow})}'
                                 '>{$VARNISH_CACHE.WORKSPACE_OVERFLOWS_RATE.MAX} or'
-                                ' {Template App Varnish Cache:varnish.stat["{#LOCATION_ID}","MAIN.ws_thread_overflow"].min({$VARNISH_CACHE.LAST_VALUES_TO_CHECK:items:ws_thread_overflow})}'
+                                ' {Template App ' + name + ':varnish.stat["{#LOCATION_ID}","MAIN.ws_thread_overflow"].min({$VARNISH_CACHE.LAST_VALUES_TO_CHECK:items:ws_thread_overflow})}'
                                 '>{$VARNISH_CACHE.WORKSPACE_OVERFLOWS_RATE.MAX}',
                             'priority': 2,
                         },
                         {
                             'name': 'is getting backend connection failures',
                             'expression':
-                                '{Template App Varnish Cache:varnish.stat["{#LOCATION_ID}","MAIN.backend_fail"].min({$VARNISH_CACHE.LAST_VALUES_TO_CHECK:items:backend_fail})}'
+                                '{Template App ' + name + ':varnish.stat["{#LOCATION_ID}","MAIN.backend_fail"].min({$VARNISH_CACHE.LAST_VALUES_TO_CHECK:items:backend_fail})}'
                                 '>{$VARNISH_CACHE.BACKEND_CONNECTION_FAILURES_RATE.MAX}',
                             'priority': 2,
                         },
                         {
                             'name': 'is nuking objects',
                             'expression':
-                                '{Template App Varnish Cache:varnish.stat["{#LOCATION_ID}","MAIN.n_lru_nuked"].min({$VARNISH_CACHE.LAST_VALUES_TO_CHECK:items:n_lru_nuked})}'
+                                '{Template App ' + name + ':varnish.stat["{#LOCATION_ID}","MAIN.n_lru_nuked"].min({$VARNISH_CACHE.LAST_VALUES_TO_CHECK:items:n_lru_nuked})}'
                                 '>{$VARNISH_CACHE.LRU_NUKED_OBJECTS_RATE.MAX}',
                             'priority': 2,
                         },
                         {
                             'name': 'is reaching nuke_limit',
                             'expression':
-                                '{Template App Varnish Cache:varnish.stat["{#LOCATION_ID}","MAIN.n_lru_limited"].min({$VARNISH_CACHE.LAST_VALUES_TO_CHECK:items:n_lru_limited})}'
+                                '{Template App ' + name + ':varnish.stat["{#LOCATION_ID}","MAIN.n_lru_limited"].min({$VARNISH_CACHE.LAST_VALUES_TO_CHECK:items:n_lru_limited})}'
                                 '>{$VARNISH_CACHE.NUKE_LIMIT_REACHS_RATE.MAX}',
                             'priority': 2,
                         },
@@ -3436,13 +3446,34 @@
                     },
                     [
                         {
+                            'name': 'VBE.{#SUBJECT}.healthy',
+                            'type': 18,
+                            'key': 'varnish.stat["{#LOCATION_ID}","VBE.{#SUBJECT_ID}.healthy"]',
+                            'context': 'backends:healthy',
+                            'value_type': 3,
+                            'master_item_key': master,
+                            'preprocessing': [
+                                {
+                                    'type': 12,
+                                    'params': '$[\'{#LOCATION_ID}.VBE.{#SUBJECT_ID}.healthy\']',
+                                    'error_handler': 1,
+                                },
+                                {
+                                    'type': 6,
+                                },
+                            ],
+                        },
+                    ]
+                    +
+                    ([
+                        {
                             'name': 'VBE.{#SUBJECT}.bereq_bodybytes (request body bytes / sec)',
                             'type': 18,
                             'key': 'varnish.stat["{#LOCATION_ID}","VBE.{#SUBJECT_ID}.bereq_bodybytes"]',
                             'context': 'backends:bereq_bodybytes',
                             'value_type': 0,
                             'units': 'Bps',
-                            'master_item_key': 'varnish.stats["{$VARNISH_CACHE.LOCATIONS}"]',
+                            'master_item_key': master,
                             'preprocessing': [
                                 {
                                     'type': 12,
@@ -3461,7 +3492,7 @@
                             'context': 'backends:bereq_hdrbytes',
                             'value_type': 0,
                             'units': 'Bps',
-                            'master_item_key': 'varnish.stats["{$VARNISH_CACHE.LOCATIONS}"]',
+                            'master_item_key': master,
                             'preprocessing': [
                                 {
                                     'type': 12,
@@ -3480,7 +3511,7 @@
                             'context': 'backends:beresp_bodybytes',
                             'value_type': 0,
                             'units': 'Bps',
-                            'master_item_key': 'varnish.stats["{$VARNISH_CACHE.LOCATIONS}"]',
+                            'master_item_key': master,
                             'preprocessing': [
                                 {
                                     'type': 12,
@@ -3499,7 +3530,7 @@
                             'context': 'backends:beresp_hdrbytes',
                             'value_type': 0,
                             'units': 'Bps',
-                            'master_item_key': 'varnish.stats["{$VARNISH_CACHE.LOCATIONS}"]',
+                            'master_item_key': master,
                             'preprocessing': [
                                 {
                                     'type': 12,
@@ -3518,7 +3549,7 @@
                             'context': 'backends:busy',
                             'value_type': 0,
                             'units': 'eps',
-                            'master_item_key': 'varnish.stats["{$VARNISH_CACHE.LOCATIONS}"]',
+                            'master_item_key': master,
                             'preprocessing': [
                                 {
                                     'type': 12,
@@ -3536,7 +3567,7 @@
                             'key': 'varnish.stat["{#LOCATION_ID}","VBE.{#SUBJECT_ID}.conn"]',
                             'context': 'backends:conn',
                             'value_type': 3,
-                            'master_item_key': 'varnish.stats["{$VARNISH_CACHE.LOCATIONS}"]',
+                            'master_item_key': master,
                             'preprocessing': [
                                 {
                                     'type': 12,
@@ -3552,7 +3583,7 @@
                             'context': 'backends:fail',
                             'value_type': 0,
                             'units': 'eps',
-                            'master_item_key': 'varnish.stats["{$VARNISH_CACHE.LOCATIONS}"]',
+                            'master_item_key': master,
                             'preprocessing': [
                                 {
                                     'type': 12,
@@ -3571,7 +3602,7 @@
                             'context': 'backends:fail_eacces',
                             'value_type': 0,
                             'units': 'eps',
-                            'master_item_key': 'varnish.stats["{$VARNISH_CACHE.LOCATIONS}"]',
+                            'master_item_key': master,
                             'preprocessing': [
                                 {
                                     'type': 12,
@@ -3590,7 +3621,7 @@
                             'context': 'backends:fail_eaddrnotavail',
                             'value_type': 0,
                             'units': 'eps',
-                            'master_item_key': 'varnish.stats["{$VARNISH_CACHE.LOCATIONS}"]',
+                            'master_item_key': master,
                             'preprocessing': [
                                 {
                                     'type': 12,
@@ -3609,7 +3640,7 @@
                             'context': 'backends:fail_econnrefused',
                             'value_type': 0,
                             'units': 'eps',
-                            'master_item_key': 'varnish.stats["{$VARNISH_CACHE.LOCATIONS}"]',
+                            'master_item_key': master,
                             'preprocessing': [
                                 {
                                     'type': 12,
@@ -3628,7 +3659,7 @@
                             'context': 'backends:fail_enetunreach',
                             'value_type': 0,
                             'units': 'eps',
-                            'master_item_key': 'varnish.stats["{$VARNISH_CACHE.LOCATIONS}"]',
+                            'master_item_key': master,
                             'preprocessing': [
                                 {
                                     'type': 12,
@@ -3647,7 +3678,7 @@
                             'context': 'backends:fail_etimedout',
                             'value_type': 0,
                             'units': 'eps',
-                            'master_item_key': 'varnish.stats["{$VARNISH_CACHE.LOCATIONS}"]',
+                            'master_item_key': master,
                             'preprocessing': [
                                 {
                                     'type': 12,
@@ -3666,7 +3697,7 @@
                             'context': 'backends:fail_other',
                             'value_type': 0,
                             'units': 'eps',
-                            'master_item_key': 'varnish.stats["{$VARNISH_CACHE.LOCATIONS}"]',
+                            'master_item_key': master,
                             'preprocessing': [
                                 {
                                     'type': 12,
@@ -3684,30 +3715,12 @@
                             'key': 'varnish.stat["{#LOCATION_ID}","VBE.{#SUBJECT_ID}.happy"]',
                             'context': 'backends:happy',
                             'value_type': 3,
-                            'master_item_key': 'varnish.stats["{$VARNISH_CACHE.LOCATIONS}"]',
+                            'master_item_key': master,
                             'preprocessing': [
                                 {
                                     'type': 12,
                                     'params': '$[\'{#LOCATION_ID}.VBE.{#SUBJECT_ID}.happy\']',
                                     'error_handler': 1,
-                                },
-                            ],
-                        },
-                        {
-                            'name': 'VBE.{#SUBJECT}.healthy',
-                            'type': 18,
-                            'key': 'varnish.stat["{#LOCATION_ID}","VBE.{#SUBJECT_ID}.healthy"]',
-                            'context': 'backends:healthy',
-                            'value_type': 3,
-                            'master_item_key': 'varnish.stats["{$VARNISH_CACHE.LOCATIONS}"]',
-                            'preprocessing': [
-                                {
-                                    'type': 12,
-                                    'params': '$[\'{#LOCATION_ID}.VBE.{#SUBJECT_ID}.healthy\']',
-                                    'error_handler': 1,
-                                },
-                                {
-                                    'type': 6,
                                 },
                             ],
                         },
@@ -3718,7 +3731,7 @@
                             'context': 'backends:helddown',
                             'value_type': 0,
                             'units': 'eps',
-                            'master_item_key': 'varnish.stats["{$VARNISH_CACHE.LOCATIONS}"]',
+                            'master_item_key': master,
                             'preprocessing': [
                                 {
                                     'type': 12,
@@ -3737,7 +3750,7 @@
                             'context': 'backends:pipe_hdrbytes',
                             'value_type': 0,
                             'units': 'Bps',
-                            'master_item_key': 'varnish.stats["{$VARNISH_CACHE.LOCATIONS}"]',
+                            'master_item_key': master,
                             'preprocessing': [
                                 {
                                     'type': 12,
@@ -3756,7 +3769,7 @@
                             'context': 'backends:pipe_in',
                             'value_type': 0,
                             'units': 'Bps',
-                            'master_item_key': 'varnish.stats["{$VARNISH_CACHE.LOCATIONS}"]',
+                            'master_item_key': master,
                             'preprocessing': [
                                 {
                                     'type': 12,
@@ -3775,7 +3788,7 @@
                             'context': 'backends:pipe_out',
                             'value_type': 0,
                             'units': 'Bps',
-                            'master_item_key': 'varnish.stats["{$VARNISH_CACHE.LOCATIONS}"]',
+                            'master_item_key': master,
                             'preprocessing': [
                                 {
                                     'type': 12,
@@ -3794,7 +3807,7 @@
                             'context': 'backends:req',
                             'value_type': 0,
                             'units': 'eps',
-                            'master_item_key': 'varnish.stats["{$VARNISH_CACHE.LOCATIONS}"]',
+                            'master_item_key': master,
                             'preprocessing': [
                                 {
                                     'type': 12,
@@ -3813,7 +3826,7 @@
                             'context': 'backends:unhealthy',
                             'value_type': 0,
                             'units': 'eps',
-                            'master_item_key': 'varnish.stats["{$VARNISH_CACHE.LOCATIONS}"]',
+                            'master_item_key': master,
                             'preprocessing': [
                                 {
                                     'type': 12,
@@ -3834,15 +3847,35 @@
                             'delay': true,
                             'params': 'band("varnish.stat[\\"{#LOCATION_ID}\\",\\"VBE.{#SUBJECT_ID}.happy\\"]",#1,1)',
                         },
-                    ],
+                    ] if not lite else []),
                     [
                         {
                             'name': '{#SUBJECT} backend is sick',
-                            'expression': '{Template App Varnish Cache:varnish.stat["{#LOCATION_ID}","VBE.{#SUBJECT_ID}.healthy"].max({$VARNISH_CACHE.LAST_VALUES_TO_CHECK:backends:healthy})}<1',
+                            'expression': '{Template App ' + name + ':varnish.stat["{#LOCATION_ID}","VBE.{#SUBJECT_ID}.healthy"].max({$VARNISH_CACHE.LAST_VALUES_TO_CHECK:backends:healthy})}<1',
                             'priority': 4,
                         },
                     ],
                     [
+                        {
+                            'name': 'Backends[{#SUBJECT}]: healthiness',
+                            'items': [
+                                {
+                                    'color': '00C800',
+                                    'calc_fnc': 1,
+                                    'key': 'varnish.stat["{#LOCATION_ID}","VBE.{#SUBJECT_ID}.healthy"]',
+                                },
+                            ] +
+                            ([
+                                {
+                                    'color': 'C80000',
+                                    'calc_fnc': 1,
+                                    'key': 'varnish["{#LOCATION_ID}","VBE.{#SUBJECT_ID}.last_happy"]',
+                                },
+                            ] if not lite else []),
+                        },
+                    ]
+                    +
+                    ([
                         {
                             'name': 'Backends[{#SUBJECT}]: bytes received from backend',
                             'type': 1,
@@ -3946,21 +3979,6 @@
                             ],
                         },
                         {
-                            'name': 'Backends[{#SUBJECT}]: healthiness',
-                            'items': [
-                                {
-                                    'color': '00C800',
-                                    'calc_fnc': 1,
-                                    'key': 'varnish.stat["{#LOCATION_ID}","VBE.{#SUBJECT_ID}.healthy"]',
-                                },
-                                {
-                                    'color': 'C80000',
-                                    'calc_fnc': 1,
-                                    'key': 'varnish["{#LOCATION_ID}","VBE.{#SUBJECT_ID}.last_happy"]',
-                                },
-                            ],
-                        },
-                        {
                             'name': 'Backends[{#SUBJECT}]: requests sent to backend',
                             'items': [
                                 {
@@ -3970,7 +3988,7 @@
                                 },
                             ],
                         },
-                    ]) }}
+                    ] if not lite else [])) }}
 
                 {#-#########################################################-#}
                 {#- STORAGES DISCOVERY -#}
@@ -3990,7 +4008,7 @@
                             'context': 'storages:c_fail',
                             'value_type': 0,
                             'units': 'eps',
-                            'master_item_key': 'varnish.stats["{$VARNISH_CACHE.LOCATIONS}"]',
+                            'master_item_key': master,
                             'preprocessing': [
                                 {
                                     'type': 12,
@@ -4009,7 +4027,7 @@
                             'context': 'storages:c_memcache_hit',
                             'value_type': 0,
                             'units': 'Bps',
-                            'master_item_key': 'varnish.stats["{$VARNISH_CACHE.LOCATIONS}"]',
+                            'master_item_key': master,
                             'preprocessing': [
                                 {
                                     'type': 12,
@@ -4028,7 +4046,7 @@
                             'context': 'storages:c_memcache_miss',
                             'value_type': 0,
                             'units': 'Bps',
-                            'master_item_key': 'varnish.stats["{$VARNISH_CACHE.LOCATIONS}"]',
+                            'master_item_key': master,
                             'preprocessing': [
                                 {
                                     'type': 12,
@@ -4047,7 +4065,7 @@
                             'context': 'storages:g_bytes',
                             'value_type': 3,
                             'units': 'B',
-                            'master_item_key': 'varnish.stats["{$VARNISH_CACHE.LOCATIONS}"]',
+                            'master_item_key': master,
                             'preprocessing': [
                                 {
                                     'type': 12,
@@ -4063,7 +4081,7 @@
                             'context': 'storages:g_space',
                             'value_type': 3,
                             'units': 'B',
-                            'master_item_key': 'varnish.stats["{$VARNISH_CACHE.LOCATIONS}"]',
+                            'master_item_key': master,
                             'preprocessing': [
                                 {
                                     'type': 12,
@@ -4078,7 +4096,7 @@
                             'key': 'varnish.stat["{#LOCATION_ID}","STG.{#SUBJECT_ID}.g_sparenode"]',
                             'context': 'storages:g_sparenode',
                             'value_type': 3,
-                            'master_item_key': 'varnish.stats["{$VARNISH_CACHE.LOCATIONS}"]',
+                            'master_item_key': master,
                             'preprocessing': [
                                 {
                                     'type': 12,
@@ -4093,7 +4111,7 @@
                             'key': 'varnish.stat["{#LOCATION_ID}","STG.{#SUBJECT_ID}.g_ykey_keys"]',
                             'context': 'storages:g_ykey_keys',
                             'value_type': 3,
-                            'master_item_key': 'varnish.stats["{$VARNISH_CACHE.LOCATIONS}"]',
+                            'master_item_key': master,
                             'preprocessing': [
                                 {
                                     'type': 12,
@@ -4109,7 +4127,7 @@
                             'context': 'storages:n_lru_moved',
                             'value_type': 0,
                             'units': 'eps',
-                            'master_item_key': 'varnish.stats["{$VARNISH_CACHE.LOCATIONS}"]',
+                            'master_item_key': master,
                             'preprocessing': [
                                 {
                                     'type': 12,
@@ -4128,7 +4146,7 @@
                             'context': 'storages:n_lru_nuked',
                             'value_type': 0,
                             'units': 'eps',
-                            'master_item_key': 'varnish.stats["{$VARNISH_CACHE.LOCATIONS}"]',
+                            'master_item_key': master,
                             'preprocessing': [
                                 {
                                     'type': 12,
@@ -4147,7 +4165,7 @@
                             'context': 'storages:n_vary',
                             'value_type': 0,
                             'units': 'eps',
-                            'master_item_key': 'varnish.stats["{$VARNISH_CACHE.LOCATIONS}"]',
+                            'master_item_key': master,
                             'preprocessing': [
                                 {
                                     'type': 12,
@@ -4174,21 +4192,21 @@
                         {
                             'name': '{#SUBJECT} storage failed to allocate space',
                             'expression':
-                                '{Template App Varnish Cache:varnish.stat["{#LOCATION_ID}","STG.{#SUBJECT_ID}.c_fail"].min({$VARNISH_CACHE.LAST_VALUES_TO_CHECK:storages:c_fail})}'
+                                '{Template App ' + name + ':varnish.stat["{#LOCATION_ID}","STG.{#SUBJECT_ID}.c_fail"].min({$VARNISH_CACHE.LAST_VALUES_TO_CHECK:storages:c_fail})}'
                                 '>{$VARNISH_CACHE.ALLOCATOR_FAILURES_RATE.MAX}',
                             'priority': 4,
                         },
                         {
                             'name': '{#SUBJECT} storage has run out of spare nodes',
                             'expression':
-                                '{Template App Varnish Cache:varnish.stat["{#LOCATION_ID}","STG.{#SUBJECT_ID}.g_sparenode"].max({$VARNISH_CACHE.LAST_VALUES_TO_CHECK:storages:g_sparenode})}'
+                                '{Template App ' + name + ':varnish.stat["{#LOCATION_ID}","STG.{#SUBJECT_ID}.g_sparenode"].max({$VARNISH_CACHE.LAST_VALUES_TO_CHECK:storages:g_sparenode})}'
                                 '<{$VARNISH_CACHE.SPARE_NODES.MIN.CRIT}',
                             'priority': 4,
                         },
                         {
                             'name': '{#SUBJECT} storage is running out of spare nodes',
                             'expression':
-                                '{Template App Varnish Cache:varnish.stat["{#LOCATION_ID}","STG.{#SUBJECT_ID}.g_sparenode"].max({$VARNISH_CACHE.LAST_VALUES_TO_CHECK:storages:g_sparenode})}'
+                                '{Template App ' + name + ':varnish.stat["{#LOCATION_ID}","STG.{#SUBJECT_ID}.g_sparenode"].max({$VARNISH_CACHE.LAST_VALUES_TO_CHECK:storages:g_sparenode})}'
                                 '<{$VARNISH_CACHE.SPARE_NODES.MIN.WARN}',
                             'priority': 2,
                         },
@@ -4297,7 +4315,7 @@
                             'context': 'mse_books:c_waterlevel_purge',
                             'value_type': 0,
                             'units': 'eps',
-                            'master_item_key': 'varnish.stats["{$VARNISH_CACHE.LOCATIONS}"]',
+                            'master_item_key': master,
                             'preprocessing': [
                                 {
                                     'type': 12,
@@ -4316,7 +4334,7 @@
                             'context': 'mse_books:c_waterlevel_queue',
                             'value_type': 0,
                             'units': 'eps',
-                            'master_item_key': 'varnish.stats["{$VARNISH_CACHE.LOCATIONS}"]',
+                            'master_item_key': master,
                             'preprocessing': [
                                 {
                                     'type': 12,
@@ -4335,7 +4353,7 @@
                             'context': 'mse_books:c_waterlevel_runs',
                             'value_type': 0,
                             'units': 'eps',
-                            'master_item_key': 'varnish.stats["{$VARNISH_CACHE.LOCATIONS}"]',
+                            'master_item_key': master,
                             'preprocessing': [
                                 {
                                     'type': 12,
@@ -4354,7 +4372,7 @@
                             'context': 'mse_books:g_bytes',
                             'value_type': 3,
                             'units': 'B',
-                            'master_item_key': 'varnish.stats["{$VARNISH_CACHE.LOCATIONS}"]',
+                            'master_item_key': master,
                             'preprocessing': [
                                 {
                                     'type': 12,
@@ -4370,7 +4388,7 @@
                             'context': 'mse_books:g_space',
                             'value_type': 3,
                             'units': 'B',
-                            'master_item_key': 'varnish.stats["{$VARNISH_CACHE.LOCATIONS}"]',
+                            'master_item_key': master,
                             'preprocessing': [
                                 {
                                     'type': 12,
@@ -4386,7 +4404,7 @@
                             'context': 'mse_books:n_vary',
                             'value_type': 0,
                             'units': 'eps',
-                            'master_item_key': 'varnish.stats["{$VARNISH_CACHE.LOCATIONS}"]',
+                            'master_item_key': master,
                             'preprocessing': [
                                 {
                                     'type': 12,
@@ -4403,7 +4421,7 @@
                         {
                             'name': '{#SUBJECT} MSE book is running out of space',
                             'expression':
-                                '{Template App Varnish Cache:varnish.stat["{#LOCATION_ID}","MSE_BOOK.{#SUBJECT_ID}.g_space"].max({$VARNISH_CACHE.LAST_VALUES_TO_CHECK:mse_books:g_space})}'
+                                '{Template App ' + name + ':varnish.stat["{#LOCATION_ID}","MSE_BOOK.{#SUBJECT_ID}.g_space"].max({$VARNISH_CACHE.LAST_VALUES_TO_CHECK:mse_books:g_space})}'
                                 '<{$VARNISH_CACHE.MSE_BOOK_SPACE.MIN}',
                             'priority': 2,
                         },
@@ -4469,7 +4487,7 @@
                             'context': 'mse_stores:c_aio_finished_bytes_read',
                             'value_type': 0,
                             'units': 'Bps',
-                            'master_item_key': 'varnish.stats["{$VARNISH_CACHE.LOCATIONS}"]',
+                            'master_item_key': master,
                             'preprocessing': [
                                 {
                                     'type': 12,
@@ -4488,7 +4506,7 @@
                             'context': 'mse_stores:c_aio_finished_bytes_write',
                             'value_type': 0,
                             'units': 'Bps',
-                            'master_item_key': 'varnish.stats["{$VARNISH_CACHE.LOCATIONS}"]',
+                            'master_item_key': master,
                             'preprocessing': [
                                 {
                                     'type': 12,
@@ -4507,7 +4525,7 @@
                             'context': 'mse_stores:c_aio_finished_read',
                             'value_type': 0,
                             'units': 'eps',
-                            'master_item_key': 'varnish.stats["{$VARNISH_CACHE.LOCATIONS}"]',
+                            'master_item_key': master,
                             'preprocessing': [
                                 {
                                     'type': 12,
@@ -4526,7 +4544,7 @@
                             'context': 'mse_stores:c_aio_finished_write',
                             'value_type': 0,
                             'units': 'eps',
-                            'master_item_key': 'varnish.stats["{$VARNISH_CACHE.LOCATIONS}"]',
+                            'master_item_key': master,
                             'preprocessing': [
                                 {
                                     'type': 12,
@@ -4545,7 +4563,7 @@
                             'context': 'mse_stores:c_waterlevel_purge',
                             'value_type': 0,
                             'units': 'eps',
-                            'master_item_key': 'varnish.stats["{$VARNISH_CACHE.LOCATIONS}"]',
+                            'master_item_key': master,
                             'preprocessing': [
                                 {
                                     'type': 12,
@@ -4564,7 +4582,7 @@
                             'context': 'mse_stores:c_waterlevel_queue',
                             'value_type': 0,
                             'units': 'eps',
-                            'master_item_key': 'varnish.stats["{$VARNISH_CACHE.LOCATIONS}"]',
+                            'master_item_key': master,
                             'preprocessing': [
                                 {
                                     'type': 12,
@@ -4583,7 +4601,7 @@
                             'context': 'mse_stores:g_alloc_bytes',
                             'value_type': 3,
                             'units': 'B',
-                            'master_item_key': 'varnish.stats["{$VARNISH_CACHE.LOCATIONS}"]',
+                            'master_item_key': master,
                             'preprocessing': [
                                 {
                                     'type': 12,
@@ -4599,7 +4617,7 @@
                             'context': 'mse_stores:g_free_bytes',
                             'value_type': 3,
                             'units': 'B',
-                            'master_item_key': 'varnish.stats["{$VARNISH_CACHE.LOCATIONS}"]',
+                            'master_item_key': master,
                             'preprocessing': [
                                 {
                                     'type': 12,
@@ -4614,7 +4632,7 @@
                             'key': 'varnish.stat["{#LOCATION_ID}","MSE_STORE.{#SUBJECT_ID}.g_objects"]',
                             'context': 'mse_stores:g_objects',
                             'value_type': 3,
-                            'master_item_key': 'varnish.stats["{$VARNISH_CACHE.LOCATIONS}"]',
+                            'master_item_key': master,
                             'preprocessing': [
                                 {
                                     'type': 12,
@@ -4629,7 +4647,7 @@
                             'key': 'varnish.stat["{#LOCATION_ID}","MSE_STORE.{#SUBJECT_ID}.g_ykey_keys"]',
                             'context': 'mse_stores:g_ykey_keys',
                             'value_type': 3,
-                            'master_item_key': 'varnish.stats["{$VARNISH_CACHE.LOCATIONS}"]',
+                            'master_item_key': master,
                             'preprocessing': [
                                 {
                                     'type': 12,
@@ -4735,7 +4753,7 @@
                             'context': 'counters',
                             'value_type': 0,
                             'units': 'eps',
-                            'master_item_key': 'varnish.stats["{$VARNISH_CACHE.LOCATIONS}"]',
+                            'master_item_key': master,
                             'preprocessing': [
                                 {
                                     'type': 12,
@@ -4811,37 +4829,37 @@
                 {
                     'name': 'Varnish Cache is not running',
                     'expression':
-                        '{Template App Varnish Cache:proc.num[varnishd].max({$VARNISH_CACHE.LAST_VALUES_TO_CHECK:proc.num-varnishd})}'
+                        '{Template App ' + name + ':proc.num[varnishd].max({$VARNISH_CACHE.LAST_VALUES_TO_CHECK:proc.num-varnishd})}'
                         '<{$VARNISH_CACHE.VARNISH_PROCESSES.MIN}',
                 },
                 {
                     'name': 'Varnish NCSA log is not running',
                     'expression':
-                        '{Template App Varnish Cache:proc.num[varnishncsa].max({$VARNISH_CACHE.LAST_VALUES_TO_CHECK:proc.num-varnishncsa})}'
+                        '{Template App ' + name + ':proc.num[varnishncsa].max({$VARNISH_CACHE.LAST_VALUES_TO_CHECK:proc.num-varnishncsa})}'
                         '<{$VARNISH_CACHE.NCSA_PROCESSES.MIN}',
                 },
                 {
                     'name': 'Varnish raw log is not running',
                     'expression':
-                        '{Template App Varnish Cache:proc.num[varnishlog].max({$VARNISH_CACHE.LAST_VALUES_TO_CHECK:proc.num-varnishlog})}'
+                        '{Template App ' + name + ':proc.num[varnishlog].max({$VARNISH_CACHE.LAST_VALUES_TO_CHECK:proc.num-varnishlog})}'
                         '<{$VARNISH_CACHE.RAW_LOG_PROCESSES.MIN}',
                 },
                 {
                     'name': 'Varnish Agent is not running',
                     'expression':
-                        '{Template App Varnish Cache:proc.num[varnish-agent].max({$VARNISH_CACHE.LAST_VALUES_TO_CHECK:proc.num-varnish-agent})}'
+                        '{Template App ' + name + ':proc.num[varnish-agent].max({$VARNISH_CACHE.LAST_VALUES_TO_CHECK:proc.num-varnish-agent})}'
                         '<{$VARNISH_CACHE.AGENT_PROCESSES.MIN}',
                 },
                 {
                     'name': 'Varnish Broadcaster is not running',
                     'expression':
-                        '{Template App Varnish Cache:proc.num[broadcaster].max({$VARNISH_CACHE.LAST_VALUES_TO_CHECK:proc.num-broadcaster})}'
+                        '{Template App ' + name + ':proc.num[broadcaster].max({$VARNISH_CACHE.LAST_VALUES_TO_CHECK:proc.num-broadcaster})}'
                         '<{$VARNISH_CACHE.BROADCASTER_PROCESSES.MIN}',
                 },
                 {
                     'name': 'VCS Agent is not running',
                     'expression':
-                        '{Template App Varnish Cache:proc.num[vcs-agent].max({$VARNISH_CACHE.LAST_VALUES_TO_CHECK:proc.num-vcs-agent})}'
+                        '{Template App ' + name + ':proc.num[vcs-agent].max({$VARNISH_CACHE.LAST_VALUES_TO_CHECK:proc.num-vcs-agent})}'
                         '<{$VARNISH_CACHE.VCS_AGENT_PROCESSES.MIN}',
                 },
             ] %}

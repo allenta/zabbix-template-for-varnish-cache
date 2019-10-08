@@ -16,6 +16,10 @@
 5. Generate the Varnish Cache Plus template using the Jinja2 skeleton and import it::
 
     $ pip install jinja2-cli
-    $ jinja2 --strict -D version='{4.0,4.2}' -o template.xml template-app-varnish-cache.j2
+    $ jinja2 \
+        -D version={4.0,4.2} \
+        [-D name='Varnish Cache'] \
+        [-D lite=0] \
+        --strict -o template.xml template-app-varnish-cache.j2
 
 6. Add an existing / new host to the ``Varnish Cache servers`` group and link it to the ``Template App Varnish Cache`` template. Beware you must set a value for the ``{$VARNISH_CACHE.LOCATIONS}`` macro (comma-delimited list of Varnish Cache Plus instance names). Usually you should leave its value blank when running a single Varnish Cache Plus instance per server. Additional macros and contexts are available for further customizations.

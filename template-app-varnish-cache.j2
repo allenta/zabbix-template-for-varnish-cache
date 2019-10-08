@@ -292,7 +292,7 @@
                         {
                             'name': '$1 processes',
                             'key': 'proc.num[varnish-agent]',
-                            'context': 'proc.num-varnish_agent',
+                            'context': 'proc.num-varnish-agent',
                             'value_type': 3,
                         },
                         {
@@ -4829,7 +4829,7 @@
                 {
                     'name': 'Varnish Agent is not running',
                     'expression':
-                        '{Template App Varnish Cache:proc.num[varnish-agent].max({$VARNISH_CACHE.LAST_VALUES_TO_CHECK:proc.num-varnish_agent})}'
+                        '{Template App Varnish Cache:proc.num[varnish-agent].max({$VARNISH_CACHE.LAST_VALUES_TO_CHECK:proc.num-varnish-agent})}'
                         '<{$VARNISH_CACHE.AGENT_PROCESSES.MIN}',
                 },
                 {

@@ -8,7 +8,7 @@
 
 3. Grant sudo permissions to the ``zabbix`` user to execute the ``/usr/local/bin/zabbix-varnish-cache.py`` script. This is not mandatory but it's recommended in order to let the script execute ``varnishadm`` commands used to discover the current active VCL, discover healthiness of each backend, etc.
 
-4. Add the ``varnish.discovery`` and ``varnish.stats`` user parameters to Zabbix::
+4. Add the ``varnish.discovery`` and ``varnish.stats`` user parameters to Zabbix. Beware additional arguments (e.g. ``--lite``, ``--exclude-backends``, etc.) might be required depending on the XML template generated during the next step::
 
     UserParameter=varnish.discovery[*],sudo /usr/local/bin/zabbix-varnish-cache.py -i '$1' discover $2
     UserParameter=varnish.stats[*],sudo /usr/local/bin/zabbix-varnish-cache.py -i '$1' stats

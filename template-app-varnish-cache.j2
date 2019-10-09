@@ -6,11 +6,7 @@
 
 {%- set lite = lite|default(0)|int > 0 -%}
 
-{%- if lite -%}
-    {%- set master = 'varnish.lite_stats["{$VARNISH_CACHE.LOCATIONS}"]' -%}
-{%- else -%}
-    {%- set master = 'varnish.stats["{$VARNISH_CACHE.LOCATIONS}"]' -%}
-{%- endif -%}
+{%- set master = 'varnish.stats["{$VARNISH_CACHE.LOCATIONS}"]' -%}
 
 {%- macro discovery_rule(rule, items, triggers, graphs) -%}
     <discovery_rule>

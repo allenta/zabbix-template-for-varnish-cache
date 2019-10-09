@@ -207,6 +207,9 @@ SUBJECTS = {
     'backends': re.compile(r'^VBE\.(.+)\.[^\.]+$'),
 }
 
+LITE = re.compile(
+    r'VBE\..+\.(?:bereq_bodybytes|bereq_hdrbytes|beresp_bodybytes|beresp_hdrbytes|busy|conn|fail|fail_eacces|fail_eaddrnotavail|fail_econnrefused|fail_enetunreach|fail_etimedout|fail_other|happy|helddown|pipe_hdrbytes|pipe_in|pipe_out|req|unhealthy)')
+
 
 ###############################################################################
 ## 'stats' COMMAND
@@ -219,7 +222,7 @@ def stats(options):
     # Build master item contents.
     for instance in options.varnish_instances.split(','):
         instance = instance.strip()
-        items = _stats(instance)
+        items = _stats(instance, options.lite)
         for name, item in items.items():
             result['%(instance)s.%(name)s' % {
                 'instance': _safe_zabbix_string(instance),
@@ -282,7 +285,7 @@ class Rewriter(object):
         return result
 
 
-def _stats(instance):
+def _stats(instance, lite=False):
     # Fetch backends through varnishadm.
     backends = {}
     # rc, output = _execute('varnishadm %(name)s backend.list -j' % {
@@ -315,19 +318,20 @@ def _stats(instance):
                     if not name.startswith('VBE.') or \
                        backends is None or \
                        any(name.startswith('VBE.' + backend + '.') for backend in backends.keys()):
-                        key = rewriter.rewrite(name)
-                        value = {
-                            'flag': item.get('flag'),
-                            'description': item.get('description'),
-                            'value': item['value'],
-                        }
-                        if key in result:
-                            if value['flag'] in ('c', 'g'):
-                                result[key]['value'] += value['value']
+                        if not lite or LITE.match(name) is None:
+                            key = rewriter.rewrite(name)
+                            value = {
+                                'flag': item.get('flag'),
+                                'description': item.get('description'),
+                                'value': item['value'],
+                            }
+                            if key in result:
+                                if value['flag'] in ('c', 'g'):
+                                    result[key]['value'] += value['value']
+                                else:
+                                    result[key]['value'] = None
                             else:
-                                result[key]['value'] = None
-                        else:
-                            result[key] = value
+                                result[key] = value
         if backends is not None:
             for backend, healthy in backends.items():
                 key = rewriter.rewrite('VBE.' + backend + '.healthy')
@@ -382,6 +386,9 @@ def main():
     subparser = subparsers.add_parser(
         'stats',
         help='collect Varnish Cache stats')
+    subparser.add_argument(
+        '--lite', dest='lite', action='store_true',
+        help='enable lite mode')
 
     # Set up 'discover' command.
     subparser = subparsers.add_parser(
@@ -389,7 +396,7 @@ def main():
         help='generate Zabbix discovery schema')
     subparser.add_argument(
         'subject', type=str, choices=SUBJECTS.keys(),
-        help="dynamic resources to be discovered")
+        help='dynamic resources to be discovered')
 
     # Parse command line arguments.
     options = parser.parse_args()

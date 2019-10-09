@@ -22,4 +22,4 @@
         [-D lite=0] \
         --strict -o template.xml template-app-varnish-cache.j2
 
-6. Add an existing / new host to the ``Varnish Cache servers`` group and link it to the ``Template App Varnish Cache`` template. Beware you must set a value for the ``{$VARNISH_CACHE.LOCATIONS}`` macro (comma-delimited list of Varnish Cache Plus instance names). Usually you should leave its value blank when running a single Varnish Cache Plus instance per server. Additional macros and contexts are available for further customizations.
+6. Link hosts to the template. Beware you must set a value for the ``{$VARNISH_CACHE.LOCATIONS}`` macro (comma-delimited list of Varnish Cache Plus instance names). Usually you should leave its value blank when running a single Varnish Cache Plus instance per server. Additional macros and contexts are available for further customizations.

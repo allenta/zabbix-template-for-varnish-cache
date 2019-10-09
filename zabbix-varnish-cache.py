@@ -12,7 +12,7 @@ import json
 import re
 import subprocess
 import sys
-from argparse import ArgumentParser
+from argparse import ArgumentParser, ArgumentTypeError
 
 ITEMS = re.compile(
     r'^(?:'
@@ -180,15 +180,18 @@ ITEMS = re.compile(
     #   - Waterlevel: c_waterlevel_queue, c_waterlevel_purge.
     r'MSE_STORE\..+\.(?:c_aio_finished_read|c_aio_finished_write|c_aio_finished_bytes_read|c_aio_finished_bytes_write|c_waterlevel_purge|c_waterlevel_queue|g_alloc_bytes|g_free_bytes|g_objects|g_ykey_keys)|'
     # Backends[...]
-    #   - Healthiness: healthy, happy.
+    #   - Healthiness: happy.
     #   - Requests sent to backend: req.
     #   - Concurrent connections to backend: conn.
     #   - Fetches not attempted: unhealthy, busy, fail, helddown.
     #   - Failed connection attempts: fail_eacces, fail_eaddrnotavail, fail_econnrefused, fail_enetunreach, fail_etimedout, fail_other.
     #   - Bytes sent to backend: pipe_out, pipe_hdrbytes, bereq_hdrbytes, bereq_bodybytes.
     #   - Bytes received from backend: pipe_in, beresp_hdrbytes, beresp_bodybytes.
-    r'VBE\..+\.(?:bereq_bodybytes|bereq_hdrbytes|beresp_bodybytes|beresp_hdrbytes|busy|conn|fail|fail_eacces|fail_eaddrnotavail|fail_econnrefused|fail_enetunreach|fail_etimedout|fail_other|happy|healthy|helddown|pipe_hdrbytes|pipe_in|pipe_out|req|unhealthy)'
+    r'VBE\..+\.(?:bereq_bodybytes|bereq_hdrbytes|beresp_bodybytes|beresp_hdrbytes|busy|conn|fail|fail_eacces|fail_eaddrnotavail|fail_econnrefused|fail_enetunreach|fail_etimedout|fail_other|happy|helddown|pipe_hdrbytes|pipe_in|pipe_out|req|unhealthy)'
     r')$')
+
+LITE_FILTER = re.compile(
+    r'VBE\..*')
 
 REWRITES = [
     (re.compile(r'^KVSTORE\.vha6_stats\.[^\.]+'), r'VHA6'),
@@ -207,9 +210,6 @@ SUBJECTS = {
     'backends': re.compile(r'^VBE\.(.+)\.[^\.]+$'),
 }
 
-LITE = re.compile(
-    r'VBE\..+\.(?:bereq_bodybytes|bereq_hdrbytes|beresp_bodybytes|beresp_hdrbytes|busy|conn|fail|fail_eacces|fail_eaddrnotavail|fail_econnrefused|fail_enetunreach|fail_etimedout|fail_other|happy|helddown|pipe_hdrbytes|pipe_in|pipe_out|req|unhealthy)')
-
 
 ###############################################################################
 ## 'stats' COMMAND
@@ -222,7 +222,7 @@ def stats(options):
     # Build master item contents.
     for instance in options.varnish_instances.split(','):
         instance = instance.strip()
-        items = _stats(instance, options.lite)
+        items = _stats(instance, options.backends_re, lite=options.lite)
         for name, item in items.items():
             result['%(instance)s.%(name)s' % {
                 'instance': _safe_zabbix_string(instance),
@@ -252,7 +252,7 @@ def discover(options):
                 '{#LOCATION_ID}': _safe_zabbix_string(instance),
             })
         else:
-            items = _stats(instance)
+            items = _stats(instance,options.backends_re)
             ids = set()
             for name in items.keys():
                 match = SUBJECTS[options.subject].match(name)
@@ -285,7 +285,7 @@ class Rewriter(object):
         return result
 
 
-def _stats(instance, lite=False):
+def _stats(instance, backends_re, lite=False):
     # Fetch backends through varnishadm.
     backends = {}
     # rc, output = _execute('varnishadm %(name)s backend.list -j' % {
@@ -315,31 +315,45 @@ def _stats(instance, lite=False):
         for name, item in json.loads(output).items():
             if 'value' in item:
                 if ITEMS.match(name) is not None:
-                    if not name.startswith('VBE.') or \
-                       backends is None or \
-                       any(name.startswith('VBE.' + backend + '.') for backend in backends.keys()):
-                        if not lite or LITE.match(name) is None:
-                            key = rewriter.rewrite(name)
-                            value = {
-                                'flag': item.get('flag'),
-                                'description': item.get('description'),
-                                'value': item['value'],
-                            }
-                            if key in result:
-                                if value['flag'] in ('c', 'g'):
-                                    result[key]['value'] += value['value']
-                                else:
-                                    result[key]['value'] = None
+                    if (not name.startswith('VBE.') or
+                        backends is None or
+                        any(name.startswith('VBE.' + backend + '.') for backend in backends.keys())) and \
+                       (not lite or
+                        LITE_FILTER.match(name) is None):
+                        # Rewrite key.
+                        key = rewriter.rewrite(name)
+
+                        # If this is a backend item apply the backends filter.
+                        if key.startswith('VBE.'):
+                            match = SUBJECTS['backends'].match(key)
+                            if match is not None and backends_re.search(match.group(1)) is None:
+                                continue
+
+                        # Process item and add it to the result.
+                        value = {
+                            'flag': item.get('flag'),
+                            'description': item.get('description'),
+                            'value': item['value'],
+                        }
+                        if key in result:
+                            if value['flag'] in ('c', 'g'):
+                                result[key]['value'] += value['value']
                             else:
-                                result[key] = value
+                                result[key]['value'] = None
+                        else:
+                            result[key] = value
+
+        # Add 'healthy' items to every backend.
         if backends is not None:
             for backend, healthy in backends.items():
                 key = rewriter.rewrite('VBE.' + backend + '.healthy')
-                result[key] = {
-                    'flag': 'g',
-                    'description': '',
-                    'value': int(healthy),
-                }
+                match = SUBJECTS['backends'].match(key)
+                if match is not None and backends_re.search(match.group(1)) is not None:
+                    result[key] = {
+                        'flag': 'g',
+                        'description': '',
+                        'value': int(healthy),
+                    }
         return dict([
             (key, value)
             for key, value in result.items()
@@ -369,6 +383,13 @@ def _execute(command, stdin=None):
     return child.returncode, output
 
 
+def re_argtype(string):
+    try:
+        return re.compile(string)
+    except re.error as e:
+        raise ArgumentTypeError(e)
+
+
 ###############################################################################
 ## MAIN
 ###############################################################################
@@ -380,6 +401,11 @@ def main():
         '-i', '--varnish-instances', dest='varnish_instances',
         type=str, required=True,
         help='comma-delimited list of Varnish Cache instances to get stats from')
+    parser.add_argument(
+        '-b', '--backends', dest='backends_re',
+        type=re_argtype, default='.*',
+        help='regular expression to match backends to be included (defaults to'
+             ' all backends: ".*")')
     subparsers = parser.add_subparsers(dest='command')
 
     # Set up 'stats' command.

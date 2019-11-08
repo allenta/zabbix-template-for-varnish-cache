@@ -138,8 +138,8 @@
         <name>{{ rule.name|e }}</name>
         <type>{{ item_type('ZABBIX_ACTIVE') }}</type>
         <key>{{ rule.key|e }}</key>
-        <delay>{$VARNISH_CACHE.LLD_UPDATE_INTERVAL:{{ rule.context }}}</delay>
-        <lifetime>{$VARNISH_CACHE.LLD_KEEP_LOST_RESOURCES_PERIOD:{{ rule.context }}}</lifetime>
+        <delay>{$VARNISH_CACHE.LLD_UPDATE_INTERVAL:&quot;{{ rule.context }}&quot;}</delay>
+        <lifetime>{$VARNISH_CACHE.LLD_KEEP_LOST_RESOURCES_PERIOD:&quot;{{ rule.context }}&quot;}</lifetime>
         {% if version in ('4.0', '4.2') %}
             <snmp_community/>
             <snmp_oid/>
@@ -198,15 +198,19 @@
                     <type>{{ item_type(item.type) }}</type>
                     <key>{{ item.key|e }}</key>
                     {% if 'delay' in item and item.delay %}
-                        <delay>{$VARNISH_CACHE.ITEM_UPDATE_INTERVAL:{{ item.context }}}</delay>
+                        <delay>{$VARNISH_CACHE.ITEM_UPDATE_INTERVAL}</delay>
                     {% else %}
                         <delay>0</delay>
                     {% endif %}
-                    <history>{$VARNISH_CACHE.ITEM_HISTORY_STORAGE_PERIOD:{{ item.context }}}</history>
+                    {% if 'history' in item and not item.history %}
+                        <history>0</history>
+                    {% else %}
+                        <history>{$VARNISH_CACHE.ITEM_HISTORY_STORAGE_PERIOD}</history>
+                    {% endif %}
                     {% if 'trends' in item and not item.trends %}
                         <trends>0</trends>
                     {% else %}
-                        <trends>{$VARNISH_CACHE.ITEM_TREND_STORAGE_PERIOD:{{ item.context }}}</trends>
+                        <trends>{$VARNISH_CACHE.ITEM_TREND_STORAGE_PERIOD}</trends>
                     {% endif %}
                     <value_type>{{ item_value_type(item.value_type) }}</value_type>
                     <units>{{ item.units|default('')|e }}</units>
@@ -346,7 +350,7 @@
     {
         'name': 'Varnish Cache is not running',
         'expression':
-            '{Template App ' + name + ':proc.num[varnishd].max({$VARNISH_CACHE.LAST_VALUES_TO_CHECK:proc.num-varnishd})}'
+            '{Template App ' + name + ':proc.num[varnishd].max(#1)}'
             '<{$VARNISH_CACHE.VARNISH_PROCESSES.MIN}',
         'priority': 'DISASTER',
     } -%}
@@ -355,7 +359,7 @@
     {
         'name': 'Varnish NCSA log is not running',
         'expression':
-            '{Template App ' + name + ':proc.num[varnishncsa].max({$VARNISH_CACHE.LAST_VALUES_TO_CHECK:proc.num-varnishncsa})}'
+            '{Template App ' + name + ':proc.num[varnishncsa].max(#1)}'
             '<{$VARNISH_CACHE.NCSA_PROCESSES.MIN}',
         'priority': 'DISASTER',
     } -%}
@@ -364,7 +368,7 @@
     {
         'name': 'Varnish raw log is not running',
         'expression':
-            '{Template App ' + name + ':proc.num[varnishlog].max({$VARNISH_CACHE.LAST_VALUES_TO_CHECK:proc.num-varnishlog})}'
+            '{Template App ' + name + ':proc.num[varnishlog].max(#1)}'
             '<{$VARNISH_CACHE.RAW_LOG_PROCESSES.MIN}',
         'priority': 'DISASTER',
     } -%}
@@ -373,7 +377,7 @@
     {
         'name': 'Varnish Agent is not running',
         'expression':
-            '{Template App ' + name + ':proc.num[varnish-agent].max({$VARNISH_CACHE.LAST_VALUES_TO_CHECK:proc.num-varnish-agent})}'
+            '{Template App ' + name + ':proc.num[varnish-agent].max(#1)}'
             '<{$VARNISH_CACHE.AGENT_PROCESSES.MIN}',
         'priority': 'DISASTER',
     } -%}
@@ -382,7 +386,7 @@
     {
         'name': 'Varnish Broadcaster is not running',
         'expression':
-            '{Template App ' + name + ':proc.num[broadcaster].max({$VARNISH_CACHE.LAST_VALUES_TO_CHECK:proc.num-broadcaster})}'
+            '{Template App ' + name + ':proc.num[broadcaster].max(#1)}'
             '<{$VARNISH_CACHE.BROADCASTER_PROCESSES.MIN}',
         'priority': 'DISASTER',
     } -%}
@@ -391,7 +395,7 @@
     {
         'name': 'VCS Agent is not running',
         'expression':
-            '{Template App ' + name + ':proc.num[vcs-agent].max({$VARNISH_CACHE.LAST_VALUES_TO_CHECK:proc.num-vcs-agent})}'
+            '{Template App ' + name + ':proc.num[vcs-agent].max(#1)}'
             '<{$VARNISH_CACHE.VCS_AGENT_PROCESSES.MIN}',
         'priority': 'DISASTER',
     } -%}
@@ -447,7 +451,7 @@
                         {
                             'name': 'stats',
                             'key': master,
-                            'context': 'stats',
+                            'history': false,
                             'trends': false,
                             'value_type': 'TEXT',
                             'triggers': [],
@@ -455,42 +459,36 @@
                         {
                             'name': '$1 processes',
                             'key': 'proc.num[varnishd]',
-                            'context': 'proc.num-varnishd',
                             'value_type': 'UNSIGNED',
                             'triggers': [varnish_processes_trigger],
                         },
                         {
                             'name': '$1 processes',
                             'key': 'proc.num[varnishncsa]',
-                            'context': 'proc.num-varnishncsa',
                             'value_type': 'UNSIGNED',
                             'triggers': [varnish_ncsa_log_processes_trigger],
                         },
                         {
                             'name': '$1 processes',
                             'key': 'proc.num[varnishlog]',
-                            'context': 'proc.num-varnishlog',
                             'value_type': 'UNSIGNED',
                             'triggers': [varnish_raw_log_processes_trigger],
                         },
                         {
                             'name': '$1 processes',
                             'key': 'proc.num[varnish-agent]',
-                            'context': 'proc.num-varnish-agent',
                             'value_type': 'UNSIGNED',
                             'triggers': [varnish_agent_processes_trigger],
                         },
                         {
                             'name': '$1 processes',
                             'key': 'proc.num[broadcaster]',
-                            'context': 'proc.num-broadcaster',
                             'value_type': 'UNSIGNED',
                             'triggers': [varnish_broadcaster_processes_trigger],
                         },
                         {
                             'name': '$1 processes',
                             'key': 'proc.num[vcs-agent]',
-                            'context': 'proc.num-vcs-agent',
                             'value_type': 'UNSIGNED',
                             'triggers': [vcs_agent_processes_trigger],
                         },
@@ -499,12 +497,16 @@
                         <name>Varnish Cache - {{ item.name|e }}</name>
                         <type>{{ item_type('ZABBIX_ACTIVE') }}</type>
                         <key>{{ item.key|e }}</key>
-                        <delay>{$VARNISH_CACHE.ITEM_UPDATE_INTERVAL:{{ item.context }}}</delay>
-                        <history>{$VARNISH_CACHE.ITEM_HISTORY_STORAGE_PERIOD:{{ item.context }}}</history>
+                        <delay>{$VARNISH_CACHE.ITEM_UPDATE_INTERVAL}</delay>
+                        {% if 'history' in item and not item.history %}
+                            <history>0</history>
+                        {% else %}
+                            <history>{$VARNISH_CACHE.ITEM_HISTORY_STORAGE_PERIOD}</history>
+                        {% endif %}
                         {% if 'trends' in item and not item.trends %}
                             <trends>0</trends>
                         {% else %}
-                            <trends>{$VARNISH_CACHE.ITEM_TREND_STORAGE_PERIOD:{{ item.context }}}</trends>
+                            <trends>{$VARNISH_CACHE.ITEM_TREND_STORAGE_PERIOD}</trends>
                         {% endif %}
                         <value_type>{{ item_value_type(item.value_type) }}</value_type>
                         <applications>
@@ -592,7 +594,6 @@
                             'name': 'MAIN.backend_busy (backend connections too many / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","MAIN.backend_busy"]',
-                            'context': 'items:backend_busy',
                             'value_type': 'FLOAT',
                             'units': 'eps',
                             'master_item_key': master,
@@ -611,7 +612,6 @@
                             'name': 'MAIN.backend_conn (backend connections successfully stablished / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","MAIN.backend_conn"]',
-                            'context': 'items:backend_conn',
                             'value_type': 'FLOAT',
                             'units': 'eps',
                             'master_item_key': master,
@@ -630,7 +630,6 @@
                             'name': 'MAIN.backend_fail (backend connection failures / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","MAIN.backend_fail"]',
-                            'context': 'items:backend_fail',
                             'value_type': 'FLOAT',
                             'units': 'eps',
                             'master_item_key': master,
@@ -649,7 +648,6 @@
                             'name': 'MAIN.backend_recycle (backend connection recycles / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","MAIN.backend_recycle"]',
-                            'context': 'items:backend_recycle',
                             'value_type': 'FLOAT',
                             'units': 'eps',
                             'master_item_key': master,
@@ -668,7 +666,6 @@
                             'name': 'MAIN.backend_req (backend requests made / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","MAIN.backend_req"]',
-                            'context': 'items:backend_req',
                             'value_type': 'FLOAT',
                             'units': 'eps',
                             'master_item_key': master,
@@ -687,7 +684,6 @@
                             'name': 'MAIN.backend_retry (backend connnections retry / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","MAIN.backend_retry"]',
-                            'context': 'items:backend_retry',
                             'value_type': 'FLOAT',
                             'units': 'eps',
                             'master_item_key': master,
@@ -706,7 +702,6 @@
                             'name': 'MAIN.backend_reuse (backend connection reuses / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","MAIN.backend_reuse"]',
-                            'context': 'items:backend_reuse',
                             'value_type': 'FLOAT',
                             'units': 'eps',
                             'master_item_key': master,
@@ -725,7 +720,6 @@
                             'name': 'MAIN.backend_unhealthy (backend connections not attempted / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","MAIN.backend_unhealthy"]',
-                            'context': 'items:backend_unhealthy',
                             'value_type': 'FLOAT',
                             'units': 'eps',
                             'master_item_key': master,
@@ -744,7 +738,6 @@
                             'name': 'MAIN.bans (number of bans)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","MAIN.bans"]',
-                            'context': 'items:bans',
                             'value_type': 'UNSIGNED',
                             'master_item_key': master,
                             'preprocessing': [
@@ -759,7 +752,6 @@
                             'name': 'MAIN.bans_lurker_obj_killed (objects killed by bans lurker / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","MAIN.bans_lurker_obj_killed"]',
-                            'context': 'items:bans_lurker_obj_killed',
                             'value_type': 'FLOAT',
                             'units': 'eps',
                             'master_item_key': master,
@@ -778,7 +770,6 @@
                             'name': 'MAIN.bans_lurker_obj_killed_cutoff (objects killed by bans lurker for cutoff / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","MAIN.bans_lurker_obj_killed_cutoff"]',
-                            'context': 'items:bans_lurker_obj_killed_cutoff',
                             'value_type': 'FLOAT',
                             'units': 'eps',
                             'master_item_key': master,
@@ -797,7 +788,6 @@
                             'name': 'MAIN.bans_obj_killed (objects killed by bans during lookup / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","MAIN.bans_obj_killed"]',
-                            'context': 'items:bans_obj_killed',
                             'value_type': 'FLOAT',
                             'units': 'eps',
                             'master_item_key': master,
@@ -816,7 +806,6 @@
                             'name': 'MAIN.busy_killed (requests killed after sleep on busy objhdr / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","MAIN.busy_killed"]',
-                            'context': 'items:busy_killed',
                             'value_type': 'FLOAT',
                             'units': 'eps',
                             'master_item_key': master,
@@ -835,7 +824,6 @@
                             'name': 'MAIN.busy_sleep (requests sent to sleep on busy objhdr / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","MAIN.busy_sleep"]',
-                            'context': 'items:busy_sleep',
                             'value_type': 'FLOAT',
                             'units': 'eps',
                             'master_item_key': master,
@@ -854,7 +842,6 @@
                             'name': 'MAIN.busy_wakeup (requests woken after sleep on busy objhdr / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","MAIN.busy_wakeup"]',
-                            'context': 'items:busy_wakeup',
                             'value_type': 'FLOAT',
                             'units': 'eps',
                             'master_item_key': master,
@@ -873,7 +860,6 @@
                             'name': 'MAIN.cache_hit (cache hits / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","MAIN.cache_hit"]',
-                            'context': 'items:cache_hit',
                             'value_type': 'FLOAT',
                             'units': 'eps',
                             'master_item_key': master,
@@ -892,7 +878,6 @@
                             'name': 'MAIN.cache_hitmiss (cache hits for miss / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","MAIN.cache_hitmiss"]',
-                            'context': 'items:cache_hitmiss',
                             'value_type': 'FLOAT',
                             'units': 'eps',
                             'master_item_key': master,
@@ -911,7 +896,6 @@
                             'name': 'MAIN.cache_hitpass (cache hits for pass / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","MAIN.cache_hitpass"]',
-                            'context': 'items:cache_hitpass',
                             'value_type': 'FLOAT',
                             'units': 'eps',
                             'master_item_key': master,
@@ -930,7 +914,6 @@
                             'name': 'MAIN.cache_hit_grace (cache grace hits / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","MAIN.cache_hit_grace"]',
-                            'context': 'items:cache_hit_grace',
                             'value_type': 'FLOAT',
                             'units': 'eps',
                             'master_item_key': master,
@@ -949,7 +932,6 @@
                             'name': 'MAIN.cache_miss (cache misses / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","MAIN.cache_miss"]',
-                            'context': 'items:cache_miss',
                             'value_type': 'FLOAT',
                             'units': 'eps',
                             'master_item_key': master,
@@ -968,7 +950,6 @@
                             'name': 'MAIN.client_resp_500 (delivery failed due to insufficient workspace / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","MAIN.client_resp_500"]',
-                            'context': 'items:client_resp_500',
                             'value_type': 'FLOAT',
                             'units': 'eps',
                             'master_item_key': master,
@@ -987,7 +968,6 @@
                             'name': 'MAIN.client_req (good -parseable- client requests received / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","MAIN.client_req"]',
-                            'context': 'items:client_req',
                             'value_type': 'FLOAT',
                             'units': 'eps',
                             'master_item_key': master,
@@ -1006,7 +986,6 @@
                             'name': 'MAIN.client_req_400 (client requests received, subject to 400 errors / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","MAIN.client_req_400"]',
-                            'context': 'items:client_req_400',
                             'value_type': 'FLOAT',
                             'units': 'eps',
                             'master_item_key': master,
@@ -1025,7 +1004,6 @@
                             'name': 'MAIN.client_req_417 (client requests received, subject to 417 errors / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","MAIN.client_req_417"]',
-                            'context': 'items:client_req_417',
                             'value_type': 'FLOAT',
                             'units': 'eps',
                             'master_item_key': master,
@@ -1044,7 +1022,6 @@
                             'name': 'MAIN.esi_errors (ESI parse errors -unlock- / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","MAIN.esi_errors"]',
-                            'context': 'items:esi_errors',
                             'value_type': 'FLOAT',
                             'units': 'eps',
                             'master_item_key': master,
@@ -1063,7 +1040,6 @@
                             'name': 'MAIN.esi_maxdepth (ESI hit max_esi_depth / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","MAIN.esi_maxdepth"]',
-                            'context': 'items:esi_maxdepth',
                             'value_type': 'FLOAT',
                             'units': 'eps',
                             'master_item_key': master,
@@ -1082,7 +1058,6 @@
                             'name': 'MAIN.esi_warnings (ESI parse warnings -unlock- / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","MAIN.esi_warnings"]',
-                            'context': 'items:esi_warnings',
                             'value_type': 'FLOAT',
                             'units': 'eps',
                             'master_item_key': master,
@@ -1101,7 +1076,6 @@
                             'name': 'MAIN.fetch_1xx (beresps with no body because of 1xx responses / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","MAIN.fetch_1xx"]',
-                            'context': 'items:fetch_1xx',
                             'value_type': 'FLOAT',
                             'units': 'eps',
                             'master_item_key': master,
@@ -1120,7 +1094,6 @@
                             'name': 'MAIN.fetch_204 (beresps with no body because of 204 responses / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","MAIN.fetch_204"]',
-                            'context': 'items:fetch_204',
                             'value_type': 'FLOAT',
                             'units': 'eps',
                             'master_item_key': master,
@@ -1139,7 +1112,6 @@
                             'name': 'MAIN.fetch_304 (beresps with not body because of 304 responses / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","MAIN.fetch_304"]',
-                            'context': 'items:fetch_304',
                             'value_type': 'FLOAT',
                             'units': 'eps',
                             'master_item_key': master,
@@ -1158,7 +1130,6 @@
                             'name': 'MAIN.fetch_bad (bad fetches because beresp.body length/fetch could not be determined / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","MAIN.fetch_bad"]',
-                            'context': 'items:fetch_bad',
                             'value_type': 'FLOAT',
                             'units': 'eps',
                             'master_item_key': master,
@@ -1177,7 +1148,6 @@
                             'name': 'MAIN.fetch_chunked (beresps with body chunked / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","MAIN.fetch_chunked"]',
-                            'context': 'items:fetch_chunked',
                             'value_type': 'FLOAT',
                             'units': 'eps',
                             'master_item_key': master,
@@ -1196,7 +1166,6 @@
                             'name': 'MAIN.fetch_eof (beresps with body EOF / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","MAIN.fetch_eof"]',
-                            'context': 'items:fetch_eof',
                             'value_type': 'FLOAT',
                             'units': 'eps',
                             'master_item_key': master,
@@ -1215,7 +1184,6 @@
                             'name': 'MAIN.fetch_failed (failed fetches -all causes- / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","MAIN.fetch_failed"]',
-                            'context': 'items:fetch_failed',
                             'value_type': 'FLOAT',
                             'units': 'eps',
                             'master_item_key': master,
@@ -1234,7 +1202,6 @@
                             'name': 'MAIN.fetch_head (beresps with not body because of HEAD requests / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","MAIN.fetch_head"]',
-                            'context': 'items:fetch_head',
                             'value_type': 'FLOAT',
                             'units': 'eps',
                             'master_item_key': master,
@@ -1253,7 +1220,6 @@
                             'name': 'MAIN.fetch_length (beresps with body Content-Length / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","MAIN.fetch_length"]',
-                            'context': 'items:fetch_length',
                             'value_type': 'FLOAT',
                             'units': 'eps',
                             'master_item_key': master,
@@ -1272,7 +1238,6 @@
                             'name': 'MAIN.fetch_none (beresps with no body / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","MAIN.fetch_none"]',
-                            'context': 'items:fetch_none',
                             'value_type': 'FLOAT',
                             'units': 'eps',
                             'master_item_key': master,
@@ -1291,7 +1256,6 @@
                             'name': 'MAIN.fetch_no_thread (failed fetches because no thread available / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","MAIN.fetch_no_thread"]',
-                            'context': 'items:fetch_no_thread',
                             'value_type': 'FLOAT',
                             'units': 'eps',
                             'master_item_key': master,
@@ -1310,7 +1274,6 @@
                             'name': 'MAIN.goto_dns_cache_hits (cache hits within vmod_goto\'s DNS / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","MAIN.goto_dns_cache_hits"]',
-                            'context': 'items:goto_dns_cache_hits',
                             'value_type': 'FLOAT',
                             'units': 'eps',
                             'master_item_key': master,
@@ -1329,7 +1292,6 @@
                             'name': 'MAIN.goto_dns_lookup_fails (number of unresolved DNS lookups from vmod_goto\'s DNS / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","MAIN.goto_dns_lookup_fails"]',
-                            'context': 'items:goto_dns_lookup_fails',
                             'value_type': 'FLOAT',
                             'units': 'eps',
                             'master_item_key': master,
@@ -1348,7 +1310,6 @@
                             'name': 'MAIN.goto_dns_lookups (number of DNS lookups from vmod_goto\'s DNS / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","MAIN.goto_dns_lookups"]',
-                            'context': 'items:goto_dns_lookups',
                             'value_type': 'FLOAT',
                             'units': 'eps',
                             'master_item_key': master,
@@ -1367,7 +1328,6 @@
                             'name': 'VMOD_HTTP.handle_requests (HTTP requests / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","VMOD_HTTP.handle_requests"]',
-                            'context': 'items:vmod_http_handle_requests',
                             'value_type': 'FLOAT',
                             'units': 'eps',
                             'master_item_key': master,
@@ -1386,7 +1346,6 @@
                             'name': 'VMOD_HTTP.handle_completed (completed HTTP requests / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","VMOD_HTTP.handle_completed"]',
-                            'context': 'items:vmod_http_handle_completed',
                             'value_type': 'FLOAT',
                             'units': 'eps',
                             'master_item_key': master,
@@ -1405,7 +1364,6 @@
                             'name': 'VMOD_HTTP.handle_abandon (abandoned HTTP requests / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","VMOD_HTTP.handle_abandon"]',
-                            'context': 'items:vmod_http_handle_abandon',
                             'value_type': 'FLOAT',
                             'units': 'eps',
                             'master_item_key': master,
@@ -1424,7 +1382,6 @@
                             'name': 'MAIN.losthdr (HTTP header overflows / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","MAIN.losthdr"]',
-                            'context': 'items:losthdr',
                             'value_type': 'FLOAT',
                             'units': 'eps',
                             'master_item_key': master,
@@ -1443,7 +1400,6 @@
                             'name': 'MAIN.n_backend (number of backends)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","MAIN.n_backend"]',
-                            'context': 'items:n_backend',
                             'value_type': 'UNSIGNED',
                             'master_item_key': master,
                             'preprocessing': [
@@ -1458,7 +1414,6 @@
                             'name': 'MAIN.n_vcl (number of loaded VCLs in total)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","MAIN.n_vcl"]',
-                            'context': 'items:n_vcl',
                             'value_type': 'UNSIGNED',
                             'master_item_key': master,
                             'preprocessing': [
@@ -1473,7 +1428,6 @@
                             'name': 'MAIN.vmods (loaded VMODs)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","MAIN.vmods"]',
-                            'context': 'items:vmods',
                             'value_type': 'UNSIGNED',
                             'master_item_key': master,
                             'preprocessing': [
@@ -1488,7 +1442,6 @@
                             'name': 'MAIN.n_expired (expired objects / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","MAIN.n_expired"]',
-                            'context': 'items:n_expired',
                             'value_type': 'FLOAT',
                             'units': 'eps',
                             'master_item_key': master,
@@ -1507,7 +1460,6 @@
                             'name': 'MAIN.n_gunzip (gunzip operations / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","MAIN.n_gunzip"]',
-                            'context': 'items:n_gunzip',
                             'value_type': 'FLOAT',
                             'units': 'eps',
                             'master_item_key': master,
@@ -1526,7 +1478,6 @@
                             'name': 'MAIN.n_gzip (gzip operations / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","MAIN.n_gzip"]',
-                            'context': 'items:n_gzip',
                             'value_type': 'FLOAT',
                             'units': 'eps',
                             'master_item_key': master,
@@ -1545,7 +1496,6 @@
                             'name': 'MAIN.n_lru_limited (nuke_limit reachs / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","MAIN.n_lru_limited"]',
-                            'context': 'items:n_lru_limited',
                             'value_type': 'FLOAT',
                             'units': 'eps',
                             'master_item_key': master,
@@ -1564,7 +1514,6 @@
                             'name': 'MAIN.n_lru_nuked (LRU nuked objects / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","MAIN.n_lru_nuked"]',
-                            'context': 'items:n_lru_nuked',
                             'value_type': 'FLOAT',
                             'units': 'eps',
                             'master_item_key': master,
@@ -1583,7 +1532,6 @@
                             'name': 'MAIN.n_lru_moved (LRU moved objects / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","MAIN.n_lru_moved"]',
-                            'context': 'items:n_lru_moved',
                             'value_type': 'FLOAT',
                             'units': 'eps',
                             'master_item_key': master,
@@ -1602,7 +1550,6 @@
                             'name': 'MAIN.n_object (object structs made)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","MAIN.n_object"]',
-                            'context': 'items:n_object',
                             'value_type': 'UNSIGNED',
                             'master_item_key': master,
                             'preprocessing': [
@@ -1617,7 +1564,6 @@
                             'name': 'MAIN.n_objectcore (objectcore structs made)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","MAIN.n_objectcore"]',
-                            'context': 'items:n_objectcore',
                             'value_type': 'UNSIGNED',
                             'master_item_key': master,
                             'preprocessing': [
@@ -1632,7 +1578,6 @@
                             'name': 'MAIN.n_objecthead (objecthead structs made)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","MAIN.n_objecthead"]',
-                            'context': 'items:n_objecthead',
                             'value_type': 'UNSIGNED',
                             'master_item_key': master,
                             'preprocessing': [
@@ -1647,7 +1592,6 @@
                             'name': 'MAIN.n_obj_purged (purged objects / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","MAIN.n_obj_purged"]',
-                            'context': 'items:n_obj_purged',
                             'value_type': 'FLOAT',
                             'units': 'eps',
                             'master_item_key': master,
@@ -1666,7 +1610,6 @@
                             'name': 'MAIN.n_purges (purge operations executed / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","MAIN.n_purges"]',
-                            'context': 'items:n_purges',
                             'value_type': 'FLOAT',
                             'units': 'eps',
                             'master_item_key': master,
@@ -1685,7 +1628,6 @@
                             'name': 'MAIN.n_test_gunzip (test gunzip operations / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","MAIN.n_test_gunzip"]',
-                            'context': 'items:n_test_gunzip',
                             'value_type': 'FLOAT',
                             'units': 'eps',
                             'master_item_key': master,
@@ -1704,7 +1646,6 @@
                             'name': 'MAIN.req_dropped (HTTP/2 stream refused / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","MAIN.req_dropped"]',
-                            'context': 'items:req_dropped',
                             'value_type': 'FLOAT',
                             'units': 'eps',
                             'master_item_key': master,
@@ -1723,7 +1664,6 @@
                             'name': 'MAIN.sc_vcl_failure (session Err VCL_FAILURE / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","MAIN.sc_vcl_failure"]',
-                            'context': 'items:sc_vcl_failure',
                             'value_type': 'FLOAT',
                             'units': 'eps',
                             'master_item_key': master,
@@ -1742,7 +1682,6 @@
                             'name': 'MAIN.sess_closed (sessions closed / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","MAIN.sess_closed"]',
-                            'context': 'items:sess_closed',
                             'value_type': 'FLOAT',
                             'units': 'eps',
                             'master_item_key': master,
@@ -1761,7 +1700,6 @@
                             'name': 'MAIN.sess_closed_err (sessions closed with error / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","MAIN.sess_closed_err"]',
-                            'context': 'items:sess_closed_err',
                             'value_type': 'FLOAT',
                             'units': 'eps',
                             'master_item_key': master,
@@ -1780,7 +1718,6 @@
                             'name': 'MAIN.sess_conn (sessions successfully accepted / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","MAIN.sess_conn"]',
-                            'context': 'items:sess_conn',
                             'value_type': 'FLOAT',
                             'units': 'eps',
                             'master_item_key': master,
@@ -1799,7 +1736,6 @@
                             'name': 'MAIN.sess_drop (sessions dropped due to lack of worker thread / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","MAIN.sess_drop"]',
-                            'context': 'items:sess_drop',
                             'value_type': 'FLOAT',
                             'units': 'eps',
                             'master_item_key': master,
@@ -1818,7 +1754,6 @@
                             'name': 'MAIN.sess_dropped (sessions dropped because the queue was too long / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","MAIN.sess_dropped"]',
-                            'context': 'items:sess_dropped',
                             'value_type': 'FLOAT',
                             'units': 'eps',
                             'master_item_key': master,
@@ -1837,7 +1772,6 @@
                             'name': 'MAIN.sess_fail (sessions TCP accept failures / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","MAIN.sess_fail"]',
-                            'context': 'items:sess_fail',
                             'value_type': 'FLOAT',
                             'units': 'eps',
                             'master_item_key': master,
@@ -1856,7 +1790,6 @@
                             'name': 'MAIN.sess_fail_ebadf (session accept failures: bad file descriptor / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","MAIN.sess_fail_ebadf"]',
-                            'context': 'items:sess_fail_ebadf',
                             'value_type': 'FLOAT',
                             'units': 'eps',
                             'master_item_key': master,
@@ -1875,7 +1808,6 @@
                             'name': 'MAIN.sess_fail_econnaborted (session accept failures: connection aborted / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","MAIN.sess_fail_econnaborted"]',
-                            'context': 'items:sess_fail_econnaborted',
                             'value_type': 'FLOAT',
                             'units': 'eps',
                             'master_item_key': master,
@@ -1894,7 +1826,6 @@
                             'name': 'MAIN.sess_fail_eintr (session accept failures: interrupted system call / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","MAIN.sess_fail_eintr"]',
-                            'context': 'items:sess_fail_eintr',
                             'value_type': 'FLOAT',
                             'units': 'eps',
                             'master_item_key': master,
@@ -1913,7 +1844,6 @@
                             'name': 'MAIN.sess_fail_emfile (session accept failures: too many open files / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","MAIN.sess_fail_emfile"]',
-                            'context': 'items:sess_fail_emfile',
                             'value_type': 'FLOAT',
                             'units': 'eps',
                             'master_item_key': master,
@@ -1932,7 +1862,6 @@
                             'name': 'MAIN.sess_fail_enomem (session accept failures: not enough memory / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","MAIN.sess_fail_enomem"]',
-                            'context': 'items:sess_fail_enomem',
                             'value_type': 'FLOAT',
                             'units': 'eps',
                             'master_item_key': master,
@@ -1951,7 +1880,6 @@
                             'name': 'MAIN.sess_fail_other (session accept failures: other / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","MAIN.sess_fail_other"]',
-                            'context': 'items:sess_fail_other',
                             'value_type': 'FLOAT',
                             'units': 'eps',
                             'master_item_key': master,
@@ -1970,7 +1898,6 @@
                             'name': 'MAIN.sess_queued (sessions queued waiting for a thread / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","MAIN.sess_queued"]',
-                            'context': 'items:sess_queued',
                             'value_type': 'FLOAT',
                             'units': 'eps',
                             'master_item_key': master,
@@ -1989,7 +1916,6 @@
                             'name': 'MAIN.sess_readahead (sessions read ahead / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","MAIN.sess_readahead"]',
-                            'context': 'items:sess_readahead',
                             'value_type': 'FLOAT',
                             'units': 'eps',
                             'master_item_key': master,
@@ -2008,7 +1934,6 @@
                             'name': 'MAIN.s_fetch (backend fetches initiated / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","MAIN.s_fetch"]',
-                            'context': 'items:s_fetch',
                             'value_type': 'FLOAT',
                             'units': 'eps',
                             'master_item_key': master,
@@ -2027,7 +1952,6 @@
                             'name': 'MAIN.s_pass (passed requests seen / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","MAIN.s_pass"]',
-                            'context': 'items:s_pass',
                             'value_type': 'FLOAT',
                             'units': 'eps',
                             'master_item_key': master,
@@ -2046,7 +1970,6 @@
                             'name': 'MAIN.s_pipe (pipe sessions seen / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","MAIN.s_pipe"]',
-                            'context': 'items:s_pipe',
                             'value_type': 'FLOAT',
                             'units': 'eps',
                             'master_item_key': master,
@@ -2065,7 +1988,6 @@
                             'name': 'MAIN.s_pipe_hdrbytes (pipe request header bytes / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","MAIN.s_pipe_hdrbytes"]',
-                            'context': 'items:s_pipe_hdrbytes',
                             'value_type': 'FLOAT',
                             'units': 'Bps',
                             'master_item_key': master,
@@ -2084,7 +2006,6 @@
                             'name': 'MAIN.s_pipe_in (piped bytes from client / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","MAIN.s_pipe_in"]',
-                            'context': 'items:s_pipe_in',
                             'value_type': 'FLOAT',
                             'units': 'Bps',
                             'master_item_key': master,
@@ -2103,7 +2024,6 @@
                             'name': 'MAIN.s_pipe_out (piped bytes to client / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","MAIN.s_pipe_out"]',
-                            'context': 'items:s_pipe_out',
                             'value_type': 'FLOAT',
                             'units': 'Bps',
                             'master_item_key': master,
@@ -2122,7 +2042,6 @@
                             'name': 'MAIN.s_req (requests seen / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","MAIN.s_req"]',
-                            'context': 'items:s_req',
                             'value_type': 'FLOAT',
                             'units': 'eps',
                             'master_item_key': master,
@@ -2141,7 +2060,6 @@
                             'name': 'MAIN.s_req_bodybytes (request body bytes / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","MAIN.s_req_bodybytes"]',
-                            'context': 'items:s_req_bodybytes',
                             'value_type': 'FLOAT',
                             'units': 'Bps',
                             'master_item_key': master,
@@ -2160,7 +2078,6 @@
                             'name': 'MAIN.s_req_hdrbytes (request header bytes / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","MAIN.s_req_hdrbytes"]',
-                            'context': 'items:s_req_hdrbytes',
                             'value_type': 'FLOAT',
                             'units': 'Bps',
                             'master_item_key': master,
@@ -2179,7 +2096,6 @@
                             'name': 'MAIN.s_resp_bodybytes (response body bytes / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","MAIN.s_resp_bodybytes"]',
-                            'context': 'items:s_resp_bodybytes',
                             'value_type': 'FLOAT',
                             'units': 'Bps',
                             'master_item_key': master,
@@ -2198,7 +2114,6 @@
                             'name': 'MAIN.s_resp_hdrbytes (response header bytes / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","MAIN.s_resp_hdrbytes"]',
-                            'context': 'items:s_resp_hdrbytes',
                             'value_type': 'FLOAT',
                             'units': 'Bps',
                             'master_item_key': master,
@@ -2217,7 +2132,6 @@
                             'name': 'MAIN.s_sess (sessions seen / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","MAIN.s_sess"]',
-                            'context': 'items:s_sess',
                             'value_type': 'FLOAT',
                             'units': 'eps',
                             'master_item_key': master,
@@ -2236,7 +2150,6 @@
                             'name': 'MAIN.s_synth (synthetic responses made / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","MAIN.s_synth"]',
-                            'context': 'items:s_synth',
                             'value_type': 'FLOAT',
                             'units': 'eps',
                             'master_item_key': master,
@@ -2255,7 +2168,6 @@
                             'name': 'MAIN.threads (number of threads in all pools)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","MAIN.threads"]',
-                            'context': 'items:threads',
                             'value_type': 'UNSIGNED',
                             'master_item_key': master,
                             'preprocessing': [
@@ -2270,7 +2182,6 @@
                             'name': 'MAIN.threads_created (threads created in all pools / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","MAIN.threads_created"]',
-                            'context': 'items:threads_created',
                             'value_type': 'FLOAT',
                             'units': 'eps',
                             'master_item_key': master,
@@ -2289,7 +2200,6 @@
                             'name': 'MAIN.threads_destroyed (threads destroyed in all pools / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","MAIN.threads_destroyed"]',
-                            'context': 'items:threads_destroyed',
                             'value_type': 'FLOAT',
                             'units': 'eps',
                             'master_item_key': master,
@@ -2308,7 +2218,6 @@
                             'name': 'MAIN.threads_failed (failed thread creations / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","MAIN.threads_failed"]',
-                            'context': 'items:threads_failed',
                             'value_type': 'FLOAT',
                             'units': 'eps',
                             'master_item_key': master,
@@ -2327,7 +2236,6 @@
                             'name': 'MAIN.threads_limited (times more threads were needed but limit was reached in a thread pool / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","MAIN.threads_limited"]',
-                            'context': 'items:threads_limited',
                             'value_type': 'FLOAT',
                             'units': 'eps',
                             'master_item_key': master,
@@ -2346,7 +2254,6 @@
                             'name': 'MAIN.thread_queue_len (length of session queue waiting for threads)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","MAIN.thread_queue_len"]',
-                            'context': 'items:threads_queue_len',
                             'value_type': 'UNSIGNED',
                             'master_item_key': master,
                             'preprocessing': [
@@ -2361,7 +2268,6 @@
                             'name': 'MAIN.uptime (child process uptime)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","MAIN.uptime"]',
-                            'context': 'items:MAIN-uptime',
                             'value_type': 'UNSIGNED',
                             'units': 'uptime',
                             'master_item_key': master,
@@ -2377,7 +2283,6 @@
                             'name': 'MAIN.vcl_fail (VCL failures / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","MAIN.vcl_fail"]',
-                            'context': 'items:vcl_fail',
                             'value_type': 'FLOAT',
                             'units': 'eps',
                             'master_item_key': master,
@@ -2396,7 +2301,6 @@
                             'name': 'MAIN.ws_backend_overflow (workspace_backend overflows / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","MAIN.ws_backend_overflow"]',
-                            'context': 'items:ws_backend_overflow',
                             'value_type': 'FLOAT',
                             'units': 'eps',
                             'master_item_key': master,
@@ -2415,7 +2319,6 @@
                             'name': 'MAIN.ws_client_overflow (workspace_client overflows / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","MAIN.ws_client_overflow"]',
-                            'context': 'items:ws_client_overflow',
                             'value_type': 'FLOAT',
                             'units': 'eps',
                             'master_item_key': master,
@@ -2434,7 +2337,6 @@
                             'name': 'MAIN.ws_session_overflow (workspace_session overflows / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","MAIN.ws_session_overflow"]',
-                            'context': 'items:ws_session_overflow',
                             'value_type': 'FLOAT',
                             'units': 'eps',
                             'master_item_key': master,
@@ -2453,7 +2355,6 @@
                             'name': 'MAIN.ws_thread_overflow (workspace_thread overflows / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","MAIN.ws_thread_overflow"]',
-                            'context': 'items:ws_thread_overflow',
                             'value_type': 'FLOAT',
                             'units': 'eps',
                             'master_item_key': master,
@@ -2472,7 +2373,6 @@
                             'name': 'MGT.uptime (management process uptime)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","MGT.uptime"]',
-                            'context': 'items:MGT-uptime',
                             'value_type': 'UNSIGNED',
                             'units': 'uptime',
                             'master_item_key': master,
@@ -2488,7 +2388,6 @@
                             'name': 'cache_hit_ratio',
                             'type': 'CALCULATED',
                             'key': 'varnish["{#LOCATION_ID}","cache_hit_ratio"]',
-                            'context': 'items:cache_hit_ratio',
                             'value_type': 'FLOAT',
                             'units': '%',
                             'delay': true,
@@ -2498,7 +2397,6 @@
                             'name': 'VHA6.broadcast_candidates (broadcast candidates / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","VHA6.broadcast_candidates"]',
-                            'context': 'items:vha6_broadcast_candidates',
                             'value_type': 'FLOAT',
                             'units': 'eps',
                             'master_item_key': master,
@@ -2517,7 +2415,6 @@
                             'name': 'VHA6.broadcast_nocache (skipped broadcasts: uncacheable / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","VHA6.broadcast_nocache"]',
-                            'context': 'items:vha6_broadcast_nocache',
                             'value_type': 'FLOAT',
                             'units': 'eps',
                             'master_item_key': master,
@@ -2536,7 +2433,6 @@
                             'name': 'VHA6.broadcast_skip (skipped broadcasts: skip / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","VHA6.broadcast_skip"]',
-                            'context': 'items:vha6_broadcast_skip',
                             'value_type': 'FLOAT',
                             'units': 'eps',
                             'master_item_key': master,
@@ -2555,7 +2451,6 @@
                             'name': 'VHA6.broadcast_lowttl (skipped broadcasts: low TTL or grace / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","VHA6.broadcast_lowttl"]',
-                            'context': 'items:vha6_broadcast_lowttl',
                             'value_type': 'FLOAT',
                             'units': 'eps',
                             'master_item_key': master,
@@ -2574,7 +2469,6 @@
                             'name': 'VHA6.broadcast_toolarge (skipped broadcasts: too large / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","VHA6.broadcast_toolarge"]',
-                            'context': 'items:vha6_broadcast_toolarge',
                             'value_type': 'FLOAT',
                             'units': 'eps',
                             'master_item_key': master,
@@ -2593,7 +2487,6 @@
                             'name': 'VHA6.broadcasts (executed broadcasts / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","VHA6.broadcasts"]',
-                            'context': 'items:vha6_broadcasts',
                             'value_type': 'FLOAT',
                             'units': 'eps',
                             'master_item_key': master,
@@ -2612,7 +2505,6 @@
                             'name': 'VHA6.fetch_self (self replication notifications / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","VHA6.fetch_self"]',
-                            'context': 'items:vha6_fetch_self',
                             'value_type': 'FLOAT',
                             'units': 'eps',
                             'master_item_key': master,
@@ -2631,7 +2523,6 @@
                             'name': 'VHA6.fetch_peer (peer replication notifications / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","VHA6.fetch_peer"]',
-                            'context': 'items:vha6_fetch_peer',
                             'value_type': 'FLOAT',
                             'units': 'eps',
                             'master_item_key': master,
@@ -2650,7 +2541,6 @@
                             'name': 'VHA6.fetch_origin (replication requests / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","VHA6.fetch_origin"]',
-                            'context': 'items:vha6_fetch_origin',
                             'value_type': 'FLOAT',
                             'units': 'eps',
                             'master_item_key': master,
@@ -2669,7 +2559,6 @@
                             'name': 'VHA6.fetch_origin_deliver (replication responses / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","VHA6.fetch_origin_deliver"]',
-                            'context': 'items:vha6_fetch_origin_deliver',
                             'value_type': 'FLOAT',
                             'units': 'eps',
                             'master_item_key': master,
@@ -2688,7 +2577,6 @@
                             'name': 'VHA6.fetch_peer_insert (replication insertions / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","VHA6.fetch_peer_insert"]',
-                            'context': 'items:vha6_fetch_peer_insert',
                             'value_type': 'FLOAT',
                             'units': 'eps',
                             'master_item_key': master,
@@ -2707,7 +2595,6 @@
                             'name': 'VHA6.error_version_mismatch',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","VHA6.error_version_mismatch"]',
-                            'context': 'items:vha6_error_version_mismatch',
                             'value_type': 'FLOAT',
                             'units': 'eps',
                             'master_item_key': master,
@@ -2726,7 +2613,6 @@
                             'name': 'VHA6.error_no_token',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","VHA6.error_no_token"]',
-                            'context': 'items:vha6_error_no_token',
                             'value_type': 'FLOAT',
                             'units': 'eps',
                             'master_item_key': master,
@@ -2745,7 +2631,6 @@
                             'name': 'VHA6.error_bad_token',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","VHA6.error_bad_token"]',
-                            'context': 'items:vha6_error_bad_token',
                             'value_type': 'FLOAT',
                             'units': 'eps',
                             'master_item_key': master,
@@ -2764,7 +2649,6 @@
                             'name': 'VHA6.error_stale_token',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","VHA6.error_stale_token"]',
-                            'context': 'items:vha6_error_stale_token',
                             'value_type': 'FLOAT',
                             'units': 'eps',
                             'master_item_key': master,
@@ -2783,7 +2667,6 @@
                             'name': 'VHA6.error_rate_limited',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","VHA6.error_rate_limited"]',
-                            'context': 'items:vha6_error_rate_limited',
                             'value_type': 'FLOAT',
                             'units': 'eps',
                             'master_item_key': master,
@@ -2802,7 +2685,6 @@
                             'name': 'VHA6.error_fetch_insert',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","VHA6.error_fetch_insert"]',
-                            'context': 'items:vha6_error_fetch_insert',
                             'value_type': 'FLOAT',
                             'units': 'eps',
                             'master_item_key': master,
@@ -2821,7 +2703,6 @@
                             'name': 'VHA6.error_origin_mismatch',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","VHA6.error_origin_mismatch"]',
-                            'context': 'items:vha6_error_origin_mismatch',
                             'value_type': 'FLOAT',
                             'units': 'eps',
                             'master_item_key': master,
@@ -2840,7 +2721,6 @@
                             'name': 'VHA6.error_origin_miss',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","VHA6.error_origin_miss"]',
-                            'context': 'items:vha6_error_origin_miss',
                             'value_type': 'FLOAT',
                             'units': 'eps',
                             'master_item_key': master,
@@ -2860,67 +2740,67 @@
                         {
                             'name': 'Varnish Cache[{#LOCATION}] has been restarted',
                             'expression':
-                                '{Template App ' + name + ':varnish.stat["{#LOCATION_ID}","MAIN.uptime"].max({$VARNISH_CACHE.LAST_VALUES_TO_CHECK:items:MAIN-uptime})}'
-                                '<{$VARNISH_CACHE.MAIN_UPTIME.MIN} or'
-                                ' {Template App ' + name + ':varnish.stat["{#LOCATION_ID}","MGT.uptime"].max({$VARNISH_CACHE.LAST_VALUES_TO_CHECK:items:MGT-uptime})}'
-                                '<{$VARNISH_CACHE.MGT_UPTIME.MIN}',
+                                '{Template App ' + name + ':varnish.stat["{#LOCATION_ID}","MAIN.uptime"].max(#1)}'
+                                '<{$VARNISH_CACHE.MAIN_UPTIME.MIN:"{#LOCATION_ID}"} or'
+                                ' {Template App ' + name + ':varnish.stat["{#LOCATION_ID}","MGT.uptime"].max(#1)}'
+                                '<{$VARNISH_CACHE.MGT_UPTIME.MIN:"{#LOCATION_ID}"}',
                             'priority': 'HIGH',
                         },
                         {
                             'name': 'Varnish Cache[{#LOCATION}] has surpassed {$VARNISH_CACHE.THREADS.MAX} threads',
                             'expression':
-                                '{Template App ' + name + ':varnish.stat["{#LOCATION_ID}","MAIN.threads"].min({$VARNISH_CACHE.LAST_VALUES_TO_CHECK:items:threads})}'
-                                '>{$VARNISH_CACHE.THREADS.MAX}',
+                                '{Template App ' + name + ':varnish.stat["{#LOCATION_ID}","MAIN.threads"].min(#1)}'
+                                '>{$VARNISH_CACHE.THREADS.MAX:"{#LOCATION_ID}"}',
                             'priority': 'WARNING',
                         },
                         {
                             'name': 'Varnish Cache[{#LOCATION}] is generating HTTP header overflows',
                             'expression':
-                                '{Template App ' + name + ':varnish.stat["{#LOCATION_ID}","MAIN.losthdr"].min({$VARNISH_CACHE.LAST_VALUES_TO_CHECK:items:losthdr})}'
-                                '>{$VARNISH_CACHE.HTTP_HEADER_OVERFLOWS_RATE.MAX}',
+                                '{Template App ' + name + ':varnish.stat["{#LOCATION_ID}","MAIN.losthdr"].min(#1)}'
+                                '>{$VARNISH_CACHE.HTTP_HEADER_OVERFLOWS_RATE.MAX:"{#LOCATION_ID}"}',
                             'priority': 'WARNING',
                         },
                         {
                             'name': 'Varnish Cache[{#LOCATION}] is generating VCL failures',
                             'expression':
-                                '{Template App ' + name + ':varnish.stat["{#LOCATION_ID}","MAIN.vcl_fail"].min({$VARNISH_CACHE.LAST_VALUES_TO_CHECK:items:vcl_fail})}'
-                                '>{$VARNISH_CACHE.VCL_FAILURES_RATE.MAX}',
+                                '{Template App ' + name + ':varnish.stat["{#LOCATION_ID}","MAIN.vcl_fail"].min(#1)}'
+                                '>{$VARNISH_CACHE.VCL_FAILURES_RATE.MAX:"{#LOCATION_ID}"}',
                             'priority': 'WARNING',
                         },
                         {
                             'name': 'Varnish Cache[{#LOCATION}] is generating workspace overflows',
                             'expression':
-                                '{Template App ' + name + ':varnish.stat["{#LOCATION_ID}","MAIN.client_resp_500"].min({$VARNISH_CACHE.LAST_VALUES_TO_CHECK:items:client_resp_500})}'
-                                '>{$VARNISH_CACHE.WORKSPACE_OVERFLOWS_RATE.MAX} or'
-                                ' {Template App ' + name + ':varnish.stat["{#LOCATION_ID}","MAIN.ws_backend_overflow"].min({$VARNISH_CACHE.LAST_VALUES_TO_CHECK:items:ws_backend_overflow})}'
-                                '>{$VARNISH_CACHE.WORKSPACE_OVERFLOWS_RATE.MAX} or'
-                                ' {Template App ' + name + ':varnish.stat["{#LOCATION_ID}","MAIN.ws_client_overflow"].min({$VARNISH_CACHE.LAST_VALUES_TO_CHECK:items:ws_client_overflow})}'
-                                '>{$VARNISH_CACHE.WORKSPACE_OVERFLOWS_RATE.MAX} or'
-                                ' {Template App ' + name + ':varnish.stat["{#LOCATION_ID}","MAIN.ws_session_overflow"].min({$VARNISH_CACHE.LAST_VALUES_TO_CHECK:items:ws_session_overflow})}'
-                                '>{$VARNISH_CACHE.WORKSPACE_OVERFLOWS_RATE.MAX} or'
-                                ' {Template App ' + name + ':varnish.stat["{#LOCATION_ID}","MAIN.ws_thread_overflow"].min({$VARNISH_CACHE.LAST_VALUES_TO_CHECK:items:ws_thread_overflow})}'
-                                '>{$VARNISH_CACHE.WORKSPACE_OVERFLOWS_RATE.MAX}',
+                                '{Template App ' + name + ':varnish.stat["{#LOCATION_ID}","MAIN.client_resp_500"].min(#1)}'
+                                '>{$VARNISH_CACHE.WORKSPACE_OVERFLOWS_RATE.MAX:"{#LOCATION_ID}"} or'
+                                ' {Template App ' + name + ':varnish.stat["{#LOCATION_ID}","MAIN.ws_backend_overflow"].min(#1)}'
+                                '>{$VARNISH_CACHE.WORKSPACE_OVERFLOWS_RATE.MAX:"{#LOCATION_ID}"} or'
+                                ' {Template App ' + name + ':varnish.stat["{#LOCATION_ID}","MAIN.ws_client_overflow"].min(#1)}'
+                                '>{$VARNISH_CACHE.WORKSPACE_OVERFLOWS_RATE.MAX:"{#LOCATION_ID}"} or'
+                                ' {Template App ' + name + ':varnish.stat["{#LOCATION_ID}","MAIN.ws_session_overflow"].min(#1)}'
+                                '>{$VARNISH_CACHE.WORKSPACE_OVERFLOWS_RATE.MAX:"{#LOCATION_ID}"} or'
+                                ' {Template App ' + name + ':varnish.stat["{#LOCATION_ID}","MAIN.ws_thread_overflow"].min(#1)}'
+                                '>{$VARNISH_CACHE.WORKSPACE_OVERFLOWS_RATE.MAX:"{#LOCATION_ID}"}',
                             'priority': 'WARNING',
                         },
                         {
                             'name': 'Varnish Cache[{#LOCATION}] is getting backend connection failures',
                             'expression':
-                                '{Template App ' + name + ':varnish.stat["{#LOCATION_ID}","MAIN.backend_fail"].min({$VARNISH_CACHE.LAST_VALUES_TO_CHECK:items:backend_fail})}'
-                                '>{$VARNISH_CACHE.BACKEND_CONNECTION_FAILURES_RATE.MAX}',
+                                '{Template App ' + name + ':varnish.stat["{#LOCATION_ID}","MAIN.backend_fail"].min({$VARNISH_CACHE.BACKEND_CONNECTION_FAILURES_RATE.SAMPLES:"{#LOCATION_ID}"})}'
+                                '>{$VARNISH_CACHE.BACKEND_CONNECTION_FAILURES_RATE.MAX:"{#LOCATION_ID}"}',
                             'priority': 'WARNING',
                         },
                         {
                             'name': 'Varnish Cache[{#LOCATION}] is nuking objects',
                             'expression':
-                                '{Template App ' + name + ':varnish.stat["{#LOCATION_ID}","MAIN.n_lru_nuked"].min({$VARNISH_CACHE.LAST_VALUES_TO_CHECK:items:n_lru_nuked})}'
-                                '>{$VARNISH_CACHE.LRU_NUKED_OBJECTS_RATE.MAX}',
+                                '{Template App ' + name + ':varnish.stat["{#LOCATION_ID}","MAIN.n_lru_nuked"].min({$VARNISH_CACHE.LRU_NUKED_OBJECTS_RATE.SAMPLES:"{#LOCATION_ID}"})}'
+                                '>{$VARNISH_CACHE.LRU_NUKED_OBJECTS_RATE.MAX:"{#LOCATION_ID}"}',
                             'priority': 'WARNING',
                         },
                         {
                             'name': 'Varnish Cache[{#LOCATION}] is reaching nuke_limit',
                             'expression':
-                                '{Template App ' + name + ':varnish.stat["{#LOCATION_ID}","MAIN.n_lru_limited"].min({$VARNISH_CACHE.LAST_VALUES_TO_CHECK:items:n_lru_limited})}'
-                                '>{$VARNISH_CACHE.NUKE_LIMIT_REACHS_RATE.MAX}',
+                                '{Template App ' + name + ':varnish.stat["{#LOCATION_ID}","MAIN.n_lru_limited"].min(#1)}'
+                                '>{$VARNISH_CACHE.NUKE_LIMIT_REACHS_RATE.MAX:"{#LOCATION_ID}"}',
                             'priority': 'WARNING',
                         },
                     ],
@@ -3643,7 +3523,6 @@
                             'name': 'VBE.{#SUBJECT}.healthy',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","VBE.{#SUBJECT_ID}.healthy"]',
-                            'context': 'backends:healthy',
                             'value_type': 'UNSIGNED',
                             'master_item_key': master,
                             'preprocessing': [
@@ -3664,7 +3543,6 @@
                             'name': 'VBE.{#SUBJECT}.bereq_bodybytes (request body bytes / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","VBE.{#SUBJECT_ID}.bereq_bodybytes"]',
-                            'context': 'backends:bereq_bodybytes',
                             'value_type': 'FLOAT',
                             'units': 'Bps',
                             'master_item_key': master,
@@ -3683,7 +3561,6 @@
                             'name': 'VBE.{#SUBJECT}.bereq_hdrbytes (request header bytes / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","VBE.{#SUBJECT_ID}.bereq_hdrbytes"]',
-                            'context': 'backends:bereq_hdrbytes',
                             'value_type': 'FLOAT',
                             'units': 'Bps',
                             'master_item_key': master,
@@ -3702,7 +3579,6 @@
                             'name': 'VBE.{#SUBJECT}.beresp_bodybytes (response body bytes / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","VBE.{#SUBJECT_ID}.beresp_bodybytes"]',
-                            'context': 'backends:beresp_bodybytes',
                             'value_type': 'FLOAT',
                             'units': 'Bps',
                             'master_item_key': master,
@@ -3721,7 +3597,6 @@
                             'name': 'VBE.{#SUBJECT}.beresp_hdrbytes (response header bytes / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","VBE.{#SUBJECT_ID}.beresp_hdrbytes"]',
-                            'context': 'backends:beresp_hdrbytes',
                             'value_type': 'FLOAT',
                             'units': 'Bps',
                             'master_item_key': master,
@@ -3740,7 +3615,6 @@
                             'name': 'VBE.{#SUBJECT}.busy (fetches not attempted due to backend being busy / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","VBE.{#SUBJECT_ID}.busy"]',
-                            'context': 'backends:busy',
                             'value_type': 'FLOAT',
                             'units': 'eps',
                             'master_item_key': master,
@@ -3759,7 +3633,6 @@
                             'name': 'VBE.{#SUBJECT}.conn (connections to backend)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","VBE.{#SUBJECT_ID}.conn"]',
-                            'context': 'backends:conn',
                             'value_type': 'UNSIGNED',
                             'master_item_key': master,
                             'preprocessing': [
@@ -3774,7 +3647,6 @@
                             'name': 'VBE.{#SUBJECT}.fail (connections failed / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","VBE.{#SUBJECT_ID}.fail"]',
-                            'context': 'backends:fail',
                             'value_type': 'FLOAT',
                             'units': 'eps',
                             'master_item_key': master,
@@ -3793,7 +3665,6 @@
                             'name': 'VBE.{#SUBJECT}.fail_eacces (connections failed with EACCES or EPERM / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","VBE.{#SUBJECT_ID}.fail_eacces"]',
-                            'context': 'backends:fail_eacces',
                             'value_type': 'FLOAT',
                             'units': 'eps',
                             'master_item_key': master,
@@ -3812,7 +3683,6 @@
                             'name': 'VBE.{#SUBJECT}.fail_eaddrnotavail (connections failed with EADDRNOTAVAIL / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","VBE.{#SUBJECT_ID}.fail_eaddrnotavail"]',
-                            'context': 'backends:fail_eaddrnotavail',
                             'value_type': 'FLOAT',
                             'units': 'eps',
                             'master_item_key': master,
@@ -3831,7 +3701,6 @@
                             'name': 'VBE.{#SUBJECT}.fail_econnrefused (connections failed with ECONNREFUSED / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","VBE.{#SUBJECT_ID}.fail_econnrefused"]',
-                            'context': 'backends:fail_econnrefused',
                             'value_type': 'FLOAT',
                             'units': 'eps',
                             'master_item_key': master,
@@ -3850,7 +3719,6 @@
                             'name': 'VBE.{#SUBJECT}.fail_enetunreach (connections failed with ENETUNREACH / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","VBE.{#SUBJECT_ID}.fail_enetunreach"]',
-                            'context': 'backends:fail_enetunreach',
                             'value_type': 'FLOAT',
                             'units': 'eps',
                             'master_item_key': master,
@@ -3869,7 +3737,6 @@
                             'name': 'VBE.{#SUBJECT}.fail_etimedout (connections failed with ETIMEDOUT / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","VBE.{#SUBJECT_ID}.fail_etimedout"]',
-                            'context': 'backends:fail_etimedout',
                             'value_type': 'FLOAT',
                             'units': 'eps',
                             'master_item_key': master,
@@ -3888,7 +3755,6 @@
                             'name': 'VBE.{#SUBJECT}.fail_other (connections failed for other reason / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","VBE.{#SUBJECT_ID}.fail_other"]',
-                            'context': 'backends:fail_other',
                             'value_type': 'FLOAT',
                             'units': 'eps',
                             'master_item_key': master,
@@ -3907,7 +3773,6 @@
                             'name': 'VBE.{#SUBJECT}.happy (happy health probe)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","VBE.{#SUBJECT_ID}.happy"]',
-                            'context': 'backends:happy',
                             'value_type': 'UNSIGNED',
                             'master_item_key': master,
                             'preprocessing': [
@@ -3922,7 +3787,6 @@
                             'name': 'VBE.{#SUBJECT}.helddown (connection opens not attempted / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","VBE.{#SUBJECT_ID}.helddown"]',
-                            'context': 'backends:helddown',
                             'value_type': 'FLOAT',
                             'units': 'eps',
                             'master_item_key': master,
@@ -3941,7 +3805,6 @@
                             'name': 'VBE.{#SUBJECT}.pipe_hdrbytes (pipe request header bytes / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","VBE.{#SUBJECT_ID}.pipe_hdrbytes"]',
-                            'context': 'backends:pipe_hdrbytes',
                             'value_type': 'FLOAT',
                             'units': 'Bps',
                             'master_item_key': master,
@@ -3960,7 +3823,6 @@
                             'name': 'VBE.{#SUBJECT}.pipe_in (piped bytes from backend / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","VBE.{#SUBJECT_ID}.pipe_in"]',
-                            'context': 'backends:pipe_in',
                             'value_type': 'FLOAT',
                             'units': 'Bps',
                             'master_item_key': master,
@@ -3979,7 +3841,6 @@
                             'name': 'VBE.{#SUBJECT}.pipe_out (piped bytes to backend / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","VBE.{#SUBJECT_ID}.pipe_out"]',
-                            'context': 'backends:pipe_out',
                             'value_type': 'FLOAT',
                             'units': 'Bps',
                             'master_item_key': master,
@@ -3998,7 +3859,6 @@
                             'name': 'VBE.{#SUBJECT}.req (backend requests sent / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","VBE.{#SUBJECT_ID}.req"]',
-                            'context': 'backends:req',
                             'value_type': 'FLOAT',
                             'units': 'eps',
                             'master_item_key': master,
@@ -4017,7 +3877,6 @@
                             'name': 'VBE.{#SUBJECT}.unhealthy (fetches not attempted due to backend being unhealthy / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","VBE.{#SUBJECT_ID}.unhealthy"]',
-                            'context': 'backends:unhealthy',
                             'value_type': 'FLOAT',
                             'units': 'eps',
                             'master_item_key': master,
@@ -4036,7 +3895,6 @@
                             'name': 'VBE.{#SUBJECT}.last_happy',
                             'type': 'CALCULATED',
                             'key': 'varnish["{#LOCATION_ID}","VBE.{#SUBJECT_ID}.last_happy"]',
-                            'context': 'backends:last_happy',
                             'value_type': 'UNSIGNED',
                             'delay': true,
                             'params': 'band("varnish.stat[\\"{#LOCATION_ID}\\",\\"VBE.{#SUBJECT_ID}.happy\\"]",#1,1)',
@@ -4045,7 +3903,7 @@
                     [
                         {
                             'name': 'Varnish Cache[{#LOCATION}] {#SUBJECT} backend is sick',
-                            'expression': '{Template App ' + name + ':varnish.stat["{#LOCATION_ID}","VBE.{#SUBJECT_ID}.healthy"].max({$VARNISH_CACHE.LAST_VALUES_TO_CHECK:backends:healthy})}<1',
+                            'expression': '{Template App ' + name + ':varnish.stat["{#LOCATION_ID}","VBE.{#SUBJECT_ID}.healthy"].max(#1)}<1',
                             'priority': 'HIGH',
                         },
                     ],
@@ -4199,7 +4057,6 @@
                             'name': 'STG.{#SUBJECT}.c_fail (allocator failures / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","STG.{#SUBJECT_ID}.c_fail"]',
-                            'context': 'storages:c_fail',
                             'value_type': 'FLOAT',
                             'units': 'eps',
                             'master_item_key': master,
@@ -4218,7 +4075,6 @@
                             'name': 'STG.{#SUBJECT}.c_memcache_hit (stored objects cache hits bytes / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","STG.{#SUBJECT_ID}.c_memcache_hit"]',
-                            'context': 'storages:c_memcache_hit',
                             'value_type': 'FLOAT',
                             'units': 'Bps',
                             'master_item_key': master,
@@ -4237,7 +4093,6 @@
                             'name': 'STG.{#SUBJECT}.c_memcache_miss (stored objects cache misses bytes / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","STG.{#SUBJECT_ID}.c_memcache_miss"]',
-                            'context': 'storages:c_memcache_miss',
                             'value_type': 'FLOAT',
                             'units': 'Bps',
                             'master_item_key': master,
@@ -4256,7 +4111,6 @@
                             'name': 'STG.{#SUBJECT}.g_bytes (bytes outstanding)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","STG.{#SUBJECT_ID}.g_bytes"]',
-                            'context': 'storages:g_bytes',
                             'value_type': 'UNSIGNED',
                             'units': 'B',
                             'master_item_key': master,
@@ -4272,7 +4126,6 @@
                             'name': 'STG.{#SUBJECT}.g_space (bytes available)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","STG.{#SUBJECT_ID}.g_space"]',
-                            'context': 'storages:g_space',
                             'value_type': 'UNSIGNED',
                             'units': 'B',
                             'master_item_key': master,
@@ -4288,7 +4141,6 @@
                             'name': 'STG.{#SUBJECT}.g_sparenode (spare nodes available)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","STG.{#SUBJECT_ID}.g_sparenode"]',
-                            'context': 'storages:g_sparenode',
                             'value_type': 'UNSIGNED',
                             'master_item_key': master,
                             'preprocessing': [
@@ -4303,7 +4155,6 @@
                             'name': 'STG.{#SUBJECT}.g_ykey_keys (number of YKeys registered)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","STG.{#SUBJECT_ID}.g_ykey_keys"]',
-                            'context': 'storages:g_ykey_keys',
                             'value_type': 'UNSIGNED',
                             'master_item_key': master,
                             'preprocessing': [
@@ -4318,7 +4169,6 @@
                             'name': 'STG.{#SUBJECT}.n_lru_moved (number of LRU move operations / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","STG.{#SUBJECT_ID}.n_lru_moved"]',
-                            'context': 'storages:n_lru_moved',
                             'value_type': 'FLOAT',
                             'units': 'eps',
                             'master_item_key': master,
@@ -4337,7 +4187,6 @@
                             'name': 'STG.{#SUBJECT}.n_lru_nuked (number of LRU nuked objects / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","STG.{#SUBJECT_ID}.n_lru_nuked"]',
-                            'context': 'storages:n_lru_nuked',
                             'value_type': 'FLOAT',
                             'units': 'eps',
                             'master_item_key': master,
@@ -4356,7 +4205,6 @@
                             'name': 'STG.{#SUBJECT}.n_vary (number of Vary header keys / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","STG.{#SUBJECT_ID}.n_vary"]',
-                            'context': 'storages:n_vary',
                             'value_type': 'FLOAT',
                             'units': 'eps',
                             'master_item_key': master,
@@ -4375,7 +4223,6 @@
                             'name': 'STG.{#SUBJECT}.cache_hit_ratio',
                             'type': 'CALCULATED',
                             'key': 'varnish["{#LOCATION_ID}","STG.{#SUBJECT_ID}.cache_hit_ratio"]',
-                            'context': 'storages:cache_hit_ratio',
                             'value_type': 'FLOAT',
                             'units': '%',
                             'delay': true,
@@ -4386,22 +4233,22 @@
                         {
                             'name': 'Varnish Cache[{#LOCATION}] {#SUBJECT} storage failed to allocate space',
                             'expression':
-                                '{Template App ' + name + ':varnish.stat["{#LOCATION_ID}","STG.{#SUBJECT_ID}.c_fail"].min({$VARNISH_CACHE.LAST_VALUES_TO_CHECK:storages:c_fail})}'
-                                '>{$VARNISH_CACHE.ALLOCATOR_FAILURES_RATE.MAX}',
+                                '{Template App ' + name + ':varnish.stat["{#LOCATION_ID}","STG.{#SUBJECT_ID}.c_fail"].min(#1)}'
+                                '>{$VARNISH_CACHE.ALLOCATOR_FAILURES_RATE.MAX:"{#LOCATION_ID}:{#SUBJECT_ID}"}',
                             'priority': 'HIGH',
                         },
                         {
                             'name': 'Varnish Cache[{#LOCATION}] {#SUBJECT} storage has run out of spare nodes',
                             'expression':
-                                '{Template App ' + name + ':varnish.stat["{#LOCATION_ID}","STG.{#SUBJECT_ID}.g_sparenode"].max({$VARNISH_CACHE.LAST_VALUES_TO_CHECK:storages:g_sparenode})}'
-                                '<{$VARNISH_CACHE.SPARE_NODES.MIN.CRIT}',
+                                '{Template App ' + name + ':varnish.stat["{#LOCATION_ID}","STG.{#SUBJECT_ID}.g_sparenode"].max({$VARNISH_CACHE.SPARE_NODES.SAMPLES:"{#LOCATION_ID}:{#SUBJECT_ID}"})}'
+                                '<{$VARNISH_CACHE.SPARE_NODES.MIN.CRIT:"{#LOCATION_ID}:{#SUBJECT_ID}"}',
                             'priority': 'HIGH',
                         },
                         {
                             'name': 'Varnish Cache[{#LOCATION}] {#SUBJECT} storage is running out of spare nodes',
                             'expression':
-                                '{Template App ' + name + ':varnish.stat["{#LOCATION_ID}","STG.{#SUBJECT_ID}.g_sparenode"].max({$VARNISH_CACHE.LAST_VALUES_TO_CHECK:storages:g_sparenode})}'
-                                '<{$VARNISH_CACHE.SPARE_NODES.MIN.WARN}',
+                                '{Template App ' + name + ':varnish.stat["{#LOCATION_ID}","STG.{#SUBJECT_ID}.g_sparenode"].max({$VARNISH_CACHE.SPARE_NODES.SAMPLES:"{#LOCATION_ID}:{#SUBJECT_ID}"})}'
+                                '<{$VARNISH_CACHE.SPARE_NODES.MIN.WARN:"{#LOCATION_ID}:{#SUBJECT_ID}"}',
                             'priority': 'WARNING',
                         },
                     ],
@@ -4506,7 +4353,6 @@
                             'name': 'MSE_BOOK.{#SUBJECT}.c_waterlevel_purge (number of objects purged to achieve database waterlevel / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","MSE_BOOK.{#SUBJECT_ID}.c_waterlevel_purge"]',
-                            'context': 'mse_books:c_waterlevel_purge',
                             'value_type': 'FLOAT',
                             'units': 'eps',
                             'master_item_key': master,
@@ -4525,7 +4371,6 @@
                             'name': 'MSE_BOOK.{#SUBJECT}.c_waterlevel_queue (number of times a thread has been queued waiting for database space / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","MSE_BOOK.{#SUBJECT_ID}.c_waterlevel_queue"]',
-                            'context': 'mse_books:c_waterlevel_queue',
                             'value_type': 'FLOAT',
                             'units': 'eps',
                             'master_item_key': master,
@@ -4544,7 +4389,6 @@
                             'name': 'MSE_BOOK.{#SUBJECT}.c_waterlevel_runs (number of times the waterlevel purge thread was activated / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","MSE_BOOK.{#SUBJECT_ID}.c_waterlevel_runs"]',
-                            'context': 'mse_books:c_waterlevel_runs',
                             'value_type': 'FLOAT',
                             'units': 'eps',
                             'master_item_key': master,
@@ -4563,7 +4407,6 @@
                             'name': 'MSE_BOOK.{#SUBJECT}.g_bytes (number of bytes used in the book database)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","MSE_BOOK.{#SUBJECT_ID}.g_bytes"]',
-                            'context': 'mse_books:g_bytes',
                             'value_type': 'UNSIGNED',
                             'units': 'B',
                             'master_item_key': master,
@@ -4579,7 +4422,6 @@
                             'name': 'MSE_BOOK.{#SUBJECT}.g_space (number of bytes available in the book database)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","MSE_BOOK.{#SUBJECT_ID}.g_space"]',
-                            'context': 'mse_books:g_space',
                             'value_type': 'UNSIGNED',
                             'units': 'B',
                             'master_item_key': master,
@@ -4595,7 +4437,6 @@
                             'name': 'MSE_BOOK.{#SUBJECT}.n_vary (number of Vary header keys / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","MSE_BOOK.{#SUBJECT_ID}.n_vary"]',
-                            'context': 'mse_books:n_vary',
                             'value_type': 'FLOAT',
                             'units': 'eps',
                             'master_item_key': master,
@@ -4615,8 +4456,8 @@
                         {
                             'name': 'Varnish Cache[{#LOCATION}] {#SUBJECT} MSE book is running out of space',
                             'expression':
-                                '{Template App ' + name + ':varnish.stat["{#LOCATION_ID}","MSE_BOOK.{#SUBJECT_ID}.g_space"].max({$VARNISH_CACHE.LAST_VALUES_TO_CHECK:mse_books:g_space})}'
-                                '<{$VARNISH_CACHE.MSE_BOOK_SPACE.MIN}',
+                                '{Template App ' + name + ':varnish.stat["{#LOCATION_ID}","MSE_BOOK.{#SUBJECT_ID}.g_space"].max(#1)}'
+                                '<{$VARNISH_CACHE.MSE_BOOK_SPACE.MIN:"{#LOCATION_ID}:{#SUBJECT_ID}"}',
                             'priority': 'WARNING',
                         },
                     ],
@@ -4678,7 +4519,6 @@
                             'name': 'MSE_STORE.{#SUBJECT}.c_aio_finished_bytes_read (number AIO read bytes executed / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","MSE_STORE.{#SUBJECT_ID}.c_aio_finished_bytes_read"]',
-                            'context': 'mse_stores:c_aio_finished_bytes_read',
                             'value_type': 'FLOAT',
                             'units': 'Bps',
                             'master_item_key': master,
@@ -4697,7 +4537,6 @@
                             'name': 'MSE_STORE.{#SUBJECT}.c_aio_finished_bytes_write (number AIO write bytes executed / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","MSE_STORE.{#SUBJECT_ID}.c_aio_finished_bytes_write"]',
-                            'context': 'mse_stores:c_aio_finished_bytes_write',
                             'value_type': 'FLOAT',
                             'units': 'Bps',
                             'master_item_key': master,
@@ -4716,7 +4555,6 @@
                             'name': 'MSE_STORE.{#SUBJECT}.c_aio_finished_read (number AIO read operations executed / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","MSE_STORE.{#SUBJECT_ID}.c_aio_finished_read"]',
-                            'context': 'mse_stores:c_aio_finished_read',
                             'value_type': 'FLOAT',
                             'units': 'eps',
                             'master_item_key': master,
@@ -4735,7 +4573,6 @@
                             'name': 'MSE_STORE.{#SUBJECT}.c_aio_finished_write (number AIO write operations executed / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","MSE_STORE.{#SUBJECT_ID}.c_aio_finished_write"]',
-                            'context': 'mse_stores:c_aio_finished_write',
                             'value_type': 'FLOAT',
                             'units': 'eps',
                             'master_item_key': master,
@@ -4754,7 +4591,6 @@
                             'name': 'MSE_STORE.{#SUBJECT}.c_waterlevel_purge (number of objects purged to achieve store waterlevel / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","MSE_STORE.{#SUBJECT_ID}.c_waterlevel_purge"]',
-                            'context': 'mse_stores:c_waterlevel_purge',
                             'value_type': 'FLOAT',
                             'units': 'eps',
                             'master_item_key': master,
@@ -4773,7 +4609,6 @@
                             'name': 'MSE_STORE.{#SUBJECT}.c_waterlevel_queue (number of times a thread has been queued waiting for store space / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","MSE_STORE.{#SUBJECT_ID}.c_waterlevel_queue"]',
-                            'context': 'mse_stores:c_waterlevel_queue',
                             'value_type': 'FLOAT',
                             'units': 'eps',
                             'master_item_key': master,
@@ -4792,7 +4627,6 @@
                             'name': 'MSE_STORE.{#SUBJECT}.g_alloc_bytes (total number of bytes in allocation extents)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","MSE_STORE.{#SUBJECT_ID}.g_alloc_bytes"]',
-                            'context': 'mse_stores:g_alloc_bytes',
                             'value_type': 'UNSIGNED',
                             'units': 'B',
                             'master_item_key': master,
@@ -4808,7 +4642,6 @@
                             'name': 'MSE_STORE.{#SUBJECT}.g_free_bytes (total number of bytes in free extents)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","MSE_STORE.{#SUBJECT_ID}.g_free_bytes"]',
-                            'context': 'mse_stores:g_free_bytes',
                             'value_type': 'UNSIGNED',
                             'units': 'B',
                             'master_item_key': master,
@@ -4824,7 +4657,6 @@
                             'name': 'MSE_STORE.{#SUBJECT}.g_objects (number of objects in the store)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","MSE_STORE.{#SUBJECT_ID}.g_objects"]',
-                            'context': 'mse_stores:g_objects',
                             'value_type': 'UNSIGNED',
                             'master_item_key': master,
                             'preprocessing': [
@@ -4839,7 +4671,6 @@
                             'name': 'MSE_STORE.{#SUBJECT}.g_ykey_keys (number of YKeys registered in the store)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","MSE_STORE.{#SUBJECT_ID}.g_ykey_keys"]',
-                            'context': 'mse_stores:g_ykey_keys',
                             'value_type': 'UNSIGNED',
                             'master_item_key': master,
                             'preprocessing': [
@@ -4944,7 +4775,6 @@
                             'name': 'COUNTER.{#SUBJECT} (counter value / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","COUNTER.{#SUBJECT_ID}"]',
-                            'context': 'counters',
                             'value_type': 'FLOAT',
                             'units': 'eps',
                             'master_item_key': master,
@@ -4972,38 +4802,42 @@
 
             <macros>
                 {% for macro in [
+                        ('{$VARNISH_CACHE.LOCATIONS}', ''),
+
                         ('{$VARNISH_CACHE.AGENT_PROCESSES.MIN}', '1'),
-                        ('{$VARNISH_CACHE.ALLOCATOR_FAILURES_RATE.MAX}', '0.0'),
-                        ('{$VARNISH_CACHE.BACKEND_CONNECTION_FAILURES_RATE.MAX}', '0.0'),
                         ('{$VARNISH_CACHE.BROADCASTER_PROCESSES.MIN}', '1'),
-                        ('{$VARNISH_CACHE.HTTP_HEADER_OVERFLOWS_RATE.MAX}', '0.0'),
-                        ('{$VARNISH_CACHE.ITEM_HISTORY_STORAGE_PERIOD:stats}', '0'),
-                        ('{$VARNISH_CACHE.ITEM_HISTORY_STORAGE_PERIOD}', '30d'),
-                        ('{$VARNISH_CACHE.ITEM_TREND_STORAGE_PERIOD}', '365d'),
-                        ('{$VARNISH_CACHE.ITEM_UPDATE_INTERVAL}', '60s'),
-                        ('{$VARNISH_CACHE.LAST_VALUES_TO_CHECK:items:backend_fail}', '#10'),
-                        ('{$VARNISH_CACHE.LAST_VALUES_TO_CHECK:items:n_lru_nuked}', '#10'),
-                        ('{$VARNISH_CACHE.LAST_VALUES_TO_CHECK:storages:g_sparenode}', '#10'),
-                        ('{$VARNISH_CACHE.LAST_VALUES_TO_CHECK}', '#1'),
+                        ('{$VARNISH_CACHE.NCSA_PROCESSES.MIN}', '1'),
+                        ('{$VARNISH_CACHE.VARNISH_PROCESSES.MIN}', '2'),
+                        ('{$VARNISH_CACHE.RAW_LOG_PROCESSES.MIN}', '1'),
+                        ('{$VARNISH_CACHE.VCS_AGENT_PROCESSES.MIN}', '1'),
+
                         ('{$VARNISH_CACHE.LLD_KEEP_LOST_RESOURCES_PERIOD:backends}', '1d'),
                         ('{$VARNISH_CACHE.LLD_KEEP_LOST_RESOURCES_PERIOD:counters}', '1d'),
                         ('{$VARNISH_CACHE.LLD_KEEP_LOST_RESOURCES_PERIOD}', '30d'),
                         ('{$VARNISH_CACHE.LLD_UPDATE_INTERVAL:counters}', '60s'),
                         ('{$VARNISH_CACHE.LLD_UPDATE_INTERVAL}', '3600s'),
-                        ('{$VARNISH_CACHE.LOCATIONS}', ''),
+
+                        ('{$VARNISH_CACHE.ITEM_HISTORY_STORAGE_PERIOD}', '30d'),
+                        ('{$VARNISH_CACHE.ITEM_TREND_STORAGE_PERIOD}', '365d'),
+                        ('{$VARNISH_CACHE.ITEM_UPDATE_INTERVAL}', '60s'),
+
+                        ('{$VARNISH_CACHE.BACKEND_CONNECTION_FAILURES_RATE.MAX}', '0.0'),
+                        ('{$VARNISH_CACHE.BACKEND_CONNECTION_FAILURES_RATE.SAMPLES}', '#10'),
+                        ('{$VARNISH_CACHE.HTTP_HEADER_OVERFLOWS_RATE.MAX}', '0.0'),
                         ('{$VARNISH_CACHE.MAIN_UPTIME.MIN}', '600s'),
                         ('{$VARNISH_CACHE.MGT_UPTIME.MIN}', '600s'),
-                        ('{$VARNISH_CACHE.MSE_BOOK_SPACE.MIN}', '100000000'),
-                        ('{$VARNISH_CACHE.NCSA_PROCESSES.MIN}', '1'),
                         ('{$VARNISH_CACHE.NUKE_LIMIT_REACHS_RATE.MAX}', '0.0'),
-                        ('{$VARNISH_CACHE.RAW_LOG_PROCESSES.MIN}', '1'),
-                        ('{$VARNISH_CACHE.SPARE_NODES.MIN.CRIT}', '100'),
-                        ('{$VARNISH_CACHE.SPARE_NODES.MIN.WARN}', '1000000'),
+                        ('{$VARNISH_CACHE.NUKE_LIMIT_REACHS_RATE.SAMPLES}', '#10'),
                         ('{$VARNISH_CACHE.THREADS.MAX}', '1000'),
-                        ('{$VARNISH_CACHE.VARNISH_PROCESSES.MIN}', '2'),
                         ('{$VARNISH_CACHE.VCL_FAILURES_RATE.MAX}', '0.0'),
-                        ('{$VARNISH_CACHE.VCS_AGENT_PROCESSES.MIN}', '1'),
                         ('{$VARNISH_CACHE.WORKSPACE_OVERFLOWS_RATE.MAX}', '0.0'),
+
+                        ('{$VARNISH_CACHE.ALLOCATOR_FAILURES_RATE.MAX}', '0.0'),
+                        ('{$VARNISH_CACHE.SPARE_NODES.MIN.CRIT}', '100'),
+                        ('{$VARNISH_CACHE.SPARE_NODES.MIN.SAMPLES}', '#10'),
+                        ('{$VARNISH_CACHE.SPARE_NODES.MIN.WARN}', '1000000'),
+
+                        ('{$VARNISH_CACHE.MSE_BOOK_SPACE.MIN}', '100000000'),
                     ] %}
                     <macro>
                         <macro>{{ macro[0]|e }}</macro>

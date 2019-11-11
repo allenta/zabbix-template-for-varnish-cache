@@ -3903,7 +3903,7 @@
                     [
                         {
                             'name': 'Varnish Cache[{#LOCATION}] {#SUBJECT} backend is sick',
-                            'expression': '{Template App ' + name + ':varnish.stat["{#LOCATION_ID}","VBE.{#SUBJECT_ID}.healthy"].max(#1)}<1',
+                            'expression': '{Template App ' + name + ':varnish.stat["{#LOCATION_ID}","VBE.{#SUBJECT_ID}.healthy"].max({$VARNISH_CACHE.BACKEND_HEALTHINESS.SAMPLES:"{#LOCATION_ID}:{#SUBJECT_ID}"})}<1',
                             'priority': 'HIGH',
                         },
                     ],

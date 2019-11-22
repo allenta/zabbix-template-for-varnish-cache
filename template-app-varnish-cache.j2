@@ -46,6 +46,17 @@
     {%- endif -%}
 {%- endmacro -%}
 
+{%- macro trigger_recovery(name) -%}
+    {%- if version == '4.4' -%}
+        {{ name }}
+    {%- else -%}
+        {{ {
+            'EXPRESSION': 0,
+            'RECOVERY_EXPRESSION': 1,
+        }[name] }}
+    {%- endif -%}
+{%- endmacro -%}
+
 {%- macro preprocessing_type(name) -%}
     {%- if version == '4.4' -%}
         {{ name }}
@@ -118,9 +129,14 @@
     <expression>{{ definition.expression|e }}</expression>
     <name>{{ definition.name|e }}</name>
     <priority>{{ trigger_priority(definition.priority) }}</priority>
-    {% if version in ('4.0', '4.2') %}
-        <recovery_mode>0</recovery_mode>
+    {% if 'recovery' in definition %}
+        <recovery_mode>{{ trigger_priority('RECOVERY_EXPRESSION') }}</recovery_mode>
+        <recovery_expression>{{ definition.recovery|e }}</recovery_expression>
+    {% else %}
+        <recovery_mode>{{ trigger_priority('EXPRESSION') }}</recovery_mode>
         <recovery_expression/>
+    {% endif %}
+    {% if version in ('4.0', '4.2') %}
         <correlation_mode>0</correlation_mode>
         <correlation_tag/>
         <url/>
@@ -350,7 +366,7 @@
     {
         'name': 'Varnish Cache is not running',
         'expression':
-            '{Template App ' + name + ':proc.num[varnishd].max(#1)}'
+            '{Template App ' + name + ':proc.num[varnishd].last()}'
             '<{$VARNISH_CACHE.VARNISH_PROCESSES.MIN}',
         'priority': 'DISASTER',
     } -%}
@@ -359,7 +375,7 @@
     {
         'name': 'Varnish NCSA log is not running',
         'expression':
-            '{Template App ' + name + ':proc.num[varnishncsa].max(#1)}'
+            '{Template App ' + name + ':proc.num[varnishncsa].last()}'
             '<{$VARNISH_CACHE.NCSA_PROCESSES.MIN}',
         'priority': 'DISASTER',
     } -%}
@@ -368,7 +384,7 @@
     {
         'name': 'Varnish raw log is not running',
         'expression':
-            '{Template App ' + name + ':proc.num[varnishlog].max(#1)}'
+            '{Template App ' + name + ':proc.num[varnishlog].last()}'
             '<{$VARNISH_CACHE.RAW_LOG_PROCESSES.MIN}',
         'priority': 'DISASTER',
     } -%}
@@ -377,7 +393,7 @@
     {
         'name': 'Varnish Agent is not running',
         'expression':
-            '{Template App ' + name + ':proc.num[varnish-agent].max(#1)}'
+            '{Template App ' + name + ':proc.num[varnish-agent].last()}'
             '<{$VARNISH_CACHE.AGENT_PROCESSES.MIN}',
         'priority': 'DISASTER',
     } -%}
@@ -386,7 +402,7 @@
     {
         'name': 'Varnish Broadcaster is not running',
         'expression':
-            '{Template App ' + name + ':proc.num[broadcaster].max(#1)}'
+            '{Template App ' + name + ':proc.num[broadcaster].last()}'
             '<{$VARNISH_CACHE.BROADCASTER_PROCESSES.MIN}',
         'priority': 'DISASTER',
     } -%}
@@ -395,7 +411,7 @@
     {
         'name': 'VCS Agent is not running',
         'expression':
-            '{Template App ' + name + ':proc.num[vcs-agent].max(#1)}'
+            '{Template App ' + name + ':proc.num[vcs-agent].last()}'
             '<{$VARNISH_CACHE.VCS_AGENT_PROCESSES.MIN}',
         'priority': 'DISASTER',
     } -%}
@@ -2740,45 +2756,45 @@
                         {
                             'name': 'Varnish Cache[{#LOCATION}] has been restarted',
                             'expression':
-                                '{Template App ' + name + ':varnish.stat["{#LOCATION_ID}","MAIN.uptime"].max(#1)}'
+                                '{Template App ' + name + ':varnish.stat["{#LOCATION_ID}","MAIN.uptime"].last()}'
                                 '<{$VARNISH_CACHE.MAIN_UPTIME.MIN:"{#LOCATION_ID}"} or'
-                                ' {Template App ' + name + ':varnish.stat["{#LOCATION_ID}","MGT.uptime"].max(#1)}'
+                                ' {Template App ' + name + ':varnish.stat["{#LOCATION_ID}","MGT.uptime"].last()}'
                                 '<{$VARNISH_CACHE.MGT_UPTIME.MIN:"{#LOCATION_ID}"}',
                             'priority': 'HIGH',
                         },
                         {
                             'name': 'Varnish Cache[{#LOCATION}] has surpassed {$VARNISH_CACHE.THREADS.MAX} threads',
                             'expression':
-                                '{Template App ' + name + ':varnish.stat["{#LOCATION_ID}","MAIN.threads"].min(#1)}'
+                                '{Template App ' + name + ':varnish.stat["{#LOCATION_ID}","MAIN.threads"].last()}'
                                 '>{$VARNISH_CACHE.THREADS.MAX:"{#LOCATION_ID}"}',
                             'priority': 'WARNING',
                         },
                         {
                             'name': 'Varnish Cache[{#LOCATION}] is generating HTTP header overflows',
                             'expression':
-                                '{Template App ' + name + ':varnish.stat["{#LOCATION_ID}","MAIN.losthdr"].min(#1)}'
+                                '{Template App ' + name + ':varnish.stat["{#LOCATION_ID}","MAIN.losthdr"].last()}'
                                 '>{$VARNISH_CACHE.HTTP_HEADER_OVERFLOWS_RATE.MAX:"{#LOCATION_ID}"}',
                             'priority': 'WARNING',
                         },
                         {
                             'name': 'Varnish Cache[{#LOCATION}] is generating VCL failures',
                             'expression':
-                                '{Template App ' + name + ':varnish.stat["{#LOCATION_ID}","MAIN.vcl_fail"].min(#1)}'
+                                '{Template App ' + name + ':varnish.stat["{#LOCATION_ID}","MAIN.vcl_fail"].last()}'
                                 '>{$VARNISH_CACHE.VCL_FAILURES_RATE.MAX:"{#LOCATION_ID}"}',
                             'priority': 'WARNING',
                         },
                         {
                             'name': 'Varnish Cache[{#LOCATION}] is generating workspace overflows',
                             'expression':
-                                '{Template App ' + name + ':varnish.stat["{#LOCATION_ID}","MAIN.client_resp_500"].min(#1)}'
+                                '{Template App ' + name + ':varnish.stat["{#LOCATION_ID}","MAIN.client_resp_500"].last()}'
                                 '>{$VARNISH_CACHE.WORKSPACE_OVERFLOWS_RATE.MAX:"{#LOCATION_ID}"} or'
-                                ' {Template App ' + name + ':varnish.stat["{#LOCATION_ID}","MAIN.ws_backend_overflow"].min(#1)}'
+                                ' {Template App ' + name + ':varnish.stat["{#LOCATION_ID}","MAIN.ws_backend_overflow"].last()}'
                                 '>{$VARNISH_CACHE.WORKSPACE_OVERFLOWS_RATE.MAX:"{#LOCATION_ID}"} or'
-                                ' {Template App ' + name + ':varnish.stat["{#LOCATION_ID}","MAIN.ws_client_overflow"].min(#1)}'
+                                ' {Template App ' + name + ':varnish.stat["{#LOCATION_ID}","MAIN.ws_client_overflow"].last()}'
                                 '>{$VARNISH_CACHE.WORKSPACE_OVERFLOWS_RATE.MAX:"{#LOCATION_ID}"} or'
-                                ' {Template App ' + name + ':varnish.stat["{#LOCATION_ID}","MAIN.ws_session_overflow"].min(#1)}'
+                                ' {Template App ' + name + ':varnish.stat["{#LOCATION_ID}","MAIN.ws_session_overflow"].last()}'
                                 '>{$VARNISH_CACHE.WORKSPACE_OVERFLOWS_RATE.MAX:"{#LOCATION_ID}"} or'
-                                ' {Template App ' + name + ':varnish.stat["{#LOCATION_ID}","MAIN.ws_thread_overflow"].min(#1)}'
+                                ' {Template App ' + name + ':varnish.stat["{#LOCATION_ID}","MAIN.ws_thread_overflow"].last()}'
                                 '>{$VARNISH_CACHE.WORKSPACE_OVERFLOWS_RATE.MAX:"{#LOCATION_ID}"}',
                             'priority': 'WARNING',
                         },
@@ -2792,15 +2808,21 @@
                         {
                             'name': 'Varnish Cache[{#LOCATION}] is nuking objects',
                             'expression':
-                                '{Template App ' + name + ':varnish.stat["{#LOCATION_ID}","MAIN.n_lru_nuked"].min({$VARNISH_CACHE.LRU_NUKED_OBJECTS_RATE.SAMPLES:"{#LOCATION_ID}"})}'
+                                '{Template App ' + name + ':varnish.stat["{#LOCATION_ID}","MAIN.n_lru_nuked"].last()}'
                                 '>{$VARNISH_CACHE.LRU_NUKED_OBJECTS_RATE.MAX:"{#LOCATION_ID}"}',
+                            'recovery':
+                                '{Template App ' + name + ':varnish.stat["{#LOCATION_ID}","MAIN.n_lru_nuked"].max({$VARNISH_CACHE.LRU_NUKED_OBJECTS_RATE.RECOVERY.SAMPLES:"{#LOCATION_ID}"})}'
+                                '<={$VARNISH_CACHE.LRU_NUKED_OBJECTS_RATE.MAX:"{#LOCATION_ID}"}',
                             'priority': 'WARNING',
                         },
                         {
                             'name': 'Varnish Cache[{#LOCATION}] is reaching nuke_limit',
                             'expression':
-                                '{Template App ' + name + ':varnish.stat["{#LOCATION_ID}","MAIN.n_lru_limited"].min(#1)}'
+                                '{Template App ' + name + ':varnish.stat["{#LOCATION_ID}","MAIN.n_lru_limited"].last()}'
                                 '>{$VARNISH_CACHE.NUKE_LIMIT_REACHS_RATE.MAX:"{#LOCATION_ID}"}',
+                            'recovery':
+                                '{Template App ' + name + ':varnish.stat["{#LOCATION_ID}","MAIN.n_lru_limited"].max({$VARNISH_CACHE.NUKE_LIMIT_REACHS_RATE.RECOVERY.SAMPLES:"{#LOCATION_ID}"})}'
+                                '<={$VARNISH_CACHE.NUKE_LIMIT_REACHS_RATE.MAX:"{#LOCATION_ID}"}',
                             'priority': 'WARNING',
                         },
                     ],
@@ -4233,22 +4255,21 @@
                         {
                             'name': 'Varnish Cache[{#LOCATION}] {#SUBJECT} storage failed to allocate space',
                             'expression':
-                                '{Template App ' + name + ':varnish.stat["{#LOCATION_ID}","STG.{#SUBJECT_ID}.c_fail"].min(#1)}'
+                                '{Template App ' + name + ':varnish.stat["{#LOCATION_ID}","STG.{#SUBJECT_ID}.c_fail"].last()}'
                                 '>{$VARNISH_CACHE.ALLOCATOR_FAILURES_RATE.MAX:"{#LOCATION_ID}:{#SUBJECT_ID}"}',
-                            'priority': 'HIGH',
-                        },
-                        {
-                            'name': 'Varnish Cache[{#LOCATION}] {#SUBJECT} storage has run out of spare nodes',
-                            'expression':
-                                '{Template App ' + name + ':varnish.stat["{#LOCATION_ID}","STG.{#SUBJECT_ID}.g_sparenode"].max({$VARNISH_CACHE.SPARE_NODES.SAMPLES:"{#LOCATION_ID}:{#SUBJECT_ID}"})}'
-                                '<{$VARNISH_CACHE.SPARE_NODES.MIN.CRIT:"{#LOCATION_ID}:{#SUBJECT_ID}"}',
+                            'recovery':
+                                '{Template App ' + name + ':varnish.stat["{#LOCATION_ID}","STG.{#SUBJECT_ID}.c_fail"].max({$VARNISH_CACHE.ALLOCATOR_FAILURES_RATE.RECOVERY.SAMPLES:"{#LOCATION_ID}:{#SUBJECT_ID}"})}'
+                                '<={$VARNISH_CACHE.ALLOCATOR_FAILURES_RATE.MAX:"{#LOCATION_ID}:{#SUBJECT_ID}"}',
                             'priority': 'HIGH',
                         },
                         {
                             'name': 'Varnish Cache[{#LOCATION}] {#SUBJECT} storage is running out of spare nodes',
                             'expression':
-                                '{Template App ' + name + ':varnish.stat["{#LOCATION_ID}","STG.{#SUBJECT_ID}.g_sparenode"].max({$VARNISH_CACHE.SPARE_NODES.SAMPLES:"{#LOCATION_ID}:{#SUBJECT_ID}"})}'
-                                '<{$VARNISH_CACHE.SPARE_NODES.MIN.WARN:"{#LOCATION_ID}:{#SUBJECT_ID}"}',
+                                '{Template App ' + name + ':varnish.stat["{#LOCATION_ID}","STG.{#SUBJECT_ID}.g_sparenode"].last()}'
+                                '<{$VARNISH_CACHE.SPARE_NODES.MIN:"{#LOCATION_ID}:{#SUBJECT_ID}"}',
+                            'recovery':
+                                '{Template App ' + name + ':varnish.stat["{#LOCATION_ID}","STG.{#SUBJECT_ID}.g_sparenode"].last()}'
+                                '>{$VARNISH_CACHE.SPARE_NODES.RECOVERY.MIN:"{#LOCATION_ID}:{#SUBJECT_ID}"}',
                             'priority': 'WARNING',
                         },
                     ],
@@ -4456,8 +4477,11 @@
                         {
                             'name': 'Varnish Cache[{#LOCATION}] {#SUBJECT} MSE book is running out of space',
                             'expression':
-                                '{Template App ' + name + ':varnish.stat["{#LOCATION_ID}","MSE_BOOK.{#SUBJECT_ID}.g_space"].max(#1)}'
+                                '{Template App ' + name + ':varnish.stat["{#LOCATION_ID}","MSE_BOOK.{#SUBJECT_ID}.g_space"].last()}'
                                 '<{$VARNISH_CACHE.MSE_BOOK_SPACE.MIN:"{#LOCATION_ID}:{#SUBJECT_ID}"}',
+                            'recovery':
+                                '{Template App ' + name + ':varnish.stat["{#LOCATION_ID}","MSE_BOOK.{#SUBJECT_ID}.g_space"].last()}'
+                                '>{$VARNISH_CACHE.MSE_BOOK_SPACE.RECOVERY.MIN:"{#LOCATION_ID}:{#SUBJECT_ID}"}',
                             'priority': 'WARNING',
                         },
                     ],
@@ -4824,10 +4848,12 @@
                         ('{$VARNISH_CACHE.BACKEND_CONNECTION_FAILURES_RATE.MAX}', '0.0'),
                         ('{$VARNISH_CACHE.BACKEND_CONNECTION_FAILURES_RATE.SAMPLES}', '#10'),
                         ('{$VARNISH_CACHE.HTTP_HEADER_OVERFLOWS_RATE.MAX}', '0.0'),
+                        ('{$VARNISH_CACHE.LRU_NUKED_OBJECTS_RATE.MAX}', '0.0'),
+                        ('{$VARNISH_CACHE.LRU_NUKED_OBJECTS_RATE.RECOVERY.SAMPLES}', '#10'),
                         ('{$VARNISH_CACHE.MAIN_UPTIME.MIN}', '600s'),
                         ('{$VARNISH_CACHE.MGT_UPTIME.MIN}', '600s'),
                         ('{$VARNISH_CACHE.NUKE_LIMIT_REACHS_RATE.MAX}', '0.0'),
-                        ('{$VARNISH_CACHE.NUKE_LIMIT_REACHS_RATE.SAMPLES}', '#10'),
+                        ('{$VARNISH_CACHE.NUKE_LIMIT_REACHS_RATE.RECOVERY.SAMPLES}', '#10'),
                         ('{$VARNISH_CACHE.THREADS.MAX}', '1000'),
                         ('{$VARNISH_CACHE.VCL_FAILURES_RATE.MAX}', '0.0'),
                         ('{$VARNISH_CACHE.WORKSPACE_OVERFLOWS_RATE.MAX}', '0.0'),
@@ -4835,11 +4861,12 @@
                         ('{$VARNISH_CACHE.BACKEND_HEALTHINESS.SAMPLES}', '#1'),
 
                         ('{$VARNISH_CACHE.ALLOCATOR_FAILURES_RATE.MAX}', '0.0'),
-                        ('{$VARNISH_CACHE.SPARE_NODES.MIN.CRIT}', '100'),
-                        ('{$VARNISH_CACHE.SPARE_NODES.MIN.SAMPLES}', '#10'),
-                        ('{$VARNISH_CACHE.SPARE_NODES.MIN.WARN}', '1000000'),
+                        ('{$VARNISH_CACHE.ALLOCATOR_FAILURES_RATE.RECOVERY.SAMPLES}', '#10'),
+                        ('{$VARNISH_CACHE.SPARE_NODES.MIN}', '900000'),
+                        ('{$VARNISH_CACHE.SPARE_NODES.RECOVERY.MIN}', '1000000'),
 
-                        ('{$VARNISH_CACHE.MSE_BOOK_SPACE.MIN}', '100000000'),
+                        ('{$VARNISH_CACHE.MSE_BOOK_SPACE.MIN}', '75MB'),
+                        ('{$VARNISH_CACHE.MSE_BOOK_SPACE.RECOVERY.MIN}', '100MB'),
                     ] %}
                     <macro>
                         <macro>{{ macro[0]|e }}</macro>

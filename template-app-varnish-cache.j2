@@ -4371,6 +4371,24 @@
                     },
                     [
                         {
+                            'name': 'MSE_BOOK.{#SUBJECT}.c_insert_timeout (number of times database object insertion timed out / sec)',
+                            'type': 'DEPENDENT',
+                            'key': 'varnish.stat["{#LOCATION_ID}","MSE_BOOK.{#SUBJECT_ID}.c_insert_timeout"]',
+                            'value_type': 'FLOAT',
+                            'units': 'eps',
+                            'master_item_key': master,
+                            'preprocessing': [
+                                {
+                                    'type': 'JSONPATH',
+                                    'params': '$[\'{#LOCATION_ID}.MSE_BOOK.{#SUBJECT_ID}.c_insert_timeout\']',
+                                    'error_handler': 'DISCARD_VALUE',
+                                },
+                                {
+                                    'type': 'CHANGE_PER_SECOND',
+                                },
+                            ],
+                        },
+                        {
                             'name': 'MSE_BOOK.{#SUBJECT}.c_waterlevel_purge (number of objects purged to achieve database waterlevel / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","MSE_BOOK.{#SUBJECT_ID}.c_waterlevel_purge"]',
@@ -4421,6 +4439,36 @@
                                 },
                                 {
                                     'type': 'CHANGE_PER_SECOND',
+                                },
+                            ],
+                        },
+                        {
+                            'name': 'MSE_BOOK.{#SUBJECT}.g_banlist_bytes (number of bytes used from the banlist journal file)',
+                            'type': 'DEPENDENT',
+                            'key': 'varnish.stat["{#LOCATION_ID}","MSE_BOOK.{#SUBJECT_ID}.g_banlist_bytes"]',
+                            'value_type': 'UNSIGNED',
+                            'units': 'B',
+                            'master_item_key': master,
+                            'preprocessing': [
+                                {
+                                    'type': 'JSONPATH',
+                                    'params': '$[\'{#LOCATION_ID}.MSE_BOOK.{#SUBJECT_ID}.g_banlist_bytes\']',
+                                    'error_handler': 'DISCARD_VALUE',
+                                },
+                            ],
+                        },
+                        {
+                            'name': 'MSE_BOOK.{#SUBJECT}.g_banlist_space (number of bytes available in the banlist journal file)',
+                            'type': 'DEPENDENT',
+                            'key': 'varnish.stat["{#LOCATION_ID}","MSE_BOOK.{#SUBJECT_ID}.g_banlist_space"]',
+                            'value_type': 'UNSIGNED',
+                            'units': 'B',
+                            'master_item_key': master,
+                            'preprocessing': [
+                                {
+                                    'type': 'JSONPATH',
+                                    'params': '$[\'{#LOCATION_ID}.MSE_BOOK.{#SUBJECT_ID}.g_banlist_space\']',
+                                    'error_handler': 'DISCARD_VALUE',
                                 },
                             ],
                         },
@@ -4523,6 +4571,28 @@
                                 {
                                     'color': 'C80000',
                                     'key': 'varnish.stat["{#LOCATION_ID}","MSE_BOOK.{#SUBJECT_ID}.c_waterlevel_purge"]',
+                                },
+                            ],
+                        },
+                        {
+                            'name': 'MSE books[{#SUBJECT}]: banlist journal file bytes outstanding vs. available',
+                            'items': [
+                                {
+                                    'color': 'C80000',
+                                    'key': 'varnish.stat["{#LOCATION_ID}","MSE_BOOK.{#SUBJECT_ID}.g_banlist_bytes"]',
+                                },
+                                {
+                                    'color': '00C800',
+                                    'key': 'varnish.stat["{#LOCATION_ID}","MSE_BOOK.{#SUBJECT_ID}.g_banlist_space"]',
+                                },
+                            ],
+                        },
+                        {
+                            'name': 'MSE books[{#SUBJECT}]: timed out DB insertions',
+                            'items': [
+                                {
+                                    'color': 'C80000',
+                                    'key': 'varnish.stat["{#LOCATION_ID}","MSE_BOOK.{#SUBJECT_ID}.c_insert_timeout"]',
                                 },
                             ],
                         },

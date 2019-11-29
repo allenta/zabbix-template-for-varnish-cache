@@ -158,7 +158,7 @@ ITEMS = re.compile(
     # KVStore-based counters.
     r'KVSTORE\.counters\..+\..+|'
     # Storages[...]
-    #   - Bytes outstanding vs. available: g_space, g_bytes.
+    #   - Bytes outstanding vs. available: g_bytes, g_space.
     #   - Allocator failures: c_fail.
     #   - Nukes: n_lru_nuked, n_lru_moved.
     #   - Spare nodes available: g_sparenode (XXX: VCP 4.1)
@@ -167,10 +167,12 @@ ITEMS = re.compile(
     #   - Cache: c_memcache_hit, c_memcache_miss.
     r'(?:MSE|SMA|SMF)\..+\.(?:c_fail|c_memcache_hit|c_memcache_miss|g_bytes|g_space|g_sparenode|g_ykey_keys|n_lru_nuked|n_lru_moved|n_vary)|'
     # MSE books[...]
-    #   - Bytes outstanding vs. available: g_space, g_bytes.
+    #   - Bytes outstanding vs. available: g_bytes, g_space.
     #   - Vary headers: n_vary.
     #   - Waterlevel: c_waterlevel_queue, c_waterlevel_runs, c_waterlevel_purge.
-    r'MSE_BOOK\..+\.(?:c_waterlevel_purge|c_waterlevel_queue|c_waterlevel_runs|g_bytes|g_space|n_vary)|'
+    #   - Banlist journal file bytes outstanding vs. available: g_banlist_bytes, g_banlist_space.
+    #   - Timed out DB insertions: c_insert_timeout
+    r'MSE_BOOK\..+\.(?:c_insert_timeout|c_waterlevel_purge|c_waterlevel_queue|c_waterlevel_runs|g_bytes|g_banlist_bytes|g_banlist_space|g_space|n_vary)|'
     # MSE stores[...]
     #   - Extents: g_alloc_bytes, g_free_bytes.
     #   - Objects: g_objects.

@@ -2779,6 +2779,7 @@
                         {
                             'name': 'Varnish Cache[{#LOCATION}] is generating VCL failures',
                             'expression':
+                                '{$VARNISH_CACHE.VCL_FAILURES_RATE.ENABLED:"{#LOCATION_ID}"} and'
                                 '{Template App ' + name + ':varnish.stat["{#LOCATION_ID}","MAIN.vcl_fail"].last()}'
                                 '>{$VARNISH_CACHE.VCL_FAILURES_RATE.MAX:"{#LOCATION_ID}"}',
                             'priority': 'WARNING',
@@ -4925,6 +4926,7 @@
                         ('{$VARNISH_CACHE.NUKE_LIMIT_REACHS_RATE.MAX}', '0.0'),
                         ('{$VARNISH_CACHE.NUKE_LIMIT_REACHS_RATE.RECOVERY.SAMPLES}', '#10'),
                         ('{$VARNISH_CACHE.THREADS.MAX}', '1000'),
+                        ('{$VARNISH_CACHE.VCL_FAILURES_RATE.ENABLED}', '1'),
                         ('{$VARNISH_CACHE.VCL_FAILURES_RATE.MAX}', '0.0'),
                         ('{$VARNISH_CACHE.WORKSPACE_OVERFLOWS_RATE.MAX}', '0.0'),
 

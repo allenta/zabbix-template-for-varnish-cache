@@ -508,6 +508,34 @@
                             'value_type': 'UNSIGNED',
                             'triggers': [vcs_agent_processes_trigger],
                         },
+                        {
+                            'name': 'varnishd mem.vsize (virtual memory size)',
+                            'key': 'proc.mem["{$VARNISH_CACHE.PROC_MEM.VARNISHD.NAME}",,,,vsize]',
+                            'value_type': 'UNSIGNED',
+                            'units': 'B',
+                            'triggers': [],
+                        },
+                        {
+                            'name': 'varnishd mem.rss (resident set size)',
+                            'key': 'proc.mem["{$VARNISH_CACHE.PROC_MEM.VARNISHD.NAME}",,,,rss]',
+                            'value_type': 'UNSIGNED',
+                            'units': 'B',
+                            'triggers': [],
+                        },
+                        {
+                            'name': 'varnishd mem.size (size of process code + data + stack segments)',
+                            'key': 'proc.mem["{$VARNISH_CACHE.PROC_MEM.VARNISHD.NAME}",,,,size]',
+                            'value_type': 'UNSIGNED',
+                            'units': 'B',
+                            'triggers': [],
+                        },
+                        {
+                            'name': 'varnishd mem.swap (size of swap space used)',
+                            'key': 'proc.mem["{$VARNISH_CACHE.PROC_MEM.VARNISHD.NAME}",,,,swap]',
+                            'value_type': 'UNSIGNED',
+                            'units': 'B',
+                            'triggers': [],
+                        },
                     ] %}
                     <item>
                         <name>Varnish Cache - {{ item.name|e }}</name>
@@ -518,6 +546,11 @@
                             <history>0</history>
                         {% else %}
                             <history>{$VARNISH_CACHE.ITEM_HISTORY_STORAGE_PERIOD}</history>
+                        {% endif %}
+                        {% if 'units' in item %}
+                            <units>{{ item.units }}</units>
+                        {% elif version in ('4.0', '4.2') %}
+                            <units/>
                         {% endif %}
                         {% if 'trends' in item and not item.trends %}
                             <trends>0</trends>
@@ -535,7 +568,6 @@
                             <snmp_oid/>
                             <status>0</status>
                             <allowed_hosts/>
-                            <units/>
                             <snmpv3_contextname/>
                             <snmpv3_securityname/>
                             <snmpv3_securitylevel>0</snmpv3_securitylevel>
@@ -4898,6 +4930,7 @@
             <macros>
                 {% for macro in [
                         ('{$VARNISH_CACHE.LOCATIONS}', ''),
+                        ('{$VARNISH_CACHE.PROC_MEM.VARNISHD.NAME}', 'varnishd'),
 
                         ('{$VARNISH_CACHE.AGENT_PROCESSES.MIN}', '1'),
                         ('{$VARNISH_CACHE.BROADCASTER_PROCESSES.MIN}', '1'),

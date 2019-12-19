@@ -10,6 +10,7 @@
 from __future__ import absolute_import, division, print_function, unicode_literals
 import json
 import re
+import socket
 import subprocess
 import sys
 from argparse import ArgumentParser, ArgumentTypeError
@@ -357,6 +358,19 @@ def _stats(instance, backends_re, lite=False):
                         'description': '',
                         'value': int(healthy),
                     }
+
+        # Get child process PID (only available in VCP 6.x) and include
+        # memory stats.
+        try:
+            with open('/var/lib/varnish/%(name)s/_.vsm_child/_.index' % {
+                'name': instance or socket.gethostname()
+            }) as f:
+                child_pid = f.readline().split(' ')[1]
+                result.update(_memory_stats(child_pid))
+        except IOError:
+            pass
+
+        # Return result filtering empty values.
         return dict([
             (key, value)
             for key, value in result.items()
@@ -385,28 +399,36 @@ def _memory_stats(pid):
             #   - 'VIRT' column in top.
             #   - Same as 'VmSize' (KiB) in /proc/<PID>/status.
             #   - Same as proc.mem[,,,,vsize].
-            result['MEMORY.size'] = int(fields[0]) * page_size
+            result['MEMORY.size'] = {
+                'value': int(fields[0]) * page_size,
+            }
 
             # Column #2 (pages) in /proc/<PID>/statm:
             #   - Number of resident set (non-swapped) pages.
             #   - 'RES' column in top.
             #   - Same as 'VmRSS' (KiB) in /proc/<PID>/status.
             #   - Same as proc.mem[,,,,rss].
-            result['MEMORY.resident'] = int(fields[1]) * page_size
+            result['MEMORY.resident'] = {
+                'value': int(fields[1]) * page_size,
+            }
 
             # Column #3 (pages) in /proc/<PID>/statm:
             #   - Number of pages of shared (mmap'd) memory.
             #   - 'SHR' column in top.
             #   - Same as RssFile (KiB) + RssShmem (KiB) in some systems.
             #   - Not available vía Zabbix proc.mem[].
-            result['MEMORY.shared'] = int(fields[2]) * page_size
+            result['MEMORY.shared'] = {
+                'value': int(fields[2]) * page_size,
+            }
 
             # Column #4 (pages) in /proc/<PID>/statm:
             #   - Text resident set size.
             #   - 'CODE' column in top.
             #   - Same as 'VmExe' (KiB) in /proc/<PID>/status.
             #   - Same as proc.mem[,,,,exe].
-            result['MEMORY.text'] = int(fields[3]) * page_size
+            result['MEMORY.text'] = {
+                'value': int(fields[3]) * page_size,
+            }
 
             # Column #6 (pages) in /proc/<PID>/statm:
             #   - Data + stack resident set size.
@@ -414,7 +436,9 @@ def _memory_stats(pid):
             #   - Same as 'VmData' (KiB) + 'VmStk' (KiB) in /proc/<PID>/status.
             #   - Same as proc.mem[,,,,data] + proc.mem[,,,,stk].
             #   - Same as proc.mem[,,,,size] - proc.mem[,,,,exe].
-            result['MEMORY.data'] = int(fields[5]) * page_size
+            result['MEMORY.data'] = {
+                'value': int(fields[5]) * page_size,
+            }
     except:
         sys.stderr.write('Failed to fetch /proc/{}/statm stats'.format(pid))
 
@@ -430,7 +454,9 @@ def _memory_stats(pid):
                         # 'VmSwap' (KiB) in /proc/<PID>/status:
                         #   - 'SWAP' column in top.
                         #   - Same as proc.mem[,,,,swap].
-                        result['MEMORY.swap'] = value
+                        result['MEMORY.swap'] = {
+                            'value': value,
+                        }
                         break
     except:
         sys.stderr.write('Failed to fetch /proc/{}/status stats'.format(pid))

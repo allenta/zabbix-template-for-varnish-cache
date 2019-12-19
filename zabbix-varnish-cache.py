@@ -13,6 +13,7 @@ import re
 import subprocess
 import sys
 from argparse import ArgumentParser, ArgumentTypeError
+from resource import getpagesize
 
 ITEMS = re.compile(
     r'^(?:'
@@ -364,6 +365,77 @@ def _stats(instance, backends_re, lite=False):
     else:
         sys.stderr.write(output)
         sys.exit(1)
+
+
+def _memory_stats(pid):
+    # Linux is assumed. See:
+    #   - man proc
+    #   - https://www.zabbix.com/documentation/4.4/manual/config/items/itemtypes/zabbix_agent
+    #   - https://www.zabbix.com/documentation/4.4/manual/appendix/items/proc_mem_notes
+    #   - https://unix.stackexchange.com/questions/199482/does-proc-pid-status-always-use-kb
+    result = {}
+
+    try:
+        with open('/proc/{}/statm'.format(pid), 'r') as fd:
+            fields = fd.read().split()
+            page_size = getpagesize()
+
+            # Column #1 (pages) in /proc/<PID>/statm:
+            #   - Total number of pages of memory.
+            #   - 'VIRT' column in top.
+            #   - Same as 'VmSize' (KiB) in /proc/<PID>/status.
+            #   - Same as proc.mem[,,,,vsize].
+            result['MEMORY.size'] = int(fields[0]) * page_size
+
+            # Column #2 (pages) in /proc/<PID>/statm:
+            #   - Number of resident set (non-swapped) pages.
+            #   - 'RES' column in top.
+            #   - Same as 'VmRSS' (KiB) in /proc/<PID>/status.
+            #   - Same as proc.mem[,,,,rss].
+            result['MEMORY.resident'] = int(fields[1]) * page_size
+
+            # Column #3 (pages) in /proc/<PID>/statm:
+            #   - Number of pages of shared (mmap'd) memory.
+            #   - 'SHR' column in top.
+            #   - Same as RssFile (KiB) + RssShmem (KiB) in some systems.
+            #   - Not available vía Zabbix proc.mem[].
+            result['MEMORY.shared'] = int(fields[2]) * page_size
+
+            # Column #4 (pages) in /proc/<PID>/statm:
+            #   - Text resident set size.
+            #   - 'CODE' column in top.
+            #   - Same as 'VmExe' (KiB) in /proc/<PID>/status.
+            #   - Same as proc.mem[,,,,exe].
+            result['MEMORY.text'] = int(fields[3]) * page_size
+
+            # Column #6 (pages) in /proc/<PID>/statm:
+            #   - Data + stack resident set size.
+            #   - 'DATA' column in top.
+            #   - Same as 'VmData' (KiB) + 'VmStk' (KiB) in /proc/<PID>/status.
+            #   - Same as proc.mem[,,,,data] + proc.mem[,,,,stk].
+            #   - Same as proc.mem[,,,,size] - proc.mem[,,,,exe].
+            result['MEMORY.data'] = int(fields[5]) * page_size
+    except:
+        sys.stderr.write('Failed to fetch /proc/{}/statm stats'.format(pid))
+
+    try:
+        with open('/proc/{}/status'.format(pid), 'r') as fd:
+            items = re.compile(r'^(VmSwap):\s*(\d+)\s*kB$')
+            for line in fd:
+                match = items.match(line)
+                if match is not None:
+                    name = match.group(1)
+                    value = int(match.group(2)) * 1024
+                    if name == 'VmSwap':
+                        # 'VmSwap' (KiB) in /proc/<PID>/status:
+                        #   - 'SWAP' column in top.
+                        #   - Same as proc.mem[,,,,swap].
+                        result['MEMORY.swap'] = value
+                        break
+    except:
+        sys.stderr.write('Failed to fetch /proc/{}/status stats'.format(pid))
+
+    return result
 
 
 def _safe_zabbix_string(value):

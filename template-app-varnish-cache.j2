@@ -547,17 +547,13 @@
                         {% else %}
                             <history>{$VARNISH_CACHE.ITEM_HISTORY_STORAGE_PERIOD}</history>
                         {% endif %}
-                        {% if 'units' in item %}
-                            <units>{{ item.units }}</units>
-                        {% elif version in ('4.0', '4.2') %}
-                            <units/>
-                        {% endif %}
                         {% if 'trends' in item and not item.trends %}
                             <trends>0</trends>
                         {% else %}
                             <trends>{$VARNISH_CACHE.ITEM_TREND_STORAGE_PERIOD}</trends>
                         {% endif %}
                         <value_type>{{ item_value_type(item.value_type) }}</value_type>
+                        <units>{{ item.units|default('')|e }}</units>
                         <applications>
                             <application>
                                 <name>Varnish Cache</name>

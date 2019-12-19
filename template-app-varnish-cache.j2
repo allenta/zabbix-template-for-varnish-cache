@@ -635,6 +635,96 @@
                     },
                     [
                         {
+                            'name': 'MEMORY.size (virtual size)',
+                            'type': 'DEPENDENT',
+                            'key': 'varnish.stat["{#LOCATION_ID}","MEMORY.size"]',
+                            'value_type': 'UNSIGNED',
+                            'units': 'B',
+                            'master_item_key': master,
+                            'preprocessing': [
+                                {
+                                    'type': 'JSONPATH',
+                                    'params': '$[\'{#LOCATION_ID}.MEMORY.size\']',
+                                    'error_handler': 'DISCARD_VALUE',
+                                },
+                            ],
+                        },
+                        {
+                            'name': 'MEMORY.resident (resident size)',
+                            'type': 'DEPENDENT',
+                            'key': 'varnish.stat["{#LOCATION_ID}","MEMORY.resident"]',
+                            'value_type': 'UNSIGNED',
+                            'units': 'B',
+                            'master_item_key': master,
+                            'preprocessing': [
+                                {
+                                    'type': 'JSONPATH',
+                                    'params': '$[\'{#LOCATION_ID}.MEMORY.resident\']',
+                                    'error_handler': 'DISCARD_VALUE',
+                                },
+                            ],
+                        },
+                        {
+                            'name': 'MEMORY.shared (shared size)',
+                            'type': 'DEPENDENT',
+                            'key': 'varnish.stat["{#LOCATION_ID}","MEMORY.shared"]',
+                            'value_type': 'UNSIGNED',
+                            'units': 'B',
+                            'master_item_key': master,
+                            'preprocessing': [
+                                {
+                                    'type': 'JSONPATH',
+                                    'params': '$[\'{#LOCATION_ID}.MEMORY.shared\']',
+                                    'error_handler': 'DISCARD_VALUE',
+                                },
+                            ],
+                        },
+                        {
+                            'name': 'MEMORY.text (code size)',
+                            'type': 'DEPENDENT',
+                            'key': 'varnish.stat["{#LOCATION_ID}","MEMORY.text"]',
+                            'value_type': 'UNSIGNED',
+                            'units': 'B',
+                            'master_item_key': master,
+                            'preprocessing': [
+                                {
+                                    'type': 'JSONPATH',
+                                    'params': '$[\'{#LOCATION_ID}.MEMORY.text\']',
+                                    'error_handler': 'DISCARD_VALUE',
+                                },
+                            ],
+                        },
+                        {
+                            'name': 'MEMORY.data (data + stack size)',
+                            'type': 'DEPENDENT',
+                            'key': 'varnish.stat["{#LOCATION_ID}","MEMORY.data"]',
+                            'value_type': 'UNSIGNED',
+                            'units': 'B',
+                            'master_item_key': master,
+                            'preprocessing': [
+                                {
+                                    'type': 'JSONPATH',
+                                    'params': '$[\'{#LOCATION_ID}.MEMORY.data\']',
+                                    'error_handler': 'DISCARD_VALUE',
+                                },
+                            ],
+                        },
+                        {
+                            'name': 'MEMORY.swap (swapped size)',
+                            'type': 'DEPENDENT',
+                            'key': 'varnish.stat["{#LOCATION_ID}","MEMORY.swap"]',
+                            'value_type': 'UNSIGNED',
+                            'units': 'B',
+                            'master_item_key': master,
+                            'preprocessing': [
+                                {
+                                    'type': 'JSONPATH',
+                                    'params': '$[\'{#LOCATION_ID}.MEMORY.swap\']',
+                                    'error_handler': 'DISCARD_VALUE',
+                                },
+                            ],
+                        },
+                        {
                             'name': 'MAIN.backend_busy (backend connections too many / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","MAIN.backend_busy"]',
@@ -2856,6 +2946,35 @@
                         },
                     ],
                     [
+                        {
+                            'name': 'Memory',
+                            'items': [
+                                {
+                                    'color': '00C800',
+                                    'key': 'varnish.stat["{#LOCATION_ID}","MEMORY.size"]',
+                                },
+                                {
+                                    'color': 'C80000',
+                                    'key': 'varnish.stat["{#LOCATION_ID}","MEMORY.resident"]',
+                                },
+                                {
+                                    'color': '0000C8',
+                                    'key': 'varnish.stat["{#LOCATION_ID}","MEMORY.shared"]',
+                                },
+                                {
+                                    'color': 'C800C8',
+                                    'key': 'varnish.stat["{#LOCATION_ID}","MEMORY.text"]',
+                                },
+                                {
+                                    'color': '00C8C8',
+                                    'key': 'varnish.stat["{#LOCATION_ID}","MEMORY.data"]',
+                                },
+                                {
+                                    'color': 'C8C800',
+                                    'key': 'varnish.stat["{#LOCATION_ID}","MEMORY.swap"]',
+                                },
+                            ],
+                        },
                         {
                             'name': 'Backends: connections activity',
                             'items': [

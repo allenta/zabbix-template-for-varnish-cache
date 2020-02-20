@@ -2672,6 +2672,24 @@
                             ],
                         },
                         {
+                            'name': 'VHA6.fetch_peer_hit (broadcasts which cache hit on the peer node / sec)',
+                            'type': 'DEPENDENT',
+                            'key': 'varnish.stat["{#LOCATION_ID}","VHA6.fetch_peer_hit"]',
+                            'value_type': 'FLOAT',
+                            'units': 'eps',
+                            'master_item_key': master,
+                            'preprocessing': [
+                                {
+                                    'type': 'JSONPATH',
+                                    'params': '$[\'{#LOCATION_ID}.VHA6.fetch_peer_hit\']',
+                                    'error_handler': 'DISCARD_VALUE',
+                                },
+                                {
+                                    'type': 'CHANGE_PER_SECOND',
+                                },
+                            ],
+                        },
+                        {
                             'name': 'VHA6.fetch_origin (replication requests / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","VHA6.fetch_origin"]',
@@ -2816,6 +2834,24 @@
                             ],
                         },
                         {
+                            'name': 'VHA6.error_fetch',
+                            'type': 'DEPENDENT',
+                            'key': 'varnish.stat["{#LOCATION_ID}","VHA6.error_fetch"]',
+                            'value_type': 'FLOAT',
+                            'units': 'eps',
+                            'master_item_key': master,
+                            'preprocessing': [
+                                {
+                                    'type': 'JSONPATH',
+                                    'params': '$[\'{#LOCATION_ID}.VHA6.error_fetch\']',
+                                    'error_handler': 'DISCARD_VALUE',
+                                },
+                                {
+                                    'type': 'CHANGE_PER_SECOND',
+                                },
+                            ],
+                        },
+                        {
                             'name': 'VHA6.error_fetch_insert',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","VHA6.error_fetch_insert"]',
@@ -2826,6 +2862,42 @@
                                 {
                                     'type': 'JSONPATH',
                                     'params': '$[\'{#LOCATION_ID}.VHA6.error_fetch_insert\']',
+                                    'error_handler': 'DISCARD_VALUE',
+                                },
+                                {
+                                    'type': 'CHANGE_PER_SECOND',
+                                },
+                            ],
+                        },
+                        {
+                            'name': 'VHA6.error_fetch_seal',
+                            'type': 'DEPENDENT',
+                            'key': 'varnish.stat["{#LOCATION_ID}","VHA6.error_fetch_seal"]',
+                            'value_type': 'FLOAT',
+                            'units': 'eps',
+                            'master_item_key': master,
+                            'preprocessing': [
+                                {
+                                    'type': 'JSONPATH',
+                                    'params': '$[\'{#LOCATION_ID}.VHA6.error_fetch_seal\']',
+                                    'error_handler': 'DISCARD_VALUE',
+                                },
+                                {
+                                    'type': 'CHANGE_PER_SECOND',
+                                },
+                            ],
+                        },
+                        {
+                            'name': 'VHA6.error_localhost',
+                            'type': 'DEPENDENT',
+                            'key': 'varnish.stat["{#LOCATION_ID}","VHA6.error_localhost"]',
+                            'value_type': 'FLOAT',
+                            'units': 'eps',
+                            'master_item_key': master,
+                            'preprocessing': [
+                                {
+                                    'type': 'JSONPATH',
+                                    'params': '$[\'{#LOCATION_ID}.VHA6.error_localhost\']',
                                     'error_handler': 'DISCARD_VALUE',
                                 },
                                 {
@@ -3558,14 +3630,18 @@
                                 },
                                 {
                                     'color': '0000C8',
-                                    'key': 'varnish.stat["{#LOCATION_ID}","VHA6.fetch_origin"]',
+                                    'key': 'varnish.stat["{#LOCATION_ID}","VHA6.fetch_peer_hit"]',
                                 },
                                 {
                                     'color': 'C800C8',
-                                    'key': 'varnish.stat["{#LOCATION_ID}","VHA6.fetch_origin_deliver"]',
+                                    'key': 'varnish.stat["{#LOCATION_ID}","VHA6.fetch_origin"]',
                                 },
                                 {
                                     'color': '00C8C8',
+                                    'key': 'varnish.stat["{#LOCATION_ID}","VHA6.fetch_origin_deliver"]',
+                                },
+                                {
+                                    'color': 'C8C800',
                                     'key': 'varnish.stat["{#LOCATION_ID}","VHA6.fetch_peer_insert"]',
                                 },
                             ],
@@ -3595,14 +3671,26 @@
                                 },
                                 {
                                     'color': 'C8C800',
-                                    'key': 'varnish.stat["{#LOCATION_ID}","VHA6.error_fetch_insert"]',
+                                    'key': 'varnish.stat["{#LOCATION_ID}","VHA6.error_fetch"]',
                                 },
                                 {
                                     'color': 'C8C8C8',
-                                    'key': 'varnish.stat["{#LOCATION_ID}","VHA6.error_origin_mismatch"]',
+                                    'key': 'varnish.stat["{#LOCATION_ID}","VHA6.error_fetch_insert"]',
                                 },
                                 {
                                     'color': '009600',
+                                    'key': 'varnish.stat["{#LOCATION_ID}","VHA6.error_fetch_seal"]',
+                                },
+                                {
+                                    'color': '960000',
+                                    'key': 'varnish.stat["{#LOCATION_ID}","VHA6.error_localhost"]',
+                                },
+                                {
+                                    'color': '000096',
+                                    'key': 'varnish.stat["{#LOCATION_ID}","VHA6.error_origin_mismatch"]',
+                                },
+                                {
+                                    'color': '960096',
                                     'key': 'varnish.stat["{#LOCATION_ID}","VHA6.error_origin_miss"]',
                                 },
                             ],

@@ -991,6 +991,24 @@
                             ],
                         },
                         {
+                            'name': 'MAIN.c_ykey_purges (YKey purge operations executed / sec)',
+                            'type': 'DEPENDENT',
+                            'key': 'varnish.stat["{#LOCATION_ID}","MAIN.c_ykey_purges"]',
+                            'value_type': 'FLOAT',
+                            'units': 'eps',
+                            'master_item_key': master,
+                            'preprocessing': [
+                                {
+                                    'type': 'JSONPATH',
+                                    'params': '$[\'{#LOCATION_ID}.MAIN.c_ykey_purges\']',
+                                    'error_handler': 'DISCARD_VALUE',
+                                },
+                                {
+                                    'type': 'CHANGE_PER_SECOND',
+                                },
+                            ],
+                        },
+                        {
                             'name': 'MAIN.cache_hit (cache hits / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","MAIN.cache_hit"]',
@@ -1333,6 +1351,24 @@
                             ],
                         },
                         {
+                            'name': 'MAIN.fetch_fast304 (fast 304 inserts / sec)',
+                            'type': 'DEPENDENT',
+                            'key': 'varnish.stat["{#LOCATION_ID}","MAIN.fetch_fast304"]',
+                            'value_type': 'FLOAT',
+                            'units': 'eps',
+                            'master_item_key': master,
+                            'preprocessing': [
+                                {
+                                    'type': 'JSONPATH',
+                                    'params': '$[\'{#LOCATION_ID}.MAIN.fetch_fast304\']',
+                                    'error_handler': 'DISCARD_VALUE',
+                                },
+                                {
+                                    'type': 'CHANGE_PER_SECOND',
+                                },
+                            ],
+                        },
+                        {
                             'name': 'MAIN.fetch_head (beresps with not body because of HEAD requests / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","MAIN.fetch_head"]',
@@ -1401,6 +1437,84 @@
                                 },
                                 {
                                     'type': 'CHANGE_PER_SECOND',
+                                },
+                            ],
+                        },
+                        {
+                            'name': 'MAIN.fetch_stale_deliver (stale deliveries / sec)',
+                            'type': 'DEPENDENT',
+                            'key': 'varnish.stat["{#LOCATION_ID}","MAIN.fetch_stale_deliver"]',
+                            'value_type': 'FLOAT',
+                            'units': 'eps',
+                            'master_item_key': master,
+                            'preprocessing': [
+                                {
+                                    'type': 'JSONPATH',
+                                    'params': '$[\'{#LOCATION_ID}.MAIN.fetch_stale_deliver\']',
+                                    'error_handler': 'DISCARD_VALUE',
+                                },
+                                {
+                                    'type': 'CHANGE_PER_SECOND',
+                                },
+                            ],
+                        },
+                        {
+                            'name': 'MAIN.g_mem_file (RSS file usage)',
+                            'type': 'DEPENDENT',
+                            'key': 'varnish.stat["{#LOCATION_ID}","MAIN.g_mem_file"]',
+                            'value_type': 'UNSIGNED',
+                            'units': 'B',
+                            'master_item_key': master,
+                            'preprocessing': [
+                                {
+                                    'type': 'JSONPATH',
+                                    'params': '$[\'{#LOCATION_ID}.MAIN.g_mem_file\']',
+                                    'error_handler': 'DISCARD_VALUE',
+                                },
+                            ],
+                        },
+                        {
+                            'name': 'MAIN.g_mem_private (worker process private memory usage)',
+                            'type': 'DEPENDENT',
+                            'key': 'varnish.stat["{#LOCATION_ID}","MAIN.g_mem_private"]',
+                            'value_type': 'UNSIGNED',
+                            'units': 'B',
+                            'master_item_key': master,
+                            'preprocessing': [
+                                {
+                                    'type': 'JSONPATH',
+                                    'params': '$[\'{#LOCATION_ID}.MAIN.g_mem_private\']',
+                                    'error_handler': 'DISCARD_VALUE',
+                                },
+                            ],
+                        },
+                        {
+                            'name': 'MAIN.g_mem_rss (worker process RSS memory usage)',
+                            'type': 'DEPENDENT',
+                            'key': 'varnish.stat["{#LOCATION_ID}","MAIN.g_mem_rss"]',
+                            'value_type': 'UNSIGNED',
+                            'units': 'B',
+                            'master_item_key': master,
+                            'preprocessing': [
+                                {
+                                    'type': 'JSONPATH',
+                                    'params': '$[\'{#LOCATION_ID}.MAIN.g_mem_rss\']',
+                                    'error_handler': 'DISCARD_VALUE',
+                                },
+                            ],
+                        },
+                        {
+                            'name': 'MAIN.g_mem_swap (worker process swap usage)',
+                            'type': 'DEPENDENT',
+                            'key': 'varnish.stat["{#LOCATION_ID}","MAIN.g_mem_swap"]',
+                            'value_type': 'UNSIGNED',
+                            'units': 'B',
+                            'master_item_key': master,
+                            'preprocessing': [
+                                {
+                                    'type': 'JSONPATH',
+                                    'params': '$[\'{#LOCATION_ID}.MAIN.g_mem_swap\']',
+                                    'error_handler': 'DISCARD_VALUE',
                                 },
                             ],
                         },
@@ -2021,6 +2135,24 @@
                                 {
                                     'type': 'JSONPATH',
                                     'params': '$[\'{#LOCATION_ID}.MAIN.sess_fail_other\']',
+                                    'error_handler': 'DISCARD_VALUE',
+                                },
+                                {
+                                    'type': 'CHANGE_PER_SECOND',
+                                },
+                            ],
+                        },
+                        {
+                            'name': 'MAIN.sess_herd (sessions herd / sec)',
+                            'type': 'DEPENDENT',
+                            'key': 'varnish.stat["{#LOCATION_ID}","MAIN.sess_herd"]',
+                            'value_type': 'FLOAT',
+                            'units': 'eps',
+                            'master_item_key': master,
+                            'preprocessing': [
+                                {
+                                    'type': 'JSONPATH',
+                                    'params': '$[\'{#LOCATION_ID}.MAIN.sess_herd\']',
                                     'error_handler': 'DISCARD_VALUE',
                                 },
                                 {
@@ -3135,7 +3267,15 @@
                                 },
                                 {
                                     'color': '009696',
+                                    'key': 'varnish.stat["{#LOCATION_ID}","MAIN.fetch_fast304"]',
+                                },
+                                {
+                                    'color': '969600',
                                     'key': 'varnish.stat["{#LOCATION_ID}","MAIN.fetch_no_thread"]',
+                                },
+                                {
+                                    'color': '969696',
+                                    'key': 'varnish.stat["{#LOCATION_ID}","MAIN.fetch_stale_deliver"]',
                                 },
                             ],
                         },
@@ -3328,10 +3468,14 @@
                                 },
                                 {
                                     'color': 'C8C8C8',
-                                    'key': 'varnish.stat["{#LOCATION_ID}","MAIN.sess_queued"]',
+                                    'key': 'varnish.stat["{#LOCATION_ID}","MAIN.sess_herd"]',
                                 },
                                 {
                                     'color': '009600',
+                                    'key': 'varnish.stat["{#LOCATION_ID}","MAIN.sess_queued"]',
+                                },
+                                {
+                                    'color': '960000',
                                     'key': 'varnish.stat["{#LOCATION_ID}","MAIN.sess_readahead"]',
                                 },
                             ],
@@ -3466,6 +3610,11 @@
                                     'drawtype': 'FILLED_REGION',
                                     'color': '00C800',
                                     'key': 'varnish.stat["{#LOCATION_ID}","MAIN.n_purges"]',
+                                },
+                                {
+                                    'drawtype': 'FILLED_REGION',
+                                    'color': 'C80000',
+                                    'key': 'varnish.stat["{#LOCATION_ID}","MAIN.c_ykey_purges"]',
                                 },
                             ],
                         },
@@ -3736,6 +3885,27 @@
                                 {
                                     'color': '0000C8',
                                     'key': 'varnish.stat["{#LOCATION_ID}","VMOD_HTTP.handle_abandon"]',
+                                },
+                            ],
+                        },
+                        {
+                            'name': 'Worker process memory usage',
+                            'items': [
+                                {
+                                    'color': '00C800',
+                                    'key': 'varnish.stat["{#LOCATION_ID}","MAIN.g_mem_file"]',
+                                },
+                                {
+                                    'color': 'C80000',
+                                    'key': 'varnish.stat["{#LOCATION_ID}","MAIN.g_mem_private"]',
+                                },
+                                {
+                                    'color': '0000C8',
+                                    'key': 'varnish.stat["{#LOCATION_ID}","MAIN.g_mem_rss"]',
+                                },
+                                {
+                                    'color': 'C800C8',
+                                    'key': 'varnish.stat["{#LOCATION_ID}","MAIN.g_mem_swap"]',
                                 },
                             ],
                         },
@@ -4366,6 +4536,24 @@
                             ],
                         },
                         {
+                            'name': 'STG.{#SUBJECT}.c_ykey_purged (number of objects purged with YKey / sec)',
+                            'type': 'DEPENDENT',
+                            'key': 'varnish.stat["{#LOCATION_ID}","STG.{#SUBJECT_ID}.c_ykey_purged"]',
+                            'value_type': 'FLOAT',
+                            'units': 'eps',
+                            'master_item_key': master,
+                            'preprocessing': [
+                                {
+                                    'type': 'JSONPATH',
+                                    'params': '$[\'{#LOCATION_ID}.STG.{#SUBJECT_ID}.c_ykey_purged\']',
+                                    'error_handler': 'DISCARD_VALUE',
+                                },
+                                {
+                                    'type': 'CHANGE_PER_SECOND',
+                                },
+                            ],
+                        },
+                        {
                             'name': 'STG.{#SUBJECT}.g_bytes (bytes outstanding)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","STG.{#SUBJECT_ID}.g_bytes"]',
@@ -4590,6 +4778,15 @@
                                     'drawtype': 'FILLED_REGION',
                                     'color': '00C800',
                                     'key': 'varnish.stat["{#LOCATION_ID}","STG.{#SUBJECT_ID}.g_ykey_keys"]',
+                                },
+                            ],
+                        },
+                        {
+                            'name': 'Storages[{#SUBJECT}]: YKey purged',
+                            'items': [
+                                {
+                                    'color': '00C800',
+                                    'key': 'varnish.stat["{#LOCATION_ID}","STG.{#SUBJECT_ID}.c_ykey_purged"]',
                                 },
                             ],
                         },

@@ -3087,6 +3087,7 @@
                         {
                             'name': 'Varnish Cache[{#LOCATION}] has surpassed {$VARNISH_CACHE.THREADS.MAX} threads',
                             'expression':
+                                '{$VARNISH_CACHE.THREADS.ENABLED:"{#LOCATION_ID}"} and '
                                 '{Template App ' + name + ':varnish.stat["{#LOCATION_ID}","MAIN.threads"].last()}'
                                 '>{$VARNISH_CACHE.THREADS.MAX:"{#LOCATION_ID}"}',
                             'priority': 'WARNING',
@@ -3094,6 +3095,7 @@
                         {
                             'name': 'Varnish Cache[{#LOCATION}] is generating HTTP header overflows',
                             'expression':
+                                '{$VARNISH_CACHE.HTTP_HEADER_OVERFLOWS_RATE.ENABLED:"{#LOCATION_ID}"} and '
                                 '{Template App ' + name + ':varnish.stat["{#LOCATION_ID}","MAIN.losthdr"].last()}'
                                 '>{$VARNISH_CACHE.HTTP_HEADER_OVERFLOWS_RATE.MAX:"{#LOCATION_ID}"}',
                             'priority': 'WARNING',
@@ -3109,7 +3111,8 @@
                         {
                             'name': 'Varnish Cache[{#LOCATION}] is generating workspace overflows',
                             'expression':
-                                '{Template App ' + name + ':varnish.stat["{#LOCATION_ID}","MAIN.client_resp_500"].last()}'
+                                '{$VARNISH_CACHE.WORKSPACE_OVERFLOWS_RATE.ENABLED:"{#LOCATION_ID}"} and '
+                                '({Template App ' + name + ':varnish.stat["{#LOCATION_ID}","MAIN.client_resp_500"].last()}'
                                 '>{$VARNISH_CACHE.WORKSPACE_OVERFLOWS_RATE.MAX:"{#LOCATION_ID}"} or'
                                 ' {Template App ' + name + ':varnish.stat["{#LOCATION_ID}","MAIN.ws_backend_overflow"].last()}'
                                 '>{$VARNISH_CACHE.WORKSPACE_OVERFLOWS_RATE.MAX:"{#LOCATION_ID}"} or'
@@ -3118,12 +3121,13 @@
                                 ' {Template App ' + name + ':varnish.stat["{#LOCATION_ID}","MAIN.ws_session_overflow"].last()}'
                                 '>{$VARNISH_CACHE.WORKSPACE_OVERFLOWS_RATE.MAX:"{#LOCATION_ID}"} or'
                                 ' {Template App ' + name + ':varnish.stat["{#LOCATION_ID}","MAIN.ws_thread_overflow"].last()}'
-                                '>{$VARNISH_CACHE.WORKSPACE_OVERFLOWS_RATE.MAX:"{#LOCATION_ID}"}',
+                                '>{$VARNISH_CACHE.WORKSPACE_OVERFLOWS_RATE.MAX:"{#LOCATION_ID}"})',
                             'priority': 'WARNING',
                         },
                         {
                             'name': 'Varnish Cache[{#LOCATION}] is getting backend connection failures',
                             'expression':
+                                '{$VARNISH_CACHE.BACKEND_CONNECTION_FAILURES_RATE.ENABLED:"{#LOCATION_ID}"} and '
                                 '{Template App ' + name + ':varnish.stat["{#LOCATION_ID}","MAIN.backend_fail"].min({$VARNISH_CACHE.BACKEND_CONNECTION_FAILURES_RATE.SAMPLES:"{#LOCATION_ID}"})}'
                                 '>{$VARNISH_CACHE.BACKEND_CONNECTION_FAILURES_RATE.MAX:"{#LOCATION_ID}"}',
                             'priority': 'WARNING',
@@ -3131,6 +3135,7 @@
                         {
                             'name': 'Varnish Cache[{#LOCATION}] is nuking objects',
                             'expression':
+                                '{$VARNISH_CACHE.LRU_NUKED_OBJECTS_RATE.ENABLED:"{#LOCATION_ID}"} and '
                                 '{Template App ' + name + ':varnish.stat["{#LOCATION_ID}","MAIN.n_lru_nuked"].last()}'
                                 '>{$VARNISH_CACHE.LRU_NUKED_OBJECTS_RATE.MAX:"{#LOCATION_ID}"}',
                             'recovery':
@@ -3141,6 +3146,7 @@
                         {
                             'name': 'Varnish Cache[{#LOCATION}] is reaching nuke_limit',
                             'expression':
+                                '{$VARNISH_CACHE.NUKE_LIMIT_REACHS_RATE.ENABLED:"{#LOCATION_ID}"} and '
                                 '{Template App ' + name + ':varnish.stat["{#LOCATION_ID}","MAIN.n_lru_limited"].last()}'
                                 '>{$VARNISH_CACHE.NUKE_LIMIT_REACHS_RATE.MAX:"{#LOCATION_ID}"}',
                             'recovery':
@@ -4331,7 +4337,9 @@
                     [
                         {
                             'name': 'Varnish Cache[{#LOCATION}] {#SUBJECT} backend is sick',
-                            'expression': '{Template App ' + name + ':varnish.stat["{#LOCATION_ID}","VBE.{#SUBJECT_ID}.healthy"].max({$VARNISH_CACHE.BACKEND_HEALTHINESS.SAMPLES:"{#LOCATION_ID}:{#SUBJECT_ID}"})}<1',
+                            'expression':
+                                '{$VARNISH_CACHE.BACKEND_HEALTHINESS.ENABLED:"{#LOCATION_ID}:{#SUBJECT_ID}"} and '
+                                '{Template App ' + name + ':varnish.stat["{#LOCATION_ID}","VBE.{#SUBJECT_ID}.healthy"].max({$VARNISH_CACHE.BACKEND_HEALTHINESS.SAMPLES:"{#LOCATION_ID}:{#SUBJECT_ID}"})}<1',
                             'priority': 'HIGH',
                         },
                     ],
@@ -4679,6 +4687,7 @@
                         {
                             'name': 'Varnish Cache[{#LOCATION}] {#SUBJECT} storage failed to allocate space',
                             'expression':
+                                '{$VARNISH_CACHE.ALLOCATOR_FAILURES_RATE.ENABLED:"{#LOCATION_ID}:{#SUBJECT_ID}"} and '
                                 '{Template App ' + name + ':varnish.stat["{#LOCATION_ID}","STG.{#SUBJECT_ID}.c_fail"].last()}'
                                 '>{$VARNISH_CACHE.ALLOCATOR_FAILURES_RATE.MAX:"{#LOCATION_ID}:{#SUBJECT_ID}"}',
                             'recovery':
@@ -4689,6 +4698,7 @@
                         {
                             'name': 'Varnish Cache[{#LOCATION}] {#SUBJECT} storage is running out of spare nodes',
                             'expression':
+                                '{$VARNISH_CACHE.SPARE_NODES.ENABLED:"{#LOCATION_ID}:{#SUBJECT_ID}"} and '
                                 '{Template App ' + name + ':varnish.stat["{#LOCATION_ID}","STG.{#SUBJECT_ID}.g_sparenode"].last()}'
                                 '<{$VARNISH_CACHE.SPARE_NODES.MIN:"{#LOCATION_ID}:{#SUBJECT_ID}"}',
                             'recovery':
@@ -4958,6 +4968,7 @@
                         {
                             'name': 'Varnish Cache[{#LOCATION}] {#SUBJECT} MSE book is running out of space',
                             'expression':
+                                '{$VARNISH_CACHE.MSE_BOOK_SPACE.ENABLED:"{#LOCATION_ID}:{#SUBJECT_ID}"} and '
                                 '{Template App ' + name + ':varnish.stat["{#LOCATION_ID}","MSE_BOOK.{#SUBJECT_ID}.g_space"].last()}'
                                 '<{$VARNISH_CACHE.MSE_BOOK_SPACE.MIN:"{#LOCATION_ID}:{#SUBJECT_ID}"}',
                             'recovery':
@@ -5349,27 +5360,37 @@
                         ('{$VARNISH_CACHE.ITEM_TREND_STORAGE_PERIOD}', '365d'),
                         ('{$VARNISH_CACHE.ITEM_UPDATE_INTERVAL}', '60s'),
 
+                        ('{$VARNISH_CACHE.BACKEND_CONNECTION_FAILURES_RATE.ENABLED}', '1'),
                         ('{$VARNISH_CACHE.BACKEND_CONNECTION_FAILURES_RATE.MAX}', '0.0'),
                         ('{$VARNISH_CACHE.BACKEND_CONNECTION_FAILURES_RATE.SAMPLES}', '#10'),
+                        ('{$VARNISH_CACHE.HTTP_HEADER_OVERFLOWS_RATE.ENABLED}', '1'),
                         ('{$VARNISH_CACHE.HTTP_HEADER_OVERFLOWS_RATE.MAX}', '0.0'),
+                        ('{$VARNISH_CACHE.LRU_NUKED_OBJECTS_RATE.ENABLED}', '1'),
                         ('{$VARNISH_CACHE.LRU_NUKED_OBJECTS_RATE.MAX}', '0.0'),
                         ('{$VARNISH_CACHE.LRU_NUKED_OBJECTS_RATE.RECOVERY.SAMPLES}', '#10'),
                         ('{$VARNISH_CACHE.MAIN_UPTIME.MIN}', '600s'),
                         ('{$VARNISH_CACHE.MGT_UPTIME.MIN}', '600s'),
+                        ('{$VARNISH_CACHE.NUKE_LIMIT_REACHS_RATE.ENABLED}', '1'),
                         ('{$VARNISH_CACHE.NUKE_LIMIT_REACHS_RATE.MAX}', '0.0'),
                         ('{$VARNISH_CACHE.NUKE_LIMIT_REACHS_RATE.RECOVERY.SAMPLES}', '#10'),
+                        ('{$VARNISH_CACHE.THREADS.ENABLED}', '1'),
                         ('{$VARNISH_CACHE.THREADS.MAX}', '1000'),
                         ('{$VARNISH_CACHE.VCL_FAILURES_RATE.ENABLED}', '1'),
                         ('{$VARNISH_CACHE.VCL_FAILURES_RATE.MAX}', '0.0'),
+                        ('{$VARNISH_CACHE.WORKSPACE_OVERFLOWS_RATE.ENABLED}', '1'),
                         ('{$VARNISH_CACHE.WORKSPACE_OVERFLOWS_RATE.MAX}', '0.0'),
 
+                        ('{$VARNISH_CACHE.BACKEND_HEALTHINESS.ENABLED}', '1'),
                         ('{$VARNISH_CACHE.BACKEND_HEALTHINESS.SAMPLES}', '#1'),
 
+                        ('{$VARNISH_CACHE.ALLOCATOR_FAILURES_RATE.ENABLED}', '1'),
                         ('{$VARNISH_CACHE.ALLOCATOR_FAILURES_RATE.MAX}', '0.0'),
                         ('{$VARNISH_CACHE.ALLOCATOR_FAILURES_RATE.RECOVERY.SAMPLES}', '#10'),
+                        ('{$VARNISH_CACHE.SPARE_NODES.ENABLED}', '1'),
                         ('{$VARNISH_CACHE.SPARE_NODES.MIN}', '900000'),
                         ('{$VARNISH_CACHE.SPARE_NODES.RECOVERY.MIN}', '1000000'),
 
+                        ('{$VARNISH_CACHE.MSE_BOOK_SPACE.ENABLED}', '1'),
                         ('{$VARNISH_CACHE.MSE_BOOK_SPACE.MIN}', '75MB'),
                         ('{$VARNISH_CACHE.MSE_BOOK_SPACE.RECOVERY.MIN}', '100MB'),
                     ] %}

@@ -527,8 +527,8 @@ def _backends(stats, instance):
 def _memory_stats(stats, pid):
     # Linux is assumed. See:
     #   - man proc
-    #   - https://www.zabbix.com/documentation/4.4/manual/config/items/itemtypes/zabbix_agent
-    #   - https://www.zabbix.com/documentation/4.4/manual/appendix/items/proc_mem_notes
+    #   - https://www.zabbix.com/documentation/5.0/manual/config/items/itemtypes/zabbix_agent
+    #   - https://www.zabbix.com/documentation/5.0/manual/appendix/items/proc_mem_notes
     #   - https://unix.stackexchange.com/questions/199482/does-proc-pid-status-always-use-kb
     try:
         with open('/proc/{}/statm'.format(pid), 'r') as fd:

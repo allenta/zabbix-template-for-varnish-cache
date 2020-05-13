@@ -17,7 +17,7 @@
 
     $ pip install jinja2-cli
     $ jinja2 \
-        -D version={4.0,4.2,4.4} \
+        -D version={4.0,4.2,4.4,5.0} \
         [-D name='Varnish Cache'] \
         [-D lite=0] \
         --strict -o template.xml template-app-varnish-cache.j2

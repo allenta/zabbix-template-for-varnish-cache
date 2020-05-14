@@ -7,9 +7,9 @@
     UserParameter=varnish.discovery[*],sudo /usr/local/bin/zabbix-varnish-cache.py -i '$1' discover $2
     UserParameter=varnish.stats[*],sudo /usr/local/bin/zabbix-varnish-cache.py -i '$1' stats
 
- You'll have to grant ``zabbix`` user sudo permissions to execute ``/usr/local/bin/zabbix-varnish-cache.py`` in order to let the script perform ``varnishadm`` commands to discover the current active VCL, discover healthiness of each backend, etc.
+   You'll have to grant ``zabbix`` user sudo permissions to execute ``/usr/local/bin/zabbix-varnish-cache.py`` in order to let the script perform ``varnishadm`` commands to discover the current active VCL, discover healthiness of each backend, etc.
 
- If you'd rather not use sudo, then add ``zabbix`` user to the ``varnish`` group in order for the script to be able to retrieve as much data as possible::
+   If you'd rather not use sudo, then add ``zabbix`` user to the ``varnish`` group in order for the script to be able to retrieve as much data as possible::
 
     $ sudo usermod -a --groups varnish zabbix
 

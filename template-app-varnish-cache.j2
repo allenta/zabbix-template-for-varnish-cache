@@ -1,5 +1,7 @@
 {%- set name = name|default('Varnish Cache') -%}
 
+{%- set description = description|default('') -%}
+
 {%- set lite = lite|default(0)|int > 0 -%}
 
 {%- set master = 'varnish.stats["{$VARNISH_CACHE.LOCATIONS}"]' -%}
@@ -431,9 +433,11 @@
     </groups>
     <templates>
         <template>
-            <template>Template App {{ name }}</template>
-            <name>Template App {{ name }}</name>
-            {% if version in ('4.0', '4.2') %}
+            <template>Template App {{ name|e }}</template>
+            <name>Template App {{ name|e }}</name>
+            {% if description %}
+                <description>{{ description|e }}</description>
+            {% elif version in ('4.0', '4.2') %}
                 <description/>
             {% endif %}
             <groups>

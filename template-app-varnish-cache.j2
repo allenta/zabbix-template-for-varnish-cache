@@ -723,6 +723,42 @@
                             ],
                         },
                         {
+                            'name': 'PAGE_FAULTS.minor (minor page faults / sec)',
+                            'type': 'DEPENDENT',
+                            'key': 'varnish.stat["{#LOCATION_ID}","PAGE_FAULTS.minor"]',
+                            'value_type': 'FLOAT',
+                            'units': 'eps',
+                            'master_item_key': master,
+                            'preprocessing': [
+                                {
+                                    'type': 'JSONPATH',
+                                    'params': '$[\'{#LOCATION_ID}.PAGE_FAULTS.minor\']',
+                                    'error_handler': 'DISCARD_VALUE',
+                                },
+                                {
+                                    'type': 'CHANGE_PER_SECOND',
+                                },
+                            ],
+                        },
+                        {
+                            'name': 'PAGE_FAULTS.major (major page faults / sec)',
+                            'type': 'DEPENDENT',
+                            'key': 'varnish.stat["{#LOCATION_ID}","PAGE_FAULTS.major"]',
+                            'value_type': 'FLOAT',
+                            'units': 'eps',
+                            'master_item_key': master,
+                            'preprocessing': [
+                                {
+                                    'type': 'JSONPATH',
+                                    'params': '$[\'{#LOCATION_ID}.PAGE_FAULTS.major\']',
+                                    'error_handler': 'DISCARD_VALUE',
+                                },
+                                {
+                                    'type': 'CHANGE_PER_SECOND',
+                                },
+                            ],
+                        },
+                        {
                             'name': 'MAIN.backend_busy (backend connections too many / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","MAIN.backend_busy"]',
@@ -3180,6 +3216,19 @@
                                 {
                                     'color': 'C8C800',
                                     'key': 'varnish.stat["{#LOCATION_ID}","MEMORY.swap"]',
+                                },
+                            ],
+                        },
+                        {
+                            'name': 'Page faults',
+                            'items': [
+                                {
+                                    'color': '00C800',
+                                    'key': 'varnish.stat["{#LOCATION_ID}","PAGE_FAULTS.minor"]',
+                                },
+                                {
+                                    'color': '0000C8',
+                                    'key': 'varnish.stat["{#LOCATION_ID}","PAGE_FAULTS.major"]',
                                 },
                             ],
                         },

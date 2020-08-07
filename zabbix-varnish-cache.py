@@ -488,6 +488,7 @@ def _stats(instance, backends_re=None, lite=False):
             }) as f:
                 child_pid = f.readline().split(' ')[1]
                 _memory_stats(stats, child_pid)
+                _page_fault_stats(stats, child_pid)
         except IOError:
             pass
 
@@ -607,6 +608,27 @@ def _memory_stats(stats, pid):
                         break
     except:
         stats.log('Failed to fetch /proc/{}/status stats'.format(pid))
+
+
+def _page_fault_stats(stats, pid):
+    # Linux is assumed. See:
+    #   - man proc
+    try:
+        with open('/proc/{}/stat'.format(pid), 'r') as fd:
+            for line in fd:
+                fields = line.split(' ')
+                if len(fields) > 11:
+                    stats.add(Item(
+                        name='PAGE_FAULTS.minor',
+                        value=fields[9],
+                        type=TYPE_COUNTER))
+                    stats.add(Item(
+                        name='PAGE_FAULTS.major',
+                        value=fields[11],
+                        type=TYPE_COUNTER))
+                    break
+    except:
+        stats.log('Failed to fetch /proc/{}/stat stats'.format(pid))
 
 
 def _rewrite(name):

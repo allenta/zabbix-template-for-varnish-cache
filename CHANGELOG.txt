@@ -1,2 +1,5 @@
+- 2.0 (2020-08-11):
+    - Added page fault items and graph.
+
 - 1.0 (2020-05-14):
     - Initial release.

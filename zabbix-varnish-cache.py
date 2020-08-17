@@ -469,6 +469,9 @@ def _stats(instance, backends_re=None, lite=False):
         # Add 'healthy' item to every backend. Do it iterating the backends
         # list and not the backends subjects list stored in stats because
         # no backend will be available there when lite option is set.
+        # XXX: Since VCP 6.0.6r8 a 'is_healthy' item is already returned by
+        # varnishstat, but healthiness is still being retrieved from varnishadm
+        # in order to support lower VCP versions.
         if backends is not None:
             for backend in backends:
                 if backends_re is None or \
@@ -480,17 +483,12 @@ def _stats(instance, backends_re=None, lite=False):
                         subject_type='backends',
                         subject_value=backend))
 
-        # Get child process PID (only available in VCP 6.x) and include
-        # memory stats.
-        try:
-            with open('/var/lib/varnish/%(name)s/_.vsm_child/_.index' % {
-                'name': instance or socket.gethostname()
-            }) as f:
-                child_pid = f.readline().split(' ')[1]
-                _memory_stats(stats, child_pid)
-                _page_fault_stats(stats, child_pid)
-        except IOError:
-            pass
+        # Get worker process PID if possible (it is only available in VCP 6.x)
+        # and use it to include memory and page fault stats.
+        pid = _pid(instance)
+        if pid is not None:
+            _memory_stats(stats, pid)
+            _page_fault_stats(stats, pid)
 
     # Error recovering information from varnishstat.
     else:
@@ -502,6 +500,13 @@ def _stats(instance, backends_re=None, lite=False):
 
 def _backends(stats, instance):
     backends = None
+
+    # XXX: This varnishadm interaction should remain unnecessary as soon as:
+    #   - Healthiness of a backend is included in varnishstat's output as an
+    #     item: this has already happened with VCP 6.0.6r8's 'is_healthy' item.
+    #   - Stats for backends associated to cold VCLs can be filtered by any
+    #     other means. At some point, varnishstat is expected to help with this
+    #     too.
 
     # rc, output = _execute('varnishadm %(name)s backend.list -j' % {
     rc, output = _execute('varnishadm -n "{}" backend.list'.format(instance))
@@ -523,6 +528,26 @@ def _backends(stats, instance):
         stats.log(output)
 
     return backends
+
+
+def _pid(instance):
+    # Since VCP 6.0.6r7 it is possible to conveniently extract the worker PID
+    # through varnishadm. For lower versions of VCP 6.x this information may
+    # be extracted from an index file. For even lower versions (4.1) no PID
+    # is returned.
+    pid = None
+    rc, output = _execute('varnishadm -n "{}" pid -j'.format(instance))
+    if rc == 0:
+        pid = int(json.loads(output)[3]['worker'])
+    else:
+        try:
+            with open('/var/lib/varnish/%(name)s/_.vsm_child/_.index' % {
+                'name': instance or socket.gethostname()
+            }) as f:
+                pid = int(f.readline().split(' ')[1])
+        except IOError:
+            pass
+    return pid
 
 
 def _memory_stats(stats, pid):

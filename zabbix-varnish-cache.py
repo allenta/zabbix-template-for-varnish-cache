@@ -501,12 +501,10 @@ def _stats(instance, backends_re=None, lite=False):
 def _backends(stats, instance):
     backends = None
 
-    # XXX: This varnishadm interaction should remain unnecessary as soon as:
-    #   - Healthiness of a backend is included in varnishstat's output as an
-    #     item: this has already happened with VCP 6.0.6r8's 'is_healthy' item.
-    #   - Stats for backends associated to cold VCLs can be filtered by any
-    #     other means. At some point, varnishstat is expected to help with this
-    #     too.
+    # XXX: This varnishadm interaction has been rendered unnecessary since VCP
+    # 6.0.6r8, as a 'is_healthy' item was included in varnishstat's output and,
+    # as a fact, only backends associated to warm VCLs are being considered. As
+    # for now, it is kept, though, in order to support lower VCP versions.
 
     # rc, output = _execute('varnishadm %(name)s backend.list -j' % {
     rc, output = _execute('varnishadm -n "{}" backend.list'.format(instance))

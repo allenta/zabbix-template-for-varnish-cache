@@ -1,3 +1,6 @@
+- 3.0 (2020-11-19):
+    - Added support for Zabbix 5.2.
+
 - 2.0 (2020-08-11):
     - Added page fault items and graph.
 

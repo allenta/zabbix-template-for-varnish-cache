@@ -1,3 +1,6 @@
+- 4.0 (2021-01-15):
+    - Added 'MAIN.fetch_stale_rearm' counter.
+
 - 3.0 (2020-11-19):
     - Added support for Zabbix 5.2.
 

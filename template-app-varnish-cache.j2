@@ -1499,6 +1499,24 @@
                             ],
                         },
                         {
+                            'name': 'MAIN.fetch_stale_rearm (stale object rearmed / sec)',
+                            'type': 'DEPENDENT',
+                            'key': 'varnish.stat["{#LOCATION_ID}","MAIN.fetch_stale_rearm"]',
+                            'value_type': 'FLOAT',
+                            'units': 'eps',
+                            'master_item_key': master,
+                            'preprocessing': [
+                                {
+                                    'type': 'JSONPATH',
+                                    'params': '$[\'{#LOCATION_ID}.MAIN.fetch_stale_rearm\']',
+                                    'error_handler': 'DISCARD_VALUE',
+                                },
+                                {
+                                    'type': 'CHANGE_PER_SECOND',
+                                },
+                            ],
+                        },
+                        {
                             'name': 'MAIN.g_mem_file (RSS file usage)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","MAIN.g_mem_file"]',
@@ -3335,6 +3353,10 @@
                                 {
                                     'color': '969696',
                                     'key': 'varnish.stat["{#LOCATION_ID}","MAIN.fetch_stale_deliver"]',
+                                },
+                                {
+                                    'color': '006400',
+                                    'key': 'varnish.stat["{#LOCATION_ID}","MAIN.fetch_stale_rearm"]',
                                 },
                             ],
                         },

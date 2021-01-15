@@ -145,6 +145,7 @@ ITEMS = (
     r'MAIN\.fetch_fast304',
     r'MAIN\.fetch_no_thread',
     r'MAIN\.fetch_stale_deliver',
+    r'MAIN\.fetch_stale_rearm',
     # Backends: number.
     r'MAIN\.n_backend',
     # VCLs: number.

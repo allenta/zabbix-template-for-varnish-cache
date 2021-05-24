@@ -22,7 +22,7 @@ class ZabbixExtension(Extension):
         data = bytearray(hashlib.md5(seed.encode('utf-8')).digest())
         data[6] = data[6] & 0x0f | 0x40
         data[8] = data[8] & 0x3f | 0x80
-        uuid = binascii.hexlify(data)
+        uuid = binascii.hexlify(data).decode('utf-8')
 
         if uuid in self.uuids:
             raise Exception("Duplicated seed/UUID: '{}' ➙ {}".format(seed, uuid))

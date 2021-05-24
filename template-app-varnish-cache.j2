@@ -4,7 +4,7 @@
 
 {%- set lite = lite|default(0)|int > 0 -%}
 
-{%- set flavour = ['lite', lite|tojson]|join('/') -%}
+{%- set seed = ['Allenta', 'Varnish Cache', lite|tojson]|join('/') -%}
 
 {%- set master = 'varnish.stats["{$VARNISH_CACHE.LOCATIONS}"]' -%}
 
@@ -131,7 +131,7 @@
 
 {%- macro trigger(definition) -%}
     {% if version not in ('4.0', '4.2', '4.4', '5.0', '5.2') %}
-        <uuid>{{ [flavour, definition.id]|join('/')|zuuid }}</uuid>
+        <uuid>{{ [seed, definition.id]|join('/')|zuuid }}</uuid>
     {% endif %}
     <expression>{{ definition.expression|e }}</expression>
     <name>{{ definition.name|e }}</name>
@@ -159,7 +159,7 @@
 {%- macro discovery_rule(rule, items, triggers, graphs) -%}
     <discovery_rule>
         {% if version not in ('4.0', '4.2', '4.4', '5.0', '5.2') %}
-            <uuid>{{ [flavour, rule.id]|join('/')|zuuid }}</uuid>
+            <uuid>{{ [seed, rule.id]|join('/')|zuuid }}</uuid>
         {% endif %}
         <name>{{ rule.name|e }}</name>
         <type>{{ item_type('ZABBIX_ACTIVE') }}</type>
@@ -221,7 +221,7 @@
             {% for item in items %}
                 <item_prototype>
                     {% if version not in ('4.0', '4.2', '4.4', '5.0', '5.2') %}
-                        <uuid>{{ [flavour, item.id]|join('/')|zuuid }}</uuid>
+                        <uuid>{{ [seed, item.id]|join('/')|zuuid }}</uuid>
                     {% endif %}
                     <name>Varnish Cache[{{ '{#' }}LOCATION}] - {{ item.name|e }}</name>
                     <type>{{ item_type(item.type) }}</type>
@@ -345,7 +345,7 @@
             {% for graph in graphs %}
                 <graph_prototype>
                     {% if version not in ('4.0', '4.2', '4.4', '5.0', '5.2') %}
-                        <uuid>{{ [flavour, graph.id]|join('/')|zuuid }}</uuid>
+                        <uuid>{{ [seed, graph.id]|join('/')|zuuid }}</uuid>
                     {% endif %}
                     <name>Varnish Cache[{{ '{#' }}LOCATION}] &gt; {{ graph.name|e }}</name>
                     <type>{{ graph_type(graph.type|default('NORMAL')) }}</type>
@@ -490,7 +490,7 @@
     <templates>
         <template>
             {% if version not in ('4.0', '4.2', '4.4', '5.0', '5.2') %}
-                <uuid>{{ [flavour]|join('/')|zuuid }}</uuid>
+                <uuid>{{ [seed]|join('/')|zuuid }}</uuid>
             {% endif %}
             <template>Template App {{ name|e }}</template>
             <name>Template App {{ name|e }}</name>
@@ -609,7 +609,7 @@
                     ] %}
                     <item>
                         {% if version not in ('4.0', '4.2', '4.4', '5.0', '5.2') %}
-                            <uuid>{{ [flavour, item.id]|join('/')|zuuid }}</uuid>
+                            <uuid>{{ [seed, item.id]|join('/')|zuuid }}</uuid>
                         {% endif %}
                         <name>Varnish Cache - {{ item.name|e }}</name>
                         <type>{{ item_type('ZABBIX_ACTIVE') }}</type>

@@ -2917,7 +2917,7 @@
                             'params':
                                 '100*last("varnish.stat[\\"{#LOCATION_ID}\\",\\"MAIN.cache_hit\\"]")/(last("varnish.stat[\\"{#LOCATION_ID}\\",\\"MAIN.cache_hit\\"]")+last("varnish.stat[\\"{#LOCATION_ID}\\",\\"MAIN.cache_miss\\"]")+(count("varnish.stat[\\"{#LOCATION_ID}\\",\\"MAIN.cache_hit\\"]",#1,0)*count("varnish.stat[\\"{#LOCATION_ID}\\",\\"MAIN.cache_miss\\"]",#1,0)))'
                                 if version in ('4.0', '4.2', '4.4', '5.0', '5.2') else
-                                '100*last(//varnish.stat[\\"{#LOCATION_ID}\\",\\"MAIN.cache_hit\\"])/(last(//varnish.stat[\\"{#LOCATION_ID}\\",\\"MAIN.cache_hit\\"])+last(//varnish.stat[\\"{#LOCATION_ID}\\",\\"MAIN.cache_miss\\"])+(count(//varnish.stat[\\"{#LOCATION_ID}\\",\\"MAIN.cache_hit\\"],#1,"eq",0)*count(//varnish.stat[\\"{#LOCATION_ID}\\",\\"MAIN.cache_miss\\"],#1,"eq",0)))',
+                                '100*last(//varnish.stat["{#LOCATION_ID}","MAIN.cache_hit"])/(last(//varnish.stat["{#LOCATION_ID}","MAIN.cache_hit"])+last(//varnish.stat["{#LOCATION_ID}","MAIN.cache_miss"])+(count(//varnish.stat["{#LOCATION_ID}","MAIN.cache_hit"],#1,"eq",0)*count(//varnish.stat["{#LOCATION_ID}","MAIN.cache_miss"],#1,"eq",0)))',
                         },
                         {
                             'id': 'item-prototype-1.121',
@@ -5129,7 +5129,7 @@
                             'params':
                                 '100*last("varnish.stat[\\"{#LOCATION_ID}\\",\\"STG.{#SUBJECT_ID}.c_memcache_hit\\"]")/(last("varnish.stat[\\"{#LOCATION_ID}\\",\\"STG.{#SUBJECT_ID}.c_memcache_hit\\"]")+last("varnish.stat[\\"{#LOCATION_ID}\\",\\"STG.{#SUBJECT_ID}.c_memcache_miss\\"]")+(count("varnish.stat[\\"{#LOCATION_ID}\\",\\"STG.{#SUBJECT_ID}.c_memcache_hit\\"]",#1,0)*count("varnish.stat[\\"{#LOCATION_ID}\\",\\"STG.{#SUBJECT_ID}.c_memcache_miss\\"]",#1,0)))'
                                 if version in ('4.0', '4.2', '4.4', '5.0', '5.2') else
-                                '100*last(//varnish.stat[\\"{#LOCATION_ID}\\",\\"STG.{#SUBJECT_ID}.c_memcache_hit\\"])/(last(//varnish.stat[\\"{#LOCATION_ID}\\",\\"STG.{#SUBJECT_ID}.c_memcache_hit\\"])+last(//varnish.stat[\\"{#LOCATION_ID}\\",\\"STG.{#SUBJECT_ID}.c_memcache_miss\\"])+(count(//varnish.stat[\\"{#LOCATION_ID}\\",\\"STG.{#SUBJECT_ID}.c_memcache_hit\\"],#1,"eq",0)*count(//varnish.stat[\\"{#LOCATION_ID}\\",\\"STG.{#SUBJECT_ID}.c_memcache_miss\\"],#1,"eq",0)))',
+                                '100*last(//varnish.stat["{#LOCATION_ID}","STG.{#SUBJECT_ID}.c_memcache_hit"])/(last(//varnish.stat["{#LOCATION_ID}","STG.{#SUBJECT_ID}.c_memcache_hit"])+last(//varnish.stat["{#LOCATION_ID}","STG.{#SUBJECT_ID}.c_memcache_miss"])+(count(//varnish.stat["{#LOCATION_ID}","STG.{#SUBJECT_ID}.c_memcache_hit"],#1,"eq",0)*count(//varnish.stat["{#LOCATION_ID}","STG.{#SUBJECT_ID}.c_memcache_miss"],#1,"eq",0)))',
                         },
                     ],
                     [

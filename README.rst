@@ -16,11 +16,11 @@
 3. Import the template. You may download the appropriate version from `the releases page <https://github.com/allenta/zabbix-template-for-varnish-cache/releases/latest/>`_ or generate it using the Jinja2 skeleton::
 
     $ pip install jinja2-cli
-    $ jinja2 \
-        -D version={4.0,4.2,4.4,5.0,5.2} \
+    $ PYTHONPATH=. jinja2 \
+        -D version={4.0,4.2,4.4,5.0,5.2,5.4} \
         [-D name='Varnish Cache'] \
         [-D description=''] \
         [-D lite=0] \
-        --strict -o template.xml template-app-varnish-cache.j2
+        --extension=extensions.zabbix.ZabbixExtension --strict -o template.xml template-app-varnish-cache.j2
 
 4. Link hosts to the template. Beware you must set a value for the ``{$VARNISH_CACHE.LOCATIONS}`` macro (comma-delimited list of Varnish Cache Plus instance names). Usually you should leave its value blank when running a single Varnish Cache Plus instance per server. Additional macros and contexts are available for further customizations.

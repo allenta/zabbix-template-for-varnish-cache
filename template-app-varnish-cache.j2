@@ -4,6 +4,8 @@
 
 {%- set lite = lite|default(0)|int > 0 -%}
 
+{%- set flavour = ['lite', lite|tojson]|join('/') -%}
+
 {%- set master = 'varnish.stats["{$VARNISH_CACHE.LOCATIONS}"]' -%}
 
 {#-#########################################################################-#}
@@ -128,6 +130,9 @@
 {%- endmacro -%}
 
 {%- macro trigger(definition) -%}
+    {% if version not in ('4.0', '4.2', '4.4', '5.0', '5.2') %}
+        <uuid>{{ [flavour, definition.id]|join('/')|zuuid }}</uuid>
+    {% endif %}
     <expression>{{ definition.expression|e }}</expression>
     <name>{{ definition.name|e }}</name>
     <priority>{{ trigger_priority(definition.priority) }}</priority>
@@ -153,6 +158,9 @@
 
 {%- macro discovery_rule(rule, items, triggers, graphs) -%}
     <discovery_rule>
+        {% if version not in ('4.0', '4.2', '4.4', '5.0', '5.2') %}
+            <uuid>{{ [flavour, rule.id]|join('/')|zuuid }}</uuid>
+        {% endif %}
         <name>{{ rule.name|e }}</name>
         <type>{{ item_type('ZABBIX_ACTIVE') }}</type>
         <key>{{ rule.key|e }}</key>
@@ -212,6 +220,9 @@
         <item_prototypes>
             {% for item in items %}
                 <item_prototype>
+                    {% if version not in ('4.0', '4.2', '4.4', '5.0', '5.2') %}
+                        <uuid>{{ [flavour, item.id]|join('/')|zuuid }}</uuid>
+                    {% endif %}
                     <name>Varnish Cache[{{ '{#' }}LOCATION}] - {{ item.name|e }}</name>
                     <type>{{ item_type(item.type) }}</type>
                     <key>{{ item.key|e }}</key>
@@ -233,11 +244,20 @@
                     <value_type>{{ item_value_type(item.value_type) }}</value_type>
                     <units>{{ item.units|default('')|e }}</units>
                     <params>{{ item.params|default('')|e }}</params>
-                    <applications>
-                        <application>
-                            <name>Varnish Cache</name>
-                        </application>
-                    </applications>
+                    {% if version in ('4.0', '4.2', '4.4', '5.0', '5.2') %}
+                        <applications>
+                            <application>
+                                <name>Varnish Cache</name>
+                            </application>
+                        </applications>
+                    {% else %}
+                        <tags>
+                            <tag>
+                                <tag>Application</tag>
+                                <value>Varnish Cache</value>
+                            </tag>
+                        </tags>
+                    {% endif %}
                     {% if 'master_item_key' in item %}
                         <master_item>
                             <key>{{ item.master_item_key|e }}</key>
@@ -324,6 +344,9 @@
         <graph_prototypes>
             {% for graph in graphs %}
                 <graph_prototype>
+                    {% if version not in ('4.0', '4.2', '4.4', '5.0', '5.2') %}
+                        <uuid>{{ [flavour, graph.id]|join('/')|zuuid }}</uuid>
+                    {% endif %}
                     <name>Varnish Cache[{{ '{#' }}LOCATION}] &gt; {{ graph.name|e }}</name>
                     <type>{{ graph_type(graph.type|default('NORMAL')) }}</type>
                     <graph_items>
@@ -372,54 +395,78 @@
 
 {%- set varnish_processes_trigger =
     {
+        'id': 'trigger-1',
         'name': 'Varnish Cache is not running',
         'expression':
             '{Template App ' + name + ':proc.num[varnishd].last()}'
+            '<{$VARNISH_CACHE.VARNISH_PROCESSES.MIN}'
+            if version in ('4.0', '4.2', '4.4', '5.0', '5.2') else
+            'last(/Template App ' + name + '/proc.num[varnishd])'
             '<{$VARNISH_CACHE.VARNISH_PROCESSES.MIN}',
         'priority': 'DISASTER',
     } -%}
 
 {%- set varnish_ncsa_log_processes_trigger =
     {
+        'id': 'trigger-2',
         'name': 'Varnish NCSA log is not running',
         'expression':
             '{Template App ' + name + ':proc.num[varnishncsa].last()}'
+            '<{$VARNISH_CACHE.NCSA_PROCESSES.MIN}'
+            if version in ('4.0', '4.2', '4.4', '5.0', '5.2') else
+            'last(/Template App ' + name + '/proc.num[varnishncsa])'
             '<{$VARNISH_CACHE.NCSA_PROCESSES.MIN}',
         'priority': 'DISASTER',
     } -%}
 
 {%- set varnish_raw_log_processes_trigger =
     {
+        'id': 'trigger-3',
         'name': 'Varnish raw log is not running',
         'expression':
             '{Template App ' + name + ':proc.num[varnishlog].last()}'
+            '<{$VARNISH_CACHE.RAW_LOG_PROCESSES.MIN}'
+            if version in ('4.0', '4.2', '4.4', '5.0', '5.2') else
+            'last(/Template App ' + name + '/proc.num[varnishlog])'
             '<{$VARNISH_CACHE.RAW_LOG_PROCESSES.MIN}',
         'priority': 'DISASTER',
     } -%}
 
 {%- set varnish_agent_processes_trigger =
     {
+        'id': 'trigger-4',
         'name': 'Varnish Agent is not running',
         'expression':
             '{Template App ' + name + ':proc.num[varnish-agent].last()}'
+            '<{$VARNISH_CACHE.AGENT_PROCESSES.MIN}'
+            if version in ('4.0', '4.2', '4.4', '5.0', '5.2') else
+            'last(/Template App ' + name + '/proc.num[varnish-agent])'
             '<{$VARNISH_CACHE.AGENT_PROCESSES.MIN}',
         'priority': 'DISASTER',
     } -%}
 
 {%- set varnish_broadcaster_processes_trigger =
     {
+        'id': 'trigger-5',
         'name': 'Varnish Broadcaster is not running',
         'expression':
             '{Template App ' + name + ':proc.num[broadcaster].last()}'
+            '<{$VARNISH_CACHE.BROADCASTER_PROCESSES.MIN}'
+            if version in ('4.0', '4.2', '4.4', '5.0', '5.2') else
+            'last(/Template App ' + name + '/proc.num[broadcaster])'
             '<{$VARNISH_CACHE.BROADCASTER_PROCESSES.MIN}',
         'priority': 'DISASTER',
     } -%}
 
 {%- set vcs_agent_processes_trigger =
     {
+        'id': 'trigger-6',
         'name': 'VCS Agent is not running',
         'expression':
             '{Template App ' + name + ':proc.num[vcs-agent].last()}'
+            '<{$VARNISH_CACHE.VCS_AGENT_PROCESSES.MIN}'
+            if version in ('4.0', '4.2', '4.4', '5.0', '5.2') else
+            'last(/Template App ' + name + '/proc.num[vcs-agent])'
             '<{$VARNISH_CACHE.VCS_AGENT_PROCESSES.MIN}',
         'priority': 'DISASTER',
     } -%}
@@ -434,11 +481,17 @@
     <date>2018-12-28T11:56:28Z</date>
     <groups>
         <group>
+            {% if version not in ('4.0', '4.2', '4.4', '5.0', '5.2') %}
+                <uuid>7df96b18c230490a9a0a9e2307226338</uuid>
+            {% endif %}
             <name>Templates</name>
         </group>
     </groups>
     <templates>
         <template>
+            {% if version not in ('4.0', '4.2', '4.4', '5.0', '5.2') %}
+                <uuid>{{ [flavour]|join('/')|zuuid }}</uuid>
+            {% endif %}
             <template>Template App {{ name|e }}</template>
             <name>Template App {{ name|e }}</name>
             {% if description %}
@@ -451,11 +504,13 @@
                     <name>Templates</name>
                 </group>
             </groups>
-            <applications>
-                <application>
-                    <name>Varnish Cache</name>
-                </application>
-            </applications>
+            {% if version in ('4.0', '4.2', '4.4', '5.0', '5.2') %}
+                <applications>
+                    <application>
+                        <name>Varnish Cache</name>
+                    </application>
+                </applications>
+            {% endif %}
             {% if version in ('4.0', '4.2') %}
                 <templates/>
                 <screens/>
@@ -469,6 +524,7 @@
             <items>
                 {% for item in [
                         {
+                            'id': 'item-1',
                             'name': 'stats',
                             'key': master,
                             'history': false,
@@ -477,42 +533,49 @@
                             'triggers': [],
                         },
                         {
+                            'id': 'item-2',
                             'name': '$1 processes',
                             'key': 'proc.num[varnishd]',
                             'value_type': 'UNSIGNED',
                             'triggers': [varnish_processes_trigger],
                         },
                         {
+                            'id': 'item-3',
                             'name': '$1 processes',
                             'key': 'proc.num[varnishncsa]',
                             'value_type': 'UNSIGNED',
                             'triggers': [varnish_ncsa_log_processes_trigger],
                         },
                         {
+                            'id': 'item-4',
                             'name': '$1 processes',
                             'key': 'proc.num[varnishlog]',
                             'value_type': 'UNSIGNED',
                             'triggers': [varnish_raw_log_processes_trigger],
                         },
                         {
+                            'id': 'item-5',
                             'name': '$1 processes',
                             'key': 'proc.num[varnish-agent]',
                             'value_type': 'UNSIGNED',
                             'triggers': [varnish_agent_processes_trigger],
                         },
                         {
+                            'id': 'item-6',
                             'name': '$1 processes',
                             'key': 'proc.num[broadcaster]',
                             'value_type': 'UNSIGNED',
                             'triggers': [varnish_broadcaster_processes_trigger],
                         },
                         {
+                            'id': 'item-7',
                             'name': '$1 processes',
                             'key': 'proc.num[vcs-agent]',
                             'value_type': 'UNSIGNED',
                             'triggers': [vcs_agent_processes_trigger],
                         },
                         {
+                            'id': 'item-8',
                             'name': 'varnishd mem.vsize (virtual memory size)',
                             'key': 'proc.mem["{$VARNISH_CACHE.PROC_MEM.VARNISHD.NAME}",,,,vsize]',
                             'value_type': 'UNSIGNED',
@@ -520,6 +583,7 @@
                             'triggers': [],
                         },
                         {
+                            'id': 'item-9',
                             'name': 'varnishd mem.rss (resident set size)',
                             'key': 'proc.mem["{$VARNISH_CACHE.PROC_MEM.VARNISHD.NAME}",,,,rss]',
                             'value_type': 'UNSIGNED',
@@ -527,6 +591,7 @@
                             'triggers': [],
                         },
                         {
+                            'id': 'item-10',
                             'name': 'varnishd mem.size (size of process code + data + stack segments)',
                             'key': 'proc.mem["{$VARNISH_CACHE.PROC_MEM.VARNISHD.NAME}",,,,size]',
                             'value_type': 'UNSIGNED',
@@ -534,6 +599,7 @@
                             'triggers': [],
                         },
                         {
+                            'id': 'item-11',
                             'name': 'varnishd mem.swap (size of swap space used)',
                             'key': 'proc.mem["{$VARNISH_CACHE.PROC_MEM.VARNISHD.NAME}",,,,swap]',
                             'value_type': 'UNSIGNED',
@@ -542,6 +608,9 @@
                         },
                     ] %}
                     <item>
+                        {% if version not in ('4.0', '4.2', '4.4', '5.0', '5.2') %}
+                            <uuid>{{ [flavour, item.id]|join('/')|zuuid }}</uuid>
+                        {% endif %}
                         <name>Varnish Cache - {{ item.name|e }}</name>
                         <type>{{ item_type('ZABBIX_ACTIVE') }}</type>
                         <key>{{ item.key|e }}</key>
@@ -558,11 +627,20 @@
                         {% endif %}
                         <value_type>{{ item_value_type(item.value_type) }}</value_type>
                         <units>{{ item.units|default('')|e }}</units>
-                        <applications>
-                            <application>
-                                <name>Varnish Cache</name>
-                            </application>
-                        </applications>
+                        {% if version in ('4.0', '4.2', '4.4', '5.0', '5.2') %}
+                            <applications>
+                                <application>
+                                    <name>Varnish Cache</name>
+                                </application>
+                            </applications>
+                        {% else %}
+                            <tags>
+                                <tag>
+                                    <tag>Application</tag>
+                                    <value>Varnish Cache</value>
+                                </tag>
+                            </tags>
+                        {% endif %}
                         {% if version in ('4.0', '4.2') %}
                             <snmp_community/>
                             <snmp_oid/>
@@ -633,12 +711,14 @@
 
                 {{ discovery_rule(
                     {
+                        'id': 'discovery-rule-1',
                         'name': 'Items discovery',
                         'key': 'varnish.discovery["{$VARNISH_CACHE.LOCATIONS}","items"]',
                         'context': 'items',
                     },
                     [
                         {
+                            'id': 'item-prototype-1.1',
                             'name': 'MEMORY.size (virtual size)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","MEMORY.size"]',
@@ -654,6 +734,7 @@
                             ],
                         },
                         {
+                            'id': 'item-prototype-1.2',
                             'name': 'MEMORY.resident (resident size)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","MEMORY.resident"]',
@@ -669,6 +750,7 @@
                             ],
                         },
                         {
+                            'id': 'item-prototype-1.3',
                             'name': 'MEMORY.shared (shared size)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","MEMORY.shared"]',
@@ -684,6 +766,7 @@
                             ],
                         },
                         {
+                            'id': 'item-prototype-1.4',
                             'name': 'MEMORY.text (code size)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","MEMORY.text"]',
@@ -699,6 +782,7 @@
                             ],
                         },
                         {
+                            'id': 'item-prototype-1.5',
                             'name': 'MEMORY.data (data + stack size)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","MEMORY.data"]',
@@ -714,6 +798,7 @@
                             ],
                         },
                         {
+                            'id': 'item-prototype-1.6',
                             'name': 'MEMORY.swap (swapped size)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","MEMORY.swap"]',
@@ -729,6 +814,7 @@
                             ],
                         },
                         {
+                            'id': 'item-prototype-1.7',
                             'name': 'PAGE_FAULTS.minor (minor page faults / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","PAGE_FAULTS.minor"]',
@@ -747,6 +833,7 @@
                             ],
                         },
                         {
+                            'id': 'item-prototype-1.8',
                             'name': 'PAGE_FAULTS.major (major page faults / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","PAGE_FAULTS.major"]',
@@ -765,6 +852,7 @@
                             ],
                         },
                         {
+                            'id': 'item-prototype-1.9',
                             'name': 'MAIN.backend_busy (backend connections too many / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","MAIN.backend_busy"]',
@@ -783,6 +871,7 @@
                             ],
                         },
                         {
+                            'id': 'item-prototype-1.10',
                             'name': 'MAIN.backend_conn (backend connections successfully stablished / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","MAIN.backend_conn"]',
@@ -801,6 +890,7 @@
                             ],
                         },
                         {
+                            'id': 'item-prototype-1.11',
                             'name': 'MAIN.backend_fail (backend connection failures / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","MAIN.backend_fail"]',
@@ -819,6 +909,7 @@
                             ],
                         },
                         {
+                            'id': 'item-prototype-1.12',
                             'name': 'MAIN.backend_recycle (backend connection recycles / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","MAIN.backend_recycle"]',
@@ -837,6 +928,7 @@
                             ],
                         },
                         {
+                            'id': 'item-prototype-1.13',
                             'name': 'MAIN.backend_req (backend requests made / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","MAIN.backend_req"]',
@@ -855,6 +947,7 @@
                             ],
                         },
                         {
+                            'id': 'item-prototype-1.14',
                             'name': 'MAIN.backend_retry (backend connnections retry / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","MAIN.backend_retry"]',
@@ -873,6 +966,7 @@
                             ],
                         },
                         {
+                            'id': 'item-prototype-1.15',
                             'name': 'MAIN.backend_reuse (backend connection reuses / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","MAIN.backend_reuse"]',
@@ -891,6 +985,7 @@
                             ],
                         },
                         {
+                            'id': 'item-prototype-1.16',
                             'name': 'MAIN.backend_unhealthy (backend connections not attempted / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","MAIN.backend_unhealthy"]',
@@ -909,6 +1004,7 @@
                             ],
                         },
                         {
+                            'id': 'item-prototype-1.17',
                             'name': 'MAIN.bans (number of bans)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","MAIN.bans"]',
@@ -923,6 +1019,7 @@
                             ],
                         },
                         {
+                            'id': 'item-prototype-1.18',
                             'name': 'MAIN.bans_lurker_obj_killed (objects killed by bans lurker / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","MAIN.bans_lurker_obj_killed"]',
@@ -941,6 +1038,7 @@
                             ],
                         },
                         {
+                            'id': 'item-prototype-1.19',
                             'name': 'MAIN.bans_lurker_obj_killed_cutoff (objects killed by bans lurker for cutoff / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","MAIN.bans_lurker_obj_killed_cutoff"]',
@@ -959,6 +1057,7 @@
                             ],
                         },
                         {
+                            'id': 'item-prototype-1.20',
                             'name': 'MAIN.bans_obj_killed (objects killed by bans during lookup / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","MAIN.bans_obj_killed"]',
@@ -977,6 +1076,7 @@
                             ],
                         },
                         {
+                            'id': 'item-prototype-1.21',
                             'name': 'MAIN.busy_killed (requests killed after sleep on busy objhdr / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","MAIN.busy_killed"]',
@@ -995,6 +1095,7 @@
                             ],
                         },
                         {
+                            'id': 'item-prototype-1.22',
                             'name': 'MAIN.busy_sleep (requests sent to sleep on busy objhdr / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","MAIN.busy_sleep"]',
@@ -1013,6 +1114,7 @@
                             ],
                         },
                         {
+                            'id': 'item-prototype-1.23',
                             'name': 'MAIN.busy_wakeup (requests woken after sleep on busy objhdr / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","MAIN.busy_wakeup"]',
@@ -1031,6 +1133,7 @@
                             ],
                         },
                         {
+                            'id': 'item-prototype-1.24',
                             'name': 'MAIN.c_ykey_purges (YKey purge operations executed / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","MAIN.c_ykey_purges"]',
@@ -1049,6 +1152,7 @@
                             ],
                         },
                         {
+                            'id': 'item-prototype-1.25',
                             'name': 'MAIN.cache_hit (cache hits / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","MAIN.cache_hit"]',
@@ -1067,6 +1171,7 @@
                             ],
                         },
                         {
+                            'id': 'item-prototype-1.26',
                             'name': 'MAIN.cache_hitmiss (cache hits for miss / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","MAIN.cache_hitmiss"]',
@@ -1085,6 +1190,7 @@
                             ],
                         },
                         {
+                            'id': 'item-prototype-1.27',
                             'name': 'MAIN.cache_hitpass (cache hits for pass / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","MAIN.cache_hitpass"]',
@@ -1103,6 +1209,7 @@
                             ],
                         },
                         {
+                            'id': 'item-prototype-1.28',
                             'name': 'MAIN.cache_hit_grace (cache grace hits / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","MAIN.cache_hit_grace"]',
@@ -1121,6 +1228,7 @@
                             ],
                         },
                         {
+                            'id': 'item-prototype-1.29',
                             'name': 'MAIN.cache_miss (cache misses / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","MAIN.cache_miss"]',
@@ -1139,6 +1247,7 @@
                             ],
                         },
                         {
+                            'id': 'item-prototype-1.30',
                             'name': 'MAIN.client_resp_500 (delivery failed due to insufficient workspace / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","MAIN.client_resp_500"]',
@@ -1157,6 +1266,7 @@
                             ],
                         },
                         {
+                            'id': 'item-prototype-1.31',
                             'name': 'MAIN.client_req (good -parseable- client requests received / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","MAIN.client_req"]',
@@ -1175,6 +1285,7 @@
                             ],
                         },
                         {
+                            'id': 'item-prototype-1.32',
                             'name': 'MAIN.client_req_400 (client requests received, subject to 400 errors / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","MAIN.client_req_400"]',
@@ -1193,6 +1304,7 @@
                             ],
                         },
                         {
+                            'id': 'item-prototype-1.33',
                             'name': 'MAIN.client_req_417 (client requests received, subject to 417 errors / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","MAIN.client_req_417"]',
@@ -1211,6 +1323,7 @@
                             ],
                         },
                         {
+                            'id': 'item-prototype-1.34',
                             'name': 'MAIN.esi_errors (ESI parse errors -unlock- / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","MAIN.esi_errors"]',
@@ -1229,6 +1342,7 @@
                             ],
                         },
                         {
+                            'id': 'item-prototype-1.35',
                             'name': 'MAIN.esi_maxdepth (ESI hit max_esi_depth / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","MAIN.esi_maxdepth"]',
@@ -1247,6 +1361,7 @@
                             ],
                         },
                         {
+                            'id': 'item-prototype-1.36',
                             'name': 'MAIN.esi_warnings (ESI parse warnings -unlock- / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","MAIN.esi_warnings"]',
@@ -1265,6 +1380,7 @@
                             ],
                         },
                         {
+                            'id': 'item-prototype-1.37',
                             'name': 'MAIN.fetch_1xx (beresps with no body because of 1xx responses / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","MAIN.fetch_1xx"]',
@@ -1283,6 +1399,7 @@
                             ],
                         },
                         {
+                            'id': 'item-prototype-1.38',
                             'name': 'MAIN.fetch_204 (beresps with no body because of 204 responses / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","MAIN.fetch_204"]',
@@ -1301,6 +1418,7 @@
                             ],
                         },
                         {
+                            'id': 'item-prototype-1.39',
                             'name': 'MAIN.fetch_304 (beresps with not body because of 304 responses / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","MAIN.fetch_304"]',
@@ -1319,6 +1437,7 @@
                             ],
                         },
                         {
+                            'id': 'item-prototype-1.40',
                             'name': 'MAIN.fetch_bad (bad fetches because beresp.body length/fetch could not be determined / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","MAIN.fetch_bad"]',
@@ -1337,6 +1456,7 @@
                             ],
                         },
                         {
+                            'id': 'item-prototype-1.41',
                             'name': 'MAIN.fetch_chunked (beresps with body chunked / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","MAIN.fetch_chunked"]',
@@ -1355,6 +1475,7 @@
                             ],
                         },
                         {
+                            'id': 'item-prototype-1.42',
                             'name': 'MAIN.fetch_eof (beresps with body EOF / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","MAIN.fetch_eof"]',
@@ -1373,6 +1494,7 @@
                             ],
                         },
                         {
+                            'id': 'item-prototype-1.43',
                             'name': 'MAIN.fetch_failed (failed fetches -all causes- / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","MAIN.fetch_failed"]',
@@ -1391,6 +1513,7 @@
                             ],
                         },
                         {
+                            'id': 'item-prototype-1.44',
                             'name': 'MAIN.fetch_fast304 (fast 304 inserts / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","MAIN.fetch_fast304"]',
@@ -1409,6 +1532,7 @@
                             ],
                         },
                         {
+                            'id': 'item-prototype-1.45',
                             'name': 'MAIN.fetch_head (beresps with not body because of HEAD requests / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","MAIN.fetch_head"]',
@@ -1427,6 +1551,7 @@
                             ],
                         },
                         {
+                            'id': 'item-prototype-1.46',
                             'name': 'MAIN.fetch_length (beresps with body Content-Length / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","MAIN.fetch_length"]',
@@ -1445,6 +1570,7 @@
                             ],
                         },
                         {
+                            'id': 'item-prototype-1.47',
                             'name': 'MAIN.fetch_none (beresps with no body / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","MAIN.fetch_none"]',
@@ -1463,6 +1589,7 @@
                             ],
                         },
                         {
+                            'id': 'item-prototype-1.48',
                             'name': 'MAIN.fetch_no_thread (failed fetches because no thread available / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","MAIN.fetch_no_thread"]',
@@ -1481,6 +1608,7 @@
                             ],
                         },
                         {
+                            'id': 'item-prototype-1.49',
                             'name': 'MAIN.fetch_stale_deliver (stale deliveries / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","MAIN.fetch_stale_deliver"]',
@@ -1499,6 +1627,7 @@
                             ],
                         },
                         {
+                            'id': 'item-prototype-1.50',
                             'name': 'MAIN.fetch_stale_rearm (stale object rearmed / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","MAIN.fetch_stale_rearm"]',
@@ -1517,6 +1646,7 @@
                             ],
                         },
                         {
+                            'id': 'item-prototype-1.51',
                             'name': 'MAIN.g_mem_file (RSS file usage)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","MAIN.g_mem_file"]',
@@ -1532,6 +1662,7 @@
                             ],
                         },
                         {
+                            'id': 'item-prototype-1.52',
                             'name': 'MAIN.g_mem_private (worker process private memory usage)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","MAIN.g_mem_private"]',
@@ -1547,6 +1678,7 @@
                             ],
                         },
                         {
+                            'id': 'item-prototype-1.53',
                             'name': 'MAIN.g_mem_rss (worker process RSS memory usage)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","MAIN.g_mem_rss"]',
@@ -1562,6 +1694,7 @@
                             ],
                         },
                         {
+                            'id': 'item-prototype-1.54',
                             'name': 'MAIN.g_mem_swap (worker process swap usage)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","MAIN.g_mem_swap"]',
@@ -1577,6 +1710,7 @@
                             ],
                         },
                         {
+                            'id': 'item-prototype-1.55',
                             'name': 'MAIN.goto_dns_cache_hits (cache hits within vmod_goto\'s DNS / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","MAIN.goto_dns_cache_hits"]',
@@ -1595,6 +1729,7 @@
                             ],
                         },
                         {
+                            'id': 'item-prototype-1.56',
                             'name': 'MAIN.goto_dns_lookup_fails (number of unresolved DNS lookups from vmod_goto\'s DNS / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","MAIN.goto_dns_lookup_fails"]',
@@ -1613,6 +1748,7 @@
                             ],
                         },
                         {
+                            'id': 'item-prototype-1.57',
                             'name': 'MAIN.goto_dns_lookups (number of DNS lookups from vmod_goto\'s DNS / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","MAIN.goto_dns_lookups"]',
@@ -1631,6 +1767,7 @@
                             ],
                         },
                         {
+                            'id': 'item-prototype-1.58',
                             'name': 'VMOD_HTTP.handle_requests (HTTP requests / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","VMOD_HTTP.handle_requests"]',
@@ -1649,6 +1786,7 @@
                             ],
                         },
                         {
+                            'id': 'item-prototype-1.59',
                             'name': 'VMOD_HTTP.handle_completed (completed HTTP requests / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","VMOD_HTTP.handle_completed"]',
@@ -1667,6 +1805,7 @@
                             ],
                         },
                         {
+                            'id': 'item-prototype-1.60',
                             'name': 'VMOD_HTTP.handle_abandon (abandoned HTTP requests / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","VMOD_HTTP.handle_abandon"]',
@@ -1685,6 +1824,7 @@
                             ],
                         },
                         {
+                            'id': 'item-prototype-1.61',
                             'name': 'MAIN.losthdr (HTTP header overflows / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","MAIN.losthdr"]',
@@ -1703,6 +1843,7 @@
                             ],
                         },
                         {
+                            'id': 'item-prototype-1.62',
                             'name': 'MAIN.n_backend (number of backends)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","MAIN.n_backend"]',
@@ -1717,6 +1858,7 @@
                             ],
                         },
                         {
+                            'id': 'item-prototype-1.63',
                             'name': 'MAIN.n_vcl (number of loaded VCLs in total)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","MAIN.n_vcl"]',
@@ -1731,6 +1873,7 @@
                             ],
                         },
                         {
+                            'id': 'item-prototype-1.64',
                             'name': 'MAIN.vmods (loaded VMODs)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","MAIN.vmods"]',
@@ -1745,6 +1888,7 @@
                             ],
                         },
                         {
+                            'id': 'item-prototype-1.65',
                             'name': 'MAIN.n_expired (expired objects / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","MAIN.n_expired"]',
@@ -1763,6 +1907,7 @@
                             ],
                         },
                         {
+                            'id': 'item-prototype-1.66',
                             'name': 'MAIN.n_gunzip (gunzip operations / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","MAIN.n_gunzip"]',
@@ -1781,6 +1926,7 @@
                             ],
                         },
                         {
+                            'id': 'item-prototype-1.67',
                             'name': 'MAIN.n_gzip (gzip operations / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","MAIN.n_gzip"]',
@@ -1799,6 +1945,7 @@
                             ],
                         },
                         {
+                            'id': 'item-prototype-1.68',
                             'name': 'MAIN.n_lru_limited (nuke_limit reachs / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","MAIN.n_lru_limited"]',
@@ -1817,6 +1964,7 @@
                             ],
                         },
                         {
+                            'id': 'item-prototype-1.69',
                             'name': 'MAIN.n_lru_nuked (LRU nuked objects / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","MAIN.n_lru_nuked"]',
@@ -1835,6 +1983,7 @@
                             ],
                         },
                         {
+                            'id': 'item-prototype-1.70',
                             'name': 'MAIN.n_lru_moved (LRU moved objects / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","MAIN.n_lru_moved"]',
@@ -1853,6 +2002,7 @@
                             ],
                         },
                         {
+                            'id': 'item-prototype-1.71',
                             'name': 'MAIN.n_object (object structs made)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","MAIN.n_object"]',
@@ -1867,6 +2017,7 @@
                             ],
                         },
                         {
+                            'id': 'item-prototype-1.72',
                             'name': 'MAIN.n_objectcore (objectcore structs made)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","MAIN.n_objectcore"]',
@@ -1881,6 +2032,7 @@
                             ],
                         },
                         {
+                            'id': 'item-prototype-1.73',
                             'name': 'MAIN.n_objecthead (objecthead structs made)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","MAIN.n_objecthead"]',
@@ -1895,6 +2047,7 @@
                             ],
                         },
                         {
+                            'id': 'item-prototype-1.74',
                             'name': 'MAIN.n_obj_purged (purged objects / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","MAIN.n_obj_purged"]',
@@ -1913,6 +2066,7 @@
                             ],
                         },
                         {
+                            'id': 'item-prototype-1.75',
                             'name': 'MAIN.n_purges (purge operations executed / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","MAIN.n_purges"]',
@@ -1931,6 +2085,7 @@
                             ],
                         },
                         {
+                            'id': 'item-prototype-1.76',
                             'name': 'MAIN.n_test_gunzip (test gunzip operations / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","MAIN.n_test_gunzip"]',
@@ -1949,6 +2104,7 @@
                             ],
                         },
                         {
+                            'id': 'item-prototype-1.77',
                             'name': 'MAIN.req_dropped (HTTP/2 stream refused / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","MAIN.req_dropped"]',
@@ -1967,6 +2123,7 @@
                             ],
                         },
                         {
+                            'id': 'item-prototype-1.78',
                             'name': 'MAIN.sc_vcl_failure (session Err VCL_FAILURE / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","MAIN.sc_vcl_failure"]',
@@ -1985,6 +2142,7 @@
                             ],
                         },
                         {
+                            'id': 'item-prototype-1.79',
                             'name': 'MAIN.sess_closed (sessions closed / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","MAIN.sess_closed"]',
@@ -2003,6 +2161,7 @@
                             ],
                         },
                         {
+                            'id': 'item-prototype-1.80',
                             'name': 'MAIN.sess_closed_err (sessions closed with error / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","MAIN.sess_closed_err"]',
@@ -2021,6 +2180,7 @@
                             ],
                         },
                         {
+                            'id': 'item-prototype-1.81',
                             'name': 'MAIN.sess_conn (sessions successfully accepted / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","MAIN.sess_conn"]',
@@ -2039,6 +2199,7 @@
                             ],
                         },
                         {
+                            'id': 'item-prototype-1.82',
                             'name': 'MAIN.sess_drop (sessions dropped due to lack of worker thread / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","MAIN.sess_drop"]',
@@ -2057,6 +2218,7 @@
                             ],
                         },
                         {
+                            'id': 'item-prototype-1.83',
                             'name': 'MAIN.sess_dropped (sessions dropped because the queue was too long / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","MAIN.sess_dropped"]',
@@ -2075,6 +2237,7 @@
                             ],
                         },
                         {
+                            'id': 'item-prototype-1.84',
                             'name': 'MAIN.sess_fail (sessions TCP accept failures / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","MAIN.sess_fail"]',
@@ -2093,6 +2256,7 @@
                             ],
                         },
                         {
+                            'id': 'item-prototype-1.85',
                             'name': 'MAIN.sess_fail_ebadf (session accept failures: bad file descriptor / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","MAIN.sess_fail_ebadf"]',
@@ -2111,6 +2275,7 @@
                             ],
                         },
                         {
+                            'id': 'item-prototype-1.86',
                             'name': 'MAIN.sess_fail_econnaborted (session accept failures: connection aborted / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","MAIN.sess_fail_econnaborted"]',
@@ -2129,6 +2294,7 @@
                             ],
                         },
                         {
+                            'id': 'item-prototype-1.87',
                             'name': 'MAIN.sess_fail_eintr (session accept failures: interrupted system call / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","MAIN.sess_fail_eintr"]',
@@ -2147,6 +2313,7 @@
                             ],
                         },
                         {
+                            'id': 'item-prototype-1.88',
                             'name': 'MAIN.sess_fail_emfile (session accept failures: too many open files / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","MAIN.sess_fail_emfile"]',
@@ -2165,6 +2332,7 @@
                             ],
                         },
                         {
+                            'id': 'item-prototype-1.89',
                             'name': 'MAIN.sess_fail_enomem (session accept failures: not enough memory / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","MAIN.sess_fail_enomem"]',
@@ -2183,6 +2351,7 @@
                             ],
                         },
                         {
+                            'id': 'item-prototype-1.90',
                             'name': 'MAIN.sess_fail_other (session accept failures: other / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","MAIN.sess_fail_other"]',
@@ -2201,6 +2370,7 @@
                             ],
                         },
                         {
+                            'id': 'item-prototype-1.91',
                             'name': 'MAIN.sess_herd (sessions herd / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","MAIN.sess_herd"]',
@@ -2219,6 +2389,7 @@
                             ],
                         },
                         {
+                            'id': 'item-prototype-1.92',
                             'name': 'MAIN.sess_queued (sessions queued waiting for a thread / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","MAIN.sess_queued"]',
@@ -2237,6 +2408,7 @@
                             ],
                         },
                         {
+                            'id': 'item-prototype-1.93',
                             'name': 'MAIN.sess_readahead (sessions read ahead / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","MAIN.sess_readahead"]',
@@ -2255,6 +2427,7 @@
                             ],
                         },
                         {
+                            'id': 'item-prototype-1.94',
                             'name': 'MAIN.s_fetch (backend fetches initiated / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","MAIN.s_fetch"]',
@@ -2273,6 +2446,7 @@
                             ],
                         },
                         {
+                            'id': 'item-prototype-1.95',
                             'name': 'MAIN.s_pass (passed requests seen / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","MAIN.s_pass"]',
@@ -2291,6 +2465,7 @@
                             ],
                         },
                         {
+                            'id': 'item-prototype-1.96',
                             'name': 'MAIN.s_pipe (pipe sessions seen / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","MAIN.s_pipe"]',
@@ -2309,6 +2484,7 @@
                             ],
                         },
                         {
+                            'id': 'item-prototype-1.97',
                             'name': 'MAIN.s_pipe_hdrbytes (pipe request header bytes / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","MAIN.s_pipe_hdrbytes"]',
@@ -2327,6 +2503,7 @@
                             ],
                         },
                         {
+                            'id': 'item-prototype-1.98',
                             'name': 'MAIN.s_pipe_in (piped bytes from client / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","MAIN.s_pipe_in"]',
@@ -2345,6 +2522,7 @@
                             ],
                         },
                         {
+                            'id': 'item-prototype-1.99',
                             'name': 'MAIN.s_pipe_out (piped bytes to client / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","MAIN.s_pipe_out"]',
@@ -2363,6 +2541,7 @@
                             ],
                         },
                         {
+                            'id': 'item-prototype-1.100',
                             'name': 'MAIN.s_req (requests seen / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","MAIN.s_req"]',
@@ -2381,6 +2560,7 @@
                             ],
                         },
                         {
+                            'id': 'item-prototype-1.101',
                             'name': 'MAIN.s_req_bodybytes (request body bytes / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","MAIN.s_req_bodybytes"]',
@@ -2399,6 +2579,7 @@
                             ],
                         },
                         {
+                            'id': 'item-prototype-1.102',
                             'name': 'MAIN.s_req_hdrbytes (request header bytes / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","MAIN.s_req_hdrbytes"]',
@@ -2417,6 +2598,7 @@
                             ],
                         },
                         {
+                            'id': 'item-prototype-1.103',
                             'name': 'MAIN.s_resp_bodybytes (response body bytes / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","MAIN.s_resp_bodybytes"]',
@@ -2435,6 +2617,7 @@
                             ],
                         },
                         {
+                            'id': 'item-prototype-1.104',
                             'name': 'MAIN.s_resp_hdrbytes (response header bytes / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","MAIN.s_resp_hdrbytes"]',
@@ -2453,6 +2636,7 @@
                             ],
                         },
                         {
+                            'id': 'item-prototype-1.105',
                             'name': 'MAIN.s_sess (sessions seen / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","MAIN.s_sess"]',
@@ -2471,6 +2655,7 @@
                             ],
                         },
                         {
+                            'id': 'item-prototype-1.106',
                             'name': 'MAIN.s_synth (synthetic responses made / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","MAIN.s_synth"]',
@@ -2489,6 +2674,7 @@
                             ],
                         },
                         {
+                            'id': 'item-prototype-1.107',
                             'name': 'MAIN.threads (number of threads in all pools)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","MAIN.threads"]',
@@ -2503,6 +2689,7 @@
                             ],
                         },
                         {
+                            'id': 'item-prototype-1.108',
                             'name': 'MAIN.threads_created (threads created in all pools / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","MAIN.threads_created"]',
@@ -2521,6 +2708,7 @@
                             ],
                         },
                         {
+                            'id': 'item-prototype-1.109',
                             'name': 'MAIN.threads_destroyed (threads destroyed in all pools / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","MAIN.threads_destroyed"]',
@@ -2539,6 +2727,7 @@
                             ],
                         },
                         {
+                            'id': 'item-prototype-1.110',
                             'name': 'MAIN.threads_failed (failed thread creations / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","MAIN.threads_failed"]',
@@ -2557,6 +2746,7 @@
                             ],
                         },
                         {
+                            'id': 'item-prototype-1.111',
                             'name': 'MAIN.threads_limited (times more threads were needed but limit was reached in a thread pool / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","MAIN.threads_limited"]',
@@ -2575,6 +2765,7 @@
                             ],
                         },
                         {
+                            'id': 'item-prototype-1.112',
                             'name': 'MAIN.thread_queue_len (length of session queue waiting for threads)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","MAIN.thread_queue_len"]',
@@ -2589,6 +2780,7 @@
                             ],
                         },
                         {
+                            'id': 'item-prototype-1.113',
                             'name': 'MAIN.uptime (child process uptime)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","MAIN.uptime"]',
@@ -2604,6 +2796,7 @@
                             ],
                         },
                         {
+                            'id': 'item-prototype-1.114',
                             'name': 'MAIN.vcl_fail (VCL failures / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","MAIN.vcl_fail"]',
@@ -2622,6 +2815,7 @@
                             ],
                         },
                         {
+                            'id': 'item-prototype-1.115',
                             'name': 'MAIN.ws_backend_overflow (workspace_backend overflows / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","MAIN.ws_backend_overflow"]',
@@ -2640,6 +2834,7 @@
                             ],
                         },
                         {
+                            'id': 'item-prototype-1.116',
                             'name': 'MAIN.ws_client_overflow (workspace_client overflows / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","MAIN.ws_client_overflow"]',
@@ -2658,6 +2853,7 @@
                             ],
                         },
                         {
+                            'id': 'item-prototype-1.117',
                             'name': 'MAIN.ws_session_overflow (workspace_session overflows / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","MAIN.ws_session_overflow"]',
@@ -2676,6 +2872,7 @@
                             ],
                         },
                         {
+                            'id': 'item-prototype-1.118',
                             'name': 'MAIN.ws_thread_overflow (workspace_thread overflows / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","MAIN.ws_thread_overflow"]',
@@ -2694,6 +2891,7 @@
                             ],
                         },
                         {
+                            'id': 'item-prototype-1.119',
                             'name': 'MGT.uptime (management process uptime)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","MGT.uptime"]',
@@ -2709,15 +2907,20 @@
                             ],
                         },
                         {
+                            'id': 'item-prototype-1.120',
                             'name': 'cache_hit_ratio',
                             'type': 'CALCULATED',
                             'key': 'varnish["{#LOCATION_ID}","cache_hit_ratio"]',
                             'value_type': 'FLOAT',
                             'units': '%',
                             'delay': true,
-                            'params': '100*last("varnish.stat[\\"{#LOCATION_ID}\\",\\"MAIN.cache_hit\\"]")/(last("varnish.stat[\\"{#LOCATION_ID}\\",\\"MAIN.cache_hit\\"]")+last("varnish.stat[\\"{#LOCATION_ID}\\",\\"MAIN.cache_miss\\"]")+(count("varnish.stat[\\"{#LOCATION_ID}\\",\\"MAIN.cache_hit\\"]",#1,0)*count("varnish.stat[\\"{#LOCATION_ID}\\",\\"MAIN.cache_miss\\"]",#1,0)))',
+                            'params':
+                                '100*last("varnish.stat[\\"{#LOCATION_ID}\\",\\"MAIN.cache_hit\\"]")/(last("varnish.stat[\\"{#LOCATION_ID}\\",\\"MAIN.cache_hit\\"]")+last("varnish.stat[\\"{#LOCATION_ID}\\",\\"MAIN.cache_miss\\"]")+(count("varnish.stat[\\"{#LOCATION_ID}\\",\\"MAIN.cache_hit\\"]",#1,0)*count("varnish.stat[\\"{#LOCATION_ID}\\",\\"MAIN.cache_miss\\"]",#1,0)))'
+                                if version in ('4.0', '4.2', '4.4', '5.0', '5.2') else
+                                '100*last(//varnish.stat[\\"{#LOCATION_ID}\\",\\"MAIN.cache_hit\\"])/(last(//varnish.stat[\\"{#LOCATION_ID}\\",\\"MAIN.cache_hit\\"])+last(//varnish.stat[\\"{#LOCATION_ID}\\",\\"MAIN.cache_miss\\"])+(count(//varnish.stat[\\"{#LOCATION_ID}\\",\\"MAIN.cache_hit\\"],#1,"eq",0)*count(//varnish.stat[\\"{#LOCATION_ID}\\",\\"MAIN.cache_miss\\"],#1,"eq",0)))',
                         },
                         {
+                            'id': 'item-prototype-1.121',
                             'name': 'VHA6.broadcast_candidates (broadcast candidates / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","VHA6.broadcast_candidates"]',
@@ -2736,6 +2939,7 @@
                             ],
                         },
                         {
+                            'id': 'item-prototype-1.122',
                             'name': 'VHA6.broadcast_nocache (skipped broadcasts: uncacheable / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","VHA6.broadcast_nocache"]',
@@ -2754,6 +2958,7 @@
                             ],
                         },
                         {
+                            'id': 'item-prototype-1.123',
                             'name': 'VHA6.broadcast_skip (skipped broadcasts: skip / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","VHA6.broadcast_skip"]',
@@ -2772,6 +2977,7 @@
                             ],
                         },
                         {
+                            'id': 'item-prototype-1.124',
                             'name': 'VHA6.broadcast_lowttl (skipped broadcasts: low TTL or grace / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","VHA6.broadcast_lowttl"]',
@@ -2790,6 +2996,7 @@
                             ],
                         },
                         {
+                            'id': 'item-prototype-1.125',
                             'name': 'VHA6.broadcast_toolarge (skipped broadcasts: too large / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","VHA6.broadcast_toolarge"]',
@@ -2808,6 +3015,7 @@
                             ],
                         },
                         {
+                            'id': 'item-prototype-1.126',
                             'name': 'VHA6.broadcasts (executed broadcasts / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","VHA6.broadcasts"]',
@@ -2826,6 +3034,7 @@
                             ],
                         },
                         {
+                            'id': 'item-prototype-1.127',
                             'name': 'VHA6.fetch_self (self replication notifications / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","VHA6.fetch_self"]',
@@ -2844,6 +3053,7 @@
                             ],
                         },
                         {
+                            'id': 'item-prototype-1.128',
                             'name': 'VHA6.fetch_peer (peer replication notifications / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","VHA6.fetch_peer"]',
@@ -2862,6 +3072,7 @@
                             ],
                         },
                         {
+                            'id': 'item-prototype-1.129',
                             'name': 'VHA6.fetch_peer_hit (broadcasts which cache hit on the peer node / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","VHA6.fetch_peer_hit"]',
@@ -2880,6 +3091,7 @@
                             ],
                         },
                         {
+                            'id': 'item-prototype-1.130',
                             'name': 'VHA6.fetch_origin (replication requests / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","VHA6.fetch_origin"]',
@@ -2898,6 +3110,7 @@
                             ],
                         },
                         {
+                            'id': 'item-prototype-1.131',
                             'name': 'VHA6.fetch_origin_deliver (replication responses / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","VHA6.fetch_origin_deliver"]',
@@ -2916,6 +3129,7 @@
                             ],
                         },
                         {
+                            'id': 'item-prototype-1.132',
                             'name': 'VHA6.fetch_peer_insert (replication insertions / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","VHA6.fetch_peer_insert"]',
@@ -2934,6 +3148,7 @@
                             ],
                         },
                         {
+                            'id': 'item-prototype-1.133',
                             'name': 'VHA6.error_version_mismatch',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","VHA6.error_version_mismatch"]',
@@ -2952,6 +3167,7 @@
                             ],
                         },
                         {
+                            'id': 'item-prototype-1.134',
                             'name': 'VHA6.error_no_token',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","VHA6.error_no_token"]',
@@ -2970,6 +3186,7 @@
                             ],
                         },
                         {
+                            'id': 'item-prototype-1.135',
                             'name': 'VHA6.error_bad_token',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","VHA6.error_bad_token"]',
@@ -2988,6 +3205,7 @@
                             ],
                         },
                         {
+                            'id': 'item-prototype-1.136',
                             'name': 'VHA6.error_stale_token',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","VHA6.error_stale_token"]',
@@ -3006,6 +3224,7 @@
                             ],
                         },
                         {
+                            'id': 'item-prototype-1.137',
                             'name': 'VHA6.error_rate_limited',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","VHA6.error_rate_limited"]',
@@ -3024,6 +3243,7 @@
                             ],
                         },
                         {
+                            'id': 'item-prototype-1.138',
                             'name': 'VHA6.error_fetch',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","VHA6.error_fetch"]',
@@ -3042,6 +3262,7 @@
                             ],
                         },
                         {
+                            'id': 'item-prototype-1.139',
                             'name': 'VHA6.error_fetch_insert',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","VHA6.error_fetch_insert"]',
@@ -3060,6 +3281,7 @@
                             ],
                         },
                         {
+                            'id': 'item-prototype-1.140',
                             'name': 'VHA6.error_fetch_seal',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","VHA6.error_fetch_seal"]',
@@ -3078,6 +3300,7 @@
                             ],
                         },
                         {
+                            'id': 'item-prototype-1.141',
                             'name': 'VHA6.error_localhost',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","VHA6.error_localhost"]',
@@ -3096,6 +3319,7 @@
                             ],
                         },
                         {
+                            'id': 'item-prototype-1.142',
                             'name': 'VHA6.error_origin_mismatch',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","VHA6.error_origin_mismatch"]',
@@ -3114,6 +3338,7 @@
                             ],
                         },
                         {
+                            'id': 'item-prototype-1.143',
                             'name': 'VHA6.error_origin_miss',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","VHA6.error_origin_miss"]',
@@ -3134,39 +3359,61 @@
                     ],
                     [
                         {
+                            'id': 'trigger-prototype-1.1',
                             'name': 'Varnish Cache[{#LOCATION}] has been restarted',
                             'expression':
                                 '{Template App ' + name + ':varnish.stat["{#LOCATION_ID}","MAIN.uptime"].last()}'
                                 '<{$VARNISH_CACHE.MAIN_UPTIME.MIN:"{#LOCATION_ID}"} or'
                                 ' {Template App ' + name + ':varnish.stat["{#LOCATION_ID}","MGT.uptime"].last()}'
+                                '<{$VARNISH_CACHE.MGT_UPTIME.MIN:"{#LOCATION_ID}"}'
+                                if version in ('4.0', '4.2', '4.4', '5.0', '5.2') else
+                                'last(/Template App ' + name + '/varnish.stat["{#LOCATION_ID}","MAIN.uptime"])'
+                                '<{$VARNISH_CACHE.MAIN_UPTIME.MIN:"{#LOCATION_ID}"} or'
+                                ' last(/Template App ' + name + '/varnish.stat["{#LOCATION_ID}","MGT.uptime"])'
                                 '<{$VARNISH_CACHE.MGT_UPTIME.MIN:"{#LOCATION_ID}"}',
                             'priority': 'HIGH',
                         },
                         {
+                            'id': 'trigger-prototype-1.2',
                             'name': 'Varnish Cache[{#LOCATION}] has surpassed {$VARNISH_CACHE.THREADS.MAX} threads',
                             'expression':
                                 '{$VARNISH_CACHE.THREADS.ENABLED:"{#LOCATION_ID}"} and '
                                 '{Template App ' + name + ':varnish.stat["{#LOCATION_ID}","MAIN.threads"].last()}'
+                                '>{$VARNISH_CACHE.THREADS.MAX:"{#LOCATION_ID}"}'
+                                if version in ('4.0', '4.2', '4.4', '5.0', '5.2') else
+                                '{$VARNISH_CACHE.THREADS.ENABLED:"{#LOCATION_ID}"} and '
+                                'last(/Template App ' + name + '/varnish.stat["{#LOCATION_ID}","MAIN.threads"])'
                                 '>{$VARNISH_CACHE.THREADS.MAX:"{#LOCATION_ID}"}',
                             'priority': 'WARNING',
                         },
                         {
+                            'id': 'trigger-prototype-1.3',
                             'name': 'Varnish Cache[{#LOCATION}] is generating HTTP header overflows',
                             'expression':
                                 '{$VARNISH_CACHE.HTTP_HEADER_OVERFLOWS_RATE.ENABLED:"{#LOCATION_ID}"} and '
                                 '{Template App ' + name + ':varnish.stat["{#LOCATION_ID}","MAIN.losthdr"].last()}'
+                                '>{$VARNISH_CACHE.HTTP_HEADER_OVERFLOWS_RATE.MAX:"{#LOCATION_ID}"}'
+                                if version in ('4.0', '4.2', '4.4', '5.0', '5.2') else
+                                '{$VARNISH_CACHE.HTTP_HEADER_OVERFLOWS_RATE.ENABLED:"{#LOCATION_ID}"} and '
+                                'last(/Template App ' + name + '/varnish.stat["{#LOCATION_ID}","MAIN.losthdr"])'
                                 '>{$VARNISH_CACHE.HTTP_HEADER_OVERFLOWS_RATE.MAX:"{#LOCATION_ID}"}',
                             'priority': 'WARNING',
                         },
                         {
+                            'id': 'trigger-prototype-1.4',
                             'name': 'Varnish Cache[{#LOCATION}] is generating VCL failures',
                             'expression':
                                 '{$VARNISH_CACHE.VCL_FAILURES_RATE.ENABLED:"{#LOCATION_ID}"} and '
                                 '{Template App ' + name + ':varnish.stat["{#LOCATION_ID}","MAIN.vcl_fail"].last()}'
+                                '>{$VARNISH_CACHE.VCL_FAILURES_RATE.MAX:"{#LOCATION_ID}"}'
+                                if version in ('4.0', '4.2', '4.4', '5.0', '5.2') else
+                                '{$VARNISH_CACHE.VCL_FAILURES_RATE.ENABLED:"{#LOCATION_ID}"} and '
+                                'last(/Template App ' + name + '/varnish.stat["{#LOCATION_ID}","MAIN.vcl_fail"])'
                                 '>{$VARNISH_CACHE.VCL_FAILURES_RATE.MAX:"{#LOCATION_ID}"}',
                             'priority': 'WARNING',
                         },
                         {
+                            'id': 'trigger-prototype-1.5',
                             'name': 'Varnish Cache[{#LOCATION}] is generating workspace overflows',
                             'expression':
                                 '{$VARNISH_CACHE.WORKSPACE_OVERFLOWS_RATE.ENABLED:"{#LOCATION_ID}"} and '
@@ -3179,42 +3426,76 @@
                                 ' {Template App ' + name + ':varnish.stat["{#LOCATION_ID}","MAIN.ws_session_overflow"].last()}'
                                 '>{$VARNISH_CACHE.WORKSPACE_OVERFLOWS_RATE.MAX:"{#LOCATION_ID}"} or'
                                 ' {Template App ' + name + ':varnish.stat["{#LOCATION_ID}","MAIN.ws_thread_overflow"].last()}'
+                                '>{$VARNISH_CACHE.WORKSPACE_OVERFLOWS_RATE.MAX:"{#LOCATION_ID}"})'
+                                if version in ('4.0', '4.2', '4.4', '5.0', '5.2') else
+                                '{$VARNISH_CACHE.WORKSPACE_OVERFLOWS_RATE.ENABLED:"{#LOCATION_ID}"} and '
+                                '(last(/Template App ' + name + '/varnish.stat["{#LOCATION_ID}","MAIN.client_resp_500"])'
+                                '>{$VARNISH_CACHE.WORKSPACE_OVERFLOWS_RATE.MAX:"{#LOCATION_ID}"} or'
+                                ' last(/Template App ' + name + '/varnish.stat["{#LOCATION_ID}","MAIN.ws_backend_overflow"])'
+                                '>{$VARNISH_CACHE.WORKSPACE_OVERFLOWS_RATE.MAX:"{#LOCATION_ID}"} or'
+                                ' last(/Template App ' + name + '/varnish.stat["{#LOCATION_ID}","MAIN.ws_client_overflow"])'
+                                '>{$VARNISH_CACHE.WORKSPACE_OVERFLOWS_RATE.MAX:"{#LOCATION_ID}"} or'
+                                ' last(/Template App ' + name + '/varnish.stat["{#LOCATION_ID}","MAIN.ws_session_overflow"])'
+                                '>{$VARNISH_CACHE.WORKSPACE_OVERFLOWS_RATE.MAX:"{#LOCATION_ID}"} or'
+                                ' last(/Template App ' + name + '/varnish.stat["{#LOCATION_ID}","MAIN.ws_thread_overflow"])'
                                 '>{$VARNISH_CACHE.WORKSPACE_OVERFLOWS_RATE.MAX:"{#LOCATION_ID}"})',
                             'priority': 'WARNING',
                         },
                         {
+                            'id': 'trigger-prototype-1.6',
                             'name': 'Varnish Cache[{#LOCATION}] is getting backend connection failures',
                             'expression':
                                 '{$VARNISH_CACHE.BACKEND_CONNECTION_FAILURES_RATE.ENABLED:"{#LOCATION_ID}"} and '
                                 '{Template App ' + name + ':varnish.stat["{#LOCATION_ID}","MAIN.backend_fail"].min({$VARNISH_CACHE.BACKEND_CONNECTION_FAILURES_RATE.SAMPLES:"{#LOCATION_ID}"})}'
+                                '>{$VARNISH_CACHE.BACKEND_CONNECTION_FAILURES_RATE.MAX:"{#LOCATION_ID}"}'
+                                if version in ('4.0', '4.2', '4.4', '5.0', '5.2') else
+                                '{$VARNISH_CACHE.BACKEND_CONNECTION_FAILURES_RATE.ENABLED:"{#LOCATION_ID}"} and '
+                                'min(/Template App ' + name + '/varnish.stat["{#LOCATION_ID}","MAIN.backend_fail"],{$VARNISH_CACHE.BACKEND_CONNECTION_FAILURES_RATE.SAMPLES:"{#LOCATION_ID}"})'
                                 '>{$VARNISH_CACHE.BACKEND_CONNECTION_FAILURES_RATE.MAX:"{#LOCATION_ID}"}',
                             'priority': 'WARNING',
                         },
                         {
+                            'id': 'trigger-prototype-1.7',
                             'name': 'Varnish Cache[{#LOCATION}] is nuking objects',
                             'expression':
                                 '{$VARNISH_CACHE.LRU_NUKED_OBJECTS_RATE.ENABLED:"{#LOCATION_ID}"} and '
                                 '{Template App ' + name + ':varnish.stat["{#LOCATION_ID}","MAIN.n_lru_nuked"].last()}'
+                                '>{$VARNISH_CACHE.LRU_NUKED_OBJECTS_RATE.MAX:"{#LOCATION_ID}"}'
+                                if version in ('4.0', '4.2', '4.4', '5.0', '5.2') else
+                                '{$VARNISH_CACHE.LRU_NUKED_OBJECTS_RATE.ENABLED:"{#LOCATION_ID}"} and '
+                                'last(/Template App ' + name + '/varnish.stat["{#LOCATION_ID}","MAIN.n_lru_nuked"])'
                                 '>{$VARNISH_CACHE.LRU_NUKED_OBJECTS_RATE.MAX:"{#LOCATION_ID}"}',
                             'recovery':
                                 '{Template App ' + name + ':varnish.stat["{#LOCATION_ID}","MAIN.n_lru_nuked"].max({$VARNISH_CACHE.LRU_NUKED_OBJECTS_RATE.RECOVERY.SAMPLES:"{#LOCATION_ID}"})}'
+                                '<={$VARNISH_CACHE.LRU_NUKED_OBJECTS_RATE.MAX:"{#LOCATION_ID}"}'
+                                if version in ('4.0', '4.2', '4.4', '5.0', '5.2') else
+                                'max(/Template App ' + name + '/varnish.stat["{#LOCATION_ID}","MAIN.n_lru_nuked"],{$VARNISH_CACHE.LRU_NUKED_OBJECTS_RATE.RECOVERY.SAMPLES:"{#LOCATION_ID}"})'
                                 '<={$VARNISH_CACHE.LRU_NUKED_OBJECTS_RATE.MAX:"{#LOCATION_ID}"}',
                             'priority': 'WARNING',
                         },
                         {
+                            'id': 'trigger-prototype-1.8',
                             'name': 'Varnish Cache[{#LOCATION}] is reaching nuke_limit',
                             'expression':
                                 '{$VARNISH_CACHE.NUKE_LIMIT_REACHS_RATE.ENABLED:"{#LOCATION_ID}"} and '
                                 '{Template App ' + name + ':varnish.stat["{#LOCATION_ID}","MAIN.n_lru_limited"].last()}'
+                                '>{$VARNISH_CACHE.NUKE_LIMIT_REACHS_RATE.MAX:"{#LOCATION_ID}"}'
+                                if version in ('4.0', '4.2', '4.4', '5.0', '5.2') else
+                                '{$VARNISH_CACHE.NUKE_LIMIT_REACHS_RATE.ENABLED:"{#LOCATION_ID}"} and '
+                                'last(/Template App ' + name + '/varnish.stat["{#LOCATION_ID}","MAIN.n_lru_limited"])'
                                 '>{$VARNISH_CACHE.NUKE_LIMIT_REACHS_RATE.MAX:"{#LOCATION_ID}"}',
                             'recovery':
                                 '{Template App ' + name + ':varnish.stat["{#LOCATION_ID}","MAIN.n_lru_limited"].max({$VARNISH_CACHE.NUKE_LIMIT_REACHS_RATE.RECOVERY.SAMPLES:"{#LOCATION_ID}"})}'
+                                '<={$VARNISH_CACHE.NUKE_LIMIT_REACHS_RATE.MAX:"{#LOCATION_ID}"}'
+                                if version in ('4.0', '4.2', '4.4', '5.0', '5.2') else
+                                'max(/Template App ' + name + '/varnish.stat["{#LOCATION_ID}","MAIN.n_lru_limited"],{$VARNISH_CACHE.NUKE_LIMIT_REACHS_RATE.RECOVERY.SAMPLES:"{#LOCATION_ID}"})'
                                 '<={$VARNISH_CACHE.NUKE_LIMIT_REACHS_RATE.MAX:"{#LOCATION_ID}"}',
                             'priority': 'WARNING',
                         },
                     ],
                     [
                         {
+                            'id': 'graph-prototype-1.1',
                             'name': 'Memory',
                             'items': [
                                 {
@@ -3244,6 +3525,7 @@
                             ],
                         },
                         {
+                            'id': 'graph-prototype-1.2',
                             'name': 'Page faults',
                             'items': [
                                 {
@@ -3257,6 +3539,7 @@
                             ],
                         },
                         {
+                            'id': 'graph-prototype-1.3',
                             'name': 'Backends: connections activity',
                             'items': [
                                 {
@@ -3286,6 +3569,7 @@
                             ],
                         },
                         {
+                            'id': 'graph-prototype-1.4',
                             'name': 'Backends: connections rate',
                             'items': [
                                 {
@@ -3296,6 +3580,7 @@
                             ],
                         },
                         {
+                            'id': 'graph-prototype-1.5',
                             'name': 'Backends: fetches activity',
                             'items': [
                                 {
@@ -3361,6 +3646,7 @@
                             ],
                         },
                         {
+                            'id': 'graph-prototype-1.6',
                             'name': 'Backends: number',
                             'items': [
                                 {
@@ -3371,6 +3657,7 @@
                             ],
                         },
                         {
+                            'id': 'graph-prototype-1.7',
                             'name': 'Backends: request rate',
                             'items': [
                                 {
@@ -3381,6 +3668,7 @@
                             ],
                         },
                         {
+                            'id': 'graph-prototype-1.8',
                             'name': 'Cache',
                             'items': [
                                 {
@@ -3412,6 +3700,7 @@
                             ],
                         },
                         {
+                            'id': 'graph-prototype-1.9',
                             'name': 'Client requests: activity',
                             'items': [
                                 {
@@ -3429,6 +3718,7 @@
                             ],
                         },
                         {
+                            'id': 'graph-prototype-1.10',
                             'name': 'Client requests: busy',
                             'items': [
                                 {
@@ -3446,6 +3736,7 @@
                             ],
                         },
                         {
+                            'id': 'graph-prototype-1.11',
                             'name': 'Client requests: bytes received',
                             'type': 'STACKED',
                             'items': [
@@ -3468,6 +3759,7 @@
                             ],
                         },
                         {
+                            'id': 'graph-prototype-1.12',
                             'name': 'Client requests: bytes sent',
                             'type': 'STACKED',
                             'items': [
@@ -3486,6 +3778,7 @@
                             ],
                         },
                         {
+                            'id': 'graph-prototype-1.13',
                             'name': 'Client requests: passes seen',
                             'items': [
                                 {
@@ -3496,6 +3789,7 @@
                             ],
                         },
                         {
+                            'id': 'graph-prototype-1.14',
                             'name': 'Client requests: rate',
                             'items': [
                                 {
@@ -3511,6 +3805,7 @@
                             ],
                         },
                         {
+                            'id': 'graph-prototype-1.15',
                             'name': 'Client requests: synthetic responses made',
                             'items': [
                                 {
@@ -3521,6 +3816,7 @@
                             ],
                         },
                         {
+                            'id': 'graph-prototype-1.16',
                             'name': 'Client sessions: activity',
                             'items': [
                                 {
@@ -3562,6 +3858,7 @@
                             ],
                         },
                         {
+                            'id': 'graph-prototype-1.17',
                             'name': 'Client sessions: failures',
                             'items': [
                                 {
@@ -3591,6 +3888,7 @@
                             ],
                         },
                         {
+                            'id': 'graph-prototype-1.18',
                             'name': 'Client sessions: pipes seen',
                             'items': [
                                 {
@@ -3601,6 +3899,7 @@
                             ],
                         },
                         {
+                            'id': 'graph-prototype-1.19',
                             'name': 'Client sessions: rate',
                             'items': [
                                 {
@@ -3611,6 +3910,7 @@
                             ],
                         },
                         {
+                            'id': 'graph-prototype-1.20',
                             'name': 'Client sessions: waiting for threads',
                             'items': [
                                 {
@@ -3621,6 +3921,7 @@
                             ],
                         },
                         {
+                            'id': 'graph-prototype-1.21',
                             'name': 'ESI: activity',
                             'items': [
                                 {
@@ -3638,6 +3939,7 @@
                             ],
                         },
                         {
+                            'id': 'graph-prototype-1.22',
                             'name': 'Gzip: activity',
                             'items': [
                                 {
@@ -3655,6 +3957,7 @@
                             ],
                         },
                         {
+                            'id': 'graph-prototype-1.23',
                             'name': 'HTTP header overflows',
                             'items': [
                                 {
@@ -3665,6 +3968,7 @@
                             ],
                         },
                         {
+                            'id': 'graph-prototype-1.24',
                             'name': 'Objects: nuke limit overflows',
                             'items': [
                                 {
@@ -3675,6 +3979,7 @@
                             ],
                         },
                         {
+                            'id': 'graph-prototype-1.25',
                             'name': 'Objects: bans',
                             'items': [
                                 {
@@ -3685,6 +3990,7 @@
                             ],
                         },
                         {
+                            'id': 'graph-prototype-1.26',
                             'name': 'Objects: purges',
                             'items': [
                                 {
@@ -3700,6 +4006,7 @@
                             ],
                         },
                         {
+                            'id': 'graph-prototype-1.27',
                             'name': 'Objects: removals',
                             'items': [
                                 {
@@ -3733,6 +4040,7 @@
                             ],
                         },
                         {
+                            'id': 'graph-prototype-1.28',
                             'name': 'Objects: stored',
                             'items': [
                                 {
@@ -3750,6 +4058,7 @@
                             ],
                         },
                         {
+                            'id': 'graph-prototype-1.29',
                             'name': 'Threads: activity',
                             'items': [
                                 {
@@ -3771,6 +4080,7 @@
                             ],
                         },
                         {
+                            'id': 'graph-prototype-1.30',
                             'name': 'Threads: number',
                             'items': [
                                 {
@@ -3781,6 +4091,7 @@
                             ],
                         },
                         {
+                            'id': 'graph-prototype-1.31',
                             'name': 'Uptime',
                             'items': [
                                 {
@@ -3794,6 +4105,7 @@
                             ],
                         },
                         {
+                            'id': 'graph-prototype-1.32',
                             'name': 'VCLs: number',
                             'items': [
                                 {
@@ -3804,6 +4116,7 @@
                             ],
                         },
                         {
+                            'id': 'graph-prototype-1.33',
                             'name': 'VCLs: failures',
                             'items': [
                                 {
@@ -3819,6 +4132,7 @@
                             ],
                         },
                         {
+                            'id': 'graph-prototype-1.34',
                             'name': 'VHA: broadcasts',
                             'items': [
                                 {
@@ -3848,6 +4162,7 @@
                             ],
                         },
                         {
+                            'id': 'graph-prototype-1.35',
                             'name': 'VHA: replications',
                             'items': [
                                 {
@@ -3877,6 +4192,7 @@
                             ],
                         },
                         {
+                            'id': 'graph-prototype-1.36',
                             'name': 'VHA: errors',
                             'items': [
                                 {
@@ -3926,6 +4242,7 @@
                             ],
                         },
                         {
+                            'id': 'graph-prototype-1.37',
                             'name': 'VMODs: number',
                             'items': [
                                 {
@@ -3936,6 +4253,7 @@
                             ],
                         },
                         {
+                            'id': 'graph-prototype-1.38',
                             'name': 'VMODs: goto',
                             'items': [
                                 {
@@ -3953,6 +4271,7 @@
                             ],
                         },
                         {
+                            'id': 'graph-prototype-1.39',
                             'name': 'VMODs: http',
                             'items': [
                                 {
@@ -3970,6 +4289,7 @@
                             ],
                         },
                         {
+                            'id': 'graph-prototype-1.40',
                             'name': 'Worker process memory usage',
                             'items': [
                                 {
@@ -3991,6 +4311,7 @@
                             ],
                         },
                         {
+                            'id': 'graph-prototype-1.41',
                             'name': 'Workspace overflows',
                             'items': [
                                 {
@@ -4023,12 +4344,14 @@
 
                 {{ discovery_rule(
                     {
+                        'id': 'discovery-rule-2',
                         'name': 'Backends discovery',
                         'key': 'varnish.discovery["{$VARNISH_CACHE.LOCATIONS}","backends"]',
                         'context': 'backends',
                     },
                     [
                         {
+                            'id': 'item-prototype-2.1',
                             'name': 'VBE.{#SUBJECT}.healthy',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","VBE.{#SUBJECT_ID}.healthy"]',
@@ -4049,6 +4372,7 @@
                     +
                     ([
                         {
+                            'id': 'item-prototype-2.2',
                             'name': 'VBE.{#SUBJECT}.bereq_bodybytes (request body bytes / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","VBE.{#SUBJECT_ID}.bereq_bodybytes"]',
@@ -4067,6 +4391,7 @@
                             ],
                         },
                         {
+                            'id': 'item-prototype-2.3',
                             'name': 'VBE.{#SUBJECT}.bereq_hdrbytes (request header bytes / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","VBE.{#SUBJECT_ID}.bereq_hdrbytes"]',
@@ -4085,6 +4410,7 @@
                             ],
                         },
                         {
+                            'id': 'item-prototype-2.4',
                             'name': 'VBE.{#SUBJECT}.beresp_bodybytes (response body bytes / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","VBE.{#SUBJECT_ID}.beresp_bodybytes"]',
@@ -4103,6 +4429,7 @@
                             ],
                         },
                         {
+                            'id': 'item-prototype-2.5',
                             'name': 'VBE.{#SUBJECT}.beresp_hdrbytes (response header bytes / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","VBE.{#SUBJECT_ID}.beresp_hdrbytes"]',
@@ -4121,6 +4448,7 @@
                             ],
                         },
                         {
+                            'id': 'item-prototype-2.6',
                             'name': 'VBE.{#SUBJECT}.busy (fetches not attempted due to backend being busy / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","VBE.{#SUBJECT_ID}.busy"]',
@@ -4139,6 +4467,7 @@
                             ],
                         },
                         {
+                            'id': 'item-prototype-2.7',
                             'name': 'VBE.{#SUBJECT}.conn (connections to backend)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","VBE.{#SUBJECT_ID}.conn"]',
@@ -4153,6 +4482,7 @@
                             ],
                         },
                         {
+                            'id': 'item-prototype-2.8',
                             'name': 'VBE.{#SUBJECT}.fail (connections failed / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","VBE.{#SUBJECT_ID}.fail"]',
@@ -4171,6 +4501,7 @@
                             ],
                         },
                         {
+                            'id': 'item-prototype-2.9',
                             'name': 'VBE.{#SUBJECT}.fail_eacces (connections failed with EACCES or EPERM / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","VBE.{#SUBJECT_ID}.fail_eacces"]',
@@ -4189,6 +4520,7 @@
                             ],
                         },
                         {
+                            'id': 'item-prototype-2.10',
                             'name': 'VBE.{#SUBJECT}.fail_eaddrnotavail (connections failed with EADDRNOTAVAIL / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","VBE.{#SUBJECT_ID}.fail_eaddrnotavail"]',
@@ -4207,6 +4539,7 @@
                             ],
                         },
                         {
+                            'id': 'item-prototype-2.11',
                             'name': 'VBE.{#SUBJECT}.fail_econnrefused (connections failed with ECONNREFUSED / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","VBE.{#SUBJECT_ID}.fail_econnrefused"]',
@@ -4225,6 +4558,7 @@
                             ],
                         },
                         {
+                            'id': 'item-prototype-2.12',
                             'name': 'VBE.{#SUBJECT}.fail_enetunreach (connections failed with ENETUNREACH / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","VBE.{#SUBJECT_ID}.fail_enetunreach"]',
@@ -4243,6 +4577,7 @@
                             ],
                         },
                         {
+                            'id': 'item-prototype-2.13',
                             'name': 'VBE.{#SUBJECT}.fail_etimedout (connections failed with ETIMEDOUT / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","VBE.{#SUBJECT_ID}.fail_etimedout"]',
@@ -4261,6 +4596,7 @@
                             ],
                         },
                         {
+                            'id': 'item-prototype-2.14',
                             'name': 'VBE.{#SUBJECT}.fail_other (connections failed for other reason / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","VBE.{#SUBJECT_ID}.fail_other"]',
@@ -4279,6 +4615,7 @@
                             ],
                         },
                         {
+                            'id': 'item-prototype-2.15',
                             'name': 'VBE.{#SUBJECT}.happy (happy health probe)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","VBE.{#SUBJECT_ID}.happy"]',
@@ -4293,6 +4630,7 @@
                             ],
                         },
                         {
+                            'id': 'item-prototype-2.16',
                             'name': 'VBE.{#SUBJECT}.helddown (connection opens not attempted / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","VBE.{#SUBJECT_ID}.helddown"]',
@@ -4311,6 +4649,7 @@
                             ],
                         },
                         {
+                            'id': 'item-prototype-2.17',
                             'name': 'VBE.{#SUBJECT}.pipe_hdrbytes (pipe request header bytes / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","VBE.{#SUBJECT_ID}.pipe_hdrbytes"]',
@@ -4329,6 +4668,7 @@
                             ],
                         },
                         {
+                            'id': 'item-prototype-2.18',
                             'name': 'VBE.{#SUBJECT}.pipe_in (piped bytes from backend / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","VBE.{#SUBJECT_ID}.pipe_in"]',
@@ -4347,6 +4687,7 @@
                             ],
                         },
                         {
+                            'id': 'item-prototype-2.19',
                             'name': 'VBE.{#SUBJECT}.pipe_out (piped bytes to backend / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","VBE.{#SUBJECT_ID}.pipe_out"]',
@@ -4365,6 +4706,7 @@
                             ],
                         },
                         {
+                            'id': 'item-prototype-2.20',
                             'name': 'VBE.{#SUBJECT}.req (backend requests sent / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","VBE.{#SUBJECT_ID}.req"]',
@@ -4383,6 +4725,7 @@
                             ],
                         },
                         {
+                            'id': 'item-prototype-2.21',
                             'name': 'VBE.{#SUBJECT}.unhealthy (fetches not attempted due to backend being unhealthy / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","VBE.{#SUBJECT_ID}.unhealthy"]',
@@ -4401,25 +4744,34 @@
                             ],
                         },
                         {
+                            'id': 'item-prototype-2.22',
                             'name': 'VBE.{#SUBJECT}.last_happy',
                             'type': 'CALCULATED',
                             'key': 'varnish["{#LOCATION_ID}","VBE.{#SUBJECT_ID}.last_happy"]',
                             'value_type': 'UNSIGNED',
                             'delay': true,
-                            'params': 'band("varnish.stat[\\"{#LOCATION_ID}\\",\\"VBE.{#SUBJECT_ID}.happy\\"]",#1,1)',
+                            'params':
+                                'band("varnish.stat[\\"{#LOCATION_ID}\\",\\"VBE.{#SUBJECT_ID}.happy\\"]",#1,1)'
+                                if version in ('4.0', '4.2', '4.4', '5.0', '5.2') else
+                                'bitand(last(//varnish.stat["{#LOCATION_ID}","VBE.{#SUBJECT_ID}.happy"]),1)',
                         },
                     ] if not lite else []),
                     [
                         {
+                            'id': 'trigger-prototype-2.1',
                             'name': 'Varnish Cache[{#LOCATION}] {#SUBJECT} backend is sick',
                             'expression':
                                 '{$VARNISH_CACHE.BACKEND_HEALTHINESS.ENABLED:"{#LOCATION_ID}:{#SUBJECT_ID}"} and '
-                                '{Template App ' + name + ':varnish.stat["{#LOCATION_ID}","VBE.{#SUBJECT_ID}.healthy"].max({$VARNISH_CACHE.BACKEND_HEALTHINESS.SAMPLES:"{#LOCATION_ID}:{#SUBJECT_ID}"})}<1',
+                                '{Template App ' + name + ':varnish.stat["{#LOCATION_ID}","VBE.{#SUBJECT_ID}.healthy"].max({$VARNISH_CACHE.BACKEND_HEALTHINESS.SAMPLES:"{#LOCATION_ID}:{#SUBJECT_ID}"})}<1'
+                                if version in ('4.0', '4.2', '4.4', '5.0', '5.2') else
+                                '{$VARNISH_CACHE.BACKEND_HEALTHINESS.ENABLED:"{#LOCATION_ID}:{#SUBJECT_ID}"} and '
+                                'max(/Template App ' + name + '/varnish.stat["{#LOCATION_ID}","VBE.{#SUBJECT_ID}.healthy"],{$VARNISH_CACHE.BACKEND_HEALTHINESS.SAMPLES:"{#LOCATION_ID}:{#SUBJECT_ID}"})<1',
                             'priority': 'HIGH',
                         },
                     ],
                     [
                         {
+                            'id': 'graph-prototype-2.1',
                             'name': 'Backends[{#SUBJECT}]: healthiness',
                             'items': [
                                 {
@@ -4440,6 +4792,7 @@
                     +
                     ([
                         {
+                            'id': 'graph-prototype-2.2',
                             'name': 'Backends[{#SUBJECT}]: bytes received from backend',
                             'type': 'STACKED',
                             'items': [
@@ -4458,6 +4811,7 @@
                             ],
                         },
                         {
+                            'id': 'graph-prototype-2.3',
                             'name': 'Backends[{#SUBJECT}]: bytes sent to backend',
                             'type': 'STACKED',
                             'items': [
@@ -4480,6 +4834,7 @@
                             ],
                         },
                         {
+                            'id': 'graph-prototype-2.4',
                             'name': 'Backends[{#SUBJECT}]: concurrent connections to backend',
                             'items': [
                                 {
@@ -4490,6 +4845,7 @@
                             ],
                         },
                         {
+                            'id': 'graph-prototype-2.5',
                             'name': 'Backends[{#SUBJECT}]: failed connection attempts',
                             'type': 'STACKED',
                             'items': [
@@ -4520,6 +4876,7 @@
                             ],
                         },
                         {
+                            'id': 'graph-prototype-2.6',
                             'name': 'Backends[{#SUBJECT}]: fetches not attempted',
                             'type': 'STACKED',
                             'items': [
@@ -4542,6 +4899,7 @@
                             ],
                         },
                         {
+                            'id': 'graph-prototype-2.7',
                             'name': 'Backends[{#SUBJECT}]: requests sent to backend',
                             'items': [
                                 {
@@ -4559,12 +4917,14 @@
 
                 {{ discovery_rule(
                     {
+                        'id': 'discovery-rule-3',
                         'name': 'Storages discovery',
                         'key': 'varnish.discovery["{$VARNISH_CACHE.LOCATIONS}","storages"]',
                         'context': 'storages',
                     },
                     [
                         {
+                            'id': 'item-prototype-3.1',
                             'name': 'STG.{#SUBJECT}.c_fail (allocator failures / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","STG.{#SUBJECT_ID}.c_fail"]',
@@ -4583,6 +4943,7 @@
                             ],
                         },
                         {
+                            'id': 'item-prototype-3.2',
                             'name': 'STG.{#SUBJECT}.c_memcache_hit (stored objects cache hits bytes / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","STG.{#SUBJECT_ID}.c_memcache_hit"]',
@@ -4601,6 +4962,7 @@
                             ],
                         },
                         {
+                            'id': 'item-prototype-3.3',
                             'name': 'STG.{#SUBJECT}.c_memcache_miss (stored objects cache misses bytes / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","STG.{#SUBJECT_ID}.c_memcache_miss"]',
@@ -4619,6 +4981,7 @@
                             ],
                         },
                         {
+                            'id': 'item-prototype-3.4',
                             'name': 'STG.{#SUBJECT}.c_ykey_purged (number of objects purged with YKey / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","STG.{#SUBJECT_ID}.c_ykey_purged"]',
@@ -4637,6 +5000,7 @@
                             ],
                         },
                         {
+                            'id': 'item-prototype-3.5',
                             'name': 'STG.{#SUBJECT}.g_bytes (bytes outstanding)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","STG.{#SUBJECT_ID}.g_bytes"]',
@@ -4652,6 +5016,7 @@
                             ],
                         },
                         {
+                            'id': 'item-prototype-3.6',
                             'name': 'STG.{#SUBJECT}.g_space (bytes available)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","STG.{#SUBJECT_ID}.g_space"]',
@@ -4667,6 +5032,7 @@
                             ],
                         },
                         {
+                            'id': 'item-prototype-3.7',
                             'name': 'STG.{#SUBJECT}.g_sparenode (spare nodes available)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","STG.{#SUBJECT_ID}.g_sparenode"]',
@@ -4681,6 +5047,7 @@
                             ],
                         },
                         {
+                            'id': 'item-prototype-3.8',
                             'name': 'STG.{#SUBJECT}.g_ykey_keys (number of YKeys registered)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","STG.{#SUBJECT_ID}.g_ykey_keys"]',
@@ -4695,6 +5062,7 @@
                             ],
                         },
                         {
+                            'id': 'item-prototype-3.9',
                             'name': 'STG.{#SUBJECT}.n_lru_moved (number of LRU move operations / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","STG.{#SUBJECT_ID}.n_lru_moved"]',
@@ -4713,6 +5081,7 @@
                             ],
                         },
                         {
+                            'id': 'item-prototype-3.10',
                             'name': 'STG.{#SUBJECT}.n_lru_nuked (number of LRU nuked objects / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","STG.{#SUBJECT_ID}.n_lru_nuked"]',
@@ -4731,6 +5100,7 @@
                             ],
                         },
                         {
+                            'id': 'item-prototype-3.11',
                             'name': 'STG.{#SUBJECT}.n_vary (number of Vary header keys / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","STG.{#SUBJECT_ID}.n_vary"]',
@@ -4749,41 +5119,62 @@
                             ],
                         },
                         {
+                            'id': 'item-prototype-3.12',
                             'name': 'STG.{#SUBJECT}.cache_hit_ratio',
                             'type': 'CALCULATED',
                             'key': 'varnish["{#LOCATION_ID}","STG.{#SUBJECT_ID}.cache_hit_ratio"]',
                             'value_type': 'FLOAT',
                             'units': '%',
                             'delay': true,
-                            'params': '100*last("varnish.stat[\\"{#LOCATION_ID}\\",\\"STG.{#SUBJECT_ID}.c_memcache_hit\\"]")/(last("varnish.stat[\\"{#LOCATION_ID}\\",\\"STG.{#SUBJECT_ID}.c_memcache_hit\\"]")+last("varnish.stat[\\"{#LOCATION_ID}\\",\\"STG.{#SUBJECT_ID}.c_memcache_miss\\"]")+(count("varnish.stat[\\"{#LOCATION_ID}\\",\\"STG.{#SUBJECT_ID}.c_memcache_hit\\"]",#1,0)*count("varnish.stat[\\"{#LOCATION_ID}\\",\\"STG.{#SUBJECT_ID}.c_memcache_miss\\"]",#1,0)))',
+                            'params':
+                                '100*last("varnish.stat[\\"{#LOCATION_ID}\\",\\"STG.{#SUBJECT_ID}.c_memcache_hit\\"]")/(last("varnish.stat[\\"{#LOCATION_ID}\\",\\"STG.{#SUBJECT_ID}.c_memcache_hit\\"]")+last("varnish.stat[\\"{#LOCATION_ID}\\",\\"STG.{#SUBJECT_ID}.c_memcache_miss\\"]")+(count("varnish.stat[\\"{#LOCATION_ID}\\",\\"STG.{#SUBJECT_ID}.c_memcache_hit\\"]",#1,0)*count("varnish.stat[\\"{#LOCATION_ID}\\",\\"STG.{#SUBJECT_ID}.c_memcache_miss\\"]",#1,0)))'
+                                if version in ('4.0', '4.2', '4.4', '5.0', '5.2') else
+                                '100*last(//varnish.stat[\\"{#LOCATION_ID}\\",\\"STG.{#SUBJECT_ID}.c_memcache_hit\\"])/(last(//varnish.stat[\\"{#LOCATION_ID}\\",\\"STG.{#SUBJECT_ID}.c_memcache_hit\\"])+last(//varnish.stat[\\"{#LOCATION_ID}\\",\\"STG.{#SUBJECT_ID}.c_memcache_miss\\"])+(count(//varnish.stat[\\"{#LOCATION_ID}\\",\\"STG.{#SUBJECT_ID}.c_memcache_hit\\"],#1,"eq",0)*count(//varnish.stat[\\"{#LOCATION_ID}\\",\\"STG.{#SUBJECT_ID}.c_memcache_miss\\"],#1,"eq",0)))',
                         },
                     ],
                     [
                         {
+                            'id': 'item-prototype-3.13',
                             'name': 'Varnish Cache[{#LOCATION}] {#SUBJECT} storage failed to allocate space',
                             'expression':
                                 '{$VARNISH_CACHE.ALLOCATOR_FAILURES_RATE.ENABLED:"{#LOCATION_ID}:{#SUBJECT_ID}"} and '
                                 '{Template App ' + name + ':varnish.stat["{#LOCATION_ID}","STG.{#SUBJECT_ID}.c_fail"].last()}'
+                                '>{$VARNISH_CACHE.ALLOCATOR_FAILURES_RATE.MAX:"{#LOCATION_ID}:{#SUBJECT_ID}"}'
+                                if version in ('4.0', '4.2', '4.4', '5.0', '5.2') else
+                                '{$VARNISH_CACHE.ALLOCATOR_FAILURES_RATE.ENABLED:"{#LOCATION_ID}:{#SUBJECT_ID}"} and '
+                                'last(/Template App ' + name + '/varnish.stat["{#LOCATION_ID}","STG.{#SUBJECT_ID}.c_fail"])'
                                 '>{$VARNISH_CACHE.ALLOCATOR_FAILURES_RATE.MAX:"{#LOCATION_ID}:{#SUBJECT_ID}"}',
                             'recovery':
                                 '{Template App ' + name + ':varnish.stat["{#LOCATION_ID}","STG.{#SUBJECT_ID}.c_fail"].max({$VARNISH_CACHE.ALLOCATOR_FAILURES_RATE.RECOVERY.SAMPLES:"{#LOCATION_ID}:{#SUBJECT_ID}"})}'
+                                '<={$VARNISH_CACHE.ALLOCATOR_FAILURES_RATE.MAX:"{#LOCATION_ID}:{#SUBJECT_ID}"}'
+                                if version in ('4.0', '4.2', '4.4', '5.0', '5.2') else
+                                'max(/Template App ' + name + '/varnish.stat["{#LOCATION_ID}","STG.{#SUBJECT_ID}.c_fail"],{$VARNISH_CACHE.ALLOCATOR_FAILURES_RATE.RECOVERY.SAMPLES:"{#LOCATION_ID}:{#SUBJECT_ID}"})'
                                 '<={$VARNISH_CACHE.ALLOCATOR_FAILURES_RATE.MAX:"{#LOCATION_ID}:{#SUBJECT_ID}"}',
                             'priority': 'HIGH',
                         },
                         {
+                            'id': 'item-prototype-3.14',
                             'name': 'Varnish Cache[{#LOCATION}] {#SUBJECT} storage is running out of spare nodes',
                             'expression':
                                 '{$VARNISH_CACHE.SPARE_NODES.ENABLED:"{#LOCATION_ID}:{#SUBJECT_ID}"} and '
                                 '{Template App ' + name + ':varnish.stat["{#LOCATION_ID}","STG.{#SUBJECT_ID}.g_sparenode"].last()}'
+                                '<{$VARNISH_CACHE.SPARE_NODES.MIN:"{#LOCATION_ID}:{#SUBJECT_ID}"}'
+                                if version in ('4.0', '4.2', '4.4', '5.0', '5.2') else
+                                '{$VARNISH_CACHE.SPARE_NODES.ENABLED:"{#LOCATION_ID}:{#SUBJECT_ID}"} and '
+                                'last(/Template App ' + name + '/varnish.stat["{#LOCATION_ID}","STG.{#SUBJECT_ID}.g_sparenode"])'
                                 '<{$VARNISH_CACHE.SPARE_NODES.MIN:"{#LOCATION_ID}:{#SUBJECT_ID}"}',
                             'recovery':
                                 '{Template App ' + name + ':varnish.stat["{#LOCATION_ID}","STG.{#SUBJECT_ID}.g_sparenode"].last()}'
+                                '>{$VARNISH_CACHE.SPARE_NODES.RECOVERY.MIN:"{#LOCATION_ID}:{#SUBJECT_ID}"}'
+                                if version in ('4.0', '4.2', '4.4', '5.0', '5.2') else
+                                'last(/Template App ' + name + '/varnish.stat["{#LOCATION_ID}","STG.{#SUBJECT_ID}.g_sparenode"])'
                                 '>{$VARNISH_CACHE.SPARE_NODES.RECOVERY.MIN:"{#LOCATION_ID}:{#SUBJECT_ID}"}',
                             'priority': 'WARNING',
                         },
                     ],
                     [
                         {
+                            'id': 'trigger-prototype-3.1',
                             'name': 'Storages[{#SUBJECT}]: allocator failures',
                             'items': [
                                 {
@@ -4794,6 +5185,7 @@
                             ],
                         },
                         {
+                            'id': 'graph-prototype-3.1',
                             'name': 'Storages[{#SUBJECT}]: bytes outstanding vs. available',
                             'type': 'STACKED',
                             'items': [
@@ -4808,6 +5200,7 @@
                             ],
                         },
                         {
+                            'id': 'graph-prototype-3.2',
                             'name': 'Storages[{#SUBJECT}]: cache',
                             'items': [
                                 {
@@ -4825,6 +5218,7 @@
                             ],
                         },
                         {
+                            'id': 'graph-prototype-3.3',
                             'name': 'Storages[{#SUBJECT}]: nukes',
                             'items': [
                                 {
@@ -4838,6 +5232,7 @@
                             ],
                         },
                         {
+                            'id': 'graph-prototype-3.4',
                             'name': 'Storages[{#SUBJECT}]: spare nodes available',
                             'items': [
                                 {
@@ -4848,6 +5243,7 @@
                             ],
                         },
                         {
+                            'id': 'graph-prototype-3.5',
                             'name': 'Storages[{#SUBJECT}]: vary headers',
                             'items': [
                                 {
@@ -4857,6 +5253,7 @@
                             ],
                         },
                         {
+                            'id': 'graph-prototype-3.6',
                             'name': 'Storages[{#SUBJECT}]: YKeys',
                             'items': [
                                 {
@@ -4867,6 +5264,7 @@
                             ],
                         },
                         {
+                            'id': 'graph-prototype-3.7',
                             'name': 'Storages[{#SUBJECT}]: YKey purged',
                             'items': [
                                 {
@@ -4883,12 +5281,14 @@
 
                 {{ discovery_rule(
                     {
+                        'id': 'discovery-rule-4',
                         'name': 'MSE books discovery',
                         'key': 'varnish.discovery["{$VARNISH_CACHE.LOCATIONS}","mse_books"]',
                         'context': 'mse_books',
                     },
                     [
                         {
+                            'id': 'item-prototype-4.1',
                             'name': 'MSE_BOOK.{#SUBJECT}.c_insert_timeout (number of times database object insertion timed out / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","MSE_BOOK.{#SUBJECT_ID}.c_insert_timeout"]',
@@ -4907,6 +5307,7 @@
                             ],
                         },
                         {
+                            'id': 'item-prototype-4.2',
                             'name': 'MSE_BOOK.{#SUBJECT}.c_waterlevel_purge (number of objects purged to achieve database waterlevel / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","MSE_BOOK.{#SUBJECT_ID}.c_waterlevel_purge"]',
@@ -4925,6 +5326,7 @@
                             ],
                         },
                         {
+                            'id': 'item-prototype-4.3',
                             'name': 'MSE_BOOK.{#SUBJECT}.c_waterlevel_queue (number of times a thread has been queued waiting for database space / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","MSE_BOOK.{#SUBJECT_ID}.c_waterlevel_queue"]',
@@ -4943,6 +5345,7 @@
                             ],
                         },
                         {
+                            'id': 'item-prototype-4.4',
                             'name': 'MSE_BOOK.{#SUBJECT}.c_waterlevel_runs (number of times the waterlevel purge thread was activated / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","MSE_BOOK.{#SUBJECT_ID}.c_waterlevel_runs"]',
@@ -4961,6 +5364,7 @@
                             ],
                         },
                         {
+                            'id': 'item-prototype-4.5',
                             'name': 'MSE_BOOK.{#SUBJECT}.g_banlist_bytes (number of bytes used from the banlist journal file)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","MSE_BOOK.{#SUBJECT_ID}.g_banlist_bytes"]',
@@ -4976,6 +5380,7 @@
                             ],
                         },
                         {
+                            'id': 'item-prototype-4.6',
                             'name': 'MSE_BOOK.{#SUBJECT}.g_banlist_space (number of bytes available in the banlist journal file)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","MSE_BOOK.{#SUBJECT_ID}.g_banlist_space"]',
@@ -4991,6 +5396,7 @@
                             ],
                         },
                         {
+                            'id': 'item-prototype-4.7',
                             'name': 'MSE_BOOK.{#SUBJECT}.g_bytes (number of bytes used in the book database)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","MSE_BOOK.{#SUBJECT_ID}.g_bytes"]',
@@ -5006,6 +5412,7 @@
                             ],
                         },
                         {
+                            'id': 'item-prototype-4.8',
                             'name': 'MSE_BOOK.{#SUBJECT}.g_space (number of bytes available in the book database)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","MSE_BOOK.{#SUBJECT_ID}.g_space"]',
@@ -5021,6 +5428,7 @@
                             ],
                         },
                         {
+                            'id': 'item-prototype-4.9',
                             'name': 'MSE_BOOK.{#SUBJECT}.n_vary (number of Vary header keys / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","MSE_BOOK.{#SUBJECT_ID}.n_vary"]',
@@ -5041,19 +5449,28 @@
                     ],
                     [
                         {
+                            'id': 'trigger-prototype-4.1',
                             'name': 'Varnish Cache[{#LOCATION}] {#SUBJECT} MSE book is running out of space',
                             'expression':
                                 '{$VARNISH_CACHE.MSE_BOOK_SPACE.ENABLED:"{#LOCATION_ID}:{#SUBJECT_ID}"} and '
                                 '{Template App ' + name + ':varnish.stat["{#LOCATION_ID}","MSE_BOOK.{#SUBJECT_ID}.g_space"].last()}'
+                                '<{$VARNISH_CACHE.MSE_BOOK_SPACE.MIN:"{#LOCATION_ID}:{#SUBJECT_ID}"}'
+                                if version in ('4.0', '4.2', '4.4', '5.0', '5.2') else
+                                '{$VARNISH_CACHE.MSE_BOOK_SPACE.ENABLED:"{#LOCATION_ID}:{#SUBJECT_ID}"} and '
+                                'last(/Template App ' + name + '/varnish.stat["{#LOCATION_ID}","MSE_BOOK.{#SUBJECT_ID}.g_space"])'
                                 '<{$VARNISH_CACHE.MSE_BOOK_SPACE.MIN:"{#LOCATION_ID}:{#SUBJECT_ID}"}',
                             'recovery':
                                 '{Template App ' + name + ':varnish.stat["{#LOCATION_ID}","MSE_BOOK.{#SUBJECT_ID}.g_space"].last()}'
+                                '>{$VARNISH_CACHE.MSE_BOOK_SPACE.RECOVERY.MIN:"{#LOCATION_ID}:{#SUBJECT_ID}"}'
+                                if version in ('4.0', '4.2', '4.4', '5.0', '5.2') else
+                                'last(/Template App ' + name + '/varnish.stat["{#LOCATION_ID}","MSE_BOOK.{#SUBJECT_ID}.g_space"])'
                                 '>{$VARNISH_CACHE.MSE_BOOK_SPACE.RECOVERY.MIN:"{#LOCATION_ID}:{#SUBJECT_ID}"}',
                             'priority': 'WARNING',
                         },
                     ],
                     [
                         {
+                            'id': 'graph-prototype-4.1',
                             'name': 'MSE books[{#SUBJECT}]: bytes outstanding vs. available',
                             'type': 'STACKED',
                             'items': [
@@ -5068,6 +5485,7 @@
                             ],
                         },
                         {
+                            'id': 'graph-prototype-4.2',
                             'name': 'MSE books[{#SUBJECT}]: vary headers',
                             'items': [
                                 {
@@ -5077,6 +5495,7 @@
                             ],
                         },
                         {
+                            'id': 'graph-prototype-4.3',
                             'name': 'MSE books[{#SUBJECT}]: waterlevel',
                             'items': [
                                 {
@@ -5094,6 +5513,7 @@
                             ],
                         },
                         {
+                            'id': 'graph-prototype-4.4',
                             'name': 'MSE books[{#SUBJECT}]: banlist journal file bytes outstanding vs. available',
                             'items': [
                                 {
@@ -5107,6 +5527,7 @@
                             ],
                         },
                         {
+                            'id': 'graph-prototype-4.5',
                             'name': 'MSE books[{#SUBJECT}]: timed out DB insertions',
                             'items': [
                                 {
@@ -5123,12 +5544,14 @@
 
                 {{ discovery_rule(
                     {
+                        'id': 'discovery-rule-5',
                         'name': 'MSE stores discovery',
                         'key': 'varnish.discovery["{$VARNISH_CACHE.LOCATIONS}","mse_stores"]',
                         'context': 'mse_stores',
                     },
                     [
                         {
+                            'id': 'item-prototype-5.1',
                             'name': 'MSE_STORE.{#SUBJECT}.c_aio_finished_bytes_read (number AIO read bytes executed / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","MSE_STORE.{#SUBJECT_ID}.c_aio_finished_bytes_read"]',
@@ -5147,6 +5570,7 @@
                             ],
                         },
                         {
+                            'id': 'item-prototype-5.2',
                             'name': 'MSE_STORE.{#SUBJECT}.c_aio_finished_bytes_write (number AIO write bytes executed / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","MSE_STORE.{#SUBJECT_ID}.c_aio_finished_bytes_write"]',
@@ -5165,6 +5589,7 @@
                             ],
                         },
                         {
+                            'id': 'item-prototype-5.3',
                             'name': 'MSE_STORE.{#SUBJECT}.c_aio_finished_read (number AIO read operations executed / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","MSE_STORE.{#SUBJECT_ID}.c_aio_finished_read"]',
@@ -5183,6 +5608,7 @@
                             ],
                         },
                         {
+                            'id': 'item-prototype-5.4',
                             'name': 'MSE_STORE.{#SUBJECT}.c_aio_finished_write (number AIO write operations executed / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","MSE_STORE.{#SUBJECT_ID}.c_aio_finished_write"]',
@@ -5201,6 +5627,7 @@
                             ],
                         },
                         {
+                            'id': 'item-prototype-5.5',
                             'name': 'MSE_STORE.{#SUBJECT}.c_waterlevel_purge (number of objects purged to achieve store waterlevel / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","MSE_STORE.{#SUBJECT_ID}.c_waterlevel_purge"]',
@@ -5219,6 +5646,7 @@
                             ],
                         },
                         {
+                            'id': 'item-prototype-5.6',
                             'name': 'MSE_STORE.{#SUBJECT}.c_waterlevel_queue (number of times a thread has been queued waiting for store space / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","MSE_STORE.{#SUBJECT_ID}.c_waterlevel_queue"]',
@@ -5237,6 +5665,7 @@
                             ],
                         },
                         {
+                            'id': 'item-prototype-5.7',
                             'name': 'MSE_STORE.{#SUBJECT}.g_alloc_bytes (total number of bytes in allocation extents)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","MSE_STORE.{#SUBJECT_ID}.g_alloc_bytes"]',
@@ -5252,6 +5681,7 @@
                             ],
                         },
                         {
+                            'id': 'item-prototype-5.8',
                             'name': 'MSE_STORE.{#SUBJECT}.g_free_bytes (total number of bytes in free extents)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","MSE_STORE.{#SUBJECT_ID}.g_free_bytes"]',
@@ -5267,6 +5697,7 @@
                             ],
                         },
                         {
+                            'id': 'item-prototype-5.9',
                             'name': 'MSE_STORE.{#SUBJECT}.g_objects (number of objects in the store)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","MSE_STORE.{#SUBJECT_ID}.g_objects"]',
@@ -5281,6 +5712,7 @@
                             ],
                         },
                         {
+                            'id': 'item-prototype-5.10',
                             'name': 'MSE_STORE.{#SUBJECT}.g_ykey_keys (number of YKeys registered in the store)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","MSE_STORE.{#SUBJECT_ID}.g_ykey_keys"]',
@@ -5299,6 +5731,7 @@
                     ],
                     [
                         {
+                            'id': 'graph-prototype-5.1',
                             'name': 'MSE stores[{#SUBJECT}]: AIO bytes read/written',
                             'items': [
                                 {
@@ -5312,6 +5745,7 @@
                             ],
                         },
                         {
+                            'id': 'graph-prototype-5.2',
                             'name': 'MSE stores[{#SUBJECT}]: AIO operations',
                             'items': [
                                 {
@@ -5325,6 +5759,7 @@
                             ],
                         },
                         {
+                            'id': 'graph-prototype-5.3',
                             'name': 'MSE stores[{#SUBJECT}]: extents',
                             'type': 'STACKED',
                             'items': [
@@ -5339,6 +5774,7 @@
                             ],
                         },
                         {
+                            'id': 'graph-prototype-5.4',
                             'name': 'MSE stores[{#SUBJECT}]: objects',
                             'type': 'STACKED',
                             'items': [
@@ -5349,6 +5785,7 @@
                             ],
                         },
                         {
+                            'id': 'graph-prototype-5.5',
                             'name': 'MSE stores[{#SUBJECT}]: YKeys',
                             'type': 'STACKED',
                             'items': [
@@ -5359,6 +5796,7 @@
                             ],
                         },
                         {
+                            'id': 'graph-prototype-5.6',
                             'name': 'MSE stores[{#SUBJECT}]: waterlevel',
                             'items': [
                                 {
@@ -5379,12 +5817,14 @@
 
                 {{ discovery_rule(
                     {
+                        'id': 'discovery-rule-6',
                         'name': 'Counters discovery',
                         'key': 'varnish.discovery["{$VARNISH_CACHE.LOCATIONS}","counters"]',
                         'context': 'counters',
                     },
                     [
                         {
+                            'id': 'item-prototype-6.1',
                             'name': 'COUNTER.{#SUBJECT} (counter value / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","COUNTER.{#SUBJECT_ID}"]',
@@ -5416,7 +5856,7 @@
             {% if version != '4.0' %}
                 <tags>
                     <tag>
-                        <tag>App</tag>
+                        <tag>Application</tag>
                         <value>Varnish Cache</value>
                     </tag>
                 </tags>

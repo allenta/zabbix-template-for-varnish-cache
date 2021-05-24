@@ -42,6 +42,7 @@ jobs:
           - '4.4'
           - '5.0'
           - '5.2'
+          - '5.4'
         flavour:
           - name: Varnish Cache
             slug: varnish-cache
@@ -68,12 +69,12 @@ jobs:
 
       - name: Generate template
         run: |
-          jinja2 \
+          PYTHONPATH=. jinja2 \
             -D version=${{ matrix.version }} \
             -D name='${{ matrix.flavour.name }}' \
             -D description="Template App ${{ matrix.flavour.name }} $TAG_NAME" \
             -D lite=${{ matrix.flavour.lite }} \
-            --strict -o template.xml template-app-varnish-cache.j2
+            --extension=extensions.zabbix.ZabbixExtension --strict -o template.xml template-app-varnish-cache.j2
 
       - name: Upload template
         uses: actions/upload-release-asset@v1

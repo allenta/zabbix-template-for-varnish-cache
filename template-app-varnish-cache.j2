@@ -12,219 +12,40 @@
 {#- MACROS -#}
 {#-#########################################################################-#}
 
-{%- macro item_type(name) -%}
-    {%- if version in ('4.0', '4.2') -%}
-        {{ {
-            'TRAP': 2,
-            'ZABBIX_ACTIVE': 7,
-            'CALCULATED': 15,
-            'DEPENDENT': 18,
-        }[name] }}
-    {%- else -%}
-        {{ name }}
-    {%- endif -%}
-{%- endmacro -%}
-
-{%- macro item_value_type(name) -%}
-    {%- if version in ('4.0', '4.2') -%}
-        {{ {
-            'FLOAT': 0,
-            'UNSIGNED': 3,
-            'TEXT': 4,
-            'DEPENDENT': 18,
-        }[name] }}
-    {%- else -%}
-        {{ name }}
-    {%- endif -%}
-{%- endmacro -%}
-
-{%- macro trigger_priority(name) -%}
-    {%- if version in ('4.0', '4.2') -%}
-        {{ {
-            'WARNING': 2,
-            'HIGH': 4,
-            'DISASTER': 5,
-        }[name] }}
-    {%- else -%}
-        {{ name }}
-    {%- endif -%}
-{%- endmacro -%}
-
-{%- macro trigger_recovery(name) -%}
-    {%- if version in ('4.0', '4.2') -%}
-        {{ {
-            'EXPRESSION': 0,
-            'RECOVERY_EXPRESSION': 1,
-        }[name] }}
-    {%- else -%}
-        {{ name }}
-    {%- endif -%}
-{%- endmacro -%}
-
-{%- macro preprocessing_type(name) -%}
-    {%- if version in ('4.0', '4.2') -%}
-        {{ {
-            'BOOL_TO_DECIMAL': 6,
-            'CHANGE_PER_SECOND': 10,
-            'JSONPATH': 12,
-        }[name] }}
-    {%- else -%}
-        {{ name }}
-    {%- endif -%}
-{%- endmacro -%}
-
-{%- macro preprocessing_error_handler(name) -%}
-    {%- if version in ('4.0', '4.2') -%}
-        {{ {
-            'ORIGINAL_ERROR': 0,
-            'DISCARD_VALUE': 1,
-        }[name] }}
-    {%- else -%}
-        {{ name }}
-    {%- endif -%}
-{%- endmacro -%}
-
-{%- macro graph_type(name) -%}
-    {%- if version in ('4.0', '4.2') -%}
-        {{ {
-            'NORMAL': 0,
-            'STACKED': 1,
-        }[name] }}
-    {%- else -%}
-        {{ name }}
-    {%- endif -%}
-{%- endmacro -%}
-
-{%- macro graph_item_drawtype(name) -%}
-    {%- if version in ('4.0', '4.2') -%}
-        {{ {
-            'SINGLE_LINE': 0,
-            'FILLED_REGION': 1,
-            'BOLD_LINE': 2,
-        }[name] }}
-    {%- else -%}
-        {{ name }}
-    {%- endif -%}
-{%- endmacro -%}
-
-{%- macro graph_item_yaxisside(name) -%}
-    {%- if version in ('4.0', '4.2') -%}
-        {{ {
-            'LEFT': 0,
-            'RIGHT': 1,
-        }[name] }}
-    {%- else -%}
-        {{ name }}
-    {%- endif -%}
-{%- endmacro -%}
-
-{%- macro graph_item_calc_fnc(name) -%}
-    {%- if version in ('4.0', '4.2') -%}
-        {{ {
-            'MIN': 1,
-            'AVG': 2,
-        }[name] }}
-    {%- else -%}
-        {{ name }}
-    {%- endif -%}
-{%- endmacro -%}
-
 {%- macro trigger(definition) -%}
-    {% if version not in ('4.0', '4.2', '4.4', '5.0', '5.2') %}
+    {% if version not in ('5.0', '5.2') %}
         <uuid>{{ [seed, definition.id]|join('/')|zuuid }}</uuid>
     {% endif %}
     <expression>{{ definition.expression|e }}</expression>
     <name>{{ definition.name|e }}</name>
-    <priority>{{ trigger_priority(definition.priority) }}</priority>
+    <priority>{{ definition.priority }}</priority>
     {% if 'recovery' in definition %}
-        <recovery_mode>{{ trigger_recovery('RECOVERY_EXPRESSION') }}</recovery_mode>
+        <recovery_mode>RECOVERY_EXPRESSION</recovery_mode>
         <recovery_expression>{{ definition.recovery|e }}</recovery_expression>
     {% else %}
-        <recovery_mode>{{ trigger_recovery('EXPRESSION') }}</recovery_mode>
+        <recovery_mode>EXPRESSION</recovery_mode>
         <recovery_expression/>
-    {% endif %}
-    {% if version in ('4.0', '4.2') %}
-        <correlation_mode>0</correlation_mode>
-        <correlation_tag/>
-        <url/>
-        <status>0</status>
-        <description/>
-        <type>0</type>
-        <manual_close>0</manual_close>
-        <dependencies/>
-        <tags/>
     {% endif %}
 {%- endmacro -%}
 
 {%- macro discovery_rule(rule, items, triggers, graphs) -%}
     <discovery_rule>
-        {% if version not in ('4.0', '4.2', '4.4', '5.0', '5.2') %}
+        {% if version not in ('5.0', '5.2') %}
             <uuid>{{ [seed, rule.id]|join('/')|zuuid }}</uuid>
         {% endif %}
         <name>{{ rule.name|e }}</name>
-        <type>{{ item_type('ZABBIX_ACTIVE') }}</type>
+        <type>ZABBIX_ACTIVE</type>
         <key>{{ rule.key|e }}</key>
         <delay>{$VARNISH_CACHE.LLD_UPDATE_INTERVAL:&quot;{{ rule.context }}&quot;}</delay>
         <lifetime>{$VARNISH_CACHE.LLD_KEEP_LOST_RESOURCES_PERIOD:&quot;{{ rule.context }}&quot;}</lifetime>
-        {% if version in ('4.0', '4.2') %}
-            <snmp_community/>
-            <snmp_oid/>
-            <status>0</status>
-            <allowed_hosts/>
-            <snmpv3_contextname/>
-            <snmpv3_securityname/>
-            <snmpv3_securitylevel>0</snmpv3_securitylevel>
-            <snmpv3_authprotocol>0</snmpv3_authprotocol>
-            <snmpv3_authpassphrase/>
-            <snmpv3_privprotocol>0</snmpv3_privprotocol>
-            <snmpv3_privpassphrase/>
-            <params/>
-            <ipmi_sensor/>
-            <authtype>0</authtype>
-            <username/>
-            <password/>
-            <publickey/>
-            <privatekey/>
-            <port/>
-            <filter>
-                <evaltype>0</evaltype>
-                <formula/>
-                <conditions/>
-            </filter>
-            <description/>
-            <host_prototypes/>
-            <jmx_endpoint/>
-            <timeout>3s</timeout>
-            <url/>
-            <query_fields/>
-            <posts/>
-            <status_codes>200</status_codes>
-            <follow_redirects>1</follow_redirects>
-            <post_type>0</post_type>
-            <http_proxy/>
-            <headers/>
-            <retrieve_mode>0</retrieve_mode>
-            <request_method>0</request_method>
-            <allow_traps>0</allow_traps>
-            <ssl_cert_file/>
-            <ssl_key_file/>
-            <ssl_key_password/>
-            <verify_peer>0</verify_peer>
-            <verify_host>0</verify_host>
-        {% endif %}
-        {% if version == '4.2' %}
-            <lld_macro_paths/>
-            <preprocessing/>
-            <master_item/>
-        {% endif %}
         <item_prototypes>
             {% for item in items %}
                 <item_prototype>
-                    {% if version not in ('4.0', '4.2', '4.4', '5.0', '5.2') %}
+                    {% if version not in ('5.0', '5.2') %}
                         <uuid>{{ [seed, item.id]|join('/')|zuuid }}</uuid>
                     {% endif %}
                     <name>Varnish Cache[{{ '{#' }}LOCATION}] - {{ item.name|e }}</name>
-                    <type>{{ item_type(item.type) }}</type>
+                    <type>{{ item.type }}</type>
                     <key>{{ item.key|e }}</key>
                     {% if 'delay' in item and item.delay %}
                         <delay>{$VARNISH_CACHE.ITEM_UPDATE_INTERVAL}</delay>
@@ -241,10 +62,10 @@
                     {% else %}
                         <trends>{$VARNISH_CACHE.ITEM_TREND_STORAGE_PERIOD}</trends>
                     {% endif %}
-                    <value_type>{{ item_value_type(item.value_type) }}</value_type>
+                    <value_type>{{ item.value_type }}</value_type>
                     <units>{{ item.units|default('')|e }}</units>
                     <params>{{ item.params|default('')|e }}</params>
-                    {% if version in ('4.0', '4.2', '4.4', '5.0', '5.2') %}
+                    {% if version in ('5.0', '5.2') %}
                         <applications>
                             <application>
                                 <name>Varnish Cache</name>
@@ -262,74 +83,24 @@
                         <master_item>
                             <key>{{ item.master_item_key|e }}</key>
                         </master_item>
-                    {% elif version in ('4.0', '4.2') %}
-                        <master_item/>
                     {% endif %}
                     {% if 'preprocessing' in item %}
                         <preprocessing>
                             {% for step in item.preprocessing %}
                                 <step>
-                                    <type>{{ preprocessing_type(step.type) }}</type>
-                                    {% if version in ('4.0', '4.2', '4.4', '5.0') -%}
+                                    <type>{{ step.type }}</type>
+                                    {% if version == '5.0' -%}
                                         <params>{{ step.params|default('')|e }}</params>
                                     {% else %}
                                         <parameters>
                                             <parameter>{{ step.params|default('')|e }}</parameter>
                                         </parameters>
                                     {% endif %}
-                                    {% if version != '4.0' %}
-                                        <error_handler>{{ preprocessing_error_handler(step.error_handler|default('ORIGINAL_ERROR')) }}</error_handler>
-                                        <error_handler_params/>
-                                    {% endif %}
+                                    <error_handler>{{ step.error_handler|default('ORIGINAL_ERROR') }}</error_handler>
+                                    <error_handler_params/>
                                 </step>
                             {% endfor %}
                         </preprocessing>
-                    {% elif version in ('4.0', '4.2') %}
-                        <preprocessing/>
-                    {% endif %}
-                    {% if version in ('4.0', '4.2') %}
-                        <snmp_community/>
-                        <snmp_oid/>
-                        <status>0</status>
-                        <allowed_hosts/>
-                        <snmpv3_contextname/>
-                        <snmpv3_securityname/>
-                        <snmpv3_securitylevel>0</snmpv3_securitylevel>
-                        <snmpv3_authprotocol>0</snmpv3_authprotocol>
-                        <snmpv3_authpassphrase/>
-                        <snmpv3_privprotocol>0</snmpv3_privprotocol>
-                        <snmpv3_privpassphrase/>
-                        <ipmi_sensor/>
-                        <authtype>0</authtype>
-                        <username/>
-                        <password/>
-                        <publickey/>
-                        <privatekey/>
-                        <port/>
-                        <description/>
-                        <inventory_link>0</inventory_link>
-                        <valuemap/>
-                        <logtimefmt/>
-                        <jmx_endpoint/>
-                        <timeout>3s</timeout>
-                        <url/>
-                        <query_fields/>
-                        <posts/>
-                        <status_codes>200</status_codes>
-                        <follow_redirects>1</follow_redirects>
-                        <post_type>0</post_type>
-                        <http_proxy/>
-                        <headers/>
-                        <retrieve_mode>0</retrieve_mode>
-                        <request_method>0</request_method>
-                        <output_format>0</output_format>
-                        <allow_traps>0</allow_traps>
-                        <ssl_cert_file/>
-                        <ssl_key_file/>
-                        <ssl_key_password/>
-                        <verify_peer>0</verify_peer>
-                        <verify_host>0</verify_host>
-                        <application_prototypes/>
                     {% endif %}
                 </item_prototype>
             {% endfor %}
@@ -344,132 +115,31 @@
         <graph_prototypes>
             {% for graph in graphs %}
                 <graph_prototype>
-                    {% if version not in ('4.0', '4.2', '4.4', '5.0', '5.2') %}
+                    {% if version not in ('5.0', '5.2') %}
                         <uuid>{{ [seed, graph.id]|join('/')|zuuid }}</uuid>
                     {% endif %}
                     <name>Varnish Cache[{{ '{#' }}LOCATION}] &gt; {{ graph.name|e }}</name>
-                    <type>{{ graph_type(graph.type|default('NORMAL')) }}</type>
+                    <type>{{ graph.type|default('NORMAL') }}</type>
                     <graph_items>
                         {% for gitem in graph['items'] %}
                             <graph_item>
                                 <sortorder>{{ loop.index0 }}</sortorder>
-                                <drawtype>{{ graph_item_drawtype(gitem.drawtype|default('SINGLE_LINE')) }}</drawtype>
+                                <drawtype>{{ gitem.drawtype|default('SINGLE_LINE') }}</drawtype>
                                 <color>{{ gitem.color }}</color>
-                                <yaxisside>{{ graph_item_yaxisside(gitem.yaxisside|default('LEFT')) }}</yaxisside>
-                                <calc_fnc>{{ graph_item_calc_fnc(gitem.calc_fnc|default('AVG')) }}</calc_fnc>
+                                <yaxisside>{{ gitem.yaxisside|default('LEFT') }}</yaxisside>
+                                <calc_fnc>{{ gitem.calc_fnc|default('AVG') }}</calc_fnc>
                                 <item>
                                     <host>Template App {{ name }}</host>
                                     <key>{{ gitem.key|e }}</key>
                                 </item>
-                                {% if version in ('4.0', '4.2') %}
-                                    <type>0</type>
-                                {% endif %}
                             </graph_item>
                         {% endfor %}
                     </graph_items>
-                    {% if version in ('4.0', '4.2') %}
-                        <width>900</width>
-                        <height>200</height>
-                        <yaxismin>0.0000</yaxismin>
-                        <yaxismax>100.0000</yaxismax>
-                        <show_work_period>1</show_work_period>
-                        <show_triggers>1</show_triggers>
-                        <show_legend>1</show_legend>
-                        <show_3d>0</show_3d>
-                        <percent_left>0.0000</percent_left>
-                        <percent_right>0.0000</percent_right>
-                        <ymin_type_1>0</ymin_type_1>
-                        <ymax_type_1>0</ymax_type_1>
-                        <ymin_item_1>0</ymin_item_1>
-                        <ymax_item_1>0</ymax_item_1>
-                    {% endif %}
                 </graph_prototype>
             {% endfor %}
         </graph_prototypes>
     </discovery_rule>
 {%- endmacro -%}
-
-{#-#########################################################################-#}
-{#- TRIGGERS -#}
-{#-#########################################################################-#}
-
-{%- set varnish_processes_trigger =
-    {
-        'id': 'trigger-1',
-        'name': 'Varnish Cache is not running',
-        'expression':
-            '{Template App ' + name + ':proc.num[varnishd].last()}'
-            '<{$VARNISH_CACHE.VARNISH_PROCESSES.MIN}'
-            if version in ('4.0', '4.2', '4.4', '5.0', '5.2') else
-            'last(/Template App ' + name + '/proc.num[varnishd])'
-            '<{$VARNISH_CACHE.VARNISH_PROCESSES.MIN}',
-        'priority': 'DISASTER',
-    } -%}
-
-{%- set varnish_ncsa_log_processes_trigger =
-    {
-        'id': 'trigger-2',
-        'name': 'Varnish NCSA log is not running',
-        'expression':
-            '{Template App ' + name + ':proc.num[varnishncsa].last()}'
-            '<{$VARNISH_CACHE.NCSA_PROCESSES.MIN}'
-            if version in ('4.0', '4.2', '4.4', '5.0', '5.2') else
-            'last(/Template App ' + name + '/proc.num[varnishncsa])'
-            '<{$VARNISH_CACHE.NCSA_PROCESSES.MIN}',
-        'priority': 'DISASTER',
-    } -%}
-
-{%- set varnish_raw_log_processes_trigger =
-    {
-        'id': 'trigger-3',
-        'name': 'Varnish raw log is not running',
-        'expression':
-            '{Template App ' + name + ':proc.num[varnishlog].last()}'
-            '<{$VARNISH_CACHE.RAW_LOG_PROCESSES.MIN}'
-            if version in ('4.0', '4.2', '4.4', '5.0', '5.2') else
-            'last(/Template App ' + name + '/proc.num[varnishlog])'
-            '<{$VARNISH_CACHE.RAW_LOG_PROCESSES.MIN}',
-        'priority': 'DISASTER',
-    } -%}
-
-{%- set varnish_agent_processes_trigger =
-    {
-        'id': 'trigger-4',
-        'name': 'Varnish Agent is not running',
-        'expression':
-            '{Template App ' + name + ':proc.num[varnish-agent].last()}'
-            '<{$VARNISH_CACHE.AGENT_PROCESSES.MIN}'
-            if version in ('4.0', '4.2', '4.4', '5.0', '5.2') else
-            'last(/Template App ' + name + '/proc.num[varnish-agent])'
-            '<{$VARNISH_CACHE.AGENT_PROCESSES.MIN}',
-        'priority': 'DISASTER',
-    } -%}
-
-{%- set varnish_broadcaster_processes_trigger =
-    {
-        'id': 'trigger-5',
-        'name': 'Varnish Broadcaster is not running',
-        'expression':
-            '{Template App ' + name + ':proc.num[broadcaster].last()}'
-            '<{$VARNISH_CACHE.BROADCASTER_PROCESSES.MIN}'
-            if version in ('4.0', '4.2', '4.4', '5.0', '5.2') else
-            'last(/Template App ' + name + '/proc.num[broadcaster])'
-            '<{$VARNISH_CACHE.BROADCASTER_PROCESSES.MIN}',
-        'priority': 'DISASTER',
-    } -%}
-
-{%- set vcs_agent_processes_trigger =
-    {
-        'id': 'trigger-6',
-        'name': 'VCS Agent is not running',
-        'expression':
-            '{Template App ' + name + ':proc.num[vcs-agent].last()}'
-            '<{$VARNISH_CACHE.VCS_AGENT_PROCESSES.MIN}'
-            if version in ('4.0', '4.2', '4.4', '5.0', '5.2') else
-            'last(/Template App ' + name + '/proc.num[vcs-agent])'
-            '<{$VARNISH_CACHE.VCS_AGENT_PROCESSES.MIN}',
-        'priority': 'DISASTER',
-    } -%}
 
 {#-#########################################################################-#}
 {#- MAIN -#}
@@ -481,7 +151,7 @@
     <date>2018-12-28T11:56:28Z</date>
     <groups>
         <group>
-            {% if version not in ('4.0', '4.2', '4.4', '5.0', '5.2') %}
+            {% if version not in ('5.0', '5.2') %}
                 <uuid>7df96b18c230490a9a0a9e2307226338</uuid>
             {% endif %}
             <name>Templates</name>
@@ -489,32 +159,25 @@
     </groups>
     <templates>
         <template>
-            {% if version not in ('4.0', '4.2', '4.4', '5.0', '5.2') %}
+            {% if version not in ('5.0', '5.2') %}
                 <uuid>{{ [seed]|join('/')|zuuid }}</uuid>
             {% endif %}
             <template>Template App {{ name|e }}</template>
             <name>Template App {{ name|e }}</name>
             {% if description %}
                 <description>{{ description|e }}</description>
-            {% elif version in ('4.0', '4.2') %}
-                <description/>
             {% endif %}
             <groups>
                 <group>
                     <name>Templates</name>
                 </group>
             </groups>
-            {% if version in ('4.0', '4.2', '4.4', '5.0', '5.2') %}
+            {% if version in ('5.0', '5.2') %}
                 <applications>
                     <application>
                         <name>Varnish Cache</name>
                     </application>
                 </applications>
-            {% endif %}
-            {% if version in ('4.0', '4.2') %}
-                <templates/>
-                <screens/>
-                <httptests/>
             {% endif %}
 
             {#-#############################################################-#}
@@ -537,42 +200,114 @@
                             'name': '$1 processes',
                             'key': 'proc.num[varnishd]',
                             'value_type': 'UNSIGNED',
-                            'triggers': [varnish_processes_trigger],
+                            'triggers': [
+                                {
+                                    'id': 'trigger-2.1',
+                                    'name': 'Varnish Cache is not running',
+                                    'expression':
+                                        '{Template App ' + name + ':proc.num[varnishd].last()}'
+                                        '<{$VARNISH_CACHE.VARNISH_PROCESSES.MIN}'
+                                        if version in ('5.0', '5.2') else
+                                        'last(/Template App ' + name + '/proc.num[varnishd])'
+                                        '<{$VARNISH_CACHE.VARNISH_PROCESSES.MIN}',
+                                    'priority': 'DISASTER',
+                                },
+                            ],
                         },
                         {
                             'id': 'item-3',
                             'name': '$1 processes',
                             'key': 'proc.num[varnishncsa]',
                             'value_type': 'UNSIGNED',
-                            'triggers': [varnish_ncsa_log_processes_trigger],
+                            'triggers': [
+                                {
+                                    'id': 'trigger-3.1',
+                                    'name': 'Varnish NCSA log is not running',
+                                    'expression':
+                                        '{Template App ' + name + ':proc.num[varnishncsa].last()}'
+                                        '<{$VARNISH_CACHE.NCSA_PROCESSES.MIN}'
+                                        if version in ('5.0', '5.2') else
+                                        'last(/Template App ' + name + '/proc.num[varnishncsa])'
+                                        '<{$VARNISH_CACHE.NCSA_PROCESSES.MIN}',
+                                    'priority': 'DISASTER',
+                                },
+                            ],
                         },
                         {
                             'id': 'item-4',
                             'name': '$1 processes',
                             'key': 'proc.num[varnishlog]',
                             'value_type': 'UNSIGNED',
-                            'triggers': [varnish_raw_log_processes_trigger],
+                            'triggers': [
+                                {
+                                    'id': 'trigger-4.1',
+                                    'name': 'Varnish raw log is not running',
+                                    'expression':
+                                        '{Template App ' + name + ':proc.num[varnishlog].last()}'
+                                        '<{$VARNISH_CACHE.RAW_LOG_PROCESSES.MIN}'
+                                        if version in ('5.0', '5.2') else
+                                        'last(/Template App ' + name + '/proc.num[varnishlog])'
+                                        '<{$VARNISH_CACHE.RAW_LOG_PROCESSES.MIN}',
+                                    'priority': 'DISASTER',
+                                },
+                            ],
                         },
                         {
                             'id': 'item-5',
                             'name': '$1 processes',
                             'key': 'proc.num[varnish-agent]',
                             'value_type': 'UNSIGNED',
-                            'triggers': [varnish_agent_processes_trigger],
+                            'triggers': [
+                                {
+                                    'id': 'trigger-5.1',
+                                    'name': 'Varnish Agent is not running',
+                                    'expression':
+                                        '{Template App ' + name + ':proc.num[varnish-agent].last()}'
+                                        '<{$VARNISH_CACHE.AGENT_PROCESSES.MIN}'
+                                        if version in ('5.0', '5.2') else
+                                        'last(/Template App ' + name + '/proc.num[varnish-agent])'
+                                        '<{$VARNISH_CACHE.AGENT_PROCESSES.MIN}',
+                                    'priority': 'DISASTER',
+                                },
+                            ],
                         },
                         {
                             'id': 'item-6',
                             'name': '$1 processes',
                             'key': 'proc.num[broadcaster]',
                             'value_type': 'UNSIGNED',
-                            'triggers': [varnish_broadcaster_processes_trigger],
+                            'triggers': [
+                                {
+                                    'id': 'trigger-6.1',
+                                    'name': 'Varnish Broadcaster is not running',
+                                    'expression':
+                                        '{Template App ' + name + ':proc.num[broadcaster].last()}'
+                                        '<{$VARNISH_CACHE.BROADCASTER_PROCESSES.MIN}'
+                                        if version in ('5.0', '5.2') else
+                                        'last(/Template App ' + name + '/proc.num[broadcaster])'
+                                        '<{$VARNISH_CACHE.BROADCASTER_PROCESSES.MIN}',
+                                    'priority': 'DISASTER',
+                                },
+                            ],
                         },
                         {
                             'id': 'item-7',
                             'name': '$1 processes',
                             'key': 'proc.num[vcs-agent]',
                             'value_type': 'UNSIGNED',
-                            'triggers': [vcs_agent_processes_trigger],
+                            'triggers': [
+                                {
+                                    'id': 'trigger-7.1',
+                                    'name': 'VCS Agent is not running',
+                                    'expression':
+                                        '{Template App ' + name + ':proc.num[vcs-agent].last()}'
+                                        '<{$VARNISH_CACHE.VCS_AGENT_PROCESSES.MIN}'
+                                        if version in ('5.0', '5.2') else
+                                        'last(/Template App ' + name + '/proc.num[vcs-agent])'
+                                        '<{$VARNISH_CACHE.VCS_AGENT_PROCESSES.MIN}',
+                                    'priority': 'DISASTER',
+                                },
+                            ],
                         },
                         {
                             'id': 'item-8',
@@ -608,11 +343,11 @@
                         },
                     ] %}
                     <item>
-                        {% if version not in ('4.0', '4.2', '4.4', '5.0', '5.2') %}
+                        {% if version not in ('5.0', '5.2') %}
                             <uuid>{{ [seed, item.id]|join('/')|zuuid }}</uuid>
                         {% endif %}
                         <name>Varnish Cache - {{ item.name|e }}</name>
-                        <type>{{ item_type('ZABBIX_ACTIVE') }}</type>
+                        <type>ZABBIX_ACTIVE</type>
                         <key>{{ item.key|e }}</key>
                         <delay>{$VARNISH_CACHE.ITEM_UPDATE_INTERVAL}</delay>
                         {% if 'history' in item and not item.history %}
@@ -625,9 +360,9 @@
                         {% else %}
                             <trends>{$VARNISH_CACHE.ITEM_TREND_STORAGE_PERIOD}</trends>
                         {% endif %}
-                        <value_type>{{ item_value_type(item.value_type) }}</value_type>
+                        <value_type>{{ item.value_type }}</value_type>
                         <units>{{ item.units|default('')|e }}</units>
-                        {% if version in ('4.0', '4.2', '4.4', '5.0', '5.2') %}
+                        {% if version in ('5.0', '5.2') %}
                             <applications>
                                 <application>
                                     <name>Varnish Cache</name>
@@ -641,53 +376,7 @@
                                 </tag>
                             </tags>
                         {% endif %}
-                        {% if version in ('4.0', '4.2') %}
-                            <snmp_community/>
-                            <snmp_oid/>
-                            <status>0</status>
-                            <allowed_hosts/>
-                            <snmpv3_contextname/>
-                            <snmpv3_securityname/>
-                            <snmpv3_securitylevel>0</snmpv3_securitylevel>
-                            <snmpv3_authprotocol>0</snmpv3_authprotocol>
-                            <snmpv3_authpassphrase/>
-                            <snmpv3_privprotocol>0</snmpv3_privprotocol>
-                            <snmpv3_privpassphrase/>
-                            <params/>
-                            <ipmi_sensor/>
-                            <authtype>0</authtype>
-                            <username/>
-                            <password/>
-                            <publickey/>
-                            <privatekey/>
-                            <port/>
-                            <description/>
-                            <inventory_link>0</inventory_link>
-                            <valuemap/>
-                            <logtimefmt/>
-                            <preprocessing/>
-                            <jmx_endpoint/>
-                            <timeout>3s</timeout>
-                            <url/>
-                            <query_fields/>
-                            <posts/>
-                            <status_codes>200</status_codes>
-                            <follow_redirects>1</follow_redirects>
-                            <post_type>0</post_type>
-                            <http_proxy/>
-                            <headers/>
-                            <retrieve_mode>0</retrieve_mode>
-                            <request_method>0</request_method>
-                            <output_format>0</output_format>
-                            <allow_traps>0</allow_traps>
-                            <ssl_cert_file/>
-                            <ssl_key_file/>
-                            <ssl_key_password/>
-                            <verify_peer>0</verify_peer>
-                            <verify_host>0</verify_host>
-                            <master_item/>
-                        {% endif %}
-                        {% if version not in ('4.0', '4.2') and item.triggers %}
+                        {% if item.triggers %}
                             <triggers>
                                 {% for definition in item.triggers %}
                                     <trigger>
@@ -2916,7 +2605,7 @@
                             'delay': true,
                             'params':
                                 '100*last("varnish.stat[\\"{#LOCATION_ID}\\",\\"MAIN.cache_hit\\"]")/(last("varnish.stat[\\"{#LOCATION_ID}\\",\\"MAIN.cache_hit\\"]")+last("varnish.stat[\\"{#LOCATION_ID}\\",\\"MAIN.cache_miss\\"]")+(count("varnish.stat[\\"{#LOCATION_ID}\\",\\"MAIN.cache_hit\\"]",#1,0)*count("varnish.stat[\\"{#LOCATION_ID}\\",\\"MAIN.cache_miss\\"]",#1,0)))'
-                                if version in ('4.0', '4.2', '4.4', '5.0', '5.2') else
+                                if version in ('5.0', '5.2') else
                                 '100*last(//varnish.stat["{#LOCATION_ID}","MAIN.cache_hit"])/(last(//varnish.stat["{#LOCATION_ID}","MAIN.cache_hit"])+last(//varnish.stat["{#LOCATION_ID}","MAIN.cache_miss"])+(count(//varnish.stat["{#LOCATION_ID}","MAIN.cache_hit"],#1,"eq",0)*count(//varnish.stat["{#LOCATION_ID}","MAIN.cache_miss"],#1,"eq",0)))',
                         },
                         {
@@ -3366,7 +3055,7 @@
                                 '<{$VARNISH_CACHE.MAIN_UPTIME.MIN:"{#LOCATION_ID}"} or'
                                 ' {Template App ' + name + ':varnish.stat["{#LOCATION_ID}","MGT.uptime"].last()}'
                                 '<{$VARNISH_CACHE.MGT_UPTIME.MIN:"{#LOCATION_ID}"}'
-                                if version in ('4.0', '4.2', '4.4', '5.0', '5.2') else
+                                if version in ('5.0', '5.2') else
                                 'last(/Template App ' + name + '/varnish.stat["{#LOCATION_ID}","MAIN.uptime"])'
                                 '<{$VARNISH_CACHE.MAIN_UPTIME.MIN:"{#LOCATION_ID}"} or'
                                 ' last(/Template App ' + name + '/varnish.stat["{#LOCATION_ID}","MGT.uptime"])'
@@ -3380,7 +3069,7 @@
                                 '{$VARNISH_CACHE.THREADS.ENABLED:"{#LOCATION_ID}"} and '
                                 '{Template App ' + name + ':varnish.stat["{#LOCATION_ID}","MAIN.threads"].last()}'
                                 '>{$VARNISH_CACHE.THREADS.MAX:"{#LOCATION_ID}"}'
-                                if version in ('4.0', '4.2', '4.4', '5.0', '5.2') else
+                                if version in ('5.0', '5.2') else
                                 '{$VARNISH_CACHE.THREADS.ENABLED:"{#LOCATION_ID}"} and '
                                 'last(/Template App ' + name + '/varnish.stat["{#LOCATION_ID}","MAIN.threads"])'
                                 '>{$VARNISH_CACHE.THREADS.MAX:"{#LOCATION_ID}"}',
@@ -3393,7 +3082,7 @@
                                 '{$VARNISH_CACHE.HTTP_HEADER_OVERFLOWS_RATE.ENABLED:"{#LOCATION_ID}"} and '
                                 '{Template App ' + name + ':varnish.stat["{#LOCATION_ID}","MAIN.losthdr"].last()}'
                                 '>{$VARNISH_CACHE.HTTP_HEADER_OVERFLOWS_RATE.MAX:"{#LOCATION_ID}"}'
-                                if version in ('4.0', '4.2', '4.4', '5.0', '5.2') else
+                                if version in ('5.0', '5.2') else
                                 '{$VARNISH_CACHE.HTTP_HEADER_OVERFLOWS_RATE.ENABLED:"{#LOCATION_ID}"} and '
                                 'last(/Template App ' + name + '/varnish.stat["{#LOCATION_ID}","MAIN.losthdr"])'
                                 '>{$VARNISH_CACHE.HTTP_HEADER_OVERFLOWS_RATE.MAX:"{#LOCATION_ID}"}',
@@ -3406,7 +3095,7 @@
                                 '{$VARNISH_CACHE.VCL_FAILURES_RATE.ENABLED:"{#LOCATION_ID}"} and '
                                 '{Template App ' + name + ':varnish.stat["{#LOCATION_ID}","MAIN.vcl_fail"].last()}'
                                 '>{$VARNISH_CACHE.VCL_FAILURES_RATE.MAX:"{#LOCATION_ID}"}'
-                                if version in ('4.0', '4.2', '4.4', '5.0', '5.2') else
+                                if version in ('5.0', '5.2') else
                                 '{$VARNISH_CACHE.VCL_FAILURES_RATE.ENABLED:"{#LOCATION_ID}"} and '
                                 'last(/Template App ' + name + '/varnish.stat["{#LOCATION_ID}","MAIN.vcl_fail"])'
                                 '>{$VARNISH_CACHE.VCL_FAILURES_RATE.MAX:"{#LOCATION_ID}"}',
@@ -3427,7 +3116,7 @@
                                 '>{$VARNISH_CACHE.WORKSPACE_OVERFLOWS_RATE.MAX:"{#LOCATION_ID}"} or'
                                 ' {Template App ' + name + ':varnish.stat["{#LOCATION_ID}","MAIN.ws_thread_overflow"].last()}'
                                 '>{$VARNISH_CACHE.WORKSPACE_OVERFLOWS_RATE.MAX:"{#LOCATION_ID}"})'
-                                if version in ('4.0', '4.2', '4.4', '5.0', '5.2') else
+                                if version in ('5.0', '5.2') else
                                 '{$VARNISH_CACHE.WORKSPACE_OVERFLOWS_RATE.ENABLED:"{#LOCATION_ID}"} and '
                                 '(last(/Template App ' + name + '/varnish.stat["{#LOCATION_ID}","MAIN.client_resp_500"])'
                                 '>{$VARNISH_CACHE.WORKSPACE_OVERFLOWS_RATE.MAX:"{#LOCATION_ID}"} or'
@@ -3448,7 +3137,7 @@
                                 '{$VARNISH_CACHE.BACKEND_CONNECTION_FAILURES_RATE.ENABLED:"{#LOCATION_ID}"} and '
                                 '{Template App ' + name + ':varnish.stat["{#LOCATION_ID}","MAIN.backend_fail"].min({$VARNISH_CACHE.BACKEND_CONNECTION_FAILURES_RATE.SAMPLES:"{#LOCATION_ID}"})}'
                                 '>{$VARNISH_CACHE.BACKEND_CONNECTION_FAILURES_RATE.MAX:"{#LOCATION_ID}"}'
-                                if version in ('4.0', '4.2', '4.4', '5.0', '5.2') else
+                                if version in ('5.0', '5.2') else
                                 '{$VARNISH_CACHE.BACKEND_CONNECTION_FAILURES_RATE.ENABLED:"{#LOCATION_ID}"} and '
                                 'min(/Template App ' + name + '/varnish.stat["{#LOCATION_ID}","MAIN.backend_fail"],{$VARNISH_CACHE.BACKEND_CONNECTION_FAILURES_RATE.SAMPLES:"{#LOCATION_ID}"})'
                                 '>{$VARNISH_CACHE.BACKEND_CONNECTION_FAILURES_RATE.MAX:"{#LOCATION_ID}"}',
@@ -3461,14 +3150,14 @@
                                 '{$VARNISH_CACHE.LRU_NUKED_OBJECTS_RATE.ENABLED:"{#LOCATION_ID}"} and '
                                 '{Template App ' + name + ':varnish.stat["{#LOCATION_ID}","MAIN.n_lru_nuked"].last()}'
                                 '>{$VARNISH_CACHE.LRU_NUKED_OBJECTS_RATE.MAX:"{#LOCATION_ID}"}'
-                                if version in ('4.0', '4.2', '4.4', '5.0', '5.2') else
+                                if version in ('5.0', '5.2') else
                                 '{$VARNISH_CACHE.LRU_NUKED_OBJECTS_RATE.ENABLED:"{#LOCATION_ID}"} and '
                                 'last(/Template App ' + name + '/varnish.stat["{#LOCATION_ID}","MAIN.n_lru_nuked"])'
                                 '>{$VARNISH_CACHE.LRU_NUKED_OBJECTS_RATE.MAX:"{#LOCATION_ID}"}',
                             'recovery':
                                 '{Template App ' + name + ':varnish.stat["{#LOCATION_ID}","MAIN.n_lru_nuked"].max({$VARNISH_CACHE.LRU_NUKED_OBJECTS_RATE.RECOVERY.SAMPLES:"{#LOCATION_ID}"})}'
                                 '<={$VARNISH_CACHE.LRU_NUKED_OBJECTS_RATE.MAX:"{#LOCATION_ID}"}'
-                                if version in ('4.0', '4.2', '4.4', '5.0', '5.2') else
+                                if version in ('5.0', '5.2') else
                                 'max(/Template App ' + name + '/varnish.stat["{#LOCATION_ID}","MAIN.n_lru_nuked"],{$VARNISH_CACHE.LRU_NUKED_OBJECTS_RATE.RECOVERY.SAMPLES:"{#LOCATION_ID}"})'
                                 '<={$VARNISH_CACHE.LRU_NUKED_OBJECTS_RATE.MAX:"{#LOCATION_ID}"}',
                             'priority': 'WARNING',
@@ -3480,14 +3169,14 @@
                                 '{$VARNISH_CACHE.NUKE_LIMIT_REACHS_RATE.ENABLED:"{#LOCATION_ID}"} and '
                                 '{Template App ' + name + ':varnish.stat["{#LOCATION_ID}","MAIN.n_lru_limited"].last()}'
                                 '>{$VARNISH_CACHE.NUKE_LIMIT_REACHS_RATE.MAX:"{#LOCATION_ID}"}'
-                                if version in ('4.0', '4.2', '4.4', '5.0', '5.2') else
+                                if version in ('5.0', '5.2') else
                                 '{$VARNISH_CACHE.NUKE_LIMIT_REACHS_RATE.ENABLED:"{#LOCATION_ID}"} and '
                                 'last(/Template App ' + name + '/varnish.stat["{#LOCATION_ID}","MAIN.n_lru_limited"])'
                                 '>{$VARNISH_CACHE.NUKE_LIMIT_REACHS_RATE.MAX:"{#LOCATION_ID}"}',
                             'recovery':
                                 '{Template App ' + name + ':varnish.stat["{#LOCATION_ID}","MAIN.n_lru_limited"].max({$VARNISH_CACHE.NUKE_LIMIT_REACHS_RATE.RECOVERY.SAMPLES:"{#LOCATION_ID}"})}'
                                 '<={$VARNISH_CACHE.NUKE_LIMIT_REACHS_RATE.MAX:"{#LOCATION_ID}"}'
-                                if version in ('4.0', '4.2', '4.4', '5.0', '5.2') else
+                                if version in ('5.0', '5.2') else
                                 'max(/Template App ' + name + '/varnish.stat["{#LOCATION_ID}","MAIN.n_lru_limited"],{$VARNISH_CACHE.NUKE_LIMIT_REACHS_RATE.RECOVERY.SAMPLES:"{#LOCATION_ID}"})'
                                 '<={$VARNISH_CACHE.NUKE_LIMIT_REACHS_RATE.MAX:"{#LOCATION_ID}"}',
                             'priority': 'WARNING',
@@ -4752,7 +4441,7 @@
                             'delay': true,
                             'params':
                                 'band("varnish.stat[\\"{#LOCATION_ID}\\",\\"VBE.{#SUBJECT_ID}.happy\\"]",#1,1)'
-                                if version in ('4.0', '4.2', '4.4', '5.0', '5.2') else
+                                if version in ('5.0', '5.2') else
                                 'bitand(last(//varnish.stat["{#LOCATION_ID}","VBE.{#SUBJECT_ID}.happy"]),1)',
                         },
                     ] if not lite else []),
@@ -4763,7 +4452,7 @@
                             'expression':
                                 '{$VARNISH_CACHE.BACKEND_HEALTHINESS.ENABLED:"{#LOCATION_ID}:{#SUBJECT_ID}"} and '
                                 '{Template App ' + name + ':varnish.stat["{#LOCATION_ID}","VBE.{#SUBJECT_ID}.healthy"].max({$VARNISH_CACHE.BACKEND_HEALTHINESS.SAMPLES:"{#LOCATION_ID}:{#SUBJECT_ID}"})}<1'
-                                if version in ('4.0', '4.2', '4.4', '5.0', '5.2') else
+                                if version in ('5.0', '5.2') else
                                 '{$VARNISH_CACHE.BACKEND_HEALTHINESS.ENABLED:"{#LOCATION_ID}:{#SUBJECT_ID}"} and '
                                 'max(/Template App ' + name + '/varnish.stat["{#LOCATION_ID}","VBE.{#SUBJECT_ID}.healthy"],{$VARNISH_CACHE.BACKEND_HEALTHINESS.SAMPLES:"{#LOCATION_ID}:{#SUBJECT_ID}"})<1',
                             'priority': 'HIGH',
@@ -5128,7 +4817,7 @@
                             'delay': true,
                             'params':
                                 '100*last("varnish.stat[\\"{#LOCATION_ID}\\",\\"STG.{#SUBJECT_ID}.c_memcache_hit\\"]")/(last("varnish.stat[\\"{#LOCATION_ID}\\",\\"STG.{#SUBJECT_ID}.c_memcache_hit\\"]")+last("varnish.stat[\\"{#LOCATION_ID}\\",\\"STG.{#SUBJECT_ID}.c_memcache_miss\\"]")+(count("varnish.stat[\\"{#LOCATION_ID}\\",\\"STG.{#SUBJECT_ID}.c_memcache_hit\\"]",#1,0)*count("varnish.stat[\\"{#LOCATION_ID}\\",\\"STG.{#SUBJECT_ID}.c_memcache_miss\\"]",#1,0)))'
-                                if version in ('4.0', '4.2', '4.4', '5.0', '5.2') else
+                                if version in ('5.0', '5.2') else
                                 '100*last(//varnish.stat["{#LOCATION_ID}","STG.{#SUBJECT_ID}.c_memcache_hit"])/(last(//varnish.stat["{#LOCATION_ID}","STG.{#SUBJECT_ID}.c_memcache_hit"])+last(//varnish.stat["{#LOCATION_ID}","STG.{#SUBJECT_ID}.c_memcache_miss"])+(count(//varnish.stat["{#LOCATION_ID}","STG.{#SUBJECT_ID}.c_memcache_hit"],#1,"eq",0)*count(//varnish.stat["{#LOCATION_ID}","STG.{#SUBJECT_ID}.c_memcache_miss"],#1,"eq",0)))',
                         },
                     ],
@@ -5140,14 +4829,14 @@
                                 '{$VARNISH_CACHE.ALLOCATOR_FAILURES_RATE.ENABLED:"{#LOCATION_ID}:{#SUBJECT_ID}"} and '
                                 '{Template App ' + name + ':varnish.stat["{#LOCATION_ID}","STG.{#SUBJECT_ID}.c_fail"].last()}'
                                 '>{$VARNISH_CACHE.ALLOCATOR_FAILURES_RATE.MAX:"{#LOCATION_ID}:{#SUBJECT_ID}"}'
-                                if version in ('4.0', '4.2', '4.4', '5.0', '5.2') else
+                                if version in ('5.0', '5.2') else
                                 '{$VARNISH_CACHE.ALLOCATOR_FAILURES_RATE.ENABLED:"{#LOCATION_ID}:{#SUBJECT_ID}"} and '
                                 'last(/Template App ' + name + '/varnish.stat["{#LOCATION_ID}","STG.{#SUBJECT_ID}.c_fail"])'
                                 '>{$VARNISH_CACHE.ALLOCATOR_FAILURES_RATE.MAX:"{#LOCATION_ID}:{#SUBJECT_ID}"}',
                             'recovery':
                                 '{Template App ' + name + ':varnish.stat["{#LOCATION_ID}","STG.{#SUBJECT_ID}.c_fail"].max({$VARNISH_CACHE.ALLOCATOR_FAILURES_RATE.RECOVERY.SAMPLES:"{#LOCATION_ID}:{#SUBJECT_ID}"})}'
                                 '<={$VARNISH_CACHE.ALLOCATOR_FAILURES_RATE.MAX:"{#LOCATION_ID}:{#SUBJECT_ID}"}'
-                                if version in ('4.0', '4.2', '4.4', '5.0', '5.2') else
+                                if version in ('5.0', '5.2') else
                                 'max(/Template App ' + name + '/varnish.stat["{#LOCATION_ID}","STG.{#SUBJECT_ID}.c_fail"],{$VARNISH_CACHE.ALLOCATOR_FAILURES_RATE.RECOVERY.SAMPLES:"{#LOCATION_ID}:{#SUBJECT_ID}"})'
                                 '<={$VARNISH_CACHE.ALLOCATOR_FAILURES_RATE.MAX:"{#LOCATION_ID}:{#SUBJECT_ID}"}',
                             'priority': 'HIGH',
@@ -5159,14 +4848,14 @@
                                 '{$VARNISH_CACHE.SPARE_NODES.ENABLED:"{#LOCATION_ID}:{#SUBJECT_ID}"} and '
                                 '{Template App ' + name + ':varnish.stat["{#LOCATION_ID}","STG.{#SUBJECT_ID}.g_sparenode"].last()}'
                                 '<{$VARNISH_CACHE.SPARE_NODES.MIN:"{#LOCATION_ID}:{#SUBJECT_ID}"}'
-                                if version in ('4.0', '4.2', '4.4', '5.0', '5.2') else
+                                if version in ('5.0', '5.2') else
                                 '{$VARNISH_CACHE.SPARE_NODES.ENABLED:"{#LOCATION_ID}:{#SUBJECT_ID}"} and '
                                 'last(/Template App ' + name + '/varnish.stat["{#LOCATION_ID}","STG.{#SUBJECT_ID}.g_sparenode"])'
                                 '<{$VARNISH_CACHE.SPARE_NODES.MIN:"{#LOCATION_ID}:{#SUBJECT_ID}"}',
                             'recovery':
                                 '{Template App ' + name + ':varnish.stat["{#LOCATION_ID}","STG.{#SUBJECT_ID}.g_sparenode"].last()}'
                                 '>{$VARNISH_CACHE.SPARE_NODES.RECOVERY.MIN:"{#LOCATION_ID}:{#SUBJECT_ID}"}'
-                                if version in ('4.0', '4.2', '4.4', '5.0', '5.2') else
+                                if version in ('5.0', '5.2') else
                                 'last(/Template App ' + name + '/varnish.stat["{#LOCATION_ID}","STG.{#SUBJECT_ID}.g_sparenode"])'
                                 '>{$VARNISH_CACHE.SPARE_NODES.RECOVERY.MIN:"{#LOCATION_ID}:{#SUBJECT_ID}"}',
                             'priority': 'WARNING',
@@ -5455,14 +5144,14 @@
                                 '{$VARNISH_CACHE.MSE_BOOK_SPACE.ENABLED:"{#LOCATION_ID}:{#SUBJECT_ID}"} and '
                                 '{Template App ' + name + ':varnish.stat["{#LOCATION_ID}","MSE_BOOK.{#SUBJECT_ID}.g_space"].last()}'
                                 '<{$VARNISH_CACHE.MSE_BOOK_SPACE.MIN:"{#LOCATION_ID}:{#SUBJECT_ID}"}'
-                                if version in ('4.0', '4.2', '4.4', '5.0', '5.2') else
+                                if version in ('5.0', '5.2') else
                                 '{$VARNISH_CACHE.MSE_BOOK_SPACE.ENABLED:"{#LOCATION_ID}:{#SUBJECT_ID}"} and '
                                 'last(/Template App ' + name + '/varnish.stat["{#LOCATION_ID}","MSE_BOOK.{#SUBJECT_ID}.g_space"])'
                                 '<{$VARNISH_CACHE.MSE_BOOK_SPACE.MIN:"{#LOCATION_ID}:{#SUBJECT_ID}"}',
                             'recovery':
                                 '{Template App ' + name + ':varnish.stat["{#LOCATION_ID}","MSE_BOOK.{#SUBJECT_ID}.g_space"].last()}'
                                 '>{$VARNISH_CACHE.MSE_BOOK_SPACE.RECOVERY.MIN:"{#LOCATION_ID}:{#SUBJECT_ID}"}'
-                                if version in ('4.0', '4.2', '4.4', '5.0', '5.2') else
+                                if version in ('5.0', '5.2') else
                                 'last(/Template App ' + name + '/varnish.stat["{#LOCATION_ID}","MSE_BOOK.{#SUBJECT_ID}.g_space"])'
                                 '>{$VARNISH_CACHE.MSE_BOOK_SPACE.RECOVERY.MIN:"{#LOCATION_ID}:{#SUBJECT_ID}"}',
                             'priority': 'WARNING',
@@ -5853,14 +5542,12 @@
             {#- TAGS -#}
             {#-#############################################################-#}
 
-            {% if version != '4.0' %}
-                <tags>
-                    <tag>
-                        <tag>Application</tag>
-                        <value>Varnish Cache</value>
-                    </tag>
-                </tags>
-            {% endif %}
+            <tags>
+                <tag>
+                    <tag>Application</tag>
+                    <value>Varnish Cache</value>
+                </tag>
+            </tags>
 
             {#-#############################################################-#}
             {#- MACROS -#}
@@ -5930,25 +5617,4 @@
             </macros>
         </template>
     </templates>
-
-    {#-#####################################################################-#}
-    {#- TRIGGERS -#}
-    {#-#####################################################################-#}
-
-    {% if version in ('4.0', '4.2') %}
-        <triggers>
-            {% for definition in [
-                    varnish_processes_trigger,
-                    varnish_ncsa_log_processes_trigger,
-                    varnish_raw_log_processes_trigger,
-                    varnish_agent_processes_trigger,
-                    varnish_broadcaster_processes_trigger,
-                    vcs_agent_processes_trigger,
-                ] %}
-                <trigger>
-                    {{ trigger(definition) }}
-                </trigger>
-            {% endfor %}
-        </triggers>
-    {% endif %}
 </zabbix_export>

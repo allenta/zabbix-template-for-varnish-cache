@@ -17,7 +17,7 @@
 
     $ pip install jinja2-cli
     $ PYTHONPATH=. jinja2 \
-        -D version={4.0,4.2,4.4,5.0,5.2,5.4} \
+        -D version={5.0,5.2,5.4} \
         [-D name='Varnish Cache'] \
         [-D description=''] \
         [-D lite=0] \

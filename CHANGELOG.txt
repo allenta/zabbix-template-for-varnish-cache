@@ -1,4 +1,4 @@
-- ? (?):
+- 7.0 (2021-07-05):
     - Removed 'lite' flavour.
     - Arguments '--lite' and '--backends' replaced by '--exclusions'.
     - Added support for accounting VMOD.

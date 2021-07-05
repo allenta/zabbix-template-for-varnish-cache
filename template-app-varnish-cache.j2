@@ -2,9 +2,7 @@
 
 {%- set description = description|default('') -%}
 
-{%- set lite = lite|default(0)|int > 0 -%}
-
-{%- set seed = ['Allenta', 'Varnish Cache', lite|tojson]|join('/') -%}
+{%- set seed = ['Allenta', 'Varnish Cache']|join('/') -%}
 
 {%- set master = 'varnish.stats["{$VARNISH_CACHE.LOCATIONS}"]' -%}
 
@@ -3045,6 +3043,120 @@
                                 },
                             ],
                         },
+                        {
+                            'id': 'item-prototype-1.144',
+                            'name': 'ACCG_DIAG.set_key_failure (failed attempts to set key for any reason / sec)',
+                            'type': 'DEPENDENT',
+                            'key': 'varnish.stat["{#LOCATION_ID}","ACCG_DIAG.set_key_failure"]',
+                            'value_type': 'FLOAT',
+                            'units': 'eps',
+                            'master_item_key': master,
+                            'preprocessing': [
+                                {
+                                    'type': 'JSONPATH',
+                                    'params': '$[\'{#LOCATION_ID}.ACCG_DIAG.set_key_failure\']',
+                                    'error_handler': 'DISCARD_VALUE',
+                                },
+                                {
+                                    'type': 'CHANGE_PER_SECOND',
+                                },
+                            ],
+                        },
+                        {
+                            'id': 'item-prototype-1.145',
+                            'name': 'ACCG_DIAG.out_of_key_slots (failed attempts to set key due to no key slots / sec)',
+                            'type': 'DEPENDENT',
+                            'key': 'varnish.stat["{#LOCATION_ID}","ACCG_DIAG.out_of_key_slots"]',
+                            'value_type': 'FLOAT',
+                            'units': 'eps',
+                            'master_item_key': master,
+                            'preprocessing': [
+                                {
+                                    'type': 'JSONPATH',
+                                    'params': '$[\'{#LOCATION_ID}.ACCG_DIAG.out_of_key_slots\']',
+                                    'error_handler': 'DISCARD_VALUE',
+                                },
+                                {
+                                    'type': 'CHANGE_PER_SECOND',
+                                },
+                            ],
+                        },
+                        {
+                            'id': 'item-prototype-1.146',
+                            'name': 'ACCG_DIAG.key_without_namespace (failed attempts to set key due to no namespace / sec)',
+                            'type': 'DEPENDENT',
+                            'key': 'varnish.stat["{#LOCATION_ID}","ACCG_DIAG.key_without_namespace"]',
+                            'value_type': 'FLOAT',
+                            'units': 'eps',
+                            'master_item_key': master,
+                            'preprocessing': [
+                                {
+                                    'type': 'JSONPATH',
+                                    'params': '$[\'{#LOCATION_ID}.ACCG_DIAG.key_without_namespace\']',
+                                    'error_handler': 'DISCARD_VALUE',
+                                },
+                                {
+                                    'type': 'CHANGE_PER_SECOND',
+                                },
+                            ],
+                        },
+                        {
+                            'id': 'item-prototype-1.147',
+                            'name': 'ACCG_DIAG.namespace_already_set (attempts to escape namespace / sec)',
+                            'type': 'DEPENDENT',
+                            'key': 'varnish.stat["{#LOCATION_ID}","ACCG_DIAG.namespace_already_set"]',
+                            'value_type': 'FLOAT',
+                            'units': 'eps',
+                            'master_item_key': master,
+                            'preprocessing': [
+                                {
+                                    'type': 'JSONPATH',
+                                    'params': '$[\'{#LOCATION_ID}.ACCG_DIAG.namespace_already_set\']',
+                                    'error_handler': 'DISCARD_VALUE',
+                                },
+                                {
+                                    'type': 'CHANGE_PER_SECOND',
+                                },
+                            ],
+                        },
+                        {
+                            'id': 'item-prototype-1.148',
+                            'name': 'ACCG_DIAG.namespace_undefined (failed to set namespace due to not created / sec)',
+                            'type': 'DEPENDENT',
+                            'key': 'varnish.stat["{#LOCATION_ID}","ACCG_DIAG.namespace_undefined"]',
+                            'value_type': 'FLOAT',
+                            'units': 'eps',
+                            'master_item_key': master,
+                            'preprocessing': [
+                                {
+                                    'type': 'JSONPATH',
+                                    'params': '$[\'{#LOCATION_ID}.ACCG_DIAG.namespace_undefined\']',
+                                    'error_handler': 'DISCARD_VALUE',
+                                },
+                                {
+                                    'type': 'CHANGE_PER_SECOND',
+                                },
+                            ],
+                        },
+                        {
+                            'id': 'item-prototype-1.149',
+                            'name': 'ACCG_DIAG.create_namespace_failure (failed attempts to create namespace for any reason / sec)',
+                            'type': 'DEPENDENT',
+                            'key': 'varnish.stat["{#LOCATION_ID}","ACCG_DIAG.create_namespace_failure"]',
+                            'value_type': 'FLOAT',
+                            'units': 'eps',
+                            'master_item_key': master,
+                            'preprocessing': [
+                                {
+                                    'type': 'JSONPATH',
+                                    'params': '$[\'{#LOCATION_ID}.ACCG_DIAG.create_namespace_failure\']',
+                                    'error_handler': 'DISCARD_VALUE',
+                                },
+                                {
+                                    'type': 'CHANGE_PER_SECOND',
+                                },
+                            ],
+                        },
                     ],
                     [
                         {
@@ -4057,9 +4169,6 @@
                                 },
                             ],
                         },
-                    ]
-                    +
-                    ([
                         {
                             'id': 'item-prototype-2.2',
                             'name': 'VBE.{#SUBJECT}.bereq_bodybytes (request body bytes / sec)',
@@ -4444,7 +4553,7 @@
                                 if version in ('5.0', '5.2') else
                                 'bitand(last(//varnish.stat["{#LOCATION_ID}","VBE.{#SUBJECT_ID}.happy"]),1)',
                         },
-                    ] if not lite else []),
+                    ],
                     [
                         {
                             'id': 'trigger-prototype-2.1',
@@ -4468,18 +4577,13 @@
                                     'calc_fnc': 'MIN',
                                     'key': 'varnish.stat["{#LOCATION_ID}","VBE.{#SUBJECT_ID}.healthy"]',
                                 },
-                            ] +
-                            ([
                                 {
                                     'color': 'C80000',
                                     'calc_fnc': 'MIN',
                                     'key': 'varnish["{#LOCATION_ID}","VBE.{#SUBJECT_ID}.last_happy"]',
                                 },
-                            ] if not lite else []),
+                            ],
                         },
-                    ]
-                    +
-                    ([
                         {
                             'id': 'graph-prototype-2.2',
                             'name': 'Backends[{#SUBJECT}]: bytes received from backend',
@@ -4598,7 +4702,7 @@
                                 },
                             ],
                         },
-                    ] if not lite else [])) }}
+                    ]) }}
 
                 {#-#########################################################-#}
                 {#- STORAGES DISCOVERY -#}
@@ -5524,6 +5628,993 @@
                                 {
                                     'type': 'JSONPATH',
                                     'params': '$[\'{#LOCATION_ID}.COUNTER.{#SUBJECT_ID}\']',
+                                    'error_handler': 'DISCARD_VALUE',
+                                },
+                                {
+                                    'type': 'CHANGE_PER_SECOND',
+                                },
+                            ],
+                        },
+                    ],
+                    [
+                    ],
+                    [
+                    ]) }}
+
+                {#-#########################################################-#}
+                {#- ACCOUNTINGS DISCOVERY -#}
+                {#-#########################################################-#}
+
+                {{ discovery_rule(
+                    {
+                        'id': 'discovery-rule-7',
+                        'name': 'Accounting discovery',
+                        'key': 'varnish.discovery["{$VARNISH_CACHE.LOCATIONS}","accountings"]',
+                        'context': 'accountings',
+                    },
+                    [
+                        {
+                            'id': 'item-prototype-7.1',
+                            'name': 'ACCG.{#SUBJECT}.client_req_count (total number of client requests processed / sec)',
+                            'type': 'DEPENDENT',
+                            'key': 'varnish.stat["{#LOCATION_ID}","ACCG.{#SUBJECT_ID}.client_req_count"]',
+                            'value_type': 'FLOAT',
+                            'units': 'eps',
+                            'master_item_key': master,
+                            'preprocessing': [
+                                {
+                                    'type': 'JSONPATH',
+                                    'params': '$[\'{#LOCATION_ID}.ACCG.{#SUBJECT_ID}.client_req_count\']',
+                                    'error_handler': 'DISCARD_VALUE',
+                                },
+                                {
+                                    'type': 'CHANGE_PER_SECOND',
+                                },
+                            ],
+                        },
+                        {
+                            'id': 'item-prototype-7.2',
+                            'name': 'ACCG.{#SUBJECT}.client_200_count (number of 200 responses for client requests / sec)',
+                            'type': 'DEPENDENT',
+                            'key': 'varnish.stat["{#LOCATION_ID}","ACCG.{#SUBJECT_ID}.client_200_count"]',
+                            'value_type': 'FLOAT',
+                            'units': 'eps',
+                            'master_item_key': master,
+                            'preprocessing': [
+                                {
+                                    'type': 'JSONPATH',
+                                    'params': '$[\'{#LOCATION_ID}.ACCG.{#SUBJECT_ID}.client_200_count\']',
+                                    'error_handler': 'DISCARD_VALUE',
+                                },
+                                {
+                                    'type': 'CHANGE_PER_SECOND',
+                                },
+                            ],
+                        },
+                        {
+                            'id': 'item-prototype-7.3',
+                            'name': 'ACCG.{#SUBJECT}.client_304_count (number of 304 responses for client requests / sec)',
+                            'type': 'DEPENDENT',
+                            'key': 'varnish.stat["{#LOCATION_ID}","ACCG.{#SUBJECT_ID}.client_304_count"]',
+                            'value_type': 'FLOAT',
+                            'units': 'eps',
+                            'master_item_key': master,
+                            'preprocessing': [
+                                {
+                                    'type': 'JSONPATH',
+                                    'params': '$[\'{#LOCATION_ID}.ACCG.{#SUBJECT_ID}.client_304_count\']',
+                                    'error_handler': 'DISCARD_VALUE',
+                                },
+                                {
+                                    'type': 'CHANGE_PER_SECOND',
+                                },
+                            ],
+                        },
+                        {
+                            'id': 'item-prototype-7.4',
+                            'name': 'ACCG.{#SUBJECT}.client_404_count (number of 404 responses for client requests / sec)',
+                            'type': 'DEPENDENT',
+                            'key': 'varnish.stat["{#LOCATION_ID}","ACCG.{#SUBJECT_ID}.client_404_count"]',
+                            'value_type': 'FLOAT',
+                            'units': 'eps',
+                            'master_item_key': master,
+                            'preprocessing': [
+                                {
+                                    'type': 'JSONPATH',
+                                    'params': '$[\'{#LOCATION_ID}.ACCG.{#SUBJECT_ID}.client_404_count\']',
+                                    'error_handler': 'DISCARD_VALUE',
+                                },
+                                {
+                                    'type': 'CHANGE_PER_SECOND',
+                                },
+                            ],
+                        },
+                        {
+                            'id': 'item-prototype-7.5',
+                            'name': 'ACCG.{#SUBJECT}.client_503_count (number of 503 responses for client requests / sec)',
+                            'type': 'DEPENDENT',
+                            'key': 'varnish.stat["{#LOCATION_ID}","ACCG.{#SUBJECT_ID}.client_503_count"]',
+                            'value_type': 'FLOAT',
+                            'units': 'eps',
+                            'master_item_key': master,
+                            'preprocessing': [
+                                {
+                                    'type': 'JSONPATH',
+                                    'params': '$[\'{#LOCATION_ID}.ACCG.{#SUBJECT_ID}.client_503_count\']',
+                                    'error_handler': 'DISCARD_VALUE',
+                                },
+                                {
+                                    'type': 'CHANGE_PER_SECOND',
+                                },
+                            ],
+                        },
+                        {
+                            'id': 'item-prototype-7.6',
+                            'name': 'ACCG.{#SUBJECT}.client_2xx_count (number of 2xx responses for client requests / sec)',
+                            'type': 'DEPENDENT',
+                            'key': 'varnish.stat["{#LOCATION_ID}","ACCG.{#SUBJECT_ID}.client_2xx_count"]',
+                            'value_type': 'FLOAT',
+                            'units': 'eps',
+                            'master_item_key': master,
+                            'preprocessing': [
+                                {
+                                    'type': 'JSONPATH',
+                                    'params': '$[\'{#LOCATION_ID}.ACCG.{#SUBJECT_ID}.client_2xx_count\']',
+                                    'error_handler': 'DISCARD_VALUE',
+                                },
+                                {
+                                    'type': 'CHANGE_PER_SECOND',
+                                },
+                            ],
+                        },
+                        {
+                            'id': 'item-prototype-7.7',
+                            'name': 'ACCG.{#SUBJECT}.client_3xx_count (number of 3xx responses for client requests / sec)',
+                            'type': 'DEPENDENT',
+                            'key': 'varnish.stat["{#LOCATION_ID}","ACCG.{#SUBJECT_ID}.client_3xx_count"]',
+                            'value_type': 'FLOAT',
+                            'units': 'eps',
+                            'master_item_key': master,
+                            'preprocessing': [
+                                {
+                                    'type': 'JSONPATH',
+                                    'params': '$[\'{#LOCATION_ID}.ACCG.{#SUBJECT_ID}.client_3xx_count\']',
+                                    'error_handler': 'DISCARD_VALUE',
+                                },
+                                {
+                                    'type': 'CHANGE_PER_SECOND',
+                                },
+                            ],
+                        },
+                        {
+                            'id': 'item-prototype-7.8',
+                            'name': 'ACCG.{#SUBJECT}.client_4xx_count (number of 4xx responses for client requests / sec)',
+                            'type': 'DEPENDENT',
+                            'key': 'varnish.stat["{#LOCATION_ID}","ACCG.{#SUBJECT_ID}.client_4xx_count"]',
+                            'value_type': 'FLOAT',
+                            'units': 'eps',
+                            'master_item_key': master,
+                            'preprocessing': [
+                                {
+                                    'type': 'JSONPATH',
+                                    'params': '$[\'{#LOCATION_ID}.ACCG.{#SUBJECT_ID}.client_4xx_count\']',
+                                    'error_handler': 'DISCARD_VALUE',
+                                },
+                                {
+                                    'type': 'CHANGE_PER_SECOND',
+                                },
+                            ],
+                        },
+                        {
+                            'id': 'item-prototype-7.9',
+                            'name': 'ACCG.{#SUBJECT}.client_5xx_count (number of 5xx responses for client requests / sec)',
+                            'type': 'DEPENDENT',
+                            'key': 'varnish.stat["{#LOCATION_ID}","ACCG.{#SUBJECT_ID}.client_5xx_count"]',
+                            'value_type': 'FLOAT',
+                            'units': 'eps',
+                            'master_item_key': master,
+                            'preprocessing': [
+                                {
+                                    'type': 'JSONPATH',
+                                    'params': '$[\'{#LOCATION_ID}.ACCG.{#SUBJECT_ID}.client_5xx_count\']',
+                                    'error_handler': 'DISCARD_VALUE',
+                                },
+                                {
+                                    'type': 'CHANGE_PER_SECOND',
+                                },
+                            ],
+                        },
+                        {
+                            'id': 'item-prototype-7.10',
+                            'name': 'ACCG.{#SUBJECT}.client_req_hdrbytes (client request header bytes total / sec)',
+                            'type': 'DEPENDENT',
+                            'key': 'varnish.stat["{#LOCATION_ID}","ACCG.{#SUBJECT_ID}.client_req_hdrbytes"]',
+                            'value_type': 'FLOAT',
+                            'units': 'Bps',
+                            'master_item_key': master,
+                            'preprocessing': [
+                                {
+                                    'type': 'JSONPATH',
+                                    'params': '$[\'{#LOCATION_ID}.ACCG.{#SUBJECT_ID}.client_req_hdrbytes\']',
+                                    'error_handler': 'DISCARD_VALUE',
+                                },
+                                {
+                                    'type': 'CHANGE_PER_SECOND',
+                                },
+                            ],
+                        },
+                        {
+                            'id': 'item-prototype-7.11',
+                            'name': 'ACCG.{#SUBJECT}.client_req_bodybytes (client request body bytes total / sec)',
+                            'type': 'DEPENDENT',
+                            'key': 'varnish.stat["{#LOCATION_ID}","ACCG.{#SUBJECT_ID}.client_req_bodybytes"]',
+                            'value_type': 'FLOAT',
+                            'units': 'Bps',
+                            'master_item_key': master,
+                            'preprocessing': [
+                                {
+                                    'type': 'JSONPATH',
+                                    'params': '$[\'{#LOCATION_ID}.ACCG.{#SUBJECT_ID}.client_req_bodybytes\']',
+                                    'error_handler': 'DISCARD_VALUE',
+                                },
+                                {
+                                    'type': 'CHANGE_PER_SECOND',
+                                },
+                            ],
+                        },
+                        {
+                            'id': 'item-prototype-7.12',
+                            'name': 'ACCG.{#SUBJECT}.client_resp_hdrbytes (client response header bytes total / sec)',
+                            'type': 'DEPENDENT',
+                            'key': 'varnish.stat["{#LOCATION_ID}","ACCG.{#SUBJECT_ID}.client_resp_hdrbytes"]',
+                            'value_type': 'FLOAT',
+                            'units': 'Bps',
+                            'master_item_key': master,
+                            'preprocessing': [
+                                {
+                                    'type': 'JSONPATH',
+                                    'params': '$[\'{#LOCATION_ID}.ACCG.{#SUBJECT_ID}.client_resp_hdrbytes\']',
+                                    'error_handler': 'DISCARD_VALUE',
+                                },
+                                {
+                                    'type': 'CHANGE_PER_SECOND',
+                                },
+                            ],
+                        },
+                        {
+                            'id': 'item-prototype-7.13',
+                            'name': 'ACCG.{#SUBJECT}.client_resp_bodybytes (client response body bytes total / sec)',
+                            'type': 'DEPENDENT',
+                            'key': 'varnish.stat["{#LOCATION_ID}","ACCG.{#SUBJECT_ID}.client_resp_bodybytes"]',
+                            'value_type': 'FLOAT',
+                            'units': 'Bps',
+                            'master_item_key': master,
+                            'preprocessing': [
+                                {
+                                    'type': 'JSONPATH',
+                                    'params': '$[\'{#LOCATION_ID}.ACCG.{#SUBJECT_ID}.client_resp_bodybytes\']',
+                                    'error_handler': 'DISCARD_VALUE',
+                                },
+                                {
+                                    'type': 'CHANGE_PER_SECOND',
+                                },
+                            ],
+                        },
+                        {
+                            'id': 'item-prototype-7.14',
+                            'name': 'ACCG.{#SUBJECT}.client_hit_count (number of client request hits / sec)',
+                            'type': 'DEPENDENT',
+                            'key': 'varnish.stat["{#LOCATION_ID}","ACCG.{#SUBJECT_ID}.client_hit_count"]',
+                            'value_type': 'FLOAT',
+                            'units': 'eps',
+                            'master_item_key': master,
+                            'preprocessing': [
+                                {
+                                    'type': 'JSONPATH',
+                                    'params': '$[\'{#LOCATION_ID}.ACCG.{#SUBJECT_ID}.client_hit_count\']',
+                                    'error_handler': 'DISCARD_VALUE',
+                                },
+                                {
+                                    'type': 'CHANGE_PER_SECOND',
+                                },
+                            ],
+                        },
+                        {
+                            'id': 'item-prototype-7.15',
+                            'name': 'ACCG.{#SUBJECT}.client_hit_req_hdrbytes (client request header bytes for hits / sec)',
+                            'type': 'DEPENDENT',
+                            'key': 'varnish.stat["{#LOCATION_ID}","ACCG.{#SUBJECT_ID}.client_hit_req_hdrbytes"]',
+                            'value_type': 'FLOAT',
+                            'units': 'Bps',
+                            'master_item_key': master,
+                            'preprocessing': [
+                                {
+                                    'type': 'JSONPATH',
+                                    'params': '$[\'{#LOCATION_ID}.ACCG.{#SUBJECT_ID}.client_hit_req_hdrbytes\']',
+                                    'error_handler': 'DISCARD_VALUE',
+                                },
+                                {
+                                    'type': 'CHANGE_PER_SECOND',
+                                },
+                            ],
+                        },
+                        {
+                            'id': 'item-prototype-7.16',
+                            'name': 'ACCG.{#SUBJECT}.client_hit_req_bodybytes (client request body bytes for hits / sec)',
+                            'type': 'DEPENDENT',
+                            'key': 'varnish.stat["{#LOCATION_ID}","ACCG.{#SUBJECT_ID}.client_hit_req_bodybytes"]',
+                            'value_type': 'FLOAT',
+                            'units': 'Bps',
+                            'master_item_key': master,
+                            'preprocessing': [
+                                {
+                                    'type': 'JSONPATH',
+                                    'params': '$[\'{#LOCATION_ID}.ACCG.{#SUBJECT_ID}.client_hit_req_bodybytes\']',
+                                    'error_handler': 'DISCARD_VALUE',
+                                },
+                                {
+                                    'type': 'CHANGE_PER_SECOND',
+                                },
+                            ],
+                        },
+                        {
+                            'id': 'item-prototype-7.17',
+                            'name': 'ACCG.{#SUBJECT}.client_hit_resp_hdrbytes (client response header bytes for hits / sec)',
+                            'type': 'DEPENDENT',
+                            'key': 'varnish.stat["{#LOCATION_ID}","ACCG.{#SUBJECT_ID}.client_hit_resp_hdrbytes"]',
+                            'value_type': 'FLOAT',
+                            'units': 'Bps',
+                            'master_item_key': master,
+                            'preprocessing': [
+                                {
+                                    'type': 'JSONPATH',
+                                    'params': '$[\'{#LOCATION_ID}.ACCG.{#SUBJECT_ID}.client_hit_resp_hdrbytes\']',
+                                    'error_handler': 'DISCARD_VALUE',
+                                },
+                                {
+                                    'type': 'CHANGE_PER_SECOND',
+                                },
+                            ],
+                        },
+                        {
+                            'id': 'item-prototype-7.18',
+                            'name': 'ACCG.{#SUBJECT}.client_hit_resp_bodybytes (client response body bytes for hits / sec)',
+                            'type': 'DEPENDENT',
+                            'key': 'varnish.stat["{#LOCATION_ID}","ACCG.{#SUBJECT_ID}.client_hit_resp_bodybytes"]',
+                            'value_type': 'FLOAT',
+                            'units': 'Bps',
+                            'master_item_key': master,
+                            'preprocessing': [
+                                {
+                                    'type': 'JSONPATH',
+                                    'params': '$[\'{#LOCATION_ID}.ACCG.{#SUBJECT_ID}.client_hit_resp_bodybytes\']',
+                                    'error_handler': 'DISCARD_VALUE',
+                                },
+                                {
+                                    'type': 'CHANGE_PER_SECOND',
+                                },
+                            ],
+                        },
+                        {
+                            'id': 'item-prototype-7.19',
+                            'name': 'ACCG.{#SUBJECT}.client_miss_count (number of client request misses / sec)',
+                            'type': 'DEPENDENT',
+                            'key': 'varnish.stat["{#LOCATION_ID}","ACCG.{#SUBJECT_ID}.client_miss_count"]',
+                            'value_type': 'FLOAT',
+                            'units': 'eps',
+                            'master_item_key': master,
+                            'preprocessing': [
+                                {
+                                    'type': 'JSONPATH',
+                                    'params': '$[\'{#LOCATION_ID}.ACCG.{#SUBJECT_ID}.client_miss_count\']',
+                                    'error_handler': 'DISCARD_VALUE',
+                                },
+                                {
+                                    'type': 'CHANGE_PER_SECOND',
+                                },
+                            ],
+                        },
+                        {
+                            'id': 'item-prototype-7.20',
+                            'name': 'ACCG.{#SUBJECT}.client_miss_req_hdrbytes (client request header bytes for misses / sec)',
+                            'type': 'DEPENDENT',
+                            'key': 'varnish.stat["{#LOCATION_ID}","ACCG.{#SUBJECT_ID}.client_miss_req_hdrbytes"]',
+                            'value_type': 'FLOAT',
+                            'units': 'Bps',
+                            'master_item_key': master,
+                            'preprocessing': [
+                                {
+                                    'type': 'JSONPATH',
+                                    'params': '$[\'{#LOCATION_ID}.ACCG.{#SUBJECT_ID}.client_miss_req_hdrbytes\']',
+                                    'error_handler': 'DISCARD_VALUE',
+                                },
+                                {
+                                    'type': 'CHANGE_PER_SECOND',
+                                },
+                            ],
+                        },
+                        {
+                            'id': 'item-prototype-7.21',
+                            'name': 'ACCG.{#SUBJECT}.client_miss_req_bodybytes (client request body bytes for misses / sec)',
+                            'type': 'DEPENDENT',
+                            'key': 'varnish.stat["{#LOCATION_ID}","ACCG.{#SUBJECT_ID}.client_miss_req_bodybytes"]',
+                            'value_type': 'FLOAT',
+                            'units': 'Bps',
+                            'master_item_key': master,
+                            'preprocessing': [
+                                {
+                                    'type': 'JSONPATH',
+                                    'params': '$[\'{#LOCATION_ID}.ACCG.{#SUBJECT_ID}.client_miss_req_bodybytes\']',
+                                    'error_handler': 'DISCARD_VALUE',
+                                },
+                                {
+                                    'type': 'CHANGE_PER_SECOND',
+                                },
+                            ],
+                        },
+                        {
+                            'id': 'item-prototype-7.22',
+                            'name': 'ACCG.{#SUBJECT}.client_miss_resp_hdrbytes (client response header bytes for misses / sec)',
+                            'type': 'DEPENDENT',
+                            'key': 'varnish.stat["{#LOCATION_ID}","ACCG.{#SUBJECT_ID}.client_miss_resp_hdrbytes"]',
+                            'value_type': 'FLOAT',
+                            'units': 'Bps',
+                            'master_item_key': master,
+                            'preprocessing': [
+                                {
+                                    'type': 'JSONPATH',
+                                    'params': '$[\'{#LOCATION_ID}.ACCG.{#SUBJECT_ID}.client_miss_resp_hdrbytes\']',
+                                    'error_handler': 'DISCARD_VALUE',
+                                },
+                                {
+                                    'type': 'CHANGE_PER_SECOND',
+                                },
+                            ],
+                        },
+                        {
+                            'id': 'item-prototype-7.23',
+                            'name': 'ACCG.{#SUBJECT}.client_miss_resp_bodybytes (client response body bytes for misses / sec)',
+                            'type': 'DEPENDENT',
+                            'key': 'varnish.stat["{#LOCATION_ID}","ACCG.{#SUBJECT_ID}.client_miss_resp_bodybytes"]',
+                            'value_type': 'FLOAT',
+                            'units': 'Bps',
+                            'master_item_key': master,
+                            'preprocessing': [
+                                {
+                                    'type': 'JSONPATH',
+                                    'params': '$[\'{#LOCATION_ID}.ACCG.{#SUBJECT_ID}.client_miss_resp_bodybytes\']',
+                                    'error_handler': 'DISCARD_VALUE',
+                                },
+                                {
+                                    'type': 'CHANGE_PER_SECOND',
+                                },
+                            ],
+                        },
+                        {
+                            'id': 'item-prototype-7.24',
+                            'name': 'ACCG.{#SUBJECT}.client_pass_count (number of client request passes / sec)',
+                            'type': 'DEPENDENT',
+                            'key': 'varnish.stat["{#LOCATION_ID}","ACCG.{#SUBJECT_ID}.client_pass_count"]',
+                            'value_type': 'FLOAT',
+                            'units': 'eps',
+                            'master_item_key': master,
+                            'preprocessing': [
+                                {
+                                    'type': 'JSONPATH',
+                                    'params': '$[\'{#LOCATION_ID}.ACCG.{#SUBJECT_ID}.client_pass_count\']',
+                                    'error_handler': 'DISCARD_VALUE',
+                                },
+                                {
+                                    'type': 'CHANGE_PER_SECOND',
+                                },
+                            ],
+                        },
+                        {
+                            'id': 'item-prototype-7.25',
+                            'name': 'ACCG.{#SUBJECT}.client_pass_req_hdrbytes (client request header bytes for passes / sec)',
+                            'type': 'DEPENDENT',
+                            'key': 'varnish.stat["{#LOCATION_ID}","ACCG.{#SUBJECT_ID}.client_pass_req_hdrbytes"]',
+                            'value_type': 'FLOAT',
+                            'units': 'Bps',
+                            'master_item_key': master,
+                            'preprocessing': [
+                                {
+                                    'type': 'JSONPATH',
+                                    'params': '$[\'{#LOCATION_ID}.ACCG.{#SUBJECT_ID}.client_pass_req_hdrbytes\']',
+                                    'error_handler': 'DISCARD_VALUE',
+                                },
+                                {
+                                    'type': 'CHANGE_PER_SECOND',
+                                },
+                            ],
+                        },
+                        {
+                            'id': 'item-prototype-7.26',
+                            'name': 'ACCG.{#SUBJECT}.client_pass_req_bodybytes (client request body bytes for passes / sec)',
+                            'type': 'DEPENDENT',
+                            'key': 'varnish.stat["{#LOCATION_ID}","ACCG.{#SUBJECT_ID}.client_pass_req_bodybytes"]',
+                            'value_type': 'FLOAT',
+                            'units': 'Bps',
+                            'master_item_key': master,
+                            'preprocessing': [
+                                {
+                                    'type': 'JSONPATH',
+                                    'params': '$[\'{#LOCATION_ID}.ACCG.{#SUBJECT_ID}.client_pass_req_bodybytes\']',
+                                    'error_handler': 'DISCARD_VALUE',
+                                },
+                                {
+                                    'type': 'CHANGE_PER_SECOND',
+                                },
+                            ],
+                        },
+                        {
+                            'id': 'item-prototype-7.27',
+                            'name': 'ACCG.{#SUBJECT}.client_pass_resp_hdrbytes (client response header bytes for passes / sec)',
+                            'type': 'DEPENDENT',
+                            'key': 'varnish.stat["{#LOCATION_ID}","ACCG.{#SUBJECT_ID}.client_pass_resp_hdrbytes"]',
+                            'value_type': 'FLOAT',
+                            'units': 'Bps',
+                            'master_item_key': master,
+                            'preprocessing': [
+                                {
+                                    'type': 'JSONPATH',
+                                    'params': '$[\'{#LOCATION_ID}.ACCG.{#SUBJECT_ID}.client_pass_resp_hdrbytes\']',
+                                    'error_handler': 'DISCARD_VALUE',
+                                },
+                                {
+                                    'type': 'CHANGE_PER_SECOND',
+                                },
+                            ],
+                        },
+                        {
+                            'id': 'item-prototype-7.28',
+                            'name': 'ACCG.{#SUBJECT}.client_pass_resp_bodybytes (client response body bytes for passes / sec)',
+                            'type': 'DEPENDENT',
+                            'key': 'varnish.stat["{#LOCATION_ID}","ACCG.{#SUBJECT_ID}.client_pass_resp_bodybytes"]',
+                            'value_type': 'FLOAT',
+                            'units': 'Bps',
+                            'master_item_key': master,
+                            'preprocessing': [
+                                {
+                                    'type': 'JSONPATH',
+                                    'params': '$[\'{#LOCATION_ID}.ACCG.{#SUBJECT_ID}.client_pass_resp_bodybytes\']',
+                                    'error_handler': 'DISCARD_VALUE',
+                                },
+                                {
+                                    'type': 'CHANGE_PER_SECOND',
+                                },
+                            ],
+                        },
+                        {
+                            'id': 'item-prototype-7.29',
+                            'name': 'ACCG.{#SUBJECT}.client_synth_count (number of client request synths / sec)',
+                            'type': 'DEPENDENT',
+                            'key': 'varnish.stat["{#LOCATION_ID}","ACCG.{#SUBJECT_ID}.client_synth_count"]',
+                            'value_type': 'FLOAT',
+                            'units': 'eps',
+                            'master_item_key': master,
+                            'preprocessing': [
+                                {
+                                    'type': 'JSONPATH',
+                                    'params': '$[\'{#LOCATION_ID}.ACCG.{#SUBJECT_ID}.client_synth_count\']',
+                                    'error_handler': 'DISCARD_VALUE',
+                                },
+                                {
+                                    'type': 'CHANGE_PER_SECOND',
+                                },
+                            ],
+                        },
+                        {
+                            'id': 'item-prototype-7.30',
+                            'name': 'ACCG.{#SUBJECT}.client_synth_req_hdrbytes (client request header bytes for synths / sec)',
+                            'type': 'DEPENDENT',
+                            'key': 'varnish.stat["{#LOCATION_ID}","ACCG.{#SUBJECT_ID}.client_synth_req_hdrbytes"]',
+                            'value_type': 'FLOAT',
+                            'units': 'Bps',
+                            'master_item_key': master,
+                            'preprocessing': [
+                                {
+                                    'type': 'JSONPATH',
+                                    'params': '$[\'{#LOCATION_ID}.ACCG.{#SUBJECT_ID}.client_synth_req_hdrbytes\']',
+                                    'error_handler': 'DISCARD_VALUE',
+                                },
+                                {
+                                    'type': 'CHANGE_PER_SECOND',
+                                },
+                            ],
+                        },
+                        {
+                            'id': 'item-prototype-7.31',
+                            'name': 'ACCG.{#SUBJECT}.client_synth_req_bodybytes (client request body bytes for synths / sec)',
+                            'type': 'DEPENDENT',
+                            'key': 'varnish.stat["{#LOCATION_ID}","ACCG.{#SUBJECT_ID}.client_synth_req_bodybytes"]',
+                            'value_type': 'FLOAT',
+                            'units': 'Bps',
+                            'master_item_key': master,
+                            'preprocessing': [
+                                {
+                                    'type': 'JSONPATH',
+                                    'params': '$[\'{#LOCATION_ID}.ACCG.{#SUBJECT_ID}.client_synth_req_bodybytes\']',
+                                    'error_handler': 'DISCARD_VALUE',
+                                },
+                                {
+                                    'type': 'CHANGE_PER_SECOND',
+                                },
+                            ],
+                        },
+                        {
+                            'id': 'item-prototype-7.32',
+                            'name': 'ACCG.{#SUBJECT}.client_synth_resp_hdrbytes (client response header bytes for synths / sec)',
+                            'type': 'DEPENDENT',
+                            'key': 'varnish.stat["{#LOCATION_ID}","ACCG.{#SUBJECT_ID}.client_synth_resp_hdrbytes"]',
+                            'value_type': 'FLOAT',
+                            'units': 'Bps',
+                            'master_item_key': master,
+                            'preprocessing': [
+                                {
+                                    'type': 'JSONPATH',
+                                    'params': '$[\'{#LOCATION_ID}.ACCG.{#SUBJECT_ID}.client_synth_resp_hdrbytes\']',
+                                    'error_handler': 'DISCARD_VALUE',
+                                },
+                                {
+                                    'type': 'CHANGE_PER_SECOND',
+                                },
+                            ],
+                        },
+                        {
+                            'id': 'item-prototype-7.33',
+                            'name': 'ACCG.{#SUBJECT}.client_synth_resp_bodybytes (client response body bytes for synths / sec)',
+                            'type': 'DEPENDENT',
+                            'key': 'varnish.stat["{#LOCATION_ID}","ACCG.{#SUBJECT_ID}.client_synth_resp_bodybytes"]',
+                            'value_type': 'FLOAT',
+                            'units': 'Bps',
+                            'master_item_key': master,
+                            'preprocessing': [
+                                {
+                                    'type': 'JSONPATH',
+                                    'params': '$[\'{#LOCATION_ID}.ACCG.{#SUBJECT_ID}.client_synth_resp_bodybytes\']',
+                                    'error_handler': 'DISCARD_VALUE',
+                                },
+                                {
+                                    'type': 'CHANGE_PER_SECOND',
+                                },
+                            ],
+                        },
+                        {
+                            'id': 'item-prototype-7.34',
+                            'name': 'ACCG.{#SUBJECT}.client_pipe_count (number of client request pipes / sec)',
+                            'type': 'DEPENDENT',
+                            'key': 'varnish.stat["{#LOCATION_ID}","ACCG.{#SUBJECT_ID}.client_pipe_count"]',
+                            'value_type': 'FLOAT',
+                            'units': 'eps',
+                            'master_item_key': master,
+                            'preprocessing': [
+                                {
+                                    'type': 'JSONPATH',
+                                    'params': '$[\'{#LOCATION_ID}.ACCG.{#SUBJECT_ID}.client_pipe_count\']',
+                                    'error_handler': 'DISCARD_VALUE',
+                                },
+                                {
+                                    'type': 'CHANGE_PER_SECOND',
+                                },
+                            ],
+                        },
+                        {
+                            'id': 'item-prototype-7.35',
+                            'name': 'ACCG.{#SUBJECT}.client_pipe_req_hdrbytes (client request header bytes for pipes / sec)',
+                            'type': 'DEPENDENT',
+                            'key': 'varnish.stat["{#LOCATION_ID}","ACCG.{#SUBJECT_ID}.client_pipe_req_hdrbytes"]',
+                            'value_type': 'FLOAT',
+                            'units': 'Bps',
+                            'master_item_key': master,
+                            'preprocessing': [
+                                {
+                                    'type': 'JSONPATH',
+                                    'params': '$[\'{#LOCATION_ID}.ACCG.{#SUBJECT_ID}.client_pipe_req_hdrbytes\']',
+                                    'error_handler': 'DISCARD_VALUE',
+                                },
+                                {
+                                    'type': 'CHANGE_PER_SECOND',
+                                },
+                            ],
+                        },
+                        {
+                            'id': 'item-prototype-7.36',
+                            'name': 'ACCG.{#SUBJECT}.client_pipe_req_bodybytes (client request body bytes for pipes / sec)',
+                            'type': 'DEPENDENT',
+                            'key': 'varnish.stat["{#LOCATION_ID}","ACCG.{#SUBJECT_ID}.client_pipe_req_bodybytes"]',
+                            'value_type': 'FLOAT',
+                            'units': 'Bps',
+                            'master_item_key': master,
+                            'preprocessing': [
+                                {
+                                    'type': 'JSONPATH',
+                                    'params': '$[\'{#LOCATION_ID}.ACCG.{#SUBJECT_ID}.client_pipe_req_bodybytes\']',
+                                    'error_handler': 'DISCARD_VALUE',
+                                },
+                                {
+                                    'type': 'CHANGE_PER_SECOND',
+                                },
+                            ],
+                        },
+                        {
+                            'id': 'item-prototype-7.37',
+                            'name': 'ACCG.{#SUBJECT}.client_pipe_resp_hdrbytes (client response header bytes for pipes / sec)',
+                            'type': 'DEPENDENT',
+                            'key': 'varnish.stat["{#LOCATION_ID}","ACCG.{#SUBJECT_ID}.client_pipe_resp_hdrbytes"]',
+                            'value_type': 'FLOAT',
+                            'units': 'Bps',
+                            'master_item_key': master,
+                            'preprocessing': [
+                                {
+                                    'type': 'JSONPATH',
+                                    'params': '$[\'{#LOCATION_ID}.ACCG.{#SUBJECT_ID}.client_pipe_resp_hdrbytes\']',
+                                    'error_handler': 'DISCARD_VALUE',
+                                },
+                                {
+                                    'type': 'CHANGE_PER_SECOND',
+                                },
+                            ],
+                        },
+                        {
+                            'id': 'item-prototype-7.38',
+                            'name': 'ACCG.{#SUBJECT}.client_pipe_resp_bodybytes (client response body bytes for pipes / sec)',
+                            'type': 'DEPENDENT',
+                            'key': 'varnish.stat["{#LOCATION_ID}","ACCG.{#SUBJECT_ID}.client_pipe_resp_bodybytes"]',
+                            'value_type': 'FLOAT',
+                            'units': 'Bps',
+                            'master_item_key': master,
+                            'preprocessing': [
+                                {
+                                    'type': 'JSONPATH',
+                                    'params': '$[\'{#LOCATION_ID}.ACCG.{#SUBJECT_ID}.client_pipe_resp_bodybytes\']',
+                                    'error_handler': 'DISCARD_VALUE',
+                                },
+                                {
+                                    'type': 'CHANGE_PER_SECOND',
+                                },
+                            ],
+                        },
+                        {
+                            'id': 'item-prototype-7.39',
+                            'name': 'ACCG.{#SUBJECT}.backend_req_count (total number of backend requests processed / sec)',
+                            'type': 'DEPENDENT',
+                            'key': 'varnish.stat["{#LOCATION_ID}","ACCG.{#SUBJECT_ID}.backend_req_count"]',
+                            'value_type': 'FLOAT',
+                            'units': 'eps',
+                            'master_item_key': master,
+                            'preprocessing': [
+                                {
+                                    'type': 'JSONPATH',
+                                    'params': '$[\'{#LOCATION_ID}.ACCG.{#SUBJECT_ID}.backend_req_count\']',
+                                    'error_handler': 'DISCARD_VALUE',
+                                },
+                                {
+                                    'type': 'CHANGE_PER_SECOND',
+                                },
+                            ],
+                        },
+                        {
+                            'id': 'item-prototype-7.40',
+                            'name': 'ACCG.{#SUBJECT}.backend_200_count (number of backend responses of type 200 / sec)',
+                            'type': 'DEPENDENT',
+                            'key': 'varnish.stat["{#LOCATION_ID}","ACCG.{#SUBJECT_ID}.backend_200_count"]',
+                            'value_type': 'FLOAT',
+                            'units': 'eps',
+                            'master_item_key': master,
+                            'preprocessing': [
+                                {
+                                    'type': 'JSONPATH',
+                                    'params': '$[\'{#LOCATION_ID}.ACCG.{#SUBJECT_ID}.backend_200_count\']',
+                                    'error_handler': 'DISCARD_VALUE',
+                                },
+                                {
+                                    'type': 'CHANGE_PER_SECOND',
+                                },
+                            ],
+                        },
+                        {
+                            'id': 'item-prototype-7.41',
+                            'name': 'ACCG.{#SUBJECT}.backend_304_count (number of backend responses of type 304 / sec)',
+                            'type': 'DEPENDENT',
+                            'key': 'varnish.stat["{#LOCATION_ID}","ACCG.{#SUBJECT_ID}.backend_304_count"]',
+                            'value_type': 'FLOAT',
+                            'units': 'eps',
+                            'master_item_key': master,
+                            'preprocessing': [
+                                {
+                                    'type': 'JSONPATH',
+                                    'params': '$[\'{#LOCATION_ID}.ACCG.{#SUBJECT_ID}.backend_304_count\']',
+                                    'error_handler': 'DISCARD_VALUE',
+                                },
+                                {
+                                    'type': 'CHANGE_PER_SECOND',
+                                },
+                            ],
+                        },
+                        {
+                            'id': 'item-prototype-7.42',
+                            'name': 'ACCG.{#SUBJECT}.backend_404_count (number of backend responses of type 404 / sec)',
+                            'type': 'DEPENDENT',
+                            'key': 'varnish.stat["{#LOCATION_ID}","ACCG.{#SUBJECT_ID}.backend_404_count"]',
+                            'value_type': 'FLOAT',
+                            'units': 'eps',
+                            'master_item_key': master,
+                            'preprocessing': [
+                                {
+                                    'type': 'JSONPATH',
+                                    'params': '$[\'{#LOCATION_ID}.ACCG.{#SUBJECT_ID}.backend_404_count\']',
+                                    'error_handler': 'DISCARD_VALUE',
+                                },
+                                {
+                                    'type': 'CHANGE_PER_SECOND',
+                                },
+                            ],
+                        },
+                        {
+                            'id': 'item-prototype-7.43',
+                            'name': 'ACCG.{#SUBJECT}.backend_503_count (number of backend responses of type 503 / sec)',
+                            'type': 'DEPENDENT',
+                            'key': 'varnish.stat["{#LOCATION_ID}","ACCG.{#SUBJECT_ID}.backend_503_count"]',
+                            'value_type': 'FLOAT',
+                            'units': 'eps',
+                            'master_item_key': master,
+                            'preprocessing': [
+                                {
+                                    'type': 'JSONPATH',
+                                    'params': '$[\'{#LOCATION_ID}.ACCG.{#SUBJECT_ID}.backend_503_count\']',
+                                    'error_handler': 'DISCARD_VALUE',
+                                },
+                                {
+                                    'type': 'CHANGE_PER_SECOND',
+                                },
+                            ],
+                        },
+                        {
+                            'id': 'item-prototype-7.44',
+                            'name': 'ACCG.{#SUBJECT}.backend_2xx_count (number of backend responses of type 2xx / sec)',
+                            'type': 'DEPENDENT',
+                            'key': 'varnish.stat["{#LOCATION_ID}","ACCG.{#SUBJECT_ID}.backend_2xx_count"]',
+                            'value_type': 'FLOAT',
+                            'units': 'eps',
+                            'master_item_key': master,
+                            'preprocessing': [
+                                {
+                                    'type': 'JSONPATH',
+                                    'params': '$[\'{#LOCATION_ID}.ACCG.{#SUBJECT_ID}.backend_2xx_count\']',
+                                    'error_handler': 'DISCARD_VALUE',
+                                },
+                                {
+                                    'type': 'CHANGE_PER_SECOND',
+                                },
+                            ],
+                        },
+                        {
+                            'id': 'item-prototype-7.45',
+                            'name': 'ACCG.{#SUBJECT}.backend_3xx_count (number of backend responses of type 3xx / sec)',
+                            'type': 'DEPENDENT',
+                            'key': 'varnish.stat["{#LOCATION_ID}","ACCG.{#SUBJECT_ID}.backend_3xx_count"]',
+                            'value_type': 'FLOAT',
+                            'units': 'eps',
+                            'master_item_key': master,
+                            'preprocessing': [
+                                {
+                                    'type': 'JSONPATH',
+                                    'params': '$[\'{#LOCATION_ID}.ACCG.{#SUBJECT_ID}.backend_3xx_count\']',
+                                    'error_handler': 'DISCARD_VALUE',
+                                },
+                                {
+                                    'type': 'CHANGE_PER_SECOND',
+                                },
+                            ],
+                        },
+                        {
+                            'id': 'item-prototype-7.46',
+                            'name': 'ACCG.{#SUBJECT}.backend_4xx_count (number of backend responses of type 4xx / sec)',
+                            'type': 'DEPENDENT',
+                            'key': 'varnish.stat["{#LOCATION_ID}","ACCG.{#SUBJECT_ID}.backend_4xx_count"]',
+                            'value_type': 'FLOAT',
+                            'units': 'eps',
+                            'master_item_key': master,
+                            'preprocessing': [
+                                {
+                                    'type': 'JSONPATH',
+                                    'params': '$[\'{#LOCATION_ID}.ACCG.{#SUBJECT_ID}.backend_4xx_count\']',
+                                    'error_handler': 'DISCARD_VALUE',
+                                },
+                                {
+                                    'type': 'CHANGE_PER_SECOND',
+                                },
+                            ],
+                        },
+                        {
+                            'id': 'item-prototype-7.47',
+                            'name': 'ACCG.{#SUBJECT}.backend_5xx_count (number of backend responses of type 5xx / sec)',
+                            'type': 'DEPENDENT',
+                            'key': 'varnish.stat["{#LOCATION_ID}","ACCG.{#SUBJECT_ID}.backend_5xx_count"]',
+                            'value_type': 'FLOAT',
+                            'units': 'eps',
+                            'master_item_key': master,
+                            'preprocessing': [
+                                {
+                                    'type': 'JSONPATH',
+                                    'params': '$[\'{#LOCATION_ID}.ACCG.{#SUBJECT_ID}.backend_5xx_count\']',
+                                    'error_handler': 'DISCARD_VALUE',
+                                },
+                                {
+                                    'type': 'CHANGE_PER_SECOND',
+                                },
+                            ],
+                        },
+                        {
+                            'id': 'item-prototype-7.48',
+                            'name': 'ACCG.{#SUBJECT}.backend_req_hdrbytes (backend request header bytes total / sec)',
+                            'type': 'DEPENDENT',
+                            'key': 'varnish.stat["{#LOCATION_ID}","ACCG.{#SUBJECT_ID}.backend_req_hdrbytes"]',
+                            'value_type': 'FLOAT',
+                            'units': 'Bps',
+                            'master_item_key': master,
+                            'preprocessing': [
+                                {
+                                    'type': 'JSONPATH',
+                                    'params': '$[\'{#LOCATION_ID}.ACCG.{#SUBJECT_ID}.backend_req_hdrbytes\']',
+                                    'error_handler': 'DISCARD_VALUE',
+                                },
+                                {
+                                    'type': 'CHANGE_PER_SECOND',
+                                },
+                            ],
+                        },
+                        {
+                            'id': 'item-prototype-7.49',
+                            'name': 'ACCG.{#SUBJECT}.backend_req_bodybytes (backend request body bytes total / sec)',
+                            'type': 'DEPENDENT',
+                            'key': 'varnish.stat["{#LOCATION_ID}","ACCG.{#SUBJECT_ID}.backend_req_bodybytes"]',
+                            'value_type': 'FLOAT',
+                            'units': 'Bps',
+                            'master_item_key': master,
+                            'preprocessing': [
+                                {
+                                    'type': 'JSONPATH',
+                                    'params': '$[\'{#LOCATION_ID}.ACCG.{#SUBJECT_ID}.backend_req_bodybytes\']',
+                                    'error_handler': 'DISCARD_VALUE',
+                                },
+                                {
+                                    'type': 'CHANGE_PER_SECOND',
+                                },
+                            ],
+                        },
+                        {
+                            'id': 'item-prototype-7.50',
+                            'name': 'ACCG.{#SUBJECT}.backend_resp_hdrbytes (backend response header bytes total / sec)',
+                            'type': 'DEPENDENT',
+                            'key': 'varnish.stat["{#LOCATION_ID}","ACCG.{#SUBJECT_ID}.backend_resp_hdrbytes"]',
+                            'value_type': 'FLOAT',
+                            'units': 'Bps',
+                            'master_item_key': master,
+                            'preprocessing': [
+                                {
+                                    'type': 'JSONPATH',
+                                    'params': '$[\'{#LOCATION_ID}.ACCG.{#SUBJECT_ID}.backend_resp_hdrbytes\']',
+                                    'error_handler': 'DISCARD_VALUE',
+                                },
+                                {
+                                    'type': 'CHANGE_PER_SECOND',
+                                },
+                            ],
+                        },
+                        {
+                            'id': 'item-prototype-7.51',
+                            'name': 'ACCG.{#SUBJECT}.backend_resp_bodybytes (backend response body bytes total / sec)',
+                            'type': 'DEPENDENT',
+                            'key': 'varnish.stat["{#LOCATION_ID}","ACCG.{#SUBJECT_ID}.backend_resp_bodybytes"]',
+                            'value_type': 'FLOAT',
+                            'units': 'Bps',
+                            'master_item_key': master,
+                            'preprocessing': [
+                                {
+                                    'type': 'JSONPATH',
+                                    'params': '$[\'{#LOCATION_ID}.ACCG.{#SUBJECT_ID}.backend_resp_bodybytes\']',
                                     'error_handler': 'DISCARD_VALUE',
                                 },
                                 {

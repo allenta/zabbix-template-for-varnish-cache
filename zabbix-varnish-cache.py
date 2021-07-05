@@ -155,6 +155,13 @@ ITEMS = (
     r'MAIN\.vcl_fail',
     # VMODs: number.
     r'MAIN\.vmods',
+    # VMODs: accounting.
+    r'ACCG_DIAG\.set_key_failure',
+    r'ACCG_DIAG\.out_of_key_slots',
+    r'ACCG_DIAG\.key_without_namespace',
+    r'ACCG_DIAG\.namespace_already_set',
+    r'ACCG_DIAG\.namespace_undefined',
+    r'ACCG_DIAG\.create_namespace_failure',
     # VMODs: goto.
     r'MAIN\.goto_dns_cache_hits',
     r'MAIN\.goto_dns_lookup_fails',
@@ -173,6 +180,31 @@ ITEMS = (
     r'KVSTORE\.vha6_stats\..+\.(?:broadcast_candidates|broadcast_nocache|broadcast_skip|broadcast_lowttl|broadcast_toolarge|broadcasts|fetch_self|fetch_peer|fetch_origin|fetch_origin_deliver|fetch_peer_insert|error_version_mismatch|error_no_token|error_bad_token|error_stale_token|error_rate_limited|error_fetch_insert|error_origin_mismatch|error_origin_miss)',
     # KVStore-based counters.
     r'KVSTORE\.counters\..+\..+',
+    # Accounting[...].
+    #   - Client > Requests: client_req_count
+    #   - Client > Responses: client_200_count, client_304_count, client_404_count, client_503_count, client_2xx_count, client_3xx_count, client_4xx_count, client_5xx_count
+    #   - Client > Bytes received from clients: client_req_hdrbytes, client_req_bodybytes
+    #   - Client > Bytes transmitted to clients: client_resp_hdrbytes, client_resp_bodybytes
+    #   - Client > Hits > Requests: client_hit_count
+    #   - Client > Hits > Bytes received from clients: client_hit_req_hdrbytes, client_hit_req_bodybytes
+    #   - Client > Hits > Bytes transmitted to clients: client_hit_resp_hdrbytes, client_hit_resp_bodybytes
+    #   - Client > Misses > Requests: client_miss_count
+    #   - Client > Misses > Bytes received from clients: client_miss_req_hdrbytes, client_miss_req_bodybytes
+    #   - Client > Misses > Bytes transmitted to clients: client_miss_resp_hdrbytes, client_miss_resp_bodybytes
+    #   - Client > Passes > Requests: client_pass_count
+    #   - Client > Passes > Bytes received from clients: client_pass_req_hdrbytes, client_pass_req_bodybytes
+    #   - Client > Passes > Bytes transmitted to clients: client_pass_resp_hdrbytes, client_pass_resp_bodybytes
+    #   - Client > Synths > Requests: client_synth_count
+    #   - Client > Synths > Bytes received from clients: client_synth_req_hdrbytes, client_synth_req_bodybytes
+    #   - Client > Synths > Bytes transmitted to clients: client_synth_resp_hdrbytes, client_synth_resp_bodybytes
+    #   - Client > Pipes > Requests: client_pipe_count
+    #   - Client > Pipes > Bytes received from clients: client_pipe_req_hdrbytes, client_pipe_req_bodybytes
+    #   - Client > Pipes > Bytes transmitted to clients: client_pipe_resp_hdrbytes, client_pipe_resp_bodybytes
+    #   - Backend > Requests: backend_req_count
+    #   - Backend > Responses: backend_200_count, backend_304_count, backend_404_count, backend_503_count, backend_2xx_count, backend_3xx_count, backend_4xx_count, backend_5xx_count
+    #   - Backend > Bytes transmitted to backends: backend_req_hdrbytes, backend_req_bodybytes
+    #   - Backend > Bytes received from backends: backend_resp_hdrbytes, backend_resp_bodybytes
+    r'ACCG\..+\..+\.(?:client_req_count|client_req_hdrbytes|client_req_bodybytes|client_resp_hdrbytes|client_resp_bodybytes|client_hit_count|client_hit_req_hdrbytes|client_hit_req_bodybytes|client_hit_resp_hdrbytes|client_hit_resp_bodybytes|client_miss_count|client_miss_req_hdrbytes|client_miss_req_bodybytes|client_miss_resp_hdrbytes|client_miss_resp_bodybytes|client_pass_count|client_pass_req_hdrbytes|client_pass_req_bodybytes|client_pass_resp_hdrbytes|client_pass_resp_bodybytes|client_synth_count|client_synth_req_hdrbytes|client_synth_req_bodybytes|client_synth_resp_hdrbytes|client_synth_resp_bodybytes|client_pipe_count|client_pipe_req_hdrbytes|client_pipe_req_bodybytes|client_pipe_resp_hdrbytes|client_pipe_resp_bodybytes|client_200_count|client_304_count|client_404_count|client_503_count|client_2xx_count|client_3xx_count|client_4xx_count|client_5xx_count|backend_req_count|backend_req_hdrbytes|backend_req_bodybytes|backend_resp_hdrbytes|backend_resp_bodybytes|backend_200_count|backend_304_count|backend_404_count|backend_503_count|backend_2xx_count|backend_3xx_count|backend_4xx_count|backend_5xx_count)',
     # Storages[...]
     #   - Bytes outstanding vs. available: g_bytes, g_space.
     #   - Allocator failures: c_fail.
@@ -209,9 +241,6 @@ ITEMS = (
     r'VBE\..+\.(?:bereq_bodybytes|bereq_hdrbytes|beresp_bodybytes|beresp_hdrbytes|busy|conn|fail|fail_eacces|fail_eaddrnotavail|fail_econnrefused|fail_enetunreach|fail_etimedout|fail_other|happy|helddown|pipe_hdrbytes|pipe_in|pipe_out|req|unhealthy)',
 )
 
-LITE_FILTER = re.compile(
-    r'^VBE\..*')
-
 REWRITES = [
     (re.compile(r'^KVSTORE\.vha6_stats\.[^\.]+'), r'VHA6'),
     (re.compile(r'^KVSTORE\.counters\.[^\.]+'), r'COUNTER'),
@@ -220,15 +249,17 @@ REWRITES = [
     (re.compile(r'^(VBE\.goto)\.[0-9a-f]+\.\([^\)]*\)\.(.+)$'), r'\1.\2'),
 ]
 
+EXCLUSIONS = r'^ACCG\.(?!std\.)'
+
 SUBJECTS = {
     'items': None,
     'counters': re.compile(r'^COUNTER\.(.+)$'),
+    'accountings': re.compile(r'^ACCG\.([^\.]+\.[^\.]+)\.[^\.]+$'),
     'mse_books': re.compile(r'^MSE_BOOK\.(.+)\.[^\.]+$'),
     'mse_stores': re.compile(r'^MSE_STORE\.(.+)\.[^\.]+$'),
     'storages': re.compile(r'^STG\.(.+)\.[^\.]+$'),
     'backends': re.compile(r'^VBE\.(.+)\.[^\.]+$'),
 }
-
 
 ###############################################################################
 ## 'stats' COMMAND
@@ -241,7 +272,7 @@ def stats(options):
     # Build master item contents.
     for instance in options.varnish_instances.split(','):
         instance = instance.strip()
-        stats = _stats(instance, options.backends_re, lite=options.lite)
+        stats = _stats(instance, options.exclusions)
         for item in stats.items:
             result['%(instance)s.%(name)s' % {
                 'instance': _safe_zabbix_string(instance),
@@ -271,7 +302,7 @@ def discover(options):
                 '{#LOCATION_ID}': _safe_zabbix_string(instance),
             })
         else:
-            stats = _stats(instance, options.backends_re)
+            stats = _stats(instance, options.exclusions)
             for subject in stats.subjects(options.subject):
                 discovery['data'].append({
                     '{#LOCATION}': instance,
@@ -339,7 +370,7 @@ class Stats(object):
     process those items.
     '''
 
-    def __init__(self, items_definitions, subjects_patterns, log_handler=None):
+    def __init__(self, items_definitions, subjects_patterns, exclusions, log_handler=None):
         # Build items regular expression that will be used to match item names
         # and discover item types.
         self._items_pattern = re.compile(
@@ -350,6 +381,7 @@ class Stats(object):
         self._subjects_patterns = subjects_patterns
 
         # Other initializations.
+        self._exclusions = exclusions
         self._log_handler = log_handler or sys.stderr.write
         self._items = {}
         self._subjects = {}
@@ -361,6 +393,10 @@ class Stats(object):
         return (item for item in self._items.values() if item.value is not None)
 
     def add(self, item):
+        # Filter excluded items.
+        if self._exclusions.match(item.name) is not None:
+            return
+
         # Add a new item to the internal state or simply aggregate it's value
         # if an item with the same name has already been added.
         if item.name in self._items:
@@ -420,9 +456,9 @@ class Stats(object):
         )
 
 
-def _stats(instance, backends_re=None, lite=False):
+def _stats(instance, exclusions):
     # Initializations.
-    stats = Stats(ITEMS, SUBJECTS)
+    stats = Stats(ITEMS, SUBJECTS, exclusions)
 
     # Fetch backends through varnishadm.
     backends = _backends(stats, instance)
@@ -433,10 +469,6 @@ def _stats(instance, backends_re=None, lite=False):
         for name, data in json.loads(output).items():
             # Filter invalid items.
             if 'value' not in data:
-                continue
-
-            # Filter non-lite items when in lite mode.
-            if lite and LITE_FILTER.match(name) is not None:
                 continue
 
             # Get item type.
@@ -458,31 +490,23 @@ def _stats(instance, backends_re=None, lite=False):
                item.subject_value not in backends:
                 continue
 
-            # Filter items from ignored backends.
-            if item.subject_type == 'backends' and \
-               backends_re is not None and \
-               backends_re.search(item.subject_value) is None:
-                continue
-
             # Add item to the result.
             stats.add(item)
 
         # Add 'healthy' item to every backend. Do it iterating the backends
         # list and not the backends subjects list stored in stats because
-        # no backend will be available there when lite option is set.
+        # filtering of exclusions was already applied in there.
         # XXX: Since VCP 6.0.6r8 a 'is_healthy' item is already returned by
         # varnishstat, but healthiness is still being retrieved from varnishadm
         # in order to support lower VCP versions.
         if backends is not None:
             for backend in backends:
-                if backends_re is None or \
-                   backends_re.search(backend) is not None:
-                    stats.add(Item(
-                        name='VBE.{}.healthy'.format(backend),
-                        value=int(backends[backend]),
-                        type=TYPE_GAUGE,
-                        subject_type='backends',
-                        subject_value=backend))
+                stats.add(Item(
+                    name='VBE.{}.healthy'.format(backend),
+                    value=int(backends[backend]),
+                    type=TYPE_GAUGE,
+                    subject_type='backends',
+                    subject_value=backend))
 
         # Get worker process PID if possible (it is only available in VCP 6.x)
         # and use it to include memory and page fault stats.
@@ -701,19 +725,16 @@ def main():
         type=str, required=True,
         help='comma-delimited list of Varnish Cache instances to get stats from')
     parser.add_argument(
-        '-b', '--backends', dest='backends_re',
-        type=re_argtype, default='.*',
-        help='regular expression to match backends to be included (defaults to'
-             ' all backends: ".*")')
+        '-e', '--exclusions', dest='exclusions',
+        type=re_argtype, default=EXCLUSIONS,
+        help='regular expression to match stats to be excluded (defaults to'
+             ' "{}")'.format(EXCLUSIONS))
     subparsers = parser.add_subparsers(dest='command')
 
     # Set up 'stats' command.
     subparser = subparsers.add_parser(
         'stats',
         help='collect Varnish Cache stats')
-    subparser.add_argument(
-        '--lite', dest='lite', action='store_true',
-        help='enable lite mode')
 
     # Set up 'discover' command.
     subparser = subparsers.add_parser(
@@ -727,7 +748,11 @@ def main():
     options = parser.parse_args()
 
     # Execute command.
-    globals()[options.command](options)
+    if options.command:
+        globals()[options.command](options)
+    else:
+        parser.print_help()
+        sys.exit(1)
     sys.exit(0)
 
 if __name__ == '__main__':

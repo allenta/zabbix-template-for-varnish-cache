@@ -2,7 +2,7 @@
 
 1. Copy ``zabbix-varnish-cache.py`` to ``/usr/local/bin/``.
 
-2. Add the ``varnish.discovery`` and ``varnish.stats`` user parameters to Zabbix. Beware additional arguments (e.g. ``--lite``, ``--backends``, etc.) might be required depending on the XML template used in the next step::
+2. Add the ``varnish.discovery`` and ``varnish.stats`` user parameters to Zabbix::
 
     UserParameter=varnish.discovery[*],sudo /usr/local/bin/zabbix-varnish-cache.py -i '$1' discover $2
     UserParameter=varnish.stats[*],sudo /usr/local/bin/zabbix-varnish-cache.py -i '$1' stats
@@ -20,7 +20,6 @@
         -D version={5.0,5.2,5.4} \
         [-D name='Varnish Cache'] \
         [-D description=''] \
-        [-D lite=0] \
         --extension=extensions.zabbix.ZabbixExtension --strict -o template.xml template-app-varnish-cache.j2
 
 4. Link hosts to the template. Beware you must set a value for the ``{$VARNISH_CACHE.LOCATIONS}`` macro (comma-delimited list of Varnish Cache Plus instance names). Usually you should leave its value blank when running a single Varnish Cache Plus instance per server. Additional macros and contexts are available for further customizations.

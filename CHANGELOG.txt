@@ -2,6 +2,7 @@
     - Removed 'lite' flavour.
     - Arguments '--lite' and '--backends' replaced by '--exclusions'.
     - Added support for accounting VMOD.
+    - Removed graphs.
 
 - 6.0 (2021-05-25):
     - Dropped support for Zabbix 4.x. BEWARE UUIDs of triggers (not trigger prototypes) will change.

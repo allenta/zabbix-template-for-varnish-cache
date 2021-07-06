@@ -1,3 +1,6 @@
+- ? (?):
+    - Use lower {$VARNISH_CACHE.LLD_KEEP_LOST_RESOURCES_PERIOD} and {$VARNISH_CACHE.LLD_UPDATE_INTERVAL} values for discovery of accountings.
+
 - 7.0 (2021-07-05):
     - Removed 'lite' flavour.
     - Arguments '--lite' and '--backends' replaced by '--exclusions'.

@@ -41,9 +41,9 @@
                 <conditions>
                     <condition>
                         <formulaid>A</formulaid>
-                        <macro>{{ '{#SUBJECT}' }}</macro>
+                        <macro>{{ '{#' }}SUBJECT}</macro>
                         <operator>NOT_MATCHES_REGEX</operator>
-                        <value>{{ '{$VARNISH_CACHE.LLD_EXCLUDED_SUBJECTS:&quot;{{ rule.context }}&quot;}' }}</value>
+                        <value>{$VARNISH_CACHE.LLD_EXCLUDED_SUBJECTS:&quot;{{ rule.context }}&quot;}</value>
                     </condition>
                 </conditions>
             </filter>

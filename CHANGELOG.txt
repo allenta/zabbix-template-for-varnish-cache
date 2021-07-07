@@ -1,5 +1,7 @@
 - ? (?):
-    - Use lower {$VARNISH_CACHE.LLD_KEEP_LOST_RESOURCES_PERIOD} and {$VARNISH_CACHE.LLD_UPDATE_INTERVAL} values for discovery of accountings.
+    - Defined lower values for {$VARNISH_CACHE.LLD_KEEP_LOST_RESOURCES_PERIOD:accountings} and {$VARNISH_CACHE.LLD_UPDATE_INTERVAL:accountings}.
+    - Added {$VARNISH_CACHE.LLD_EXCLUDED_SUBJECTS} for filtering LLD items based on {#SUBJECT} (e.g. '^(?!std[.])').
+    - Added {$VARNISH_CACHE.EXCLUDED_STATS} for filtering entries in the master item (e.g. '^VBE[.].*[.](?!(?:healthy|conn|req)$)').
 
 - 7.0 (2021-07-05):
     - Removed 'lite' flavour.

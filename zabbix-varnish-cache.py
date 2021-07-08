@@ -238,7 +238,7 @@ ITEMS = (
     #   - Failed connection attempts: fail_eacces, fail_eaddrnotavail, fail_econnrefused, fail_enetunreach, fail_etimedout, fail_other.
     #   - Bytes sent to backend: pipe_out, pipe_hdrbytes, bereq_hdrbytes, bereq_bodybytes.
     #   - Bytes received from backend: pipe_in, beresp_hdrbytes, beresp_bodybytes.
-    r'VBE\..+\.(?:bereq_bodybytes|bereq_hdrbytes|beresp_bodybytes|beresp_hdrbytes|busy|conn|fail|fail_eacces|fail_eaddrnotavail|fail_econnrefused|fail_enetunreach|fail_etimedout|fail_other|happy|helddown|pipe_hdrbytes|pipe_in|pipe_out|req|unhealthy)',
+    r'VBE\..+\.(?:bereq_bodybytes|bereq_hdrbytes|beresp_bodybytes|beresp_hdrbytes|busy|conn|fail|fail_eacces|fail_eaddrnotavail|fail_econnrefused|fail_enetunreach|fail_etimedout|fail_other|happy|helddown|pipe_hdrbytes|pipe_in|pipe_out|req|unhealthy|healthy)',
 )
 
 REWRITES = [
@@ -466,7 +466,7 @@ def _stats(instance, exclusions):
     stats = Stats(ITEMS, SUBJECTS, exclusions)
 
     # Fetch backends through varnishadm.
-    backends = _backends(stats, instance)
+    backends = _backend_stats(stats, instance)
 
     # Fetch stats through varnishstat & filter / normalize output.
     rc, output = _execute('varnishstat -1 -j -n "{}"'.format(instance))
@@ -489,7 +489,9 @@ def _stats(instance, exclusions):
             if item is None:
                 continue
 
-            # Filter items from unknown backends.
+            # Filter out items from unknown backends (i.e. backends from other
+            # warm or cold VCLs). This is only possible if the list of backends
+            # was succesfully fetched through varnishadm.
             if item.subject_type == 'backends' and \
                backends is not None and \
                item.subject_value not in backends:
@@ -497,21 +499,6 @@ def _stats(instance, exclusions):
 
             # Add item to the result.
             stats.add(item)
-
-        # Add 'healthy' item to every backend. Do it iterating the backends
-        # list and not the backends subjects list stored in stats because
-        # filtering of exclusions was already applied in there.
-        # XXX: Since VCP 6.0.6r8 a 'is_healthy' item is already returned by
-        # varnishstat, but healthiness is still being retrieved from varnishadm
-        # in order to support lower VCP versions.
-        if backends is not None:
-            for backend in backends:
-                stats.add(Item(
-                    name='VBE.{}.healthy'.format(backend),
-                    value=int(backends[backend]),
-                    type=TYPE_GAUGE,
-                    subject_type='backends',
-                    subject_value=backend))
 
         # Get worker process PID if possible (it is only available in VCP 6.x)
         # and use it to include memory and page fault stats.
@@ -528,30 +515,28 @@ def _stats(instance, exclusions):
     return stats
 
 
-def _backends(stats, instance):
+def _backend_stats(stats, instance):
     backends = None
 
-    # XXX: This varnishadm interaction has been rendered unnecessary since VCP
-    # 6.0.6r8, as a 'is_healthy' item was included in varnishstat's output and,
-    # as a fact, only backends associated to warm VCLs are being considered. As
-    # for now, it is kept, though, in order to support lower VCP versions.
+    # XXX: since VCP 6.0.6r8 the 'is_healthy' item is included in varnishstat's
+    # output. However fetching the list of backends through varnishadm is still
+    # recommended in order to filter out backends associated to warm or cold
+    # VCLs.
 
-    # rc, output = _execute('varnishadm %(name)s backend.list -j' % {
     rc, output = _execute('varnishadm -n "{}" backend.list'.format(instance))
     if rc == 0:
-        # for name, backend in json.loads(output)[3].items():
-        #     if backend['type'] == 'backend':
-        #         backends[name] = (backend['probe_message'] == 'healthy')
-        backends = {}
+        backends = set()
         for line in output.split('\n')[1:]:
             items = line.split()
             if len(items) > 3:
-                # Create a synthetic stat item name so that the final backend
-                # name can be extracted.
-                key = _rewrite('VBE.' + items[0] + '.foo')
-                match = SUBJECTS['backends'].match(key)
-                if match is not None:
-                    backends[match.group(1)] = (items[2] == 'Healthy')
+                item = stats.build_item(
+                    'VBE.' + items[0] + '.healthy',
+                    1 if items[2] == 'Healthy' else 0,
+                    TYPE_GAUGE)
+                if item is not None:
+                    assert item.subject_type == 'backends'
+                    stats.add(item)
+                    backends.add(item.subject_value)
     else:
         stats.log(output)
 

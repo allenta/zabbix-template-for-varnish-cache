@@ -1,5 +1,10 @@
+- ? (?):
+    - Fixed type of 'PAGE_FAULTS.minor' and 'PAGE_FAULTS.major' stats.
+    - Simplified VBE.* rewrites.
+    - Avoided dropping IP address from goto VMOD backend names.
+
 - 9.0 (2021-07-07):
-    - Fix Jinja rendering issue in LLD filtering.
+    - Fixed Jinja rendering issue in LLD filtering.
 
 - 8.0 (2021-07-07):
     - Defined lower values for {$VARNISH_CACHE.LLD_KEEP_LOST_RESOURCES_PERIOD:accountings} and {$VARNISH_CACHE.LLD_UPDATE_INTERVAL:accountings}.

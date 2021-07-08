@@ -242,11 +242,16 @@ ITEMS = (
 )
 
 REWRITES = [
+    # KVSTORE.vha6_stats.boot.foo -> VHA6.foo.
     (re.compile(r'^KVSTORE\.vha6_stats\.[^\.]+'), r'VHA6'),
+    # KVSTORE.counters.boot.foo -> COUNTER.foo.
     (re.compile(r'^KVSTORE\.counters\.[^\.]+'), r'COUNTER'),
+    # MSE.main.foo -> STG.MSE.main.foo.
     (re.compile(r'^((?:MSE|SMA|SMF)\..+)$'), r'STG.\1'),
-    (re.compile(r'^VBE\.(?:[^\.\(]+)((?:\.[^\.]*(?:\([^\)]*\))?)+\.[^\.]+)$'), r'VBE\1'),
-    (re.compile(r'^(VBE\.goto)\.[0-9a-f]+\.\([^\)]*\)\.(.+)$'), r'\1.\2'),
+    # VBE.boot.foo.bar.baz -> VBE.foo.bar.baz
+    (re.compile(r'^VBE\.[^\.]+'), r'VBE'),
+    # VBE.goto.0000003f.(1.2.3.4).(http://foo.com:80).(ttl:10.000000) -> VBE.goto.(1.2.3.4).(http://foo.com:80).(ttl:10.000000)
+    (re.compile(r'^VBE\.goto\.[0-9a-f]+'), r'VBE.goto'),
 ]
 
 EXCLUSIONS = r'^ACCG\.(?!std\.)'
@@ -668,11 +673,11 @@ def _page_fault_stats(stats, pid):
                 if len(fields) > 11:
                     stats.add(Item(
                         name='PAGE_FAULTS.minor',
-                        value=fields[9],
+                        value=int(fields[9]),
                         type=TYPE_COUNTER))
                     stats.add(Item(
                         name='PAGE_FAULTS.major',
-                        value=fields[11],
+                        value=int(fields[11]),
                         type=TYPE_COUNTER))
                     break
     except:

@@ -3,6 +3,7 @@
     - Simplified VBE.* rewrites.
     - Avoided dropping IP address from goto VMOD backend names.
     - Fixed aggregation of stats for backends.
+    - Fixed VBE.*.healthy preprocessing.
 
 - 9.0 (2021-07-07):
     - Fixed Jinja rendering issue in LLD filtering.

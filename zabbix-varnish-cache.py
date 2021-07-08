@@ -231,7 +231,7 @@ ITEMS = (
     #   - Waterlevel: c_waterlevel_queue, c_waterlevel_purge.
     r'MSE_STORE\..+\.(?:c_aio_finished_read|c_aio_finished_write|c_aio_finished_bytes_read|c_aio_finished_bytes_write|c_waterlevel_purge|c_waterlevel_queue|g_alloc_bytes|g_free_bytes|g_objects|g_ykey_keys)',
     # Backends[...]
-    #   - Healthiness: happy.
+    #   - Healthiness: happy, healthy.
     #   - Requests sent to backend: req.
     #   - Concurrent connections to backend: conn.
     #   - Fetches not attempted: unhealthy, busy, fail, helddown.

@@ -1,4 +1,4 @@
-- ? (?):
+- 10.0 (2021-07-08):
     - Fixed type of 'PAGE_FAULTS.minor' and 'PAGE_FAULTS.major' stats.
     - Simplified VBE.* rewrites.
     - Avoided dropping IP address from goto VMOD backend names.

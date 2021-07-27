@@ -5410,6 +5410,19 @@
                                 },
                             ],
                         },
+                        {
+                            'id': 'item-prototype-7.52',
+                            'name': 'ACCG.{#SUBJECT}.cache_hit_ratio',
+                            'type': 'CALCULATED',
+                            'key': 'varnish.stat["{#LOCATION_ID}","ACCG.{#SUBJECT}.cache_hit_ratio"]',
+                            'value_type': 'FLOAT',
+                            'units': '%',
+                            'delay': true,
+                            'params':
+                                '100*last("varnish.stat[\\"{#LOCATION_ID}\\",\\"ACCG.{#SUBJECT}.client_hit_count\\"]")/(last("varnish.stat[\\"{#LOCATION_ID}\\",\\"ACCG.{#SUBJECT}.client_hit_count\\"]")+last("varnish.stat[\\"{#LOCATION_ID}\\",\\"ACCG.{#SUBJECT}.client_miss_count\\"]")+(count("varnish.stat[\\"{#LOCATION_ID}\\",\\"ACCG.{#SUBJECT}.client_hit_count\\"]",#1,0)*count("varnish.stat[\\"{#LOCATION_ID}\\",\\"ACCG.{#SUBJECT}.client_miss_count\\"]",#1,0)))'
+                                if version in ('5.0', '5.2') else
+                                '100*last(//varnish.stat["{#LOCATION_ID}","ACCG.{#SUBJECT}.client_hit_count"])/(last(//varnish.stat["{#LOCATION_ID}","ACCG.{#SUBJECT}.client_hit_count"])+last(//varnish.stat["{#LOCATION_ID}","ACCG.{#SUBJECT}.client_miss_count"])+(count(//varnish.stat["{#LOCATION_ID}","ACCG.{#SUBJECT}.client_hit_count"],#1,"eq",0)*count(//varnish.stat["{#LOCATION_ID}","ACCG.{#SUBJECT}.client_miss_count"],#1,"eq",0)))',
+                        },
                     ],
                     [
                     ]) }}

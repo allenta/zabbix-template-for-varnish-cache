@@ -3182,6 +3182,25 @@
                                 },
                             ],
                         },
+                        {
+                            'id': 'item-prototype-1.150',
+                            'name': 'MAIN.esi_req (ESI subrequests / sec)',
+                            'type': 'DEPENDENT',
+                            'key': 'varnish.stat["{#LOCATION_ID}","MAIN.esi_req"]',
+                            'value_type': 'FLOAT',
+                            'units': 'eps',
+                            'master_item_key': master,
+                            'preprocessing': [
+                                {
+                                    'type': 'JSONPATH',
+                                    'params': '$[\'{#LOCATION_ID}.MAIN.esi_req\']',
+                                    'error_handler': 'DISCARD_VALUE',
+                                },
+                                {
+                                    'type': 'CHANGE_PER_SECOND',
+                                },
+                            ],
+                        },
                     ],
                     [
                         {
@@ -5422,6 +5441,25 @@
                                 '100*last("varnish.stat[\\"{#LOCATION_ID}\\",\\"ACCG.{#SUBJECT}.client_hit_count\\"]")/(last("varnish.stat[\\"{#LOCATION_ID}\\",\\"ACCG.{#SUBJECT}.client_hit_count\\"]")+last("varnish.stat[\\"{#LOCATION_ID}\\",\\"ACCG.{#SUBJECT}.client_miss_count\\"]")+(count("varnish.stat[\\"{#LOCATION_ID}\\",\\"ACCG.{#SUBJECT}.client_hit_count\\"]",#1,0)*count("varnish.stat[\\"{#LOCATION_ID}\\",\\"ACCG.{#SUBJECT}.client_miss_count\\"]",#1,0)))'
                                 if version in ('5.0', '5.2') else
                                 '100*last(//varnish.stat["{#LOCATION_ID}","ACCG.{#SUBJECT}.client_hit_count"])/(last(//varnish.stat["{#LOCATION_ID}","ACCG.{#SUBJECT}.client_hit_count"])+last(//varnish.stat["{#LOCATION_ID}","ACCG.{#SUBJECT}.client_miss_count"])+(count(//varnish.stat["{#LOCATION_ID}","ACCG.{#SUBJECT}.client_hit_count"],#1,"eq",0)*count(//varnish.stat["{#LOCATION_ID}","ACCG.{#SUBJECT}.client_miss_count"],#1,"eq",0)))',
+                        },
+                        {
+                            'id': 'item-prototype-7.53',
+                            'name': 'ACCG.{#SUBJECT}.client_grace_hit_count (number of cache hits with grace / sec)',
+                            'type': 'DEPENDENT',
+                            'key': 'varnish.stat["{#LOCATION_ID}","ACCG.{#SUBJECT_ID}.client_grace_hit_count"]',
+                            'value_type': 'FLOAT',
+                            'units': 'eps',
+                            'master_item_key': master,
+                            'preprocessing': [
+                                {
+                                    'type': 'JSONPATH',
+                                    'params': '$[\'{#LOCATION_ID}.ACCG.{#SUBJECT_ID}.client_grace_hit_count\']',
+                                    'error_handler': 'DISCARD_VALUE',
+                                },
+                                {
+                                    'type': 'CHANGE_PER_SECOND',
+                                },
+                            ],
                         },
                     ],
                     [

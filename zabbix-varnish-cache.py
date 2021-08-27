@@ -32,6 +32,7 @@ ITEMS = (
     r'MAIN\.g_mem_swap',
     # Client requests: rate.
     r'MAIN\.client_req',
+    r'MAIN\.esi_req',
     r'MAIN\.s_req',  # XXX: VCP 4.1
     # Client requests: activity.
     r'MAIN\.req_dropped',
@@ -185,7 +186,7 @@ ITEMS = (
     #   - Client > Responses: client_200_count, client_304_count, client_404_count, client_503_count, client_2xx_count, client_3xx_count, client_4xx_count, client_5xx_count
     #   - Client > Bytes received from clients: client_req_hdrbytes, client_req_bodybytes
     #   - Client > Bytes transmitted to clients: client_resp_hdrbytes, client_resp_bodybytes
-    #   - Client > Hits > Requests: client_hit_count
+    #   - Client > Hits > Requests: client_hit_count, client_grace_hit_count
     #   - Client > Hits > Bytes received from clients: client_hit_req_hdrbytes, client_hit_req_bodybytes
     #   - Client > Hits > Bytes transmitted to clients: client_hit_resp_hdrbytes, client_hit_resp_bodybytes
     #   - Client > Misses > Requests: client_miss_count
@@ -204,7 +205,7 @@ ITEMS = (
     #   - Backend > Responses: backend_200_count, backend_304_count, backend_404_count, backend_503_count, backend_2xx_count, backend_3xx_count, backend_4xx_count, backend_5xx_count
     #   - Backend > Bytes transmitted to backends: backend_req_hdrbytes, backend_req_bodybytes
     #   - Backend > Bytes received from backends: backend_resp_hdrbytes, backend_resp_bodybytes
-    r'ACCG\..+\..+\.(?:client_req_count|client_req_hdrbytes|client_req_bodybytes|client_resp_hdrbytes|client_resp_bodybytes|client_hit_count|client_hit_req_hdrbytes|client_hit_req_bodybytes|client_hit_resp_hdrbytes|client_hit_resp_bodybytes|client_miss_count|client_miss_req_hdrbytes|client_miss_req_bodybytes|client_miss_resp_hdrbytes|client_miss_resp_bodybytes|client_pass_count|client_pass_req_hdrbytes|client_pass_req_bodybytes|client_pass_resp_hdrbytes|client_pass_resp_bodybytes|client_synth_count|client_synth_req_hdrbytes|client_synth_req_bodybytes|client_synth_resp_hdrbytes|client_synth_resp_bodybytes|client_pipe_count|client_pipe_req_hdrbytes|client_pipe_req_bodybytes|client_pipe_resp_hdrbytes|client_pipe_resp_bodybytes|client_200_count|client_304_count|client_404_count|client_503_count|client_2xx_count|client_3xx_count|client_4xx_count|client_5xx_count|backend_req_count|backend_req_hdrbytes|backend_req_bodybytes|backend_resp_hdrbytes|backend_resp_bodybytes|backend_200_count|backend_304_count|backend_404_count|backend_503_count|backend_2xx_count|backend_3xx_count|backend_4xx_count|backend_5xx_count)',
+    r'ACCG\..+\..+\.(?:client_req_count|client_req_hdrbytes|client_req_bodybytes|client_resp_hdrbytes|client_resp_bodybytes|client_hit_count|client_grace_hit_count|client_hit_req_hdrbytes|client_hit_req_bodybytes|client_hit_resp_hdrbytes|client_hit_resp_bodybytes|client_miss_count|client_miss_req_hdrbytes|client_miss_req_bodybytes|client_miss_resp_hdrbytes|client_miss_resp_bodybytes|client_pass_count|client_pass_req_hdrbytes|client_pass_req_bodybytes|client_pass_resp_hdrbytes|client_pass_resp_bodybytes|client_synth_count|client_synth_req_hdrbytes|client_synth_req_bodybytes|client_synth_resp_hdrbytes|client_synth_resp_bodybytes|client_pipe_count|client_pipe_req_hdrbytes|client_pipe_req_bodybytes|client_pipe_resp_hdrbytes|client_pipe_resp_bodybytes|client_200_count|client_304_count|client_404_count|client_503_count|client_2xx_count|client_3xx_count|client_4xx_count|client_5xx_count|backend_req_count|backend_req_hdrbytes|backend_req_bodybytes|backend_resp_hdrbytes|backend_resp_bodybytes|backend_200_count|backend_304_count|backend_404_count|backend_503_count|backend_2xx_count|backend_3xx_count|backend_4xx_count|backend_5xx_count)',
     # Storages[...]
     #   - Bytes outstanding vs. available: g_bytes, g_space.
     #   - Allocator failures: c_fail.

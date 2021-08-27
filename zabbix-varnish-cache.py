@@ -524,6 +524,9 @@ def _backend_stats(stats, instance):
     # recommended in order to filter out backends associated to warm or cold
     # VCLs.
 
+    # XXX: since VCP 6.0.8r4 a '-j' option is included that could easen parsing.
+    # To be used when that version is widely adopted.
+
     rc, output = _execute('varnishadm -n "{}" backend.list'.format(instance))
     if rc == 0:
         backends = set()

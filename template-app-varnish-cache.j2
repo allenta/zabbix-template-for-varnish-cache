@@ -100,10 +100,14 @@
                                 <step>
                                     <type>{{ step.type }}</type>
                                     {% if version == '5.0' -%}
-                                        <params>{{ step.params|default('')|e }}</params>
+                                        {% for param in step.params|default([]) %}
+                                            <params>{{ param|e }}</params>
+                                        {% endfor %}
                                     {% else %}
                                         <parameters>
-                                            <parameter>{{ step.params|default('')|e }}</parameter>
+                                            {% for param in step.params|default([]) %}
+                                                <parameter>{{ param|e }}</parameter>
+                                            {% endfor %}
                                         </parameters>
                                     {% endif %}
                                     <error_handler>{{ step.error_handler|default('ORIGINAL_ERROR') }}</error_handler>
@@ -440,7 +444,7 @@
                             'preprocessing': [
                                 {
                                     'type': 'JSONPATH',
-                                    'params': '$[\'{#LOCATION_ID}.MEMORY.size\']',
+                                    'params': ['$[\'{#LOCATION_ID}.MEMORY.size\']'],
                                     'error_handler': 'DISCARD_VALUE',
                                 },
                             ],
@@ -456,7 +460,7 @@
                             'preprocessing': [
                                 {
                                     'type': 'JSONPATH',
-                                    'params': '$[\'{#LOCATION_ID}.MEMORY.resident\']',
+                                    'params': ['$[\'{#LOCATION_ID}.MEMORY.resident\']'],
                                     'error_handler': 'DISCARD_VALUE',
                                 },
                             ],
@@ -472,7 +476,7 @@
                             'preprocessing': [
                                 {
                                     'type': 'JSONPATH',
-                                    'params': '$[\'{#LOCATION_ID}.MEMORY.shared\']',
+                                    'params': ['$[\'{#LOCATION_ID}.MEMORY.shared\']'],
                                     'error_handler': 'DISCARD_VALUE',
                                 },
                             ],
@@ -488,7 +492,7 @@
                             'preprocessing': [
                                 {
                                     'type': 'JSONPATH',
-                                    'params': '$[\'{#LOCATION_ID}.MEMORY.text\']',
+                                    'params': ['$[\'{#LOCATION_ID}.MEMORY.text\']'],
                                     'error_handler': 'DISCARD_VALUE',
                                 },
                             ],
@@ -504,7 +508,7 @@
                             'preprocessing': [
                                 {
                                     'type': 'JSONPATH',
-                                    'params': '$[\'{#LOCATION_ID}.MEMORY.data\']',
+                                    'params': ['$[\'{#LOCATION_ID}.MEMORY.data\']'],
                                     'error_handler': 'DISCARD_VALUE',
                                 },
                             ],
@@ -520,7 +524,7 @@
                             'preprocessing': [
                                 {
                                     'type': 'JSONPATH',
-                                    'params': '$[\'{#LOCATION_ID}.MEMORY.swap\']',
+                                    'params': ['$[\'{#LOCATION_ID}.MEMORY.swap\']'],
                                     'error_handler': 'DISCARD_VALUE',
                                 },
                             ],
@@ -536,7 +540,7 @@
                             'preprocessing': [
                                 {
                                     'type': 'JSONPATH',
-                                    'params': '$[\'{#LOCATION_ID}.PAGE_FAULTS.minor\']',
+                                    'params': ['$[\'{#LOCATION_ID}.PAGE_FAULTS.minor\']'],
                                     'error_handler': 'DISCARD_VALUE',
                                 },
                                 {
@@ -555,7 +559,7 @@
                             'preprocessing': [
                                 {
                                     'type': 'JSONPATH',
-                                    'params': '$[\'{#LOCATION_ID}.PAGE_FAULTS.major\']',
+                                    'params': ['$[\'{#LOCATION_ID}.PAGE_FAULTS.major\']'],
                                     'error_handler': 'DISCARD_VALUE',
                                 },
                                 {
@@ -574,7 +578,7 @@
                             'preprocessing': [
                                 {
                                     'type': 'JSONPATH',
-                                    'params': '$[\'{#LOCATION_ID}.MAIN.backend_busy\']',
+                                    'params': ['$[\'{#LOCATION_ID}.MAIN.backend_busy\']'],
                                     'error_handler': 'DISCARD_VALUE',
                                 },
                                 {
@@ -593,7 +597,7 @@
                             'preprocessing': [
                                 {
                                     'type': 'JSONPATH',
-                                    'params': '$[\'{#LOCATION_ID}.MAIN.backend_conn\']',
+                                    'params': ['$[\'{#LOCATION_ID}.MAIN.backend_conn\']'],
                                     'error_handler': 'DISCARD_VALUE',
                                 },
                                 {
@@ -612,7 +616,7 @@
                             'preprocessing': [
                                 {
                                     'type': 'JSONPATH',
-                                    'params': '$[\'{#LOCATION_ID}.MAIN.backend_fail\']',
+                                    'params': ['$[\'{#LOCATION_ID}.MAIN.backend_fail\']'],
                                     'error_handler': 'DISCARD_VALUE',
                                 },
                                 {
@@ -631,7 +635,7 @@
                             'preprocessing': [
                                 {
                                     'type': 'JSONPATH',
-                                    'params': '$[\'{#LOCATION_ID}.MAIN.backend_recycle\']',
+                                    'params': ['$[\'{#LOCATION_ID}.MAIN.backend_recycle\']'],
                                     'error_handler': 'DISCARD_VALUE',
                                 },
                                 {
@@ -650,7 +654,7 @@
                             'preprocessing': [
                                 {
                                     'type': 'JSONPATH',
-                                    'params': '$[\'{#LOCATION_ID}.MAIN.backend_req\']',
+                                    'params': ['$[\'{#LOCATION_ID}.MAIN.backend_req\']'],
                                     'error_handler': 'DISCARD_VALUE',
                                 },
                                 {
@@ -669,7 +673,7 @@
                             'preprocessing': [
                                 {
                                     'type': 'JSONPATH',
-                                    'params': '$[\'{#LOCATION_ID}.MAIN.backend_retry\']',
+                                    'params': ['$[\'{#LOCATION_ID}.MAIN.backend_retry\']'],
                                     'error_handler': 'DISCARD_VALUE',
                                 },
                                 {
@@ -688,7 +692,7 @@
                             'preprocessing': [
                                 {
                                     'type': 'JSONPATH',
-                                    'params': '$[\'{#LOCATION_ID}.MAIN.backend_reuse\']',
+                                    'params': ['$[\'{#LOCATION_ID}.MAIN.backend_reuse\']'],
                                     'error_handler': 'DISCARD_VALUE',
                                 },
                                 {
@@ -707,7 +711,7 @@
                             'preprocessing': [
                                 {
                                     'type': 'JSONPATH',
-                                    'params': '$[\'{#LOCATION_ID}.MAIN.backend_unhealthy\']',
+                                    'params': ['$[\'{#LOCATION_ID}.MAIN.backend_unhealthy\']'],
                                     'error_handler': 'DISCARD_VALUE',
                                 },
                                 {
@@ -725,7 +729,7 @@
                             'preprocessing': [
                                 {
                                     'type': 'JSONPATH',
-                                    'params': '$[\'{#LOCATION_ID}.MAIN.bans\']',
+                                    'params': ['$[\'{#LOCATION_ID}.MAIN.bans\']'],
                                     'error_handler': 'DISCARD_VALUE',
                                 },
                             ],
@@ -741,7 +745,7 @@
                             'preprocessing': [
                                 {
                                     'type': 'JSONPATH',
-                                    'params': '$[\'{#LOCATION_ID}.MAIN.bans_lurker_obj_killed\']',
+                                    'params': ['$[\'{#LOCATION_ID}.MAIN.bans_lurker_obj_killed\']'],
                                     'error_handler': 'DISCARD_VALUE',
                                 },
                                 {
@@ -760,7 +764,7 @@
                             'preprocessing': [
                                 {
                                     'type': 'JSONPATH',
-                                    'params': '$[\'{#LOCATION_ID}.MAIN.bans_lurker_obj_killed_cutoff\']',
+                                    'params': ['$[\'{#LOCATION_ID}.MAIN.bans_lurker_obj_killed_cutoff\']'],
                                     'error_handler': 'DISCARD_VALUE',
                                 },
                                 {
@@ -779,7 +783,7 @@
                             'preprocessing': [
                                 {
                                     'type': 'JSONPATH',
-                                    'params': '$[\'{#LOCATION_ID}.MAIN.bans_obj_killed\']',
+                                    'params': ['$[\'{#LOCATION_ID}.MAIN.bans_obj_killed\']'],
                                     'error_handler': 'DISCARD_VALUE',
                                 },
                                 {
@@ -798,7 +802,7 @@
                             'preprocessing': [
                                 {
                                     'type': 'JSONPATH',
-                                    'params': '$[\'{#LOCATION_ID}.MAIN.busy_killed\']',
+                                    'params': ['$[\'{#LOCATION_ID}.MAIN.busy_killed\']'],
                                     'error_handler': 'DISCARD_VALUE',
                                 },
                                 {
@@ -817,7 +821,7 @@
                             'preprocessing': [
                                 {
                                     'type': 'JSONPATH',
-                                    'params': '$[\'{#LOCATION_ID}.MAIN.busy_sleep\']',
+                                    'params': ['$[\'{#LOCATION_ID}.MAIN.busy_sleep\']'],
                                     'error_handler': 'DISCARD_VALUE',
                                 },
                                 {
@@ -836,7 +840,7 @@
                             'preprocessing': [
                                 {
                                     'type': 'JSONPATH',
-                                    'params': '$[\'{#LOCATION_ID}.MAIN.busy_wakeup\']',
+                                    'params': ['$[\'{#LOCATION_ID}.MAIN.busy_wakeup\']'],
                                     'error_handler': 'DISCARD_VALUE',
                                 },
                                 {
@@ -855,7 +859,7 @@
                             'preprocessing': [
                                 {
                                     'type': 'JSONPATH',
-                                    'params': '$[\'{#LOCATION_ID}.MAIN.c_ykey_purges\']',
+                                    'params': ['$[\'{#LOCATION_ID}.MAIN.c_ykey_purges\']'],
                                     'error_handler': 'DISCARD_VALUE',
                                 },
                                 {
@@ -874,7 +878,7 @@
                             'preprocessing': [
                                 {
                                     'type': 'JSONPATH',
-                                    'params': '$[\'{#LOCATION_ID}.MAIN.cache_hit\']',
+                                    'params': ['$[\'{#LOCATION_ID}.MAIN.cache_hit\']'],
                                     'error_handler': 'DISCARD_VALUE',
                                 },
                                 {
@@ -893,7 +897,7 @@
                             'preprocessing': [
                                 {
                                     'type': 'JSONPATH',
-                                    'params': '$[\'{#LOCATION_ID}.MAIN.cache_hitmiss\']',
+                                    'params': ['$[\'{#LOCATION_ID}.MAIN.cache_hitmiss\']'],
                                     'error_handler': 'DISCARD_VALUE',
                                 },
                                 {
@@ -912,7 +916,7 @@
                             'preprocessing': [
                                 {
                                     'type': 'JSONPATH',
-                                    'params': '$[\'{#LOCATION_ID}.MAIN.cache_hitpass\']',
+                                    'params': ['$[\'{#LOCATION_ID}.MAIN.cache_hitpass\']'],
                                     'error_handler': 'DISCARD_VALUE',
                                 },
                                 {
@@ -931,7 +935,7 @@
                             'preprocessing': [
                                 {
                                     'type': 'JSONPATH',
-                                    'params': '$[\'{#LOCATION_ID}.MAIN.cache_hit_grace\']',
+                                    'params': ['$[\'{#LOCATION_ID}.MAIN.cache_hit_grace\']'],
                                     'error_handler': 'DISCARD_VALUE',
                                 },
                                 {
@@ -950,7 +954,7 @@
                             'preprocessing': [
                                 {
                                     'type': 'JSONPATH',
-                                    'params': '$[\'{#LOCATION_ID}.MAIN.cache_miss\']',
+                                    'params': ['$[\'{#LOCATION_ID}.MAIN.cache_miss\']'],
                                     'error_handler': 'DISCARD_VALUE',
                                 },
                                 {
@@ -969,7 +973,7 @@
                             'preprocessing': [
                                 {
                                     'type': 'JSONPATH',
-                                    'params': '$[\'{#LOCATION_ID}.MAIN.client_resp_500\']',
+                                    'params': ['$[\'{#LOCATION_ID}.MAIN.client_resp_500\']'],
                                     'error_handler': 'DISCARD_VALUE',
                                 },
                                 {
@@ -988,7 +992,7 @@
                             'preprocessing': [
                                 {
                                     'type': 'JSONPATH',
-                                    'params': '$[\'{#LOCATION_ID}.MAIN.client_req\']',
+                                    'params': ['$[\'{#LOCATION_ID}.MAIN.client_req\']'],
                                     'error_handler': 'DISCARD_VALUE',
                                 },
                                 {
@@ -1007,7 +1011,7 @@
                             'preprocessing': [
                                 {
                                     'type': 'JSONPATH',
-                                    'params': '$[\'{#LOCATION_ID}.MAIN.client_req_400\']',
+                                    'params': ['$[\'{#LOCATION_ID}.MAIN.client_req_400\']'],
                                     'error_handler': 'DISCARD_VALUE',
                                 },
                                 {
@@ -1026,7 +1030,7 @@
                             'preprocessing': [
                                 {
                                     'type': 'JSONPATH',
-                                    'params': '$[\'{#LOCATION_ID}.MAIN.client_req_417\']',
+                                    'params': ['$[\'{#LOCATION_ID}.MAIN.client_req_417\']'],
                                     'error_handler': 'DISCARD_VALUE',
                                 },
                                 {
@@ -1045,7 +1049,7 @@
                             'preprocessing': [
                                 {
                                     'type': 'JSONPATH',
-                                    'params': '$[\'{#LOCATION_ID}.MAIN.esi_errors\']',
+                                    'params': ['$[\'{#LOCATION_ID}.MAIN.esi_errors\']'],
                                     'error_handler': 'DISCARD_VALUE',
                                 },
                                 {
@@ -1064,7 +1068,7 @@
                             'preprocessing': [
                                 {
                                     'type': 'JSONPATH',
-                                    'params': '$[\'{#LOCATION_ID}.MAIN.esi_maxdepth\']',
+                                    'params': ['$[\'{#LOCATION_ID}.MAIN.esi_maxdepth\']'],
                                     'error_handler': 'DISCARD_VALUE',
                                 },
                                 {
@@ -1083,7 +1087,7 @@
                             'preprocessing': [
                                 {
                                     'type': 'JSONPATH',
-                                    'params': '$[\'{#LOCATION_ID}.MAIN.esi_warnings\']',
+                                    'params': ['$[\'{#LOCATION_ID}.MAIN.esi_warnings\']'],
                                     'error_handler': 'DISCARD_VALUE',
                                 },
                                 {
@@ -1102,7 +1106,7 @@
                             'preprocessing': [
                                 {
                                     'type': 'JSONPATH',
-                                    'params': '$[\'{#LOCATION_ID}.MAIN.fetch_1xx\']',
+                                    'params': ['$[\'{#LOCATION_ID}.MAIN.fetch_1xx\']'],
                                     'error_handler': 'DISCARD_VALUE',
                                 },
                                 {
@@ -1121,7 +1125,7 @@
                             'preprocessing': [
                                 {
                                     'type': 'JSONPATH',
-                                    'params': '$[\'{#LOCATION_ID}.MAIN.fetch_204\']',
+                                    'params': ['$[\'{#LOCATION_ID}.MAIN.fetch_204\']'],
                                     'error_handler': 'DISCARD_VALUE',
                                 },
                                 {
@@ -1140,7 +1144,7 @@
                             'preprocessing': [
                                 {
                                     'type': 'JSONPATH',
-                                    'params': '$[\'{#LOCATION_ID}.MAIN.fetch_304\']',
+                                    'params': ['$[\'{#LOCATION_ID}.MAIN.fetch_304\']'],
                                     'error_handler': 'DISCARD_VALUE',
                                 },
                                 {
@@ -1159,7 +1163,7 @@
                             'preprocessing': [
                                 {
                                     'type': 'JSONPATH',
-                                    'params': '$[\'{#LOCATION_ID}.MAIN.fetch_bad\']',
+                                    'params': ['$[\'{#LOCATION_ID}.MAIN.fetch_bad\']'],
                                     'error_handler': 'DISCARD_VALUE',
                                 },
                                 {
@@ -1178,7 +1182,7 @@
                             'preprocessing': [
                                 {
                                     'type': 'JSONPATH',
-                                    'params': '$[\'{#LOCATION_ID}.MAIN.fetch_chunked\']',
+                                    'params': ['$[\'{#LOCATION_ID}.MAIN.fetch_chunked\']'],
                                     'error_handler': 'DISCARD_VALUE',
                                 },
                                 {
@@ -1197,7 +1201,7 @@
                             'preprocessing': [
                                 {
                                     'type': 'JSONPATH',
-                                    'params': '$[\'{#LOCATION_ID}.MAIN.fetch_eof\']',
+                                    'params': ['$[\'{#LOCATION_ID}.MAIN.fetch_eof\']'],
                                     'error_handler': 'DISCARD_VALUE',
                                 },
                                 {
@@ -1216,7 +1220,7 @@
                             'preprocessing': [
                                 {
                                     'type': 'JSONPATH',
-                                    'params': '$[\'{#LOCATION_ID}.MAIN.fetch_failed\']',
+                                    'params': ['$[\'{#LOCATION_ID}.MAIN.fetch_failed\']'],
                                     'error_handler': 'DISCARD_VALUE',
                                 },
                                 {
@@ -1235,7 +1239,7 @@
                             'preprocessing': [
                                 {
                                     'type': 'JSONPATH',
-                                    'params': '$[\'{#LOCATION_ID}.MAIN.fetch_fast304\']',
+                                    'params': ['$[\'{#LOCATION_ID}.MAIN.fetch_fast304\']'],
                                     'error_handler': 'DISCARD_VALUE',
                                 },
                                 {
@@ -1254,7 +1258,7 @@
                             'preprocessing': [
                                 {
                                     'type': 'JSONPATH',
-                                    'params': '$[\'{#LOCATION_ID}.MAIN.fetch_head\']',
+                                    'params': ['$[\'{#LOCATION_ID}.MAIN.fetch_head\']'],
                                     'error_handler': 'DISCARD_VALUE',
                                 },
                                 {
@@ -1273,7 +1277,7 @@
                             'preprocessing': [
                                 {
                                     'type': 'JSONPATH',
-                                    'params': '$[\'{#LOCATION_ID}.MAIN.fetch_length\']',
+                                    'params': ['$[\'{#LOCATION_ID}.MAIN.fetch_length\']'],
                                     'error_handler': 'DISCARD_VALUE',
                                 },
                                 {
@@ -1292,7 +1296,7 @@
                             'preprocessing': [
                                 {
                                     'type': 'JSONPATH',
-                                    'params': '$[\'{#LOCATION_ID}.MAIN.fetch_none\']',
+                                    'params': ['$[\'{#LOCATION_ID}.MAIN.fetch_none\']'],
                                     'error_handler': 'DISCARD_VALUE',
                                 },
                                 {
@@ -1311,7 +1315,7 @@
                             'preprocessing': [
                                 {
                                     'type': 'JSONPATH',
-                                    'params': '$[\'{#LOCATION_ID}.MAIN.fetch_no_thread\']',
+                                    'params': ['$[\'{#LOCATION_ID}.MAIN.fetch_no_thread\']'],
                                     'error_handler': 'DISCARD_VALUE',
                                 },
                                 {
@@ -1330,7 +1334,7 @@
                             'preprocessing': [
                                 {
                                     'type': 'JSONPATH',
-                                    'params': '$[\'{#LOCATION_ID}.MAIN.fetch_stale_deliver\']',
+                                    'params': ['$[\'{#LOCATION_ID}.MAIN.fetch_stale_deliver\']'],
                                     'error_handler': 'DISCARD_VALUE',
                                 },
                                 {
@@ -1349,7 +1353,7 @@
                             'preprocessing': [
                                 {
                                     'type': 'JSONPATH',
-                                    'params': '$[\'{#LOCATION_ID}.MAIN.fetch_stale_rearm\']',
+                                    'params': ['$[\'{#LOCATION_ID}.MAIN.fetch_stale_rearm\']'],
                                     'error_handler': 'DISCARD_VALUE',
                                 },
                                 {
@@ -1368,7 +1372,7 @@
                             'preprocessing': [
                                 {
                                     'type': 'JSONPATH',
-                                    'params': '$[\'{#LOCATION_ID}.MAIN.g_mem_file\']',
+                                    'params': ['$[\'{#LOCATION_ID}.MAIN.g_mem_file\']'],
                                     'error_handler': 'DISCARD_VALUE',
                                 },
                             ],
@@ -1384,7 +1388,7 @@
                             'preprocessing': [
                                 {
                                     'type': 'JSONPATH',
-                                    'params': '$[\'{#LOCATION_ID}.MAIN.g_mem_private\']',
+                                    'params': ['$[\'{#LOCATION_ID}.MAIN.g_mem_private\']'],
                                     'error_handler': 'DISCARD_VALUE',
                                 },
                             ],
@@ -1400,7 +1404,7 @@
                             'preprocessing': [
                                 {
                                     'type': 'JSONPATH',
-                                    'params': '$[\'{#LOCATION_ID}.MAIN.g_mem_rss\']',
+                                    'params': ['$[\'{#LOCATION_ID}.MAIN.g_mem_rss\']'],
                                     'error_handler': 'DISCARD_VALUE',
                                 },
                             ],
@@ -1416,7 +1420,7 @@
                             'preprocessing': [
                                 {
                                     'type': 'JSONPATH',
-                                    'params': '$[\'{#LOCATION_ID}.MAIN.g_mem_swap\']',
+                                    'params': ['$[\'{#LOCATION_ID}.MAIN.g_mem_swap\']'],
                                     'error_handler': 'DISCARD_VALUE',
                                 },
                             ],
@@ -1432,7 +1436,7 @@
                             'preprocessing': [
                                 {
                                     'type': 'JSONPATH',
-                                    'params': '$[\'{#LOCATION_ID}.MAIN.goto_dns_cache_hits\']',
+                                    'params': ['$[\'{#LOCATION_ID}.MAIN.goto_dns_cache_hits\']'],
                                     'error_handler': 'DISCARD_VALUE',
                                 },
                                 {
@@ -1451,7 +1455,7 @@
                             'preprocessing': [
                                 {
                                     'type': 'JSONPATH',
-                                    'params': '$[\'{#LOCATION_ID}.MAIN.goto_dns_lookup_fails\']',
+                                    'params': ['$[\'{#LOCATION_ID}.MAIN.goto_dns_lookup_fails\']'],
                                     'error_handler': 'DISCARD_VALUE',
                                 },
                                 {
@@ -1470,7 +1474,7 @@
                             'preprocessing': [
                                 {
                                     'type': 'JSONPATH',
-                                    'params': '$[\'{#LOCATION_ID}.MAIN.goto_dns_lookups\']',
+                                    'params': ['$[\'{#LOCATION_ID}.MAIN.goto_dns_lookups\']'],
                                     'error_handler': 'DISCARD_VALUE',
                                 },
                                 {
@@ -1489,7 +1493,7 @@
                             'preprocessing': [
                                 {
                                     'type': 'JSONPATH',
-                                    'params': '$[\'{#LOCATION_ID}.VMOD_HTTP.handle_requests\']',
+                                    'params': ['$[\'{#LOCATION_ID}.VMOD_HTTP.handle_requests\']'],
                                     'error_handler': 'DISCARD_VALUE',
                                 },
                                 {
@@ -1508,7 +1512,7 @@
                             'preprocessing': [
                                 {
                                     'type': 'JSONPATH',
-                                    'params': '$[\'{#LOCATION_ID}.VMOD_HTTP.handle_completed\']',
+                                    'params': ['$[\'{#LOCATION_ID}.VMOD_HTTP.handle_completed\']'],
                                     'error_handler': 'DISCARD_VALUE',
                                 },
                                 {
@@ -1527,7 +1531,7 @@
                             'preprocessing': [
                                 {
                                     'type': 'JSONPATH',
-                                    'params': '$[\'{#LOCATION_ID}.VMOD_HTTP.handle_abandon\']',
+                                    'params': ['$[\'{#LOCATION_ID}.VMOD_HTTP.handle_abandon\']'],
                                     'error_handler': 'DISCARD_VALUE',
                                 },
                                 {
@@ -1546,7 +1550,7 @@
                             'preprocessing': [
                                 {
                                     'type': 'JSONPATH',
-                                    'params': '$[\'{#LOCATION_ID}.MAIN.losthdr\']',
+                                    'params': ['$[\'{#LOCATION_ID}.MAIN.losthdr\']'],
                                     'error_handler': 'DISCARD_VALUE',
                                 },
                                 {
@@ -1564,7 +1568,7 @@
                             'preprocessing': [
                                 {
                                     'type': 'JSONPATH',
-                                    'params': '$[\'{#LOCATION_ID}.MAIN.n_backend\']',
+                                    'params': ['$[\'{#LOCATION_ID}.MAIN.n_backend\']'],
                                     'error_handler': 'DISCARD_VALUE',
                                 },
                             ],
@@ -1579,7 +1583,7 @@
                             'preprocessing': [
                                 {
                                     'type': 'JSONPATH',
-                                    'params': '$[\'{#LOCATION_ID}.MAIN.n_vcl\']',
+                                    'params': ['$[\'{#LOCATION_ID}.MAIN.n_vcl\']'],
                                     'error_handler': 'DISCARD_VALUE',
                                 },
                             ],
@@ -1594,7 +1598,7 @@
                             'preprocessing': [
                                 {
                                     'type': 'JSONPATH',
-                                    'params': '$[\'{#LOCATION_ID}.MAIN.vmods\']',
+                                    'params': ['$[\'{#LOCATION_ID}.MAIN.vmods\']'],
                                     'error_handler': 'DISCARD_VALUE',
                                 },
                             ],
@@ -1610,7 +1614,7 @@
                             'preprocessing': [
                                 {
                                     'type': 'JSONPATH',
-                                    'params': '$[\'{#LOCATION_ID}.MAIN.n_expired\']',
+                                    'params': ['$[\'{#LOCATION_ID}.MAIN.n_expired\']'],
                                     'error_handler': 'DISCARD_VALUE',
                                 },
                                 {
@@ -1629,7 +1633,7 @@
                             'preprocessing': [
                                 {
                                     'type': 'JSONPATH',
-                                    'params': '$[\'{#LOCATION_ID}.MAIN.n_gunzip\']',
+                                    'params': ['$[\'{#LOCATION_ID}.MAIN.n_gunzip\']'],
                                     'error_handler': 'DISCARD_VALUE',
                                 },
                                 {
@@ -1648,7 +1652,7 @@
                             'preprocessing': [
                                 {
                                     'type': 'JSONPATH',
-                                    'params': '$[\'{#LOCATION_ID}.MAIN.n_gzip\']',
+                                    'params': ['$[\'{#LOCATION_ID}.MAIN.n_gzip\']'],
                                     'error_handler': 'DISCARD_VALUE',
                                 },
                                 {
@@ -1667,7 +1671,7 @@
                             'preprocessing': [
                                 {
                                     'type': 'JSONPATH',
-                                    'params': '$[\'{#LOCATION_ID}.MAIN.n_lru_limited\']',
+                                    'params': ['$[\'{#LOCATION_ID}.MAIN.n_lru_limited\']'],
                                     'error_handler': 'DISCARD_VALUE',
                                 },
                                 {
@@ -1686,7 +1690,7 @@
                             'preprocessing': [
                                 {
                                     'type': 'JSONPATH',
-                                    'params': '$[\'{#LOCATION_ID}.MAIN.n_lru_nuked\']',
+                                    'params': ['$[\'{#LOCATION_ID}.MAIN.n_lru_nuked\']'],
                                     'error_handler': 'DISCARD_VALUE',
                                 },
                                 {
@@ -1705,7 +1709,7 @@
                             'preprocessing': [
                                 {
                                     'type': 'JSONPATH',
-                                    'params': '$[\'{#LOCATION_ID}.MAIN.n_lru_moved\']',
+                                    'params': ['$[\'{#LOCATION_ID}.MAIN.n_lru_moved\']'],
                                     'error_handler': 'DISCARD_VALUE',
                                 },
                                 {
@@ -1723,7 +1727,7 @@
                             'preprocessing': [
                                 {
                                     'type': 'JSONPATH',
-                                    'params': '$[\'{#LOCATION_ID}.MAIN.n_object\']',
+                                    'params': ['$[\'{#LOCATION_ID}.MAIN.n_object\']'],
                                     'error_handler': 'DISCARD_VALUE',
                                 },
                             ],
@@ -1738,7 +1742,7 @@
                             'preprocessing': [
                                 {
                                     'type': 'JSONPATH',
-                                    'params': '$[\'{#LOCATION_ID}.MAIN.n_objectcore\']',
+                                    'params': ['$[\'{#LOCATION_ID}.MAIN.n_objectcore\']'],
                                     'error_handler': 'DISCARD_VALUE',
                                 },
                             ],
@@ -1753,7 +1757,7 @@
                             'preprocessing': [
                                 {
                                     'type': 'JSONPATH',
-                                    'params': '$[\'{#LOCATION_ID}.MAIN.n_objecthead\']',
+                                    'params': ['$[\'{#LOCATION_ID}.MAIN.n_objecthead\']'],
                                     'error_handler': 'DISCARD_VALUE',
                                 },
                             ],
@@ -1769,7 +1773,7 @@
                             'preprocessing': [
                                 {
                                     'type': 'JSONPATH',
-                                    'params': '$[\'{#LOCATION_ID}.MAIN.n_obj_purged\']',
+                                    'params': ['$[\'{#LOCATION_ID}.MAIN.n_obj_purged\']'],
                                     'error_handler': 'DISCARD_VALUE',
                                 },
                                 {
@@ -1788,7 +1792,7 @@
                             'preprocessing': [
                                 {
                                     'type': 'JSONPATH',
-                                    'params': '$[\'{#LOCATION_ID}.MAIN.n_purges\']',
+                                    'params': ['$[\'{#LOCATION_ID}.MAIN.n_purges\']'],
                                     'error_handler': 'DISCARD_VALUE',
                                 },
                                 {
@@ -1807,7 +1811,7 @@
                             'preprocessing': [
                                 {
                                     'type': 'JSONPATH',
-                                    'params': '$[\'{#LOCATION_ID}.MAIN.n_test_gunzip\']',
+                                    'params': ['$[\'{#LOCATION_ID}.MAIN.n_test_gunzip\']'],
                                     'error_handler': 'DISCARD_VALUE',
                                 },
                                 {
@@ -1826,7 +1830,7 @@
                             'preprocessing': [
                                 {
                                     'type': 'JSONPATH',
-                                    'params': '$[\'{#LOCATION_ID}.MAIN.req_dropped\']',
+                                    'params': ['$[\'{#LOCATION_ID}.MAIN.req_dropped\']'],
                                     'error_handler': 'DISCARD_VALUE',
                                 },
                                 {
@@ -1845,7 +1849,7 @@
                             'preprocessing': [
                                 {
                                     'type': 'JSONPATH',
-                                    'params': '$[\'{#LOCATION_ID}.MAIN.sc_vcl_failure\']',
+                                    'params': ['$[\'{#LOCATION_ID}.MAIN.sc_vcl_failure\']'],
                                     'error_handler': 'DISCARD_VALUE',
                                 },
                                 {
@@ -1864,7 +1868,7 @@
                             'preprocessing': [
                                 {
                                     'type': 'JSONPATH',
-                                    'params': '$[\'{#LOCATION_ID}.MAIN.sess_closed\']',
+                                    'params': ['$[\'{#LOCATION_ID}.MAIN.sess_closed\']'],
                                     'error_handler': 'DISCARD_VALUE',
                                 },
                                 {
@@ -1883,7 +1887,7 @@
                             'preprocessing': [
                                 {
                                     'type': 'JSONPATH',
-                                    'params': '$[\'{#LOCATION_ID}.MAIN.sess_closed_err\']',
+                                    'params': ['$[\'{#LOCATION_ID}.MAIN.sess_closed_err\']'],
                                     'error_handler': 'DISCARD_VALUE',
                                 },
                                 {
@@ -1902,7 +1906,7 @@
                             'preprocessing': [
                                 {
                                     'type': 'JSONPATH',
-                                    'params': '$[\'{#LOCATION_ID}.MAIN.sess_conn\']',
+                                    'params': ['$[\'{#LOCATION_ID}.MAIN.sess_conn\']'],
                                     'error_handler': 'DISCARD_VALUE',
                                 },
                                 {
@@ -1921,7 +1925,7 @@
                             'preprocessing': [
                                 {
                                     'type': 'JSONPATH',
-                                    'params': '$[\'{#LOCATION_ID}.MAIN.sess_drop\']',
+                                    'params': ['$[\'{#LOCATION_ID}.MAIN.sess_drop\']'],
                                     'error_handler': 'DISCARD_VALUE',
                                 },
                                 {
@@ -1940,7 +1944,7 @@
                             'preprocessing': [
                                 {
                                     'type': 'JSONPATH',
-                                    'params': '$[\'{#LOCATION_ID}.MAIN.sess_dropped\']',
+                                    'params': ['$[\'{#LOCATION_ID}.MAIN.sess_dropped\']'],
                                     'error_handler': 'DISCARD_VALUE',
                                 },
                                 {
@@ -1959,7 +1963,7 @@
                             'preprocessing': [
                                 {
                                     'type': 'JSONPATH',
-                                    'params': '$[\'{#LOCATION_ID}.MAIN.sess_fail\']',
+                                    'params': ['$[\'{#LOCATION_ID}.MAIN.sess_fail\']'],
                                     'error_handler': 'DISCARD_VALUE',
                                 },
                                 {
@@ -1978,7 +1982,7 @@
                             'preprocessing': [
                                 {
                                     'type': 'JSONPATH',
-                                    'params': '$[\'{#LOCATION_ID}.MAIN.sess_fail_ebadf\']',
+                                    'params': ['$[\'{#LOCATION_ID}.MAIN.sess_fail_ebadf\']'],
                                     'error_handler': 'DISCARD_VALUE',
                                 },
                                 {
@@ -1997,7 +2001,7 @@
                             'preprocessing': [
                                 {
                                     'type': 'JSONPATH',
-                                    'params': '$[\'{#LOCATION_ID}.MAIN.sess_fail_econnaborted\']',
+                                    'params': ['$[\'{#LOCATION_ID}.MAIN.sess_fail_econnaborted\']'],
                                     'error_handler': 'DISCARD_VALUE',
                                 },
                                 {
@@ -2016,7 +2020,7 @@
                             'preprocessing': [
                                 {
                                     'type': 'JSONPATH',
-                                    'params': '$[\'{#LOCATION_ID}.MAIN.sess_fail_eintr\']',
+                                    'params': ['$[\'{#LOCATION_ID}.MAIN.sess_fail_eintr\']'],
                                     'error_handler': 'DISCARD_VALUE',
                                 },
                                 {
@@ -2035,7 +2039,7 @@
                             'preprocessing': [
                                 {
                                     'type': 'JSONPATH',
-                                    'params': '$[\'{#LOCATION_ID}.MAIN.sess_fail_emfile\']',
+                                    'params': ['$[\'{#LOCATION_ID}.MAIN.sess_fail_emfile\']'],
                                     'error_handler': 'DISCARD_VALUE',
                                 },
                                 {
@@ -2054,7 +2058,7 @@
                             'preprocessing': [
                                 {
                                     'type': 'JSONPATH',
-                                    'params': '$[\'{#LOCATION_ID}.MAIN.sess_fail_enomem\']',
+                                    'params': ['$[\'{#LOCATION_ID}.MAIN.sess_fail_enomem\']'],
                                     'error_handler': 'DISCARD_VALUE',
                                 },
                                 {
@@ -2073,7 +2077,7 @@
                             'preprocessing': [
                                 {
                                     'type': 'JSONPATH',
-                                    'params': '$[\'{#LOCATION_ID}.MAIN.sess_fail_other\']',
+                                    'params': ['$[\'{#LOCATION_ID}.MAIN.sess_fail_other\']'],
                                     'error_handler': 'DISCARD_VALUE',
                                 },
                                 {
@@ -2092,7 +2096,7 @@
                             'preprocessing': [
                                 {
                                     'type': 'JSONPATH',
-                                    'params': '$[\'{#LOCATION_ID}.MAIN.sess_herd\']',
+                                    'params': ['$[\'{#LOCATION_ID}.MAIN.sess_herd\']'],
                                     'error_handler': 'DISCARD_VALUE',
                                 },
                                 {
@@ -2111,7 +2115,7 @@
                             'preprocessing': [
                                 {
                                     'type': 'JSONPATH',
-                                    'params': '$[\'{#LOCATION_ID}.MAIN.sess_queued\']',
+                                    'params': ['$[\'{#LOCATION_ID}.MAIN.sess_queued\']'],
                                     'error_handler': 'DISCARD_VALUE',
                                 },
                                 {
@@ -2130,7 +2134,7 @@
                             'preprocessing': [
                                 {
                                     'type': 'JSONPATH',
-                                    'params': '$[\'{#LOCATION_ID}.MAIN.sess_readahead\']',
+                                    'params': ['$[\'{#LOCATION_ID}.MAIN.sess_readahead\']'],
                                     'error_handler': 'DISCARD_VALUE',
                                 },
                                 {
@@ -2149,7 +2153,7 @@
                             'preprocessing': [
                                 {
                                     'type': 'JSONPATH',
-                                    'params': '$[\'{#LOCATION_ID}.MAIN.s_fetch\']',
+                                    'params': ['$[\'{#LOCATION_ID}.MAIN.s_fetch\']'],
                                     'error_handler': 'DISCARD_VALUE',
                                 },
                                 {
@@ -2168,7 +2172,7 @@
                             'preprocessing': [
                                 {
                                     'type': 'JSONPATH',
-                                    'params': '$[\'{#LOCATION_ID}.MAIN.s_pass\']',
+                                    'params': ['$[\'{#LOCATION_ID}.MAIN.s_pass\']'],
                                     'error_handler': 'DISCARD_VALUE',
                                 },
                                 {
@@ -2187,7 +2191,7 @@
                             'preprocessing': [
                                 {
                                     'type': 'JSONPATH',
-                                    'params': '$[\'{#LOCATION_ID}.MAIN.s_pipe\']',
+                                    'params': ['$[\'{#LOCATION_ID}.MAIN.s_pipe\']'],
                                     'error_handler': 'DISCARD_VALUE',
                                 },
                                 {
@@ -2206,7 +2210,7 @@
                             'preprocessing': [
                                 {
                                     'type': 'JSONPATH',
-                                    'params': '$[\'{#LOCATION_ID}.MAIN.s_pipe_hdrbytes\']',
+                                    'params': ['$[\'{#LOCATION_ID}.MAIN.s_pipe_hdrbytes\']'],
                                     'error_handler': 'DISCARD_VALUE',
                                 },
                                 {
@@ -2225,7 +2229,7 @@
                             'preprocessing': [
                                 {
                                     'type': 'JSONPATH',
-                                    'params': '$[\'{#LOCATION_ID}.MAIN.s_pipe_in\']',
+                                    'params': ['$[\'{#LOCATION_ID}.MAIN.s_pipe_in\']'],
                                     'error_handler': 'DISCARD_VALUE',
                                 },
                                 {
@@ -2244,7 +2248,7 @@
                             'preprocessing': [
                                 {
                                     'type': 'JSONPATH',
-                                    'params': '$[\'{#LOCATION_ID}.MAIN.s_pipe_out\']',
+                                    'params': ['$[\'{#LOCATION_ID}.MAIN.s_pipe_out\']'],
                                     'error_handler': 'DISCARD_VALUE',
                                 },
                                 {
@@ -2263,7 +2267,7 @@
                             'preprocessing': [
                                 {
                                     'type': 'JSONPATH',
-                                    'params': '$[\'{#LOCATION_ID}.MAIN.s_req\']',
+                                    'params': ['$[\'{#LOCATION_ID}.MAIN.s_req\']'],
                                     'error_handler': 'DISCARD_VALUE',
                                 },
                                 {
@@ -2282,7 +2286,7 @@
                             'preprocessing': [
                                 {
                                     'type': 'JSONPATH',
-                                    'params': '$[\'{#LOCATION_ID}.MAIN.s_req_bodybytes\']',
+                                    'params': ['$[\'{#LOCATION_ID}.MAIN.s_req_bodybytes\']'],
                                     'error_handler': 'DISCARD_VALUE',
                                 },
                                 {
@@ -2301,7 +2305,7 @@
                             'preprocessing': [
                                 {
                                     'type': 'JSONPATH',
-                                    'params': '$[\'{#LOCATION_ID}.MAIN.s_req_hdrbytes\']',
+                                    'params': ['$[\'{#LOCATION_ID}.MAIN.s_req_hdrbytes\']'],
                                     'error_handler': 'DISCARD_VALUE',
                                 },
                                 {
@@ -2320,7 +2324,7 @@
                             'preprocessing': [
                                 {
                                     'type': 'JSONPATH',
-                                    'params': '$[\'{#LOCATION_ID}.MAIN.s_resp_bodybytes\']',
+                                    'params': ['$[\'{#LOCATION_ID}.MAIN.s_resp_bodybytes\']'],
                                     'error_handler': 'DISCARD_VALUE',
                                 },
                                 {
@@ -2339,7 +2343,7 @@
                             'preprocessing': [
                                 {
                                     'type': 'JSONPATH',
-                                    'params': '$[\'{#LOCATION_ID}.MAIN.s_resp_hdrbytes\']',
+                                    'params': ['$[\'{#LOCATION_ID}.MAIN.s_resp_hdrbytes\']'],
                                     'error_handler': 'DISCARD_VALUE',
                                 },
                                 {
@@ -2358,7 +2362,7 @@
                             'preprocessing': [
                                 {
                                     'type': 'JSONPATH',
-                                    'params': '$[\'{#LOCATION_ID}.MAIN.s_sess\']',
+                                    'params': ['$[\'{#LOCATION_ID}.MAIN.s_sess\']'],
                                     'error_handler': 'DISCARD_VALUE',
                                 },
                                 {
@@ -2377,7 +2381,7 @@
                             'preprocessing': [
                                 {
                                     'type': 'JSONPATH',
-                                    'params': '$[\'{#LOCATION_ID}.MAIN.s_synth\']',
+                                    'params': ['$[\'{#LOCATION_ID}.MAIN.s_synth\']'],
                                     'error_handler': 'DISCARD_VALUE',
                                 },
                                 {
@@ -2395,7 +2399,7 @@
                             'preprocessing': [
                                 {
                                     'type': 'JSONPATH',
-                                    'params': '$[\'{#LOCATION_ID}.MAIN.threads\']',
+                                    'params': ['$[\'{#LOCATION_ID}.MAIN.threads\']'],
                                     'error_handler': 'DISCARD_VALUE',
                                 },
                             ],
@@ -2411,7 +2415,7 @@
                             'preprocessing': [
                                 {
                                     'type': 'JSONPATH',
-                                    'params': '$[\'{#LOCATION_ID}.MAIN.threads_created\']',
+                                    'params': ['$[\'{#LOCATION_ID}.MAIN.threads_created\']'],
                                     'error_handler': 'DISCARD_VALUE',
                                 },
                                 {
@@ -2430,7 +2434,7 @@
                             'preprocessing': [
                                 {
                                     'type': 'JSONPATH',
-                                    'params': '$[\'{#LOCATION_ID}.MAIN.threads_destroyed\']',
+                                    'params': ['$[\'{#LOCATION_ID}.MAIN.threads_destroyed\']'],
                                     'error_handler': 'DISCARD_VALUE',
                                 },
                                 {
@@ -2449,7 +2453,7 @@
                             'preprocessing': [
                                 {
                                     'type': 'JSONPATH',
-                                    'params': '$[\'{#LOCATION_ID}.MAIN.threads_failed\']',
+                                    'params': ['$[\'{#LOCATION_ID}.MAIN.threads_failed\']'],
                                     'error_handler': 'DISCARD_VALUE',
                                 },
                                 {
@@ -2468,7 +2472,7 @@
                             'preprocessing': [
                                 {
                                     'type': 'JSONPATH',
-                                    'params': '$[\'{#LOCATION_ID}.MAIN.threads_limited\']',
+                                    'params': ['$[\'{#LOCATION_ID}.MAIN.threads_limited\']'],
                                     'error_handler': 'DISCARD_VALUE',
                                 },
                                 {
@@ -2486,7 +2490,7 @@
                             'preprocessing': [
                                 {
                                     'type': 'JSONPATH',
-                                    'params': '$[\'{#LOCATION_ID}.MAIN.thread_queue_len\']',
+                                    'params': ['$[\'{#LOCATION_ID}.MAIN.thread_queue_len\']'],
                                     'error_handler': 'DISCARD_VALUE',
                                 },
                             ],
@@ -2502,7 +2506,7 @@
                             'preprocessing': [
                                 {
                                     'type': 'JSONPATH',
-                                    'params': '$[\'{#LOCATION_ID}.MAIN.uptime\']',
+                                    'params': ['$[\'{#LOCATION_ID}.MAIN.uptime\']'],
                                     'error_handler': 'DISCARD_VALUE',
                                 },
                             ],
@@ -2518,7 +2522,7 @@
                             'preprocessing': [
                                 {
                                     'type': 'JSONPATH',
-                                    'params': '$[\'{#LOCATION_ID}.MAIN.vcl_fail\']',
+                                    'params': ['$[\'{#LOCATION_ID}.MAIN.vcl_fail\']'],
                                     'error_handler': 'DISCARD_VALUE',
                                 },
                                 {
@@ -2537,7 +2541,7 @@
                             'preprocessing': [
                                 {
                                     'type': 'JSONPATH',
-                                    'params': '$[\'{#LOCATION_ID}.MAIN.ws_backend_overflow\']',
+                                    'params': ['$[\'{#LOCATION_ID}.MAIN.ws_backend_overflow\']'],
                                     'error_handler': 'DISCARD_VALUE',
                                 },
                                 {
@@ -2556,7 +2560,7 @@
                             'preprocessing': [
                                 {
                                     'type': 'JSONPATH',
-                                    'params': '$[\'{#LOCATION_ID}.MAIN.ws_client_overflow\']',
+                                    'params': ['$[\'{#LOCATION_ID}.MAIN.ws_client_overflow\']'],
                                     'error_handler': 'DISCARD_VALUE',
                                 },
                                 {
@@ -2575,7 +2579,7 @@
                             'preprocessing': [
                                 {
                                     'type': 'JSONPATH',
-                                    'params': '$[\'{#LOCATION_ID}.MAIN.ws_session_overflow\']',
+                                    'params': ['$[\'{#LOCATION_ID}.MAIN.ws_session_overflow\']'],
                                     'error_handler': 'DISCARD_VALUE',
                                 },
                                 {
@@ -2594,7 +2598,7 @@
                             'preprocessing': [
                                 {
                                     'type': 'JSONPATH',
-                                    'params': '$[\'{#LOCATION_ID}.MAIN.ws_thread_overflow\']',
+                                    'params': ['$[\'{#LOCATION_ID}.MAIN.ws_thread_overflow\']'],
                                     'error_handler': 'DISCARD_VALUE',
                                 },
                                 {
@@ -2613,7 +2617,7 @@
                             'preprocessing': [
                                 {
                                     'type': 'JSONPATH',
-                                    'params': '$[\'{#LOCATION_ID}.MGT.uptime\']',
+                                    'params': ['$[\'{#LOCATION_ID}.MGT.uptime\']'],
                                     'error_handler': 'DISCARD_VALUE',
                                 },
                             ],
@@ -2642,7 +2646,7 @@
                             'preprocessing': [
                                 {
                                     'type': 'JSONPATH',
-                                    'params': '$[\'{#LOCATION_ID}.VHA6.broadcast_candidates\']',
+                                    'params': ['$[\'{#LOCATION_ID}.VHA6.broadcast_candidates\']'],
                                     'error_handler': 'DISCARD_VALUE',
                                 },
                                 {
@@ -2661,7 +2665,7 @@
                             'preprocessing': [
                                 {
                                     'type': 'JSONPATH',
-                                    'params': '$[\'{#LOCATION_ID}.VHA6.broadcast_nocache\']',
+                                    'params': ['$[\'{#LOCATION_ID}.VHA6.broadcast_nocache\']'],
                                     'error_handler': 'DISCARD_VALUE',
                                 },
                                 {
@@ -2680,7 +2684,7 @@
                             'preprocessing': [
                                 {
                                     'type': 'JSONPATH',
-                                    'params': '$[\'{#LOCATION_ID}.VHA6.broadcast_skip\']',
+                                    'params': ['$[\'{#LOCATION_ID}.VHA6.broadcast_skip\']'],
                                     'error_handler': 'DISCARD_VALUE',
                                 },
                                 {
@@ -2699,7 +2703,7 @@
                             'preprocessing': [
                                 {
                                     'type': 'JSONPATH',
-                                    'params': '$[\'{#LOCATION_ID}.VHA6.broadcast_lowttl\']',
+                                    'params': ['$[\'{#LOCATION_ID}.VHA6.broadcast_lowttl\']'],
                                     'error_handler': 'DISCARD_VALUE',
                                 },
                                 {
@@ -2718,7 +2722,7 @@
                             'preprocessing': [
                                 {
                                     'type': 'JSONPATH',
-                                    'params': '$[\'{#LOCATION_ID}.VHA6.broadcast_toolarge\']',
+                                    'params': ['$[\'{#LOCATION_ID}.VHA6.broadcast_toolarge\']'],
                                     'error_handler': 'DISCARD_VALUE',
                                 },
                                 {
@@ -2737,7 +2741,7 @@
                             'preprocessing': [
                                 {
                                     'type': 'JSONPATH',
-                                    'params': '$[\'{#LOCATION_ID}.VHA6.broadcasts\']',
+                                    'params': ['$[\'{#LOCATION_ID}.VHA6.broadcasts\']'],
                                     'error_handler': 'DISCARD_VALUE',
                                 },
                                 {
@@ -2756,7 +2760,7 @@
                             'preprocessing': [
                                 {
                                     'type': 'JSONPATH',
-                                    'params': '$[\'{#LOCATION_ID}.VHA6.fetch_self\']',
+                                    'params': ['$[\'{#LOCATION_ID}.VHA6.fetch_self\']'],
                                     'error_handler': 'DISCARD_VALUE',
                                 },
                                 {
@@ -2775,7 +2779,7 @@
                             'preprocessing': [
                                 {
                                     'type': 'JSONPATH',
-                                    'params': '$[\'{#LOCATION_ID}.VHA6.fetch_peer\']',
+                                    'params': ['$[\'{#LOCATION_ID}.VHA6.fetch_peer\']'],
                                     'error_handler': 'DISCARD_VALUE',
                                 },
                                 {
@@ -2794,7 +2798,7 @@
                             'preprocessing': [
                                 {
                                     'type': 'JSONPATH',
-                                    'params': '$[\'{#LOCATION_ID}.VHA6.fetch_peer_hit\']',
+                                    'params': ['$[\'{#LOCATION_ID}.VHA6.fetch_peer_hit\']'],
                                     'error_handler': 'DISCARD_VALUE',
                                 },
                                 {
@@ -2813,7 +2817,7 @@
                             'preprocessing': [
                                 {
                                     'type': 'JSONPATH',
-                                    'params': '$[\'{#LOCATION_ID}.VHA6.fetch_origin\']',
+                                    'params': ['$[\'{#LOCATION_ID}.VHA6.fetch_origin\']'],
                                     'error_handler': 'DISCARD_VALUE',
                                 },
                                 {
@@ -2832,7 +2836,7 @@
                             'preprocessing': [
                                 {
                                     'type': 'JSONPATH',
-                                    'params': '$[\'{#LOCATION_ID}.VHA6.fetch_origin_deliver\']',
+                                    'params': ['$[\'{#LOCATION_ID}.VHA6.fetch_origin_deliver\']'],
                                     'error_handler': 'DISCARD_VALUE',
                                 },
                                 {
@@ -2851,7 +2855,7 @@
                             'preprocessing': [
                                 {
                                     'type': 'JSONPATH',
-                                    'params': '$[\'{#LOCATION_ID}.VHA6.fetch_peer_insert\']',
+                                    'params': ['$[\'{#LOCATION_ID}.VHA6.fetch_peer_insert\']'],
                                     'error_handler': 'DISCARD_VALUE',
                                 },
                                 {
@@ -2870,7 +2874,7 @@
                             'preprocessing': [
                                 {
                                     'type': 'JSONPATH',
-                                    'params': '$[\'{#LOCATION_ID}.VHA6.error_version_mismatch\']',
+                                    'params': ['$[\'{#LOCATION_ID}.VHA6.error_version_mismatch\']'],
                                     'error_handler': 'DISCARD_VALUE',
                                 },
                                 {
@@ -2889,7 +2893,7 @@
                             'preprocessing': [
                                 {
                                     'type': 'JSONPATH',
-                                    'params': '$[\'{#LOCATION_ID}.VHA6.error_no_token\']',
+                                    'params': ['$[\'{#LOCATION_ID}.VHA6.error_no_token\']'],
                                     'error_handler': 'DISCARD_VALUE',
                                 },
                                 {
@@ -2908,7 +2912,7 @@
                             'preprocessing': [
                                 {
                                     'type': 'JSONPATH',
-                                    'params': '$[\'{#LOCATION_ID}.VHA6.error_bad_token\']',
+                                    'params': ['$[\'{#LOCATION_ID}.VHA6.error_bad_token\']'],
                                     'error_handler': 'DISCARD_VALUE',
                                 },
                                 {
@@ -2927,7 +2931,7 @@
                             'preprocessing': [
                                 {
                                     'type': 'JSONPATH',
-                                    'params': '$[\'{#LOCATION_ID}.VHA6.error_stale_token\']',
+                                    'params': ['$[\'{#LOCATION_ID}.VHA6.error_stale_token\']'],
                                     'error_handler': 'DISCARD_VALUE',
                                 },
                                 {
@@ -2946,7 +2950,7 @@
                             'preprocessing': [
                                 {
                                     'type': 'JSONPATH',
-                                    'params': '$[\'{#LOCATION_ID}.VHA6.error_rate_limited\']',
+                                    'params': ['$[\'{#LOCATION_ID}.VHA6.error_rate_limited\']'],
                                     'error_handler': 'DISCARD_VALUE',
                                 },
                                 {
@@ -2965,7 +2969,7 @@
                             'preprocessing': [
                                 {
                                     'type': 'JSONPATH',
-                                    'params': '$[\'{#LOCATION_ID}.VHA6.error_fetch\']',
+                                    'params': ['$[\'{#LOCATION_ID}.VHA6.error_fetch\']'],
                                     'error_handler': 'DISCARD_VALUE',
                                 },
                                 {
@@ -2984,7 +2988,7 @@
                             'preprocessing': [
                                 {
                                     'type': 'JSONPATH',
-                                    'params': '$[\'{#LOCATION_ID}.VHA6.error_fetch_insert\']',
+                                    'params': ['$[\'{#LOCATION_ID}.VHA6.error_fetch_insert\']'],
                                     'error_handler': 'DISCARD_VALUE',
                                 },
                                 {
@@ -3003,7 +3007,7 @@
                             'preprocessing': [
                                 {
                                     'type': 'JSONPATH',
-                                    'params': '$[\'{#LOCATION_ID}.VHA6.error_fetch_seal\']',
+                                    'params': ['$[\'{#LOCATION_ID}.VHA6.error_fetch_seal\']'],
                                     'error_handler': 'DISCARD_VALUE',
                                 },
                                 {
@@ -3022,7 +3026,7 @@
                             'preprocessing': [
                                 {
                                     'type': 'JSONPATH',
-                                    'params': '$[\'{#LOCATION_ID}.VHA6.error_localhost\']',
+                                    'params': ['$[\'{#LOCATION_ID}.VHA6.error_localhost\']'],
                                     'error_handler': 'DISCARD_VALUE',
                                 },
                                 {
@@ -3041,7 +3045,7 @@
                             'preprocessing': [
                                 {
                                     'type': 'JSONPATH',
-                                    'params': '$[\'{#LOCATION_ID}.VHA6.error_origin_mismatch\']',
+                                    'params': ['$[\'{#LOCATION_ID}.VHA6.error_origin_mismatch\']'],
                                     'error_handler': 'DISCARD_VALUE',
                                 },
                                 {
@@ -3060,7 +3064,7 @@
                             'preprocessing': [
                                 {
                                     'type': 'JSONPATH',
-                                    'params': '$[\'{#LOCATION_ID}.VHA6.error_origin_miss\']',
+                                    'params': ['$[\'{#LOCATION_ID}.VHA6.error_origin_miss\']'],
                                     'error_handler': 'DISCARD_VALUE',
                                 },
                                 {
@@ -3079,7 +3083,7 @@
                             'preprocessing': [
                                 {
                                     'type': 'JSONPATH',
-                                    'params': '$[\'{#LOCATION_ID}.ACCG_DIAG.set_key_failure\']',
+                                    'params': ['$[\'{#LOCATION_ID}.ACCG_DIAG.set_key_failure\']'],
                                     'error_handler': 'DISCARD_VALUE',
                                 },
                                 {
@@ -3098,7 +3102,7 @@
                             'preprocessing': [
                                 {
                                     'type': 'JSONPATH',
-                                    'params': '$[\'{#LOCATION_ID}.ACCG_DIAG.out_of_key_slots\']',
+                                    'params': ['$[\'{#LOCATION_ID}.ACCG_DIAG.out_of_key_slots\']'],
                                     'error_handler': 'DISCARD_VALUE',
                                 },
                                 {
@@ -3117,7 +3121,7 @@
                             'preprocessing': [
                                 {
                                     'type': 'JSONPATH',
-                                    'params': '$[\'{#LOCATION_ID}.ACCG_DIAG.key_without_namespace\']',
+                                    'params': ['$[\'{#LOCATION_ID}.ACCG_DIAG.key_without_namespace\']'],
                                     'error_handler': 'DISCARD_VALUE',
                                 },
                                 {
@@ -3136,7 +3140,7 @@
                             'preprocessing': [
                                 {
                                     'type': 'JSONPATH',
-                                    'params': '$[\'{#LOCATION_ID}.ACCG_DIAG.namespace_already_set\']',
+                                    'params': ['$[\'{#LOCATION_ID}.ACCG_DIAG.namespace_already_set\']'],
                                     'error_handler': 'DISCARD_VALUE',
                                 },
                                 {
@@ -3155,7 +3159,7 @@
                             'preprocessing': [
                                 {
                                     'type': 'JSONPATH',
-                                    'params': '$[\'{#LOCATION_ID}.ACCG_DIAG.namespace_undefined\']',
+                                    'params': ['$[\'{#LOCATION_ID}.ACCG_DIAG.namespace_undefined\']'],
                                     'error_handler': 'DISCARD_VALUE',
                                 },
                                 {
@@ -3174,7 +3178,7 @@
                             'preprocessing': [
                                 {
                                     'type': 'JSONPATH',
-                                    'params': '$[\'{#LOCATION_ID}.ACCG_DIAG.create_namespace_failure\']',
+                                    'params': ['$[\'{#LOCATION_ID}.ACCG_DIAG.create_namespace_failure\']'],
                                     'error_handler': 'DISCARD_VALUE',
                                 },
                                 {
@@ -3193,7 +3197,7 @@
                             'preprocessing': [
                                 {
                                     'type': 'JSONPATH',
-                                    'params': '$[\'{#LOCATION_ID}.MAIN.esi_req\']',
+                                    'params': ['$[\'{#LOCATION_ID}.MAIN.esi_req\']'],
                                     'error_handler': 'DISCARD_VALUE',
                                 },
                                 {
@@ -3361,7 +3365,7 @@
                             'preprocessing': [
                                 {
                                     'type': 'JSONPATH',
-                                    'params': '$[\'{#LOCATION_ID}.VBE.{#SUBJECT_ID}.healthy\']',
+                                    'params': ['$[\'{#LOCATION_ID}.VBE.{#SUBJECT_ID}.healthy\']'],
                                     'error_handler': 'DISCARD_VALUE',
                                 },
                             ],
@@ -3377,7 +3381,7 @@
                             'preprocessing': [
                                 {
                                     'type': 'JSONPATH',
-                                    'params': '$[\'{#LOCATION_ID}.VBE.{#SUBJECT_ID}.bereq_bodybytes\']',
+                                    'params': ['$[\'{#LOCATION_ID}.VBE.{#SUBJECT_ID}.bereq_bodybytes\']'],
                                     'error_handler': 'DISCARD_VALUE',
                                 },
                                 {
@@ -3396,7 +3400,7 @@
                             'preprocessing': [
                                 {
                                     'type': 'JSONPATH',
-                                    'params': '$[\'{#LOCATION_ID}.VBE.{#SUBJECT_ID}.bereq_hdrbytes\']',
+                                    'params': ['$[\'{#LOCATION_ID}.VBE.{#SUBJECT_ID}.bereq_hdrbytes\']'],
                                     'error_handler': 'DISCARD_VALUE',
                                 },
                                 {
@@ -3415,7 +3419,7 @@
                             'preprocessing': [
                                 {
                                     'type': 'JSONPATH',
-                                    'params': '$[\'{#LOCATION_ID}.VBE.{#SUBJECT_ID}.beresp_bodybytes\']',
+                                    'params': ['$[\'{#LOCATION_ID}.VBE.{#SUBJECT_ID}.beresp_bodybytes\']'],
                                     'error_handler': 'DISCARD_VALUE',
                                 },
                                 {
@@ -3434,7 +3438,7 @@
                             'preprocessing': [
                                 {
                                     'type': 'JSONPATH',
-                                    'params': '$[\'{#LOCATION_ID}.VBE.{#SUBJECT_ID}.beresp_hdrbytes\']',
+                                    'params': ['$[\'{#LOCATION_ID}.VBE.{#SUBJECT_ID}.beresp_hdrbytes\']'],
                                     'error_handler': 'DISCARD_VALUE',
                                 },
                                 {
@@ -3453,7 +3457,7 @@
                             'preprocessing': [
                                 {
                                     'type': 'JSONPATH',
-                                    'params': '$[\'{#LOCATION_ID}.VBE.{#SUBJECT_ID}.busy\']',
+                                    'params': ['$[\'{#LOCATION_ID}.VBE.{#SUBJECT_ID}.busy\']'],
                                     'error_handler': 'DISCARD_VALUE',
                                 },
                                 {
@@ -3471,7 +3475,7 @@
                             'preprocessing': [
                                 {
                                     'type': 'JSONPATH',
-                                    'params': '$[\'{#LOCATION_ID}.VBE.{#SUBJECT_ID}.conn\']',
+                                    'params': ['$[\'{#LOCATION_ID}.VBE.{#SUBJECT_ID}.conn\']'],
                                     'error_handler': 'DISCARD_VALUE',
                                 },
                             ],
@@ -3487,7 +3491,7 @@
                             'preprocessing': [
                                 {
                                     'type': 'JSONPATH',
-                                    'params': '$[\'{#LOCATION_ID}.VBE.{#SUBJECT_ID}.fail\']',
+                                    'params': ['$[\'{#LOCATION_ID}.VBE.{#SUBJECT_ID}.fail\']'],
                                     'error_handler': 'DISCARD_VALUE',
                                 },
                                 {
@@ -3506,7 +3510,7 @@
                             'preprocessing': [
                                 {
                                     'type': 'JSONPATH',
-                                    'params': '$[\'{#LOCATION_ID}.VBE.{#SUBJECT_ID}.fail_eacces\']',
+                                    'params': ['$[\'{#LOCATION_ID}.VBE.{#SUBJECT_ID}.fail_eacces\']'],
                                     'error_handler': 'DISCARD_VALUE',
                                 },
                                 {
@@ -3525,7 +3529,7 @@
                             'preprocessing': [
                                 {
                                     'type': 'JSONPATH',
-                                    'params': '$[\'{#LOCATION_ID}.VBE.{#SUBJECT_ID}.fail_eaddrnotavail\']',
+                                    'params': ['$[\'{#LOCATION_ID}.VBE.{#SUBJECT_ID}.fail_eaddrnotavail\']'],
                                     'error_handler': 'DISCARD_VALUE',
                                 },
                                 {
@@ -3544,7 +3548,7 @@
                             'preprocessing': [
                                 {
                                     'type': 'JSONPATH',
-                                    'params': '$[\'{#LOCATION_ID}.VBE.{#SUBJECT_ID}.fail_econnrefused\']',
+                                    'params': ['$[\'{#LOCATION_ID}.VBE.{#SUBJECT_ID}.fail_econnrefused\']'],
                                     'error_handler': 'DISCARD_VALUE',
                                 },
                                 {
@@ -3563,7 +3567,7 @@
                             'preprocessing': [
                                 {
                                     'type': 'JSONPATH',
-                                    'params': '$[\'{#LOCATION_ID}.VBE.{#SUBJECT_ID}.fail_enetunreach\']',
+                                    'params': ['$[\'{#LOCATION_ID}.VBE.{#SUBJECT_ID}.fail_enetunreach\']'],
                                     'error_handler': 'DISCARD_VALUE',
                                 },
                                 {
@@ -3582,7 +3586,7 @@
                             'preprocessing': [
                                 {
                                     'type': 'JSONPATH',
-                                    'params': '$[\'{#LOCATION_ID}.VBE.{#SUBJECT_ID}.fail_etimedout\']',
+                                    'params': ['$[\'{#LOCATION_ID}.VBE.{#SUBJECT_ID}.fail_etimedout\']'],
                                     'error_handler': 'DISCARD_VALUE',
                                 },
                                 {
@@ -3601,7 +3605,7 @@
                             'preprocessing': [
                                 {
                                     'type': 'JSONPATH',
-                                    'params': '$[\'{#LOCATION_ID}.VBE.{#SUBJECT_ID}.fail_other\']',
+                                    'params': ['$[\'{#LOCATION_ID}.VBE.{#SUBJECT_ID}.fail_other\']'],
                                     'error_handler': 'DISCARD_VALUE',
                                 },
                                 {
@@ -3619,7 +3623,7 @@
                             'preprocessing': [
                                 {
                                     'type': 'JSONPATH',
-                                    'params': '$[\'{#LOCATION_ID}.VBE.{#SUBJECT_ID}.happy\']',
+                                    'params': ['$[\'{#LOCATION_ID}.VBE.{#SUBJECT_ID}.happy\']'],
                                     'error_handler': 'DISCARD_VALUE',
                                 },
                             ],
@@ -3635,7 +3639,7 @@
                             'preprocessing': [
                                 {
                                     'type': 'JSONPATH',
-                                    'params': '$[\'{#LOCATION_ID}.VBE.{#SUBJECT_ID}.helddown\']',
+                                    'params': ['$[\'{#LOCATION_ID}.VBE.{#SUBJECT_ID}.helddown\']'],
                                     'error_handler': 'DISCARD_VALUE',
                                 },
                                 {
@@ -3654,7 +3658,7 @@
                             'preprocessing': [
                                 {
                                     'type': 'JSONPATH',
-                                    'params': '$[\'{#LOCATION_ID}.VBE.{#SUBJECT_ID}.pipe_hdrbytes\']',
+                                    'params': ['$[\'{#LOCATION_ID}.VBE.{#SUBJECT_ID}.pipe_hdrbytes\']'],
                                     'error_handler': 'DISCARD_VALUE',
                                 },
                                 {
@@ -3673,7 +3677,7 @@
                             'preprocessing': [
                                 {
                                     'type': 'JSONPATH',
-                                    'params': '$[\'{#LOCATION_ID}.VBE.{#SUBJECT_ID}.pipe_in\']',
+                                    'params': ['$[\'{#LOCATION_ID}.VBE.{#SUBJECT_ID}.pipe_in\']'],
                                     'error_handler': 'DISCARD_VALUE',
                                 },
                                 {
@@ -3692,7 +3696,7 @@
                             'preprocessing': [
                                 {
                                     'type': 'JSONPATH',
-                                    'params': '$[\'{#LOCATION_ID}.VBE.{#SUBJECT_ID}.pipe_out\']',
+                                    'params': ['$[\'{#LOCATION_ID}.VBE.{#SUBJECT_ID}.pipe_out\']'],
                                     'error_handler': 'DISCARD_VALUE',
                                 },
                                 {
@@ -3711,7 +3715,7 @@
                             'preprocessing': [
                                 {
                                     'type': 'JSONPATH',
-                                    'params': '$[\'{#LOCATION_ID}.VBE.{#SUBJECT_ID}.req\']',
+                                    'params': ['$[\'{#LOCATION_ID}.VBE.{#SUBJECT_ID}.req\']'],
                                     'error_handler': 'DISCARD_VALUE',
                                 },
                                 {
@@ -3730,7 +3734,7 @@
                             'preprocessing': [
                                 {
                                     'type': 'JSONPATH',
-                                    'params': '$[\'{#LOCATION_ID}.VBE.{#SUBJECT_ID}.unhealthy\']',
+                                    'params': ['$[\'{#LOCATION_ID}.VBE.{#SUBJECT_ID}.unhealthy\']'],
                                     'error_handler': 'DISCARD_VALUE',
                                 },
                                 {
@@ -3788,7 +3792,7 @@
                             'preprocessing': [
                                 {
                                     'type': 'JSONPATH',
-                                    'params': '$[\'{#LOCATION_ID}.STG.{#SUBJECT_ID}.c_fail\']',
+                                    'params': ['$[\'{#LOCATION_ID}.STG.{#SUBJECT_ID}.c_fail\']'],
                                     'error_handler': 'DISCARD_VALUE',
                                 },
                                 {
@@ -3807,7 +3811,7 @@
                             'preprocessing': [
                                 {
                                     'type': 'JSONPATH',
-                                    'params': '$[\'{#LOCATION_ID}.STG.{#SUBJECT_ID}.c_memcache_hit\']',
+                                    'params': ['$[\'{#LOCATION_ID}.STG.{#SUBJECT_ID}.c_memcache_hit\']'],
                                     'error_handler': 'DISCARD_VALUE',
                                 },
                                 {
@@ -3826,7 +3830,7 @@
                             'preprocessing': [
                                 {
                                     'type': 'JSONPATH',
-                                    'params': '$[\'{#LOCATION_ID}.STG.{#SUBJECT_ID}.c_memcache_miss\']',
+                                    'params': ['$[\'{#LOCATION_ID}.STG.{#SUBJECT_ID}.c_memcache_miss\']'],
                                     'error_handler': 'DISCARD_VALUE',
                                 },
                                 {
@@ -3845,7 +3849,7 @@
                             'preprocessing': [
                                 {
                                     'type': 'JSONPATH',
-                                    'params': '$[\'{#LOCATION_ID}.STG.{#SUBJECT_ID}.c_ykey_purged\']',
+                                    'params': ['$[\'{#LOCATION_ID}.STG.{#SUBJECT_ID}.c_ykey_purged\']'],
                                     'error_handler': 'DISCARD_VALUE',
                                 },
                                 {
@@ -3864,7 +3868,7 @@
                             'preprocessing': [
                                 {
                                     'type': 'JSONPATH',
-                                    'params': '$[\'{#LOCATION_ID}.STG.{#SUBJECT_ID}.g_bytes\']',
+                                    'params': ['$[\'{#LOCATION_ID}.STG.{#SUBJECT_ID}.g_bytes\']'],
                                     'error_handler': 'DISCARD_VALUE',
                                 },
                             ],
@@ -3880,7 +3884,7 @@
                             'preprocessing': [
                                 {
                                     'type': 'JSONPATH',
-                                    'params': '$[\'{#LOCATION_ID}.STG.{#SUBJECT_ID}.g_space\']',
+                                    'params': ['$[\'{#LOCATION_ID}.STG.{#SUBJECT_ID}.g_space\']'],
                                     'error_handler': 'DISCARD_VALUE',
                                 },
                             ],
@@ -3895,7 +3899,7 @@
                             'preprocessing': [
                                 {
                                     'type': 'JSONPATH',
-                                    'params': '$[\'{#LOCATION_ID}.STG.{#SUBJECT_ID}.g_sparenode\']',
+                                    'params': ['$[\'{#LOCATION_ID}.STG.{#SUBJECT_ID}.g_sparenode\']'],
                                     'error_handler': 'DISCARD_VALUE',
                                 },
                             ],
@@ -3910,7 +3914,7 @@
                             'preprocessing': [
                                 {
                                     'type': 'JSONPATH',
-                                    'params': '$[\'{#LOCATION_ID}.STG.{#SUBJECT_ID}.g_ykey_keys\']',
+                                    'params': ['$[\'{#LOCATION_ID}.STG.{#SUBJECT_ID}.g_ykey_keys\']'],
                                     'error_handler': 'DISCARD_VALUE',
                                 },
                             ],
@@ -3926,7 +3930,7 @@
                             'preprocessing': [
                                 {
                                     'type': 'JSONPATH',
-                                    'params': '$[\'{#LOCATION_ID}.STG.{#SUBJECT_ID}.n_lru_moved\']',
+                                    'params': ['$[\'{#LOCATION_ID}.STG.{#SUBJECT_ID}.n_lru_moved\']'],
                                     'error_handler': 'DISCARD_VALUE',
                                 },
                                 {
@@ -3945,7 +3949,7 @@
                             'preprocessing': [
                                 {
                                     'type': 'JSONPATH',
-                                    'params': '$[\'{#LOCATION_ID}.STG.{#SUBJECT_ID}.n_lru_nuked\']',
+                                    'params': ['$[\'{#LOCATION_ID}.STG.{#SUBJECT_ID}.n_lru_nuked\']'],
                                     'error_handler': 'DISCARD_VALUE',
                                 },
                                 {
@@ -3964,7 +3968,7 @@
                             'preprocessing': [
                                 {
                                     'type': 'JSONPATH',
-                                    'params': '$[\'{#LOCATION_ID}.STG.{#SUBJECT_ID}.n_vary\']',
+                                    'params': ['$[\'{#LOCATION_ID}.STG.{#SUBJECT_ID}.n_vary\']'],
                                     'error_handler': 'DISCARD_VALUE',
                                 },
                                 {
@@ -4050,7 +4054,7 @@
                             'preprocessing': [
                                 {
                                     'type': 'JSONPATH',
-                                    'params': '$[\'{#LOCATION_ID}.MSE_BOOK.{#SUBJECT_ID}.c_insert_timeout\']',
+                                    'params': ['$[\'{#LOCATION_ID}.MSE_BOOK.{#SUBJECT_ID}.c_insert_timeout\']'],
                                     'error_handler': 'DISCARD_VALUE',
                                 },
                                 {
@@ -4069,7 +4073,7 @@
                             'preprocessing': [
                                 {
                                     'type': 'JSONPATH',
-                                    'params': '$[\'{#LOCATION_ID}.MSE_BOOK.{#SUBJECT_ID}.c_waterlevel_purge\']',
+                                    'params': ['$[\'{#LOCATION_ID}.MSE_BOOK.{#SUBJECT_ID}.c_waterlevel_purge\']'],
                                     'error_handler': 'DISCARD_VALUE',
                                 },
                                 {
@@ -4088,7 +4092,7 @@
                             'preprocessing': [
                                 {
                                     'type': 'JSONPATH',
-                                    'params': '$[\'{#LOCATION_ID}.MSE_BOOK.{#SUBJECT_ID}.c_waterlevel_queue\']',
+                                    'params': ['$[\'{#LOCATION_ID}.MSE_BOOK.{#SUBJECT_ID}.c_waterlevel_queue\']'],
                                     'error_handler': 'DISCARD_VALUE',
                                 },
                                 {
@@ -4107,7 +4111,7 @@
                             'preprocessing': [
                                 {
                                     'type': 'JSONPATH',
-                                    'params': '$[\'{#LOCATION_ID}.MSE_BOOK.{#SUBJECT_ID}.c_waterlevel_runs\']',
+                                    'params': ['$[\'{#LOCATION_ID}.MSE_BOOK.{#SUBJECT_ID}.c_waterlevel_runs\']'],
                                     'error_handler': 'DISCARD_VALUE',
                                 },
                                 {
@@ -4126,7 +4130,7 @@
                             'preprocessing': [
                                 {
                                     'type': 'JSONPATH',
-                                    'params': '$[\'{#LOCATION_ID}.MSE_BOOK.{#SUBJECT_ID}.g_banlist_bytes\']',
+                                    'params': ['$[\'{#LOCATION_ID}.MSE_BOOK.{#SUBJECT_ID}.g_banlist_bytes\']'],
                                     'error_handler': 'DISCARD_VALUE',
                                 },
                             ],
@@ -4142,7 +4146,7 @@
                             'preprocessing': [
                                 {
                                     'type': 'JSONPATH',
-                                    'params': '$[\'{#LOCATION_ID}.MSE_BOOK.{#SUBJECT_ID}.g_banlist_space\']',
+                                    'params': ['$[\'{#LOCATION_ID}.MSE_BOOK.{#SUBJECT_ID}.g_banlist_space\']'],
                                     'error_handler': 'DISCARD_VALUE',
                                 },
                             ],
@@ -4158,7 +4162,7 @@
                             'preprocessing': [
                                 {
                                     'type': 'JSONPATH',
-                                    'params': '$[\'{#LOCATION_ID}.MSE_BOOK.{#SUBJECT_ID}.g_bytes\']',
+                                    'params': ['$[\'{#LOCATION_ID}.MSE_BOOK.{#SUBJECT_ID}.g_bytes\']'],
                                     'error_handler': 'DISCARD_VALUE',
                                 },
                             ],
@@ -4174,7 +4178,7 @@
                             'preprocessing': [
                                 {
                                     'type': 'JSONPATH',
-                                    'params': '$[\'{#LOCATION_ID}.MSE_BOOK.{#SUBJECT_ID}.g_space\']',
+                                    'params': ['$[\'{#LOCATION_ID}.MSE_BOOK.{#SUBJECT_ID}.g_space\']'],
                                     'error_handler': 'DISCARD_VALUE',
                                 },
                             ],
@@ -4190,7 +4194,7 @@
                             'preprocessing': [
                                 {
                                     'type': 'JSONPATH',
-                                    'params': '$[\'{#LOCATION_ID}.MSE_BOOK.{#SUBJECT_ID}.n_vary\']',
+                                    'params': ['$[\'{#LOCATION_ID}.MSE_BOOK.{#SUBJECT_ID}.n_vary\']'],
                                     'error_handler': 'DISCARD_VALUE',
                                 },
                                 {
@@ -4244,7 +4248,7 @@
                             'preprocessing': [
                                 {
                                     'type': 'JSONPATH',
-                                    'params': '$[\'{#LOCATION_ID}.MSE_STORE.{#SUBJECT_ID}.c_aio_finished_bytes_read\']',
+                                    'params': ['$[\'{#LOCATION_ID}.MSE_STORE.{#SUBJECT_ID}.c_aio_finished_bytes_read\']'],
                                     'error_handler': 'DISCARD_VALUE',
                                 },
                                 {
@@ -4263,7 +4267,7 @@
                             'preprocessing': [
                                 {
                                     'type': 'JSONPATH',
-                                    'params': '$[\'{#LOCATION_ID}.MSE_STORE.{#SUBJECT_ID}.c_aio_finished_bytes_write\']',
+                                    'params': ['$[\'{#LOCATION_ID}.MSE_STORE.{#SUBJECT_ID}.c_aio_finished_bytes_write\']'],
                                     'error_handler': 'DISCARD_VALUE',
                                 },
                                 {
@@ -4282,7 +4286,7 @@
                             'preprocessing': [
                                 {
                                     'type': 'JSONPATH',
-                                    'params': '$[\'{#LOCATION_ID}.MSE_STORE.{#SUBJECT_ID}.c_aio_finished_read\']',
+                                    'params': ['$[\'{#LOCATION_ID}.MSE_STORE.{#SUBJECT_ID}.c_aio_finished_read\']'],
                                     'error_handler': 'DISCARD_VALUE',
                                 },
                                 {
@@ -4301,7 +4305,7 @@
                             'preprocessing': [
                                 {
                                     'type': 'JSONPATH',
-                                    'params': '$[\'{#LOCATION_ID}.MSE_STORE.{#SUBJECT_ID}.c_aio_finished_write\']',
+                                    'params': ['$[\'{#LOCATION_ID}.MSE_STORE.{#SUBJECT_ID}.c_aio_finished_write\']'],
                                     'error_handler': 'DISCARD_VALUE',
                                 },
                                 {
@@ -4320,7 +4324,7 @@
                             'preprocessing': [
                                 {
                                     'type': 'JSONPATH',
-                                    'params': '$[\'{#LOCATION_ID}.MSE_STORE.{#SUBJECT_ID}.c_waterlevel_purge\']',
+                                    'params': ['$[\'{#LOCATION_ID}.MSE_STORE.{#SUBJECT_ID}.c_waterlevel_purge\']'],
                                     'error_handler': 'DISCARD_VALUE',
                                 },
                                 {
@@ -4339,7 +4343,7 @@
                             'preprocessing': [
                                 {
                                     'type': 'JSONPATH',
-                                    'params': '$[\'{#LOCATION_ID}.MSE_STORE.{#SUBJECT_ID}.c_waterlevel_queue\']',
+                                    'params': ['$[\'{#LOCATION_ID}.MSE_STORE.{#SUBJECT_ID}.c_waterlevel_queue\']'],
                                     'error_handler': 'DISCARD_VALUE',
                                 },
                                 {
@@ -4358,7 +4362,7 @@
                             'preprocessing': [
                                 {
                                     'type': 'JSONPATH',
-                                    'params': '$[\'{#LOCATION_ID}.MSE_STORE.{#SUBJECT_ID}.g_alloc_bytes\']',
+                                    'params': ['$[\'{#LOCATION_ID}.MSE_STORE.{#SUBJECT_ID}.g_alloc_bytes\']'],
                                     'error_handler': 'DISCARD_VALUE',
                                 },
                             ],
@@ -4374,7 +4378,7 @@
                             'preprocessing': [
                                 {
                                     'type': 'JSONPATH',
-                                    'params': '$[\'{#LOCATION_ID}.MSE_STORE.{#SUBJECT_ID}.g_free_bytes\']',
+                                    'params': ['$[\'{#LOCATION_ID}.MSE_STORE.{#SUBJECT_ID}.g_free_bytes\']'],
                                     'error_handler': 'DISCARD_VALUE',
                                 },
                             ],
@@ -4389,7 +4393,7 @@
                             'preprocessing': [
                                 {
                                     'type': 'JSONPATH',
-                                    'params': '$[\'{#LOCATION_ID}.MSE_STORE.{#SUBJECT_ID}.g_objects\']',
+                                    'params': ['$[\'{#LOCATION_ID}.MSE_STORE.{#SUBJECT_ID}.g_objects\']'],
                                     'error_handler': 'DISCARD_VALUE',
                                 },
                             ],
@@ -4404,7 +4408,7 @@
                             'preprocessing': [
                                 {
                                     'type': 'JSONPATH',
-                                    'params': '$[\'{#LOCATION_ID}.MSE_STORE.{#SUBJECT_ID}.g_ykey_keys\']',
+                                    'params': ['$[\'{#LOCATION_ID}.MSE_STORE.{#SUBJECT_ID}.g_ykey_keys\']'],
                                     'error_handler': 'DISCARD_VALUE',
                                 },
                             ],
@@ -4436,7 +4440,7 @@
                             'preprocessing': [
                                 {
                                     'type': 'JSONPATH',
-                                    'params': '$[\'{#LOCATION_ID}.COUNTER.{#SUBJECT_ID}\']',
+                                    'params': ['$[\'{#LOCATION_ID}.COUNTER.{#SUBJECT_ID}\']'],
                                     'error_handler': 'DISCARD_VALUE',
                                 },
                                 {
@@ -4471,7 +4475,7 @@
                             'preprocessing': [
                                 {
                                     'type': 'JSONPATH',
-                                    'params': '$[\'{#LOCATION_ID}.ACCG.{#SUBJECT_ID}.client_req_count\']',
+                                    'params': ['$[\'{#LOCATION_ID}.ACCG.{#SUBJECT_ID}.client_req_count\']'],
                                     'error_handler': 'DISCARD_VALUE',
                                 },
                                 {
@@ -4490,7 +4494,7 @@
                             'preprocessing': [
                                 {
                                     'type': 'JSONPATH',
-                                    'params': '$[\'{#LOCATION_ID}.ACCG.{#SUBJECT_ID}.client_200_count\']',
+                                    'params': ['$[\'{#LOCATION_ID}.ACCG.{#SUBJECT_ID}.client_200_count\']'],
                                     'error_handler': 'DISCARD_VALUE',
                                 },
                                 {
@@ -4509,7 +4513,7 @@
                             'preprocessing': [
                                 {
                                     'type': 'JSONPATH',
-                                    'params': '$[\'{#LOCATION_ID}.ACCG.{#SUBJECT_ID}.client_304_count\']',
+                                    'params': ['$[\'{#LOCATION_ID}.ACCG.{#SUBJECT_ID}.client_304_count\']'],
                                     'error_handler': 'DISCARD_VALUE',
                                 },
                                 {
@@ -4528,7 +4532,7 @@
                             'preprocessing': [
                                 {
                                     'type': 'JSONPATH',
-                                    'params': '$[\'{#LOCATION_ID}.ACCG.{#SUBJECT_ID}.client_404_count\']',
+                                    'params': ['$[\'{#LOCATION_ID}.ACCG.{#SUBJECT_ID}.client_404_count\']'],
                                     'error_handler': 'DISCARD_VALUE',
                                 },
                                 {
@@ -4547,7 +4551,7 @@
                             'preprocessing': [
                                 {
                                     'type': 'JSONPATH',
-                                    'params': '$[\'{#LOCATION_ID}.ACCG.{#SUBJECT_ID}.client_503_count\']',
+                                    'params': ['$[\'{#LOCATION_ID}.ACCG.{#SUBJECT_ID}.client_503_count\']'],
                                     'error_handler': 'DISCARD_VALUE',
                                 },
                                 {
@@ -4566,7 +4570,7 @@
                             'preprocessing': [
                                 {
                                     'type': 'JSONPATH',
-                                    'params': '$[\'{#LOCATION_ID}.ACCG.{#SUBJECT_ID}.client_2xx_count\']',
+                                    'params': ['$[\'{#LOCATION_ID}.ACCG.{#SUBJECT_ID}.client_2xx_count\']'],
                                     'error_handler': 'DISCARD_VALUE',
                                 },
                                 {
@@ -4585,7 +4589,7 @@
                             'preprocessing': [
                                 {
                                     'type': 'JSONPATH',
-                                    'params': '$[\'{#LOCATION_ID}.ACCG.{#SUBJECT_ID}.client_3xx_count\']',
+                                    'params': ['$[\'{#LOCATION_ID}.ACCG.{#SUBJECT_ID}.client_3xx_count\']'],
                                     'error_handler': 'DISCARD_VALUE',
                                 },
                                 {
@@ -4604,7 +4608,7 @@
                             'preprocessing': [
                                 {
                                     'type': 'JSONPATH',
-                                    'params': '$[\'{#LOCATION_ID}.ACCG.{#SUBJECT_ID}.client_4xx_count\']',
+                                    'params': ['$[\'{#LOCATION_ID}.ACCG.{#SUBJECT_ID}.client_4xx_count\']'],
                                     'error_handler': 'DISCARD_VALUE',
                                 },
                                 {
@@ -4623,7 +4627,7 @@
                             'preprocessing': [
                                 {
                                     'type': 'JSONPATH',
-                                    'params': '$[\'{#LOCATION_ID}.ACCG.{#SUBJECT_ID}.client_5xx_count\']',
+                                    'params': ['$[\'{#LOCATION_ID}.ACCG.{#SUBJECT_ID}.client_5xx_count\']'],
                                     'error_handler': 'DISCARD_VALUE',
                                 },
                                 {
@@ -4642,7 +4646,7 @@
                             'preprocessing': [
                                 {
                                     'type': 'JSONPATH',
-                                    'params': '$[\'{#LOCATION_ID}.ACCG.{#SUBJECT_ID}.client_req_hdrbytes\']',
+                                    'params': ['$[\'{#LOCATION_ID}.ACCG.{#SUBJECT_ID}.client_req_hdrbytes\']'],
                                     'error_handler': 'DISCARD_VALUE',
                                 },
                                 {
@@ -4661,7 +4665,7 @@
                             'preprocessing': [
                                 {
                                     'type': 'JSONPATH',
-                                    'params': '$[\'{#LOCATION_ID}.ACCG.{#SUBJECT_ID}.client_req_bodybytes\']',
+                                    'params': ['$[\'{#LOCATION_ID}.ACCG.{#SUBJECT_ID}.client_req_bodybytes\']'],
                                     'error_handler': 'DISCARD_VALUE',
                                 },
                                 {
@@ -4680,7 +4684,7 @@
                             'preprocessing': [
                                 {
                                     'type': 'JSONPATH',
-                                    'params': '$[\'{#LOCATION_ID}.ACCG.{#SUBJECT_ID}.client_resp_hdrbytes\']',
+                                    'params': ['$[\'{#LOCATION_ID}.ACCG.{#SUBJECT_ID}.client_resp_hdrbytes\']'],
                                     'error_handler': 'DISCARD_VALUE',
                                 },
                                 {
@@ -4699,7 +4703,7 @@
                             'preprocessing': [
                                 {
                                     'type': 'JSONPATH',
-                                    'params': '$[\'{#LOCATION_ID}.ACCG.{#SUBJECT_ID}.client_resp_bodybytes\']',
+                                    'params': ['$[\'{#LOCATION_ID}.ACCG.{#SUBJECT_ID}.client_resp_bodybytes\']'],
                                     'error_handler': 'DISCARD_VALUE',
                                 },
                                 {
@@ -4718,7 +4722,7 @@
                             'preprocessing': [
                                 {
                                     'type': 'JSONPATH',
-                                    'params': '$[\'{#LOCATION_ID}.ACCG.{#SUBJECT_ID}.client_hit_count\']',
+                                    'params': ['$[\'{#LOCATION_ID}.ACCG.{#SUBJECT_ID}.client_hit_count\']'],
                                     'error_handler': 'DISCARD_VALUE',
                                 },
                                 {
@@ -4737,7 +4741,7 @@
                             'preprocessing': [
                                 {
                                     'type': 'JSONPATH',
-                                    'params': '$[\'{#LOCATION_ID}.ACCG.{#SUBJECT_ID}.client_hit_req_hdrbytes\']',
+                                    'params': ['$[\'{#LOCATION_ID}.ACCG.{#SUBJECT_ID}.client_hit_req_hdrbytes\']'],
                                     'error_handler': 'DISCARD_VALUE',
                                 },
                                 {
@@ -4756,7 +4760,7 @@
                             'preprocessing': [
                                 {
                                     'type': 'JSONPATH',
-                                    'params': '$[\'{#LOCATION_ID}.ACCG.{#SUBJECT_ID}.client_hit_req_bodybytes\']',
+                                    'params': ['$[\'{#LOCATION_ID}.ACCG.{#SUBJECT_ID}.client_hit_req_bodybytes\']'],
                                     'error_handler': 'DISCARD_VALUE',
                                 },
                                 {
@@ -4775,7 +4779,7 @@
                             'preprocessing': [
                                 {
                                     'type': 'JSONPATH',
-                                    'params': '$[\'{#LOCATION_ID}.ACCG.{#SUBJECT_ID}.client_hit_resp_hdrbytes\']',
+                                    'params': ['$[\'{#LOCATION_ID}.ACCG.{#SUBJECT_ID}.client_hit_resp_hdrbytes\']'],
                                     'error_handler': 'DISCARD_VALUE',
                                 },
                                 {
@@ -4794,7 +4798,7 @@
                             'preprocessing': [
                                 {
                                     'type': 'JSONPATH',
-                                    'params': '$[\'{#LOCATION_ID}.ACCG.{#SUBJECT_ID}.client_hit_resp_bodybytes\']',
+                                    'params': ['$[\'{#LOCATION_ID}.ACCG.{#SUBJECT_ID}.client_hit_resp_bodybytes\']'],
                                     'error_handler': 'DISCARD_VALUE',
                                 },
                                 {
@@ -4813,7 +4817,7 @@
                             'preprocessing': [
                                 {
                                     'type': 'JSONPATH',
-                                    'params': '$[\'{#LOCATION_ID}.ACCG.{#SUBJECT_ID}.client_miss_count\']',
+                                    'params': ['$[\'{#LOCATION_ID}.ACCG.{#SUBJECT_ID}.client_miss_count\']'],
                                     'error_handler': 'DISCARD_VALUE',
                                 },
                                 {
@@ -4832,7 +4836,7 @@
                             'preprocessing': [
                                 {
                                     'type': 'JSONPATH',
-                                    'params': '$[\'{#LOCATION_ID}.ACCG.{#SUBJECT_ID}.client_miss_req_hdrbytes\']',
+                                    'params': ['$[\'{#LOCATION_ID}.ACCG.{#SUBJECT_ID}.client_miss_req_hdrbytes\']'],
                                     'error_handler': 'DISCARD_VALUE',
                                 },
                                 {
@@ -4851,7 +4855,7 @@
                             'preprocessing': [
                                 {
                                     'type': 'JSONPATH',
-                                    'params': '$[\'{#LOCATION_ID}.ACCG.{#SUBJECT_ID}.client_miss_req_bodybytes\']',
+                                    'params': ['$[\'{#LOCATION_ID}.ACCG.{#SUBJECT_ID}.client_miss_req_bodybytes\']'],
                                     'error_handler': 'DISCARD_VALUE',
                                 },
                                 {
@@ -4870,7 +4874,7 @@
                             'preprocessing': [
                                 {
                                     'type': 'JSONPATH',
-                                    'params': '$[\'{#LOCATION_ID}.ACCG.{#SUBJECT_ID}.client_miss_resp_hdrbytes\']',
+                                    'params': ['$[\'{#LOCATION_ID}.ACCG.{#SUBJECT_ID}.client_miss_resp_hdrbytes\']'],
                                     'error_handler': 'DISCARD_VALUE',
                                 },
                                 {
@@ -4889,7 +4893,7 @@
                             'preprocessing': [
                                 {
                                     'type': 'JSONPATH',
-                                    'params': '$[\'{#LOCATION_ID}.ACCG.{#SUBJECT_ID}.client_miss_resp_bodybytes\']',
+                                    'params': ['$[\'{#LOCATION_ID}.ACCG.{#SUBJECT_ID}.client_miss_resp_bodybytes\']'],
                                     'error_handler': 'DISCARD_VALUE',
                                 },
                                 {
@@ -4908,7 +4912,7 @@
                             'preprocessing': [
                                 {
                                     'type': 'JSONPATH',
-                                    'params': '$[\'{#LOCATION_ID}.ACCG.{#SUBJECT_ID}.client_pass_count\']',
+                                    'params': ['$[\'{#LOCATION_ID}.ACCG.{#SUBJECT_ID}.client_pass_count\']'],
                                     'error_handler': 'DISCARD_VALUE',
                                 },
                                 {
@@ -4927,7 +4931,7 @@
                             'preprocessing': [
                                 {
                                     'type': 'JSONPATH',
-                                    'params': '$[\'{#LOCATION_ID}.ACCG.{#SUBJECT_ID}.client_pass_req_hdrbytes\']',
+                                    'params': ['$[\'{#LOCATION_ID}.ACCG.{#SUBJECT_ID}.client_pass_req_hdrbytes\']'],
                                     'error_handler': 'DISCARD_VALUE',
                                 },
                                 {
@@ -4946,7 +4950,7 @@
                             'preprocessing': [
                                 {
                                     'type': 'JSONPATH',
-                                    'params': '$[\'{#LOCATION_ID}.ACCG.{#SUBJECT_ID}.client_pass_req_bodybytes\']',
+                                    'params': ['$[\'{#LOCATION_ID}.ACCG.{#SUBJECT_ID}.client_pass_req_bodybytes\']'],
                                     'error_handler': 'DISCARD_VALUE',
                                 },
                                 {
@@ -4965,7 +4969,7 @@
                             'preprocessing': [
                                 {
                                     'type': 'JSONPATH',
-                                    'params': '$[\'{#LOCATION_ID}.ACCG.{#SUBJECT_ID}.client_pass_resp_hdrbytes\']',
+                                    'params': ['$[\'{#LOCATION_ID}.ACCG.{#SUBJECT_ID}.client_pass_resp_hdrbytes\']'],
                                     'error_handler': 'DISCARD_VALUE',
                                 },
                                 {
@@ -4984,7 +4988,7 @@
                             'preprocessing': [
                                 {
                                     'type': 'JSONPATH',
-                                    'params': '$[\'{#LOCATION_ID}.ACCG.{#SUBJECT_ID}.client_pass_resp_bodybytes\']',
+                                    'params': ['$[\'{#LOCATION_ID}.ACCG.{#SUBJECT_ID}.client_pass_resp_bodybytes\']'],
                                     'error_handler': 'DISCARD_VALUE',
                                 },
                                 {
@@ -5003,7 +5007,7 @@
                             'preprocessing': [
                                 {
                                     'type': 'JSONPATH',
-                                    'params': '$[\'{#LOCATION_ID}.ACCG.{#SUBJECT_ID}.client_synth_count\']',
+                                    'params': ['$[\'{#LOCATION_ID}.ACCG.{#SUBJECT_ID}.client_synth_count\']'],
                                     'error_handler': 'DISCARD_VALUE',
                                 },
                                 {
@@ -5022,7 +5026,7 @@
                             'preprocessing': [
                                 {
                                     'type': 'JSONPATH',
-                                    'params': '$[\'{#LOCATION_ID}.ACCG.{#SUBJECT_ID}.client_synth_req_hdrbytes\']',
+                                    'params': ['$[\'{#LOCATION_ID}.ACCG.{#SUBJECT_ID}.client_synth_req_hdrbytes\']'],
                                     'error_handler': 'DISCARD_VALUE',
                                 },
                                 {
@@ -5041,7 +5045,7 @@
                             'preprocessing': [
                                 {
                                     'type': 'JSONPATH',
-                                    'params': '$[\'{#LOCATION_ID}.ACCG.{#SUBJECT_ID}.client_synth_req_bodybytes\']',
+                                    'params': ['$[\'{#LOCATION_ID}.ACCG.{#SUBJECT_ID}.client_synth_req_bodybytes\']'],
                                     'error_handler': 'DISCARD_VALUE',
                                 },
                                 {
@@ -5060,7 +5064,7 @@
                             'preprocessing': [
                                 {
                                     'type': 'JSONPATH',
-                                    'params': '$[\'{#LOCATION_ID}.ACCG.{#SUBJECT_ID}.client_synth_resp_hdrbytes\']',
+                                    'params': ['$[\'{#LOCATION_ID}.ACCG.{#SUBJECT_ID}.client_synth_resp_hdrbytes\']'],
                                     'error_handler': 'DISCARD_VALUE',
                                 },
                                 {
@@ -5079,7 +5083,7 @@
                             'preprocessing': [
                                 {
                                     'type': 'JSONPATH',
-                                    'params': '$[\'{#LOCATION_ID}.ACCG.{#SUBJECT_ID}.client_synth_resp_bodybytes\']',
+                                    'params': ['$[\'{#LOCATION_ID}.ACCG.{#SUBJECT_ID}.client_synth_resp_bodybytes\']'],
                                     'error_handler': 'DISCARD_VALUE',
                                 },
                                 {
@@ -5098,7 +5102,7 @@
                             'preprocessing': [
                                 {
                                     'type': 'JSONPATH',
-                                    'params': '$[\'{#LOCATION_ID}.ACCG.{#SUBJECT_ID}.client_pipe_count\']',
+                                    'params': ['$[\'{#LOCATION_ID}.ACCG.{#SUBJECT_ID}.client_pipe_count\']'],
                                     'error_handler': 'DISCARD_VALUE',
                                 },
                                 {
@@ -5117,7 +5121,7 @@
                             'preprocessing': [
                                 {
                                     'type': 'JSONPATH',
-                                    'params': '$[\'{#LOCATION_ID}.ACCG.{#SUBJECT_ID}.client_pipe_req_hdrbytes\']',
+                                    'params': ['$[\'{#LOCATION_ID}.ACCG.{#SUBJECT_ID}.client_pipe_req_hdrbytes\']'],
                                     'error_handler': 'DISCARD_VALUE',
                                 },
                                 {
@@ -5136,7 +5140,7 @@
                             'preprocessing': [
                                 {
                                     'type': 'JSONPATH',
-                                    'params': '$[\'{#LOCATION_ID}.ACCG.{#SUBJECT_ID}.client_pipe_req_bodybytes\']',
+                                    'params': ['$[\'{#LOCATION_ID}.ACCG.{#SUBJECT_ID}.client_pipe_req_bodybytes\']'],
                                     'error_handler': 'DISCARD_VALUE',
                                 },
                                 {
@@ -5155,7 +5159,7 @@
                             'preprocessing': [
                                 {
                                     'type': 'JSONPATH',
-                                    'params': '$[\'{#LOCATION_ID}.ACCG.{#SUBJECT_ID}.client_pipe_resp_hdrbytes\']',
+                                    'params': ['$[\'{#LOCATION_ID}.ACCG.{#SUBJECT_ID}.client_pipe_resp_hdrbytes\']'],
                                     'error_handler': 'DISCARD_VALUE',
                                 },
                                 {
@@ -5174,7 +5178,7 @@
                             'preprocessing': [
                                 {
                                     'type': 'JSONPATH',
-                                    'params': '$[\'{#LOCATION_ID}.ACCG.{#SUBJECT_ID}.client_pipe_resp_bodybytes\']',
+                                    'params': ['$[\'{#LOCATION_ID}.ACCG.{#SUBJECT_ID}.client_pipe_resp_bodybytes\']'],
                                     'error_handler': 'DISCARD_VALUE',
                                 },
                                 {
@@ -5193,7 +5197,7 @@
                             'preprocessing': [
                                 {
                                     'type': 'JSONPATH',
-                                    'params': '$[\'{#LOCATION_ID}.ACCG.{#SUBJECT_ID}.backend_req_count\']',
+                                    'params': ['$[\'{#LOCATION_ID}.ACCG.{#SUBJECT_ID}.backend_req_count\']'],
                                     'error_handler': 'DISCARD_VALUE',
                                 },
                                 {
@@ -5212,7 +5216,7 @@
                             'preprocessing': [
                                 {
                                     'type': 'JSONPATH',
-                                    'params': '$[\'{#LOCATION_ID}.ACCG.{#SUBJECT_ID}.backend_200_count\']',
+                                    'params': ['$[\'{#LOCATION_ID}.ACCG.{#SUBJECT_ID}.backend_200_count\']'],
                                     'error_handler': 'DISCARD_VALUE',
                                 },
                                 {
@@ -5231,7 +5235,7 @@
                             'preprocessing': [
                                 {
                                     'type': 'JSONPATH',
-                                    'params': '$[\'{#LOCATION_ID}.ACCG.{#SUBJECT_ID}.backend_304_count\']',
+                                    'params': ['$[\'{#LOCATION_ID}.ACCG.{#SUBJECT_ID}.backend_304_count\']'],
                                     'error_handler': 'DISCARD_VALUE',
                                 },
                                 {
@@ -5250,7 +5254,7 @@
                             'preprocessing': [
                                 {
                                     'type': 'JSONPATH',
-                                    'params': '$[\'{#LOCATION_ID}.ACCG.{#SUBJECT_ID}.backend_404_count\']',
+                                    'params': ['$[\'{#LOCATION_ID}.ACCG.{#SUBJECT_ID}.backend_404_count\']'],
                                     'error_handler': 'DISCARD_VALUE',
                                 },
                                 {
@@ -5269,7 +5273,7 @@
                             'preprocessing': [
                                 {
                                     'type': 'JSONPATH',
-                                    'params': '$[\'{#LOCATION_ID}.ACCG.{#SUBJECT_ID}.backend_503_count\']',
+                                    'params': ['$[\'{#LOCATION_ID}.ACCG.{#SUBJECT_ID}.backend_503_count\']'],
                                     'error_handler': 'DISCARD_VALUE',
                                 },
                                 {
@@ -5288,7 +5292,7 @@
                             'preprocessing': [
                                 {
                                     'type': 'JSONPATH',
-                                    'params': '$[\'{#LOCATION_ID}.ACCG.{#SUBJECT_ID}.backend_2xx_count\']',
+                                    'params': ['$[\'{#LOCATION_ID}.ACCG.{#SUBJECT_ID}.backend_2xx_count\']'],
                                     'error_handler': 'DISCARD_VALUE',
                                 },
                                 {
@@ -5307,7 +5311,7 @@
                             'preprocessing': [
                                 {
                                     'type': 'JSONPATH',
-                                    'params': '$[\'{#LOCATION_ID}.ACCG.{#SUBJECT_ID}.backend_3xx_count\']',
+                                    'params': ['$[\'{#LOCATION_ID}.ACCG.{#SUBJECT_ID}.backend_3xx_count\']'],
                                     'error_handler': 'DISCARD_VALUE',
                                 },
                                 {
@@ -5326,7 +5330,7 @@
                             'preprocessing': [
                                 {
                                     'type': 'JSONPATH',
-                                    'params': '$[\'{#LOCATION_ID}.ACCG.{#SUBJECT_ID}.backend_4xx_count\']',
+                                    'params': ['$[\'{#LOCATION_ID}.ACCG.{#SUBJECT_ID}.backend_4xx_count\']'],
                                     'error_handler': 'DISCARD_VALUE',
                                 },
                                 {
@@ -5345,7 +5349,7 @@
                             'preprocessing': [
                                 {
                                     'type': 'JSONPATH',
-                                    'params': '$[\'{#LOCATION_ID}.ACCG.{#SUBJECT_ID}.backend_5xx_count\']',
+                                    'params': ['$[\'{#LOCATION_ID}.ACCG.{#SUBJECT_ID}.backend_5xx_count\']'],
                                     'error_handler': 'DISCARD_VALUE',
                                 },
                                 {
@@ -5364,7 +5368,7 @@
                             'preprocessing': [
                                 {
                                     'type': 'JSONPATH',
-                                    'params': '$[\'{#LOCATION_ID}.ACCG.{#SUBJECT_ID}.backend_req_hdrbytes\']',
+                                    'params': ['$[\'{#LOCATION_ID}.ACCG.{#SUBJECT_ID}.backend_req_hdrbytes\']'],
                                     'error_handler': 'DISCARD_VALUE',
                                 },
                                 {
@@ -5383,7 +5387,7 @@
                             'preprocessing': [
                                 {
                                     'type': 'JSONPATH',
-                                    'params': '$[\'{#LOCATION_ID}.ACCG.{#SUBJECT_ID}.backend_req_bodybytes\']',
+                                    'params': ['$[\'{#LOCATION_ID}.ACCG.{#SUBJECT_ID}.backend_req_bodybytes\']'],
                                     'error_handler': 'DISCARD_VALUE',
                                 },
                                 {
@@ -5402,7 +5406,7 @@
                             'preprocessing': [
                                 {
                                     'type': 'JSONPATH',
-                                    'params': '$[\'{#LOCATION_ID}.ACCG.{#SUBJECT_ID}.backend_resp_hdrbytes\']',
+                                    'params': ['$[\'{#LOCATION_ID}.ACCG.{#SUBJECT_ID}.backend_resp_hdrbytes\']'],
                                     'error_handler': 'DISCARD_VALUE',
                                 },
                                 {
@@ -5421,7 +5425,7 @@
                             'preprocessing': [
                                 {
                                     'type': 'JSONPATH',
-                                    'params': '$[\'{#LOCATION_ID}.ACCG.{#SUBJECT_ID}.backend_resp_bodybytes\']',
+                                    'params': ['$[\'{#LOCATION_ID}.ACCG.{#SUBJECT_ID}.backend_resp_bodybytes\']'],
                                     'error_handler': 'DISCARD_VALUE',
                                 },
                                 {
@@ -5453,7 +5457,7 @@
                             'preprocessing': [
                                 {
                                     'type': 'JSONPATH',
-                                    'params': '$[\'{#LOCATION_ID}.ACCG.{#SUBJECT_ID}.client_grace_hit_count\']',
+                                    'params': ['$[\'{#LOCATION_ID}.ACCG.{#SUBJECT_ID}.client_grace_hit_count\']'],
                                     'error_handler': 'DISCARD_VALUE',
                                 },
                                 {

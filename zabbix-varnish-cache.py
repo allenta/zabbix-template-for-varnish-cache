@@ -465,6 +465,7 @@ class Stats(object):
 def _stats(instance, exclusions):
     # Initializations.
     stats = Stats(ITEMS, SUBJECTS, exclusions)
+    vbe_happy_pattern = re.compile(r'^VBE\..+\.happy$')
 
     # Fetch backends through varnishadm.
     backends = _backend_stats(stats, instance)
@@ -485,14 +486,47 @@ def _stats(instance, exclusions):
             else:
                 type = TYPE_OTHER
 
+            # 'VBE.*.happy' items are bitmaps storing results (i.e. success or
+            # failure) of the last 64 backend probes. From the 'varnishstat'
+            # point of view, those items are represented as 64 bit integers.
+            # Submitting such big integer values to Zabbix is problematic:
+            #   - Although Python (when parsing 'varnishstat' output & when
+            #     dumping script output) and Zabbix (when extracting values from
+            #     a JSON master item) are able to serialize / deserialize 64 bit
+            #     ints in JSON values just fine, integer precission in a valid
+            #     JSON value should be limited to 53 bits. Reason is that
+            #     numeric values in JavaScript are internally coded as float64,
+            #     which effectively limits precision of ints to 53 bits. A
+            #     JavaScript post-processing of JSON values in Zabbix would hit
+            #     the 53 bits limit because of the Duktape engine.
+            #   - Although JavaScript post-processing is just a particular use
+            #     case, in monitoring ecosystems it's general practice to assume
+            #     ints are limited to 53 bits. For example, same limitation
+            #     applies in the Prometheus exposition format where all metrics
+            #     are float64. Approximations are possible, but that's far from
+            #     ideal, and definitely is a no-go for bitmaps. From the
+            #     Prometheus docs, to put the 53 bits limitation in perspective:
+            #     'a counter, even if incremented one million times per second,
+            #     will only run into precision issues after over 285 years'.
+            #
+            # Although the described limitation applies to all 'varnishstat'
+            # values (all of them are int64) during a JavaScript post-processing
+            # step in the Zabbix side, it only represents a realistic issue for
+            # 'VBE.*.happy' items, and that's why here values of those items are
+            # truncated to keep just the less significative 50 bits.
+            if vbe_happy_pattern.match(name) is not None:
+                value = data['value'] & (2**50 - 1)
+            else:
+                value = data['value']
+
             # Build item.
-            item = stats.build_item(name, data['value'], type)
+            item = stats.build_item(name, value, type)
             if item is None:
                 continue
 
             # Filter out items from unknown backends (i.e. backends from other
             # warm or cold VCLs). This is only possible if the list of backends
-            # was succesfully fetched through varnishadm.
+            # was successfully fetched through varnishadm.
             if item.subject_type == 'backends' and \
                backends is not None and \
                item.subject_value not in backends:

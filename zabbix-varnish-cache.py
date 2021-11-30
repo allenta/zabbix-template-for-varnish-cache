@@ -514,10 +514,9 @@ def _stats(instance, exclusions):
             # step in the Zabbix side, it only represents a realistic issue for
             # 'VBE.*.happy' items, and that's why here values of those items are
             # truncated to keep just the less significative 50 bits.
+            value = data['value']
             if vbe_happy_pattern.match(name) is not None:
-                value = data['value'] & (2**50 - 1)
-            else:
-                value = data['value']
+                value = value & (2**50 - 1)
 
             # Build item.
             item = stats.build_item(name, value, type)

@@ -17,7 +17,7 @@
 
     $ pip install jinja2-cli
     $ PYTHONPATH=. jinja2 \
-        -D version={5.0,5.2,5.4} \
+        -D version={5.0,5.2,5.4,6.0} \
         [-D name='Varnish Cache'] \
         [-D description=''] \
         --extension=extensions.zabbix.ZabbixExtension --strict -o template.xml template-app-varnish-cache.j2

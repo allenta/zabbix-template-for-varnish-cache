@@ -3349,6 +3349,33 @@
                                 '<={$VARNISH_CACHE.NUKE_LIMIT_REACHS_RATE.MAX:"{#LOCATION_ID}"}',
                             'priority': 'WARNING',
                         },
+                        {
+                            'id': 'trigger-prototype-1.9',
+                            'name': 'Varnish Cache[{#LOCATION}] is dropping sessions',
+                            'expression':
+                                '{$VARNISH_CACHE.SESS_DROPPED_RATE.ENABLED:"{#LOCATION_ID}"} and '
+                                '({Template App ' + name + ':varnish.stat["{#LOCATION_ID}","MAIN.sess_dropped"].last()}'
+                                '>{$VARNISH_CACHE.SESS_DROPPED_RATE.MAX:"{#LOCATION_ID}"} or'
+                                ' {Template App ' + name + ':varnish.stat["{#LOCATION_ID}","MAIN.sess_drop"].last()}'
+                                '>{$VARNISH_CACHE.SESS_DROPPED_RATE.MAX:"{#LOCATION_ID}"})'
+                                if version in ('5.0', '5.2') else
+                                '{$VARNISH_CACHE.SESS_DROPPED_RATE.ENABLED:"{#LOCATION_ID}"} and '
+                                '(last(/Template App ' + name + '/varnish.stat["{#LOCATION_ID}","MAIN.sess_dropped"])'
+                                '>{$VARNISH_CACHE.SESS_DROPPED_RATE.MAX:"{#LOCATION_ID}"} or'
+                                ' last(/Template App ' + name + '/varnish.stat["{#LOCATION_ID}","MAIN.sess_drop"])'
+                                '>{$VARNISH_CACHE.SESS_DROPPED_RATE.MAX:"{#LOCATION_ID}"})',
+                            'recovery':
+                                '{Template App ' + name + ':varnish.stat["{#LOCATION_ID}","MAIN.sess_dropped"].max({$VARNISH_CACHE.SESS_DROPPED_RATE.RECOVERY.SAMPLES:"{#LOCATION_ID}"})}'
+                                '<={$VARNISH_CACHE.SESS_DROPPED_RATE.MAX:"{#LOCATION_ID}"} and '
+                                '{Template App ' + name + ':varnish.stat["{#LOCATION_ID}","MAIN.sess_drop"].max({$VARNISH_CACHE.SESS_DROPPED_RATE.RECOVERY.SAMPLES:"{#LOCATION_ID}"})}'
+                                '<={$VARNISH_CACHE.SESS_DROPPED_RATE.MAX:"{#LOCATION_ID}"}'
+                                if version in ('5.0', '5.2') else
+                                'max(/Template App ' + name + '/varnish.stat["{#LOCATION_ID}","MAIN.sess_dropped"],{$VARNISH_CACHE.SESS_DROPPED_RATE.RECOVERY.SAMPLES:"{#LOCATION_ID}"})'
+                                '<={$VARNISH_CACHE.SESS_DROPPED_RATE.MAX:"{#LOCATION_ID}"} and '
+                                'max(/Template App ' + name + '/varnish.stat["{#LOCATION_ID}","MAIN.sess_drop"],{$VARNISH_CACHE.SESS_DROPPED_RATE.RECOVERY.SAMPLES:"{#LOCATION_ID}"})'
+                                '<={$VARNISH_CACHE.SESS_DROPPED_RATE.MAX:"{#LOCATION_ID}"}',
+                            'priority': 'WARNING',
+                        },
                     ]) }}
 
                 {#-#########################################################-#}
@@ -5533,6 +5560,9 @@
                         ('{$VARNISH_CACHE.NUKE_LIMIT_REACHS_RATE.ENABLED}', '1'),
                         ('{$VARNISH_CACHE.NUKE_LIMIT_REACHS_RATE.MAX}', '0.0'),
                         ('{$VARNISH_CACHE.NUKE_LIMIT_REACHS_RATE.RECOVERY.SAMPLES}', '#10'),
+                        ('{$VARNISH_CACHE.SESS_DROPPED_RATE.ENABLED}', '1'),
+                        ('{$VARNISH_CACHE.SESS_DROPPED_RATE.MAX}', '0.0'),
+                        ('{$VARNISH_CACHE.SESS_DROPPED_RATE.RECOVERY.SAMPLES}', '#10'),
                         ('{$VARNISH_CACHE.THREADS.ENABLED}', '1'),
                         ('{$VARNISH_CACHE.THREADS.MAX}', '1000'),
                         ('{$VARNISH_CACHE.VCL_FAILURES_RATE.ENABLED}', '1'),

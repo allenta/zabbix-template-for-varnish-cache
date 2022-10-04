@@ -1,3 +1,6 @@
+- ?:
+    - Added trigger for 'MAIN.sess_drop' and 'MAIN.sess_dropped'.
+
 - 16.0 (2022-07-05):
     - Added support for Zabbix 6.2.
 

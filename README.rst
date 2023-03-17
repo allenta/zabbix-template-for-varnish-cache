@@ -17,9 +17,10 @@
 
     $ pip install jinja2-cli
     $ PYTHONPATH=. jinja2 \
-        -D version={5.0,5.2,5.4,6.0,6.2} \
+        -D version={5.0,5.2,5.4,6.0,6.2,6.4} \
         [-D name='Varnish Cache'] \
         [-D description=''] \
+        [-D release='trunk'] \
         --extension=extensions.zabbix.ZabbixExtension --strict -o template.xml template-app-varnish-cache.j2
 
 4. Link hosts to the template. Beware you must set a value for the ``{$VARNISH_CACHE.LOCATIONS}`` macro (comma-delimited list of Varnish Cache Plus instance names). Usually you should leave its value blank when running a single Varnish Cache Plus instance per server. Additional macros and contexts are available for further customizations.

@@ -2,6 +2,8 @@
 
 {%- set description = description|default('') -%}
 
+{%- set release = release|default('trunk') -%}
+
 {%- set seed = ['Allenta', 'Varnish Cache']|join('/') -%}
 
 {%- set master = 'varnish.stats["{$VARNISH_CACHE.LOCATIONS}"]' -%}
@@ -134,7 +136,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <zabbix_export>
     <version>{{ version }}</version>
-    <date>2018-12-28T11:56:28Z</date>
+    {% if version in ('5.0', '5.2', '5.4', '6.0', '6.2') %}
+        <date>2018-12-28T11:56:28Z</date>
+    {% endif %}
     {% if version not in ('5.0', '5.2', '5.4', '6.0') %}
         <template_groups>
             <template_group>
@@ -162,6 +166,12 @@
             <name>Template App {{ name|e }}</name>
             {% if description %}
                 <description>{{ description|e }}</description>
+            {% endif %}
+            {% if version not in ('5.0', '5.2', '5.4', '6.0', '6.2') %}
+                <vendor>
+                    <name>Allenta Consulting S.L.</name>
+                    <version>{{ version }}-{{ release|e }}</version>
+                </vendor>
             {% endif %}
             <groups>
                 <group>

@@ -585,7 +585,7 @@
                             ],
                             'triggers': [
                                 {
-                                    'id': 'trigger-prototype-1.6',
+                                    'id': 'trigger-prototype-1.11.1',
                                     'name': 'Varnish Cache[{#LOCATION}] is getting backend connection failures',
                                     'expression':
                                         '{$VARNISH_CACHE.BACKEND_CONNECTION_FAILURES_RATE.ENABLED:"{#LOCATION_ID}"} and '
@@ -1530,7 +1530,7 @@
                             ],
                             'triggers': [
                                 {
-                                    'id': 'trigger-prototype-1.3',
+                                    'id': 'trigger-prototype-1.61.1',
                                     'name': 'Varnish Cache[{#LOCATION}] is generating HTTP header overflows',
                                     'expression':
                                         '{$VARNISH_CACHE.HTTP_HEADER_OVERFLOWS_RATE.ENABLED:"{#LOCATION_ID}"} and '
@@ -1662,7 +1662,7 @@
                             ],
                             'triggers': [
                                 {
-                                    'id': 'trigger-prototype-1.8',
+                                    'id': 'trigger-prototype-1.68.1',
                                     'name': 'Varnish Cache[{#LOCATION}] is reaching nuke_limit',
                                     'expression':
                                         '{$VARNISH_CACHE.NUKE_LIMIT_REACHS_RATE.ENABLED:"{#LOCATION_ID}"} and '
@@ -1691,6 +1691,20 @@
                                 },
                                 {
                                     'type': 'CHANGE_PER_SECOND',
+                                },
+                            ],
+                            'triggers': [
+                                {
+                                    'id': 'trigger-prototype-1.69.1',
+                                    'name': 'Varnish Cache[{#LOCATION}] is nuking objects',
+                                    'expression':
+                                        '{$VARNISH_CACHE.LRU_NUKED_OBJECTS_RATE.ENABLED:"{#LOCATION_ID}"} and '
+                                        'last(/Template App ' + name + '/varnish.stat["{#LOCATION_ID}","MAIN.n_lru_nuked"])'
+                                        '>{$VARNISH_CACHE.LRU_NUKED_OBJECTS_RATE.MAX:"{#LOCATION_ID}"}',
+                                    'recovery':
+                                        'max(/Template App ' + name + '/varnish.stat["{#LOCATION_ID}","MAIN.n_lru_nuked"],{$VARNISH_CACHE.LRU_NUKED_OBJECTS_RATE.RECOVERY.SAMPLES:"{#LOCATION_ID}"})'
+                                        '<={$VARNISH_CACHE.LRU_NUKED_OBJECTS_RATE.MAX:"{#LOCATION_ID}"}',
+                                    'priority': 'WARNING',
                                 },
                             ],
                         },
@@ -2401,7 +2415,7 @@
                             ],
                             'triggers': [
                                 {
-                                    'id': 'trigger-prototype-1.2',
+                                    'id': 'trigger-prototype-1.107.1',
                                     'name': 'Varnish Cache[{#LOCATION}] has surpassed {$VARNISH_CACHE.THREADS.MAX} threads',
                                     'expression':
                                         '{$VARNISH_CACHE.THREADS.ENABLED:"{#LOCATION_ID}"} and '
@@ -2538,7 +2552,7 @@
                             ],
                             'triggers': [
                                 {
-                                    'id': 'trigger-prototype-1.4',
+                                    'id': 'trigger-prototype-1.114.1',
                                     'name': 'Varnish Cache[{#LOCATION}] is generating VCL failures',
                                     'expression':
                                         '{$VARNISH_CACHE.VCL_FAILURES_RATE.ENABLED:"{#LOCATION_ID}"} and '
@@ -3234,7 +3248,7 @@
                             'priority': 'HIGH',
                         },
                         {
-                            'id': 'trigger-prototype-1.5',
+                            'id': 'trigger-prototype-1.2',
                             'name': 'Varnish Cache[{#LOCATION}] is generating workspace overflows',
                             'expression':
                                 '{$VARNISH_CACHE.WORKSPACE_OVERFLOWS_RATE.ENABLED:"{#LOCATION_ID}"} and '
@@ -3251,7 +3265,7 @@
                             'priority': 'WARNING',
                         },
                         {
-                            'id': 'trigger-prototype-1.9',
+                            'id': 'trigger-prototype-1.3',
                             'name': 'Varnish Cache[{#LOCATION}] is dropping sessions',
                             'expression':
                                 '{$VARNISH_CACHE.SESS_DROPPED_RATE.ENABLED:"{#LOCATION_ID}"} and '
@@ -3296,7 +3310,7 @@
                             ],
                             'triggers': [
                                 {
-                                    'id': 'trigger-prototype-2.1',
+                                    'id': 'trigger-prototype-2.1.1',
                                     'name': 'Varnish Cache[{#LOCATION}] {#SUBJECT} backend is sick',
                                     'expression':
                                         '{$VARNISH_CACHE.BACKEND_HEALTHINESS.ENABLED:"{#LOCATION_ID}:{#SUBJECT_ID}"} and '
@@ -3722,7 +3736,7 @@
                             ],
                             'triggers': [
                                 {
-                                    'id': 'trigger-prototype-3.1',
+                                    'id': 'trigger-prototype-3.1.1',
                                     'name': 'Varnish Cache[{#LOCATION}] {#SUBJECT} storage failed to allocate space',
                                     'expression':
                                         '{$VARNISH_CACHE.ALLOCATOR_FAILURES_RATE.ENABLED:"{#LOCATION_ID}:{#SUBJECT_ID}"} and '
@@ -3840,7 +3854,7 @@
                             ],
                             'triggers': [
                                 {
-                                    'id': 'trigger-prototype-3.2',
+                                    'id': 'trigger-prototype-3.7.1',
                                     'name': 'Varnish Cache[{#LOCATION}] {#SUBJECT} storage is running out of spare nodes',
                                     'expression':
                                         '{$VARNISH_CACHE.SPARE_NODES.ENABLED:"{#LOCATION_ID}:{#SUBJECT_ID}"} and '
@@ -3903,20 +3917,6 @@
                                 },
                                 {
                                     'type': 'CHANGE_PER_SECOND',
-                                },
-                            ],
-                            'triggers': [
-                                {
-                                    'id': 'trigger-prototype-1.7',
-                                    'name': 'Varnish Cache[{#LOCATION}] is nuking objects',
-                                    'expression':
-                                        '{$VARNISH_CACHE.LRU_NUKED_OBJECTS_RATE.ENABLED:"{#LOCATION_ID}"} and '
-                                        'last(/Template App ' + name + '/varnish.stat["{#LOCATION_ID}","MAIN.n_lru_nuked"])'
-                                        '>{$VARNISH_CACHE.LRU_NUKED_OBJECTS_RATE.MAX:"{#LOCATION_ID}"}',
-                                    'recovery':
-                                        'max(/Template App ' + name + '/varnish.stat["{#LOCATION_ID}","MAIN.n_lru_nuked"],{$VARNISH_CACHE.LRU_NUKED_OBJECTS_RATE.RECOVERY.SAMPLES:"{#LOCATION_ID}"})'
-                                        '<={$VARNISH_CACHE.LRU_NUKED_OBJECTS_RATE.MAX:"{#LOCATION_ID}"}',
-                                    'priority': 'WARNING',
                                 },
                             ],
                         },
@@ -4106,7 +4106,7 @@
                             ],
                             'triggers': [
                                 {
-                                    'id': 'trigger-prototype-4.1',
+                                    'id': 'trigger-prototype-4.8.1',
                                     'name': 'Varnish Cache[{#LOCATION}] {#SUBJECT} MSE book is running out of space',
                                     'expression':
                                         '{$VARNISH_CACHE.MSE_BOOK_SPACE.ENABLED:"{#LOCATION_ID}:{#SUBJECT_ID}"} and '

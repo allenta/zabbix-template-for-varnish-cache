@@ -1,4 +1,4 @@
-- ?:
+- 20.0 (2023-05-03):
     - Added 'MAIN.n_object_hitmiss' and 'MAIN.n_object_hitpass'.
 
 - 19.0 (2023-04-11):

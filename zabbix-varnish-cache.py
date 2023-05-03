@@ -105,6 +105,8 @@ ITEMS = (
     r'MAIN\.n_object',
     r'MAIN\.n_objecthead',
     r'MAIN\.n_objectcore',
+    r'MAIN\.n_object_hitmiss',
+    r'MAIN\.n_object_hitpass',
     # Objects: removals.
     r'MAIN\.n_expired',
     r'MAIN\.n_lru_nuked',

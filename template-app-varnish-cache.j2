@@ -3235,6 +3235,36 @@
                                 },
                             ],
                         },
+                        {
+                            'id': 'item-prototype-1.151',
+                            'name': 'MAIN.n_object_hitmiss (object structs made that are hit-for-miss)',
+                            'type': 'DEPENDENT',
+                            'key': 'varnish.stat["{#LOCATION_ID}","MAIN.n_object_hitmiss"]',
+                            'value_type': 'UNSIGNED',
+                            'master_item_key': master,
+                            'preprocessing': [
+                                {
+                                    'type': 'JSONPATH',
+                                    'params': ['$[\'{#LOCATION_ID}.MAIN.n_object_hitmiss\']'],
+                                    'error_handler': 'DISCARD_VALUE',
+                                },
+                            ],
+                        },
+                        {
+                            'id': 'item-prototype-1.152',
+                            'name': 'MAIN.n_object_hitpass (object structs made that are hit-for-pass)',
+                            'type': 'DEPENDENT',
+                            'key': 'varnish.stat["{#LOCATION_ID}","MAIN.n_object_hitpass"]',
+                            'value_type': 'UNSIGNED',
+                            'master_item_key': master,
+                            'preprocessing': [
+                                {
+                                    'type': 'JSONPATH',
+                                    'params': ['$[\'{#LOCATION_ID}.MAIN.n_object_hitpass\']'],
+                                    'error_handler': 'DISCARD_VALUE',
+                                },
+                            ],
+                        },
                     ],
                     [
                         {

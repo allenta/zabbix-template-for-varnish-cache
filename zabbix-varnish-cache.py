@@ -131,6 +131,8 @@ ITEMS = (
     r'MAIN\.backend_busy',
     r'MAIN\.backend_unhealthy',
     r'MAIN\.backend_fail',
+    r'MAIN\.backend_wait',
+    r'MAIN\.backend_wait_fail',
     # Backends: request rate.
     r'MAIN\.backend_req',
     # Backends: fetches activity.

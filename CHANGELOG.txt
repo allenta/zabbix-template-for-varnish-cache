@@ -1,3 +1,6 @@
+- ?:
+    - Added 'MAIN.backend_wait' and 'MAIN.backend_wait_fail'.
+
 - 21.0 (2023-05-05):
     - Resolve warnings on Github Actions workflow and include script on releases.
 

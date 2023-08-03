@@ -3265,6 +3265,44 @@
                                 },
                             ],
                         },
+                        {
+                            'id': 'item-prototype-1.153',
+                            'name': 'MAIN.backend_wait (backend connections waited in queue for a connection / sec)',
+                            'type': 'DEPENDENT',
+                            'key': 'varnish.stat["{#LOCATION_ID}","MAIN.backend_wait"]',
+                            'value_type': 'FLOAT',
+                            'units': 'eps',
+                            'master_item_key': master,
+                            'preprocessing': [
+                                {
+                                    'type': 'JSONPATH',
+                                    'params': ['$[\'{#LOCATION_ID}.MAIN.backend_wait\']'],
+                                    'error_handler': 'DISCARD_VALUE',
+                                },
+                                {
+                                    'type': 'CHANGE_PER_SECOND',
+                                },
+                            ],
+                        },
+                        {
+                            'id': 'item-prototype-1.154',
+                            'name': 'MAIN.backend_wait_fail (backend connections waited in queue and did not get a connection / sec)',
+                            'type': 'DEPENDENT',
+                            'key': 'varnish.stat["{#LOCATION_ID}","MAIN.backend_wait_fail"]',
+                            'value_type': 'FLOAT',
+                            'units': 'eps',
+                            'master_item_key': master,
+                            'preprocessing': [
+                                {
+                                    'type': 'JSONPATH',
+                                    'params': ['$[\'{#LOCATION_ID}.MAIN.backend_wait_fail\']'],
+                                    'error_handler': 'DISCARD_VALUE',
+                                },
+                                {
+                                    'type': 'CHANGE_PER_SECOND',
+                                },
+                            ],
+                        },
                     ],
                     [
                         {

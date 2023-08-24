@@ -1,5 +1,6 @@
 - ?:
     - Updated script shebang to python3.
+    - Added missing VHA6 counters.
 
 - 22.0 (2023-08-04):
     - Added 'MAIN.backend_wait' and 'MAIN.backend_wait_fail'.

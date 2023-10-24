@@ -3360,6 +3360,25 @@
                                 },
                             ],
                         },
+                        {
+                            'id': 'item-prototype-1.158',
+                            'name': 'MAIN.sc_rapid_reset (Session Err RAPID_RESET / sec)',
+                            'type': 'DEPENDENT',
+                            'key': 'varnish.stat["{#LOCATION_ID}","MAIN.sc_rapid_reset"]',
+                            'value_type': 'FLOAT',
+                            'units': 'eps',
+                            'master_item_key': master,
+                            'preprocessing': [
+                                {
+                                    'type': 'JSONPATH',
+                                    'params': ['$[\'{#LOCATION_ID}.MAIN.sc_rapid_reset\']'],
+                                    'error_handler': 'DISCARD_VALUE',
+                                },
+                                {
+                                    'type': 'CHANGE_PER_SECOND',
+                                },
+                            ],
+                        },
                     ],
                     [
                         {

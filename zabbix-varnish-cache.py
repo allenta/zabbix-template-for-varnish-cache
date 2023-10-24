@@ -67,6 +67,7 @@ ITEMS = (
     r'MAIN\.sess_herd',
     r'MAIN\.sess_queued',
     r'MAIN\.sess_readahead',
+    r'MAIN\.sc_rapid_reset',
     # Client sessions: failures.
     r'MAIN\.sess_fail_econnaborted',
     r'MAIN\.sess_fail_eintr',

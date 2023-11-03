@@ -1,3 +1,6 @@
+- 25.0 (2023-11-03):
+    - Fixed typo on 'MAIN.sc_rapid_reset' item name.
+
 - 24.0 (2023-10-24):
     - Added 'MAIN.sc_rapid_reset'.
 

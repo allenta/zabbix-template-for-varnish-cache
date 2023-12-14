@@ -1,4 +1,4 @@
-- ?:
+- 26.0 (2023-12-14):
     - Added 'MAIN.shm_records', 'MAIN.shm_flushes', 'MAIN.shm_cont' and 'MAIN.shm_cycles'.
 
 - 25.0 (2023-11-03):

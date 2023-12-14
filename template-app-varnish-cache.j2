@@ -3379,6 +3379,82 @@
                                 },
                             ],
                         },
+                        {
+                            'id': 'item-prototype-1.159',
+                            'name': 'MAIN.shm_records (SHM records / sec)',
+                            'type': 'DEPENDENT',
+                            'key': 'varnish.stat["{#LOCATION_ID}","MAIN.shm_records"]',
+                            'value_type': 'FLOAT',
+                            'units': 'eps',
+                            'master_item_key': master,
+                            'preprocessing': [
+                                {
+                                    'type': 'JSONPATH',
+                                    'params': ['$[\'{#LOCATION_ID}.MAIN.shm_records\']'],
+                                    'error_handler': 'DISCARD_VALUE',
+                                },
+                                {
+                                    'type': 'CHANGE_PER_SECOND',
+                                },
+                            ],
+                        },
+                        {
+                            'id': 'item-prototype-1.160',
+                            'name': 'MAIN.shm_flushes (SHM flushes due to overflow / sec)',
+                            'type': 'DEPENDENT',
+                            'key': 'varnish.stat["{#LOCATION_ID}","MAIN.shm_flushes"]',
+                            'value_type': 'FLOAT',
+                            'units': 'eps',
+                            'master_item_key': master,
+                            'preprocessing': [
+                                {
+                                    'type': 'JSONPATH',
+                                    'params': ['$[\'{#LOCATION_ID}.MAIN.shm_flushes\']'],
+                                    'error_handler': 'DISCARD_VALUE',
+                                },
+                                {
+                                    'type': 'CHANGE_PER_SECOND',
+                                },
+                            ],
+                        },
+                        {
+                            'id': 'item-prototype-1.161',
+                            'name': 'MAIN.shm_cont (SHM lock contention / sec)',
+                            'type': 'DEPENDENT',
+                            'key': 'varnish.stat["{#LOCATION_ID}","MAIN.shm_cont"]',
+                            'value_type': 'FLOAT',
+                            'units': 'eps',
+                            'master_item_key': master,
+                            'preprocessing': [
+                                {
+                                    'type': 'JSONPATH',
+                                    'params': ['$[\'{#LOCATION_ID}.MAIN.shm_cont\']'],
+                                    'error_handler': 'DISCARD_VALUE',
+                                },
+                                {
+                                    'type': 'CHANGE_PER_SECOND',
+                                },
+                            ],
+                        },
+                        {
+                            'id': 'item-prototype-1.162',
+                            'name': 'MAIN.shm_cycles (SHM cycles through VSL space / sec)',
+                            'type': 'DEPENDENT',
+                            'key': 'varnish.stat["{#LOCATION_ID}","MAIN.shm_cycles"]',
+                            'value_type': 'FLOAT',
+                            'units': 'eps',
+                            'master_item_key': master,
+                            'preprocessing': [
+                                {
+                                    'type': 'JSONPATH',
+                                    'params': ['$[\'{#LOCATION_ID}.MAIN.shm_cycles\']'],
+                                    'error_handler': 'DISCARD_VALUE',
+                                },
+                                {
+                                    'type': 'CHANGE_PER_SECOND',
+                                },
+                            ],
+                        },
                     ],
                     [
                         {

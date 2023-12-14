@@ -182,6 +182,11 @@ ITEMS = (
     r'MAIN\.ws_client_overflow',
     r'MAIN\.ws_session_overflow',
     r'MAIN\.ws_thread_overflow',
+    # SHM: activity.
+    r'MAIN\.shm_records',
+    r'MAIN\.shm_flushes',
+    r'MAIN\.shm_cont',
+    r'MAIN\.shm_cycles',
     # VHA6.
     r'KVSTORE\.vha6_stats\..+\.(?:broadcast_candidates|broadcast_nocache|broadcast_skip|broadcast_lowttl|broadcast_toolarge|broadcasts|fetch_self|fetch_peer|fetch_peer_hit|fetch_origin|fetch_origin_deliver|fetch_peer_insert|error_version_mismatch|error_no_token|error_bad_token|error_stale_token|error_rate_limited|error_fetch|error_fetch_insert|error_fetch_seal|error_localhost|error_origin_mismatch|error_origin_miss|error_max_broadcasts|error_fetch_self|legacy_vha)',
     # KVStore-based counters.

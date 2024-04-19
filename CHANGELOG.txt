@@ -1,4 +1,4 @@
-- ?:
+- 27.0 (2024-04-19):
     - Added 'MAIN.req_reset' and 'MAIN.sc_bankrupt'.
 
 - 26.0 (2023-12-14):

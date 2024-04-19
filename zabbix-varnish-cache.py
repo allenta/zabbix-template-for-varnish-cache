@@ -36,6 +36,7 @@ ITEMS = (
     r'MAIN\.s_req',  # XXX: VCP 4.1
     # Client requests: activity.
     r'MAIN\.req_dropped',
+    r'MAIN\.req_reset',
     r'MAIN\.client_req_400',
     r'MAIN\.client_req_417',
     # Client requests: bytes received.
@@ -67,6 +68,7 @@ ITEMS = (
     r'MAIN\.sess_herd',
     r'MAIN\.sess_queued',
     r'MAIN\.sess_readahead',
+    r'MAIN\.sc_bankrupt',
     r'MAIN\.sc_rapid_reset',
     # Client sessions: failures.
     r'MAIN\.sess_fail_econnaborted',

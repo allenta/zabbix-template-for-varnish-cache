@@ -1277,16 +1277,16 @@
                         },
                         {
                             'id': 'item-prototype-1.48',
-                            'name': 'MAIN.fetch_no_thread (failed fetches because no thread available / sec)',
+                            'name': 'MAIN.bgfetch_no_thread (background fetch failed (no thread) / sec)',
                             'type': 'DEPENDENT',
-                            'key': 'varnish.stat["{#LOCATION_ID}","MAIN.fetch_no_thread"]',
+                            'key': 'varnish.stat["{#LOCATION_ID}","MAIN.bgfetch_no_thread"]',
                             'value_type': 'FLOAT',
                             'units': 'eps',
                             'master_item_key': master,
                             'preprocessing': [
                                 {
                                     'type': 'JSONPATH',
-                                    'params': ['$[\'{#LOCATION_ID}.MAIN.fetch_no_thread\']'],
+                                    'params': ['$[\'{#LOCATION_ID}.MAIN.bgfetch_no_thread\']'],
                                     'error_handler': 'DISCARD_VALUE',
                                 },
                                 {
@@ -3486,6 +3486,101 @@
                                 {
                                     'type': 'JSONPATH',
                                     'params': ['$[\'{#LOCATION_ID}.MAIN.sc_bankrupt\']'],
+                                    'error_handler': 'DISCARD_VALUE',
+                                },
+                                {
+                                    'type': 'CHANGE_PER_SECOND',
+                                },
+                            ],
+                        },
+                        {
+                            'id': 'item-prototype-1.165',
+                            'name': 'MAIN.sc_sock_closed (Session OK SOCK_CLOSED / sec)',
+                            'type': 'DEPENDENT',
+                            'key': 'varnish.stat["{#LOCATION_ID}","MAIN.sc_sock_closed"]',
+                            'value_type': 'FLOAT',
+                            'units': 'eps',
+                            'master_item_key': master,
+                            'preprocessing': [
+                                {
+                                    'type': 'JSONPATH',
+                                    'params': ['$[\'{#LOCATION_ID}.MAIN.sc_sock_closed\']'],
+                                    'error_handler': 'DISCARD_VALUE',
+                                },
+                                {
+                                    'type': 'CHANGE_PER_SECOND',
+                                },
+                            ],
+                        },
+                        {
+                            'id': 'item-prototype-1.166',
+                            'name': 'ACCG_DIAG.req_dropped (Number of times a request was not accounted for / sec)',
+                            'type': 'DEPENDENT',
+                            'key': 'varnish.stat["{#LOCATION_ID}","ACCG_DIAG.req_dropped"]',
+                            'value_type': 'FLOAT',
+                            'units': 'eps',
+                            'master_item_key': master,
+                            'preprocessing': [
+                                {
+                                    'type': 'JSONPATH',
+                                    'params': ['$[\'{#LOCATION_ID}.ACCG_DIAG.req_dropped\']'],
+                                    'error_handler': 'DISCARD_VALUE',
+                                },
+                                {
+                                    'type': 'CHANGE_PER_SECOND',
+                                },
+                            ],
+                        },
+                        {
+                            'id': 'item-prototype-1.167',
+                            'name': 'ACCG_DIAG.bereq_dropped (Number of times a backend request was not accounted for / sec)',
+                            'type': 'DEPENDENT',
+                            'key': 'varnish.stat["{#LOCATION_ID}","ACCG_DIAG.bereq_dropped"]',
+                            'value_type': 'FLOAT',
+                            'units': 'eps',
+                            'master_item_key': master,
+                            'preprocessing': [
+                                {
+                                    'type': 'JSONPATH',
+                                    'params': ['$[\'{#LOCATION_ID}.ACCG_DIAG.bereq_dropped\']'],
+                                    'error_handler': 'DISCARD_VALUE',
+                                },
+                                {
+                                    'type': 'CHANGE_PER_SECOND',
+                                },
+                            ],
+                        },
+                        {
+                            'id': 'item-prototype-1.168',
+                            'name': 'VMOD_HTTP.handle_internal_error (Handles that reached an internal error state / sec)',
+                            'type': 'DEPENDENT',
+                            'key': 'varnish.stat["{#LOCATION_ID}","VMOD_HTTP.handle_internal_error"]',
+                            'value_type': 'FLOAT',
+                            'units': 'eps',
+                            'master_item_key': master,
+                            'preprocessing': [
+                                {
+                                    'type': 'JSONPATH',
+                                    'params': ['$[\'{#LOCATION_ID}.VMOD_HTTP.handle_internal_error\']'],
+                                    'error_handler': 'DISCARD_VALUE',
+                                },
+                                {
+                                    'type': 'CHANGE_PER_SECOND',
+                                },
+                            ],
+                        },
+                        {
+                            'id': 'item-prototype-1.169',
+                            'name': 'VMOD_HTTP.handle_limited (Number of handles limited due to max tasks / sec)',
+                            'type': 'DEPENDENT',
+                            'key': 'varnish.stat["{#LOCATION_ID}","VMOD_HTTP.handle_limited"]',
+                            'value_type': 'FLOAT',
+                            'units': 'eps',
+                            'master_item_key': master,
+                            'preprocessing': [
+                                {
+                                    'type': 'JSONPATH',
+                                    'params': ['$[\'{#LOCATION_ID}.VMOD_HTTP.handle_limited\']'],
                                     'error_handler': 'DISCARD_VALUE',
                                 },
                                 {

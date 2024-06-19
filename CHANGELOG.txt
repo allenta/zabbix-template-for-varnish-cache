@@ -1,5 +1,7 @@
 - ?
     - Added support for MSE4.
+    - Renamed 'MAIN.fetch_no_thread' to 'MAIN.bgfetch_no_thread'.
+    - Added 'MAIN.sc_sock_closed', 'ACCG_DIAG.req_dropped', 'ACCG_DIAG.bereq_dropped', 'VMOD_HTTP.handle_internal_error' and 'VMOD_HTTP.handle_limited'.
 
 - 28.0 (2024-05-31):
     - Added support for Zabbix 7.0. New 'Disable lost resources' property for discovery rules will adopt the default value 'Immediately' instead of trying to preserve the 6.x behaviour ('Never').

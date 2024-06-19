@@ -70,6 +70,7 @@ ITEMS = (
     r'MAIN\.sess_readahead',
     r'MAIN\.sc_bankrupt',
     r'MAIN\.sc_rapid_reset',
+    r'MAIN\.sc_sock_closed',
     # Client sessions: failures.
     r'MAIN\.sess_fail_econnaborted',
     r'MAIN\.sess_fail_eintr',
@@ -151,7 +152,7 @@ ITEMS = (
     r'MAIN\.fetch_bad',
     r'MAIN\.fetch_failed',
     r'MAIN\.fetch_fast304',
-    r'MAIN\.fetch_no_thread',
+    r'MAIN\.bgfetch_no_thread',
     r'MAIN\.fetch_stale_deliver',
     r'MAIN\.fetch_stale_rearm',
     # Backends: number.
@@ -170,6 +171,8 @@ ITEMS = (
     r'ACCG_DIAG\.namespace_already_set',
     r'ACCG_DIAG\.namespace_undefined',
     r'ACCG_DIAG\.create_namespace_failure',
+    r'ACCG_DIAG\.req_dropped',
+    r'ACCG_DIAG\.bereq_dropped',
     # VMODs: goto.
     r'MAIN\.goto_dns_cache_hits',
     r'MAIN\.goto_dns_lookup_fails',
@@ -178,6 +181,8 @@ ITEMS = (
     r'VMOD_HTTP\.handle_requests',
     r'VMOD_HTTP\.handle_completed',
     r'VMOD_HTTP\.handle_abandon',
+    r'VMOD_HTTP\.handle_internal_error',
+    r'VMOD_HTTP\.handle_limited',
     # Workspace overflows.
     r'MAIN\.client_resp_500',
     r'MAIN\.ws_backend_overflow',

@@ -6331,8 +6331,633 @@
                         'context': 'mse4_books',
                     },
                     [
+                        {
+                            'id': 'item-prototype-8.1',
+                            'name': 'MSE4_BOOK.{#BOOK}.online (non-zero if the book is online)',
+                            'type': 'DEPENDENT',
+                            'key': 'varnish.stat["{#LOCATION_ID}","MSE4_BOOK.{#BOOK}.online"]',
+                            'value_type': 'UNSIGNED',
+                            'units': '',
+                            'master_item_key': master,
+                            'preprocessing': [
+                                {
+                                    'type': 'JSONPATH',
+                                    'params': ['$[\'{#LOCATION_ID}.MSE4_BOOK.{#BOOK}.online\']'],
+                                    'error_handler': 'DISCARD_VALUE',
+                                },
+                            ],
+                        },
+                        {
+                            'id': 'item-prototype-8.2',
+                            'name': 'MSE4_BOOK.{#BOOK}.g_slots_used (number of slots in use)',
+                            'type': 'DEPENDENT',
+                            'key': 'varnish.stat["{#LOCATION_ID}","MSE4_BOOK.{#BOOK}.g_slots_used"]',
+                            'value_type': 'UNSIGNED',
+                            'units': '',
+                            'master_item_key': master,
+                            'preprocessing': [
+                                {
+                                    'type': 'JSONPATH',
+                                    'params': ['$[\'{#LOCATION_ID}.MSE4_BOOK.{#BOOK}.g_slots_used\']'],
+                                    'error_handler': 'DISCARD_VALUE',
+                                },
+                            ],
+                        },
+                        {
+                            'id': 'item-prototype-8.3',
+                            'name': 'MSE4_BOOK.{#BOOK}.g_slots_unused (number of slots free)',
+                            'type': 'DEPENDENT',
+                            'key': 'varnish.stat["{#LOCATION_ID}","MSE4_BOOK.{#BOOK}.g_slots_unused"]',
+                            'value_type': 'UNSIGNED',
+                            'units': '',
+                            'master_item_key': master,
+                            'preprocessing': [
+                                {
+                                    'type': 'JSONPATH',
+                                    'params': ['$[\'{#LOCATION_ID}.MSE4_BOOK.{#BOOK}.g_slots_unused\']'],
+                                    'error_handler': 'DISCARD_VALUE',
+                                },
+                            ],
+                        },
+                        {
+                            'id': 'item-prototype-8.4',
+                            'name': 'MSE4_BOOK.{#BOOK}.g_objects (number of objects defined in the book)',
+                            'type': 'DEPENDENT',
+                            'key': 'varnish.stat["{#LOCATION_ID}","MSE4_BOOK.{#BOOK}.g_objects"]',
+                            'value_type': 'UNSIGNED',
+                            'units': '',
+                            'master_item_key': master,
+                            'preprocessing': [
+                                {
+                                    'type': 'JSONPATH',
+                                    'params': ['$[\'{#LOCATION_ID}.MSE4_BOOK.{#BOOK}.g_objects\']'],
+                                    'error_handler': 'DISCARD_VALUE',
+                                },
+                            ],
+                        },
+                        {
+                            'id': 'item-prototype-8.5',
+                            'name': 'MSE4_BOOK.{#BOOK}.g_unreachable_objects (number of objects from unreachable stores in the book)',
+                            'type': 'DEPENDENT',
+                            'key': 'varnish.stat["{#LOCATION_ID}","MSE4_BOOK.{#BOOK}.g_unreachable_objects"]',
+                            'value_type': 'UNSIGNED',
+                            'units': '',
+                            'master_item_key': master,
+                            'preprocessing': [
+                                {
+                                    'type': 'JSONPATH',
+                                    'params': ['$[\'{#LOCATION_ID}.MSE4_BOOK.{#BOOK}.g_unreachable_objects\']'],
+                                    'error_handler': 'DISCARD_VALUE',
+                                },
+                            ],
+                        },
+                        {
+                            'id': 'item-prototype-8.6',
+                            'name': 'MSE4_BOOK.{#BOOK}.g_varyspec (number of Vary header instruction keys)',
+                            'type': 'DEPENDENT',
+                            'key': 'varnish.stat["{#LOCATION_ID}","MSE4_BOOK.{#BOOK}.g_varyspec"]',
+                            'value_type': 'UNSIGNED',
+                            'units': '',
+                            'master_item_key': master,
+                            'preprocessing': [
+                                {
+                                    'type': 'JSONPATH',
+                                    'params': ['$[\'{#LOCATION_ID}.MSE4_BOOK.{#BOOK}.g_varyspec\']'],
+                                    'error_handler': 'DISCARD_VALUE',
+                                },
+                            ],
+                        },
+                        {
+                            'id': 'item-prototype-8.7',
+                            'name': 'MSE4_BOOK.{#BOOK}.g_ykey_keys (number of YKeys registered in book)',
+                            'type': 'DEPENDENT',
+                            'key': 'varnish.stat["{#LOCATION_ID}","MSE4_BOOK.{#BOOK}.g_ykey_keys"]',
+                            'value_type': 'UNSIGNED',
+                            'units': '',
+                            'master_item_key': master,
+                            'preprocessing': [
+                                {
+                                    'type': 'JSONPATH',
+                                    'params': ['$[\'{#LOCATION_ID}.MSE4_BOOK.{#BOOK}.g_ykey_keys\']'],
+                                    'error_handler': 'DISCARD_VALUE',
+                                },
+                            ],
+                        },
+                        {
+                            'id': 'item-prototype-8.8',
+                            'name': 'MSE4_BOOK.{#BOOK}.c_ykey_purged (number of objects purged with YKey / sec)',
+                            'type': 'DEPENDENT',
+                            'key': 'varnish.stat["{#LOCATION_ID}","MSE4_BOOK.{#BOOK}.c_ykey_purged"]',
+                            'value_type': 'FLOAT',
+                            'units': 'eps',
+                            'master_item_key': master,
+                            'preprocessing': [
+                                {
+                                    'type': 'JSONPATH',
+                                    'params': ['$[\'{#LOCATION_ID}.MSE4_BOOK.{#BOOK}.c_ykey_purged\']'],
+                                    'error_handler': 'DISCARD_VALUE',
+                                },
+                                {
+                                    'type': 'CHANGE_PER_SECOND',
+                                },
+                            ],
+                        },
+                        {
+                            'id': 'item-prototype-8.9',
+                            'name': 'MSE4_BOOK.{#BOOK}.c_freeslot_queued (number of times a thread has been queued waiting for a free slot / sec)',
+                            'type': 'DEPENDENT',
+                            'key': 'varnish.stat["{#LOCATION_ID}","MSE4_BOOK.{#BOOK}.c_freeslot_queued"]',
+                            'value_type': 'FLOAT',
+                            'units': 'eps',
+                            'master_item_key': master,
+                            'preprocessing': [
+                                {
+                                    'type': 'JSONPATH',
+                                    'params': ['$[\'{#LOCATION_ID}.MSE4_BOOK.{#BOOK}.c_freeslot_queued\']'],
+                                    'error_handler': 'DISCARD_VALUE',
+                                },
+                                {
+                                    'type': 'CHANGE_PER_SECOND',
+                                },
+                            ],
+                        },
+                        {
+                            'id': 'item-prototype-8.10',
+                            'name': 'MSE4_BOOK.{#BOOK}.g_freeslot_queue (length of queue of threads waiting for a free slot)',
+                            'type': 'DEPENDENT',
+                            'key': 'varnish.stat["{#LOCATION_ID}","MSE4_BOOK.{#BOOK}.g_freeslot_queue"]',
+                            'value_type': 'UNSIGNED',
+                            'units': '',
+                            'master_item_key': master,
+                            'preprocessing': [
+                                {
+                                    'type': 'JSONPATH',
+                                    'params': ['$[\'{#LOCATION_ID}.MSE4_BOOK.{#BOOK}.g_freeslot_queue\']'],
+                                    'error_handler': 'DISCARD_VALUE',
+                                },
+                            ],
+                        },
+                        {
+                            'id': 'item-prototype-8.11',
+                            'name': 'MSE4_BOOK.{#BOOK}.c_submitslot_queued (number of times a thread has been queued waiting to commit a slot / sec)',
+                            'type': 'DEPENDENT',
+                            'key': 'varnish.stat["{#LOCATION_ID}","MSE4_BOOK.{#BOOK}.c_submitslot_queued"]',
+                            'value_type': 'FLOAT',
+                            'units': 'eps',
+                            'master_item_key': master,
+                            'preprocessing': [
+                                {
+                                    'type': 'JSONPATH',
+                                    'params': ['$[\'{#LOCATION_ID}.MSE4_BOOK.{#BOOK}.c_submitslot_queued\']'],
+                                    'error_handler': 'DISCARD_VALUE',
+                                },
+                                {
+                                    'type': 'CHANGE_PER_SECOND',
+                                },
+                            ],
+                        },
+                        {
+                            'id': 'item-prototype-8.12',
+                            'name': 'MSE4_BOOK.{#BOOK}.g_submitslot_queue (length of queue of threads waiting to submit a slot)',
+                            'type': 'DEPENDENT',
+                            'key': 'varnish.stat["{#LOCATION_ID}","MSE4_BOOK.{#BOOK}.g_submitslot_queue"]',
+                            'value_type': 'UNSIGNED',
+                            'units': '',
+                            'master_item_key': master,
+                            'preprocessing': [
+                                {
+                                    'type': 'JSONPATH',
+                                    'params': ['$[\'{#LOCATION_ID}.MSE4_BOOK.{#BOOK}.g_submitslot_queue\']'],
+                                    'error_handler': 'DISCARD_VALUE',
+                                },
+                            ],
+                        },
+                        {
+                            'id': 'item-prototype-8.13',
+                            'name': 'MSE4_BOOK.{#BOOK}.g_bytes (number of bytes used from the banlist journal)',
+                            'type': 'DEPENDENT',
+                            'key': 'varnish.stat["{#LOCATION_ID}","MSE4_BOOK.{#BOOK}.g_bytes"]',
+                            'value_type': 'UNSIGNED',
+                            'units': 'B',
+                            'master_item_key': master,
+                            'preprocessing': [
+                                {
+                                    'type': 'JSONPATH',
+                                    'params': ['$[\'{#LOCATION_ID}.MSE4_BOOK.{#BOOK}.g_bytes\']'],
+                                    'error_handler': 'DISCARD_VALUE',
+                                },
+                            ],
+                        },
+                        {
+                            'id': 'item-prototype-8.14',
+                            'name': 'MSE4_BOOK.{#BOOK}.g_space (number of bytes available in the banlist journal)',
+                            'type': 'DEPENDENT',
+                            'key': 'varnish.stat["{#LOCATION_ID}","MSE4_BOOK.{#BOOK}.g_space"]',
+                            'value_type': 'UNSIGNED',
+                            'units': 'B',
+                            'master_item_key': master,
+                            'preprocessing': [
+                                {
+                                    'type': 'JSONPATH',
+                                    'params': ['$[\'{#LOCATION_ID}.MSE4_BOOK.{#BOOK}.g_space\']'],
+                                    'error_handler': 'DISCARD_VALUE',
+                                },
+                            ],
+                        },
+                        {
+                            'id': 'item-prototype-8.15',
+                            'name': 'MSE4_BOOK.{#BOOK}.g_bans (number of bans persisted in the banlist journal)',
+                            'type': 'DEPENDENT',
+                            'key': 'varnish.stat["{#LOCATION_ID}","MSE4_BOOK.{#BOOK}.g_bans"]',
+                            'value_type': 'UNSIGNED',
+                            'units': '',
+                            'master_item_key': master,
+                            'preprocessing': [
+                                {
+                                    'type': 'JSONPATH',
+                                    'params': ['$[\'{#LOCATION_ID}.MSE4_BOOK.{#BOOK}.g_bans\']'],
+                                    'error_handler': 'DISCARD_VALUE',
+                                },
+                            ],
+                        },
+                        {
+                            'id': 'item-prototype-8.16',
+                            'name': 'MSE4_BOOK.{#BOOK}.g_ban_bytes (number of bytes of ban data currently stored in the banlist journal)',
+                            'type': 'DEPENDENT',
+                            'key': 'varnish.stat["{#LOCATION_ID}","MSE4_BOOK.{#BOOK}.g_ban_bytes"]',
+                            'value_type': 'UNSIGNED',
+                            'units': 'B',
+                            'master_item_key': master,
+                            'preprocessing': [
+                                {
+                                    'type': 'JSONPATH',
+                                    'params': ['$[\'{#LOCATION_ID}.MSE4_BOOK.{#BOOK}.g_ban_bytes\']'],
+                                    'error_handler': 'DISCARD_VALUE',
+                                },
+                            ],
+                        },
+                        {
+                            'id': 'item-prototype-8.17',
+                            'name': 'MSE4_BOOK.{#BOOK}.g_overflow_bans (number of bans not recorded in the banlist journal)',
+                            'type': 'DEPENDENT',
+                            'key': 'varnish.stat["{#LOCATION_ID}","MSE4_BOOK.{#BOOK}.g_overflow_bans"]',
+                            'value_type': 'UNSIGNED',
+                            'units': '',
+                            'master_item_key': master,
+                            'preprocessing': [
+                                {
+                                    'type': 'JSONPATH',
+                                    'params': ['$[\'{#LOCATION_ID}.MSE4_BOOK.{#BOOK}.g_overflow_bans\']'],
+                                    'error_handler': 'DISCARD_VALUE',
+                                },
+                            ],
+                        },
+                        {
+                            'id': 'item-prototype-8.18',
+                            'name': 'MSE4_BOOK.{#BOOK}.g_overflow_ban_bytes (number of bytes of ban data not recorded in the banlist journal)',
+                            'type': 'DEPENDENT',
+                            'key': 'varnish.stat["{#LOCATION_ID}","MSE4_BOOK.{#BOOK}.g_overflow_ban_bytes"]',
+                            'value_type': 'UNSIGNED',
+                            'units': 'B',
+                            'master_item_key': master,
+                            'preprocessing': [
+                                {
+                                    'type': 'JSONPATH',
+                                    'params': ['$[\'{#LOCATION_ID}.MSE4_BOOK.{#BOOK}.g_overflow_ban_bytes\']'],
+                                    'error_handler': 'DISCARD_VALUE',
+                                },
+                            ],
+                        },
+                        {
+                            'id': 'item-prototype-8.19',
+                            'name': 'MSE4_BOOK.{#BOOK}.c_io_read_bytes (number of bytes read from the book / sec)',
+                            'type': 'DEPENDENT',
+                            'key': 'varnish.stat["{#LOCATION_ID}","MSE4_BOOK.{#BOOK}.c_io_read_bytes"]',
+                            'value_type': 'FLOAT',
+                            'units': 'Bps',
+                            'master_item_key': master,
+                            'preprocessing': [
+                                {
+                                    'type': 'JSONPATH',
+                                    'params': ['$[\'{#LOCATION_ID}.MSE4_BOOK.{#BOOK}.c_io_read_bytes\']'],
+                                    'error_handler': 'DISCARD_VALUE',
+                                },
+                                {
+                                    'type': 'CHANGE_PER_SECOND',
+                                },
+                            ],
+                        },
+                        {
+                            'id': 'item-prototype-8.20',
+                            'name': 'MSE4_BOOK.{#BOOK}.c_io_write_bytes (number of bytes written to the book / sec)',
+                            'type': 'DEPENDENT',
+                            'key': 'varnish.stat["{#LOCATION_ID}","MSE4_BOOK.{#BOOK}.c_io_write_bytes"]',
+                            'value_type': 'FLOAT',
+                            'units': 'Bps',
+                            'master_item_key': master,
+                            'preprocessing': [
+                                {
+                                    'type': 'JSONPATH',
+                                    'params': ['$[\'{#LOCATION_ID}.MSE4_BOOK.{#BOOK}.c_io_write_bytes\']'],
+                                    'error_handler': 'DISCARD_VALUE',
+                                },
+                                {
+                                    'type': 'CHANGE_PER_SECOND',
+                                },
+                            ],
+                        },
+                        {
+                            'id': 'item-prototype-8.21',
+                            'name': 'MSE4_BOOK.{#BOOK}.c_io_write_journal_slots (number of slots written to the to the slot journal / sec)',
+                            'type': 'DEPENDENT',
+                            'key': 'varnish.stat["{#LOCATION_ID}","MSE4_BOOK.{#BOOK}.c_io_write_journal_slots"]',
+                            'value_type': 'FLOAT',
+                            'units': 'eps',
+                            'master_item_key': master,
+                            'preprocessing': [
+                                {
+                                    'type': 'JSONPATH',
+                                    'params': ['$[\'{#LOCATION_ID}.MSE4_BOOK.{#BOOK}.c_io_write_journal_slots\']'],
+                                    'error_handler': 'DISCARD_VALUE',
+                                },
+                                {
+                                    'type': 'CHANGE_PER_SECOND',
+                                },
+                            ],
+                        },
+                        {
+                            'id': 'item-prototype-8.22',
+                            'name': 'MSE4_BOOK.{#BOOK}.c_io_write_journal_slots_padding (number of padding slots written to the to the slot journal / sec)',
+                            'type': 'DEPENDENT',
+                            'key': 'varnish.stat["{#LOCATION_ID}","MSE4_BOOK.{#BOOK}.c_io_write_journal_slots_padding"]',
+                            'value_type': 'FLOAT',
+                            'units': 'eps',
+                            'master_item_key': master,
+                            'preprocessing': [
+                                {
+                                    'type': 'JSONPATH',
+                                    'params': ['$[\'{#LOCATION_ID}.MSE4_BOOK.{#BOOK}.c_io_write_journal_slots_padding\']'],
+                                    'error_handler': 'DISCARD_VALUE',
+                                },
+                                {
+                                    'type': 'CHANGE_PER_SECOND',
+                                },
+                            ],
+                        },
+                        {
+                            'id': 'item-prototype-8.23',
+                            'name': 'MSE4_BOOK.{#BOOK}.c_io_write_journal_bytes (number of bytes written to the slot journal / sec)',
+                            'type': 'DEPENDENT',
+                            'key': 'varnish.stat["{#LOCATION_ID}","MSE4_BOOK.{#BOOK}.c_io_write_journal_bytes"]',
+                            'value_type': 'FLOAT',
+                            'units': 'Bps',
+                            'master_item_key': master,
+                            'preprocessing': [
+                                {
+                                    'type': 'JSONPATH',
+                                    'params': ['$[\'{#LOCATION_ID}.MSE4_BOOK.{#BOOK}.c_io_write_journal_bytes\']'],
+                                    'error_handler': 'DISCARD_VALUE',
+                                },
+                                {
+                                    'type': 'CHANGE_PER_SECOND',
+                                },
+                            ],
+                        },
+                        {
+                            'id': 'item-prototype-8.24',
+                            'name': 'MSE4_BOOK.{#BOOK}.c_io_write_slot_table_bytes (number of bytes written to the slot table / sec)',
+                            'type': 'DEPENDENT',
+                            'key': 'varnish.stat["{#LOCATION_ID}","MSE4_BOOK.{#BOOK}.c_io_write_slot_table_bytes"]',
+                            'value_type': 'FLOAT',
+                            'units': 'Bps',
+                            'master_item_key': master,
+                            'preprocessing': [
+                                {
+                                    'type': 'JSONPATH',
+                                    'params': ['$[\'{#LOCATION_ID}.MSE4_BOOK.{#BOOK}.c_io_write_slot_table_bytes\']'],
+                                    'error_handler': 'DISCARD_VALUE',
+                                },
+                                {
+                                    'type': 'CHANGE_PER_SECOND',
+                                },
+                            ],
+                        },
+                        {
+                            'id': 'item-prototype-8.25',
+                            'name': 'MSE4_BOOK.{#BOOK}.g_io_write_slot_table (number of in-progress IO writes to the book slot table)',
+                            'type': 'DEPENDENT',
+                            'key': 'varnish.stat["{#LOCATION_ID}","MSE4_BOOK.{#BOOK}.g_io_write_slot_table"]',
+                            'value_type': 'UNSIGNED',
+                            'units': '',
+                            'master_item_key': master,
+                            'preprocessing': [
+                                {
+                                    'type': 'JSONPATH',
+                                    'params': ['$[\'{#LOCATION_ID}.MSE4_BOOK.{#BOOK}.g_io_write_slot_table\']'],
+                                    'error_handler': 'DISCARD_VALUE',
+                                },
+                            ],
+                        },
+                        {
+                            'id': 'item-prototype-8.26',
+                            'name': 'MSE4_BOOK.{#BOOK}.g_io_write_slot_table_bytes (number of bytes of in-progress IO writes to the book slot table)',
+                            'type': 'DEPENDENT',
+                            'key': 'varnish.stat["{#LOCATION_ID}","MSE4_BOOK.{#BOOK}.g_io_write_slot_table_bytes"]',
+                            'value_type': 'UNSIGNED',
+                            'units': 'B',
+                            'master_item_key': master,
+                            'preprocessing': [
+                                {
+                                    'type': 'JSONPATH',
+                                    'params': ['$[\'{#LOCATION_ID}.MSE4_BOOK.{#BOOK}.g_io_write_slot_table_bytes\']'],
+                                    'error_handler': 'DISCARD_VALUE',
+                                },
+                            ],
+                        },
+                        {
+                            'id': 'item-prototype-8.27',
+                            'name': 'MSE4_BOOK.{#BOOK}.c_checkpoint (number of times the slot table has been checkpointed / sec)',
+                            'type': 'DEPENDENT',
+                            'key': 'varnish.stat["{#LOCATION_ID}","MSE4_BOOK.{#BOOK}.c_checkpoint"]',
+                            'value_type': 'FLOAT',
+                            'units': 'eps',
+                            'master_item_key': master,
+                            'preprocessing': [
+                                {
+                                    'type': 'JSONPATH',
+                                    'params': ['$[\'{#LOCATION_ID}.MSE4_BOOK.{#BOOK}.c_checkpoint\']'],
+                                    'error_handler': 'DISCARD_VALUE',
+                                },
+                                {
+                                    'type': 'CHANGE_PER_SECOND',
+                                },
+                            ],
+                        },
+                        {
+                            'id': 'item-prototype-8.28',
+                            'name': 'MSE4_BOOK.{#BOOK}.g_dirty_blocks (number of dirty blocks to write out during next checkpoint)',
+                            'type': 'DEPENDENT',
+                            'key': 'varnish.stat["{#LOCATION_ID}","MSE4_BOOK.{#BOOK}.g_dirty_blocks"]',
+                            'value_type': 'UNSIGNED',
+                            'units': '',
+                            'master_item_key': master,
+                            'preprocessing': [
+                                {
+                                    'type': 'JSONPATH',
+                                    'params': ['$[\'{#LOCATION_ID}.MSE4_BOOK.{#BOOK}.g_dirty_blocks\']'],
+                                    'error_handler': 'DISCARD_VALUE',
+                                },
+                            ],
+                        },
+                        {
+                            'id': 'item-prototype-8.29',
+                            'name': 'MSE4_BOOK.{#BOOK}.c_objects_liberated (number of objects evicted to gain free book slots / sec)',
+                            'type': 'DEPENDENT',
+                            'key': 'varnish.stat["{#LOCATION_ID}","MSE4_BOOK.{#BOOK}.c_objects_liberated"]',
+                            'value_type': 'FLOAT',
+                            'units': 'eps',
+                            'master_item_key': master,
+                            'preprocessing': [
+                                {
+                                    'type': 'JSONPATH',
+                                    'params': ['$[\'{#LOCATION_ID}.MSE4_BOOK.{#BOOK}.c_objects_liberated\']'],
+                                    'error_handler': 'DISCARD_VALUE',
+                                },
+                                {
+                                    'type': 'CHANGE_PER_SECOND',
+                                },
+                            ],
+                        },
+                        {
+                            'id': 'item-prototype-8.30',
+                            'name': 'MSE4_BOOK.{#BOOK}.c_slot_liberation_failure (slot liberation failed / sec)',
+                            'type': 'DEPENDENT',
+                            'key': 'varnish.stat["{#LOCATION_ID}","MSE4_BOOK.{#BOOK}.c_slot_liberation_failure"]',
+                            'value_type': 'FLOAT',
+                            'units': 'eps',
+                            'master_item_key': master,
+                            'preprocessing': [
+                                {
+                                    'type': 'JSONPATH',
+                                    'params': ['$[\'{#LOCATION_ID}.MSE4_BOOK.{#BOOK}.c_slot_liberation_failure\']'],
+                                    'error_handler': 'DISCARD_VALUE',
+                                },
+                                {
+                                    'type': 'CHANGE_PER_SECOND',
+                                },
+                            ],
+                        },
+                        {
+                            'id': 'item-prototype-8.31',
+                            'name': 'MSE4_BOOK.{#BOOK}.c_ykey_purged_slicer (number of slicer objects purged with YKey / sec)',
+                            'type': 'DEPENDENT',
+                            'key': 'varnish.stat["{#LOCATION_ID}","MSE4_BOOK.{#BOOK}.c_ykey_purged_slicer"]',
+                            'value_type': 'FLOAT',
+                            'units': 'eps',
+                            'master_item_key': master,
+                            'preprocessing': [
+                                {
+                                    'type': 'JSONPATH',
+                                    'params': ['$[\'{#LOCATION_ID}.MSE4_BOOK.{#BOOK}.c_ykey_purged_slicer\']'],
+                                    'error_handler': 'DISCARD_VALUE',
+                                },
+                                {
+                                    'type': 'CHANGE_PER_SECOND',
+                                },
+                            ],
+                        },
+                        {
+                            'id': 'item-prototype-8.32',
+                            'name': 'MSE4_BOOK.{#BOOK}.c_ykey_stats (number of objects with YKey stats / sec)',
+                            'type': 'DEPENDENT',
+                            'key': 'varnish.stat["{#LOCATION_ID}","MSE4_BOOK.{#BOOK}.c_ykey_stats"]',
+                            'value_type': 'FLOAT',
+                            'units': 'eps',
+                            'master_item_key': master,
+                            'preprocessing': [
+                                {
+                                    'type': 'JSONPATH',
+                                    'params': ['$[\'{#LOCATION_ID}.MSE4_BOOK.{#BOOK}.c_ykey_stats\']'],
+                                    'error_handler': 'DISCARD_VALUE',
+                                },
+                                {
+                                    'type': 'CHANGE_PER_SECOND',
+                                },
+                            ],
+                        },
+                        {
+                            'id': 'item-prototype-8.33',
+                            'name': 'MSE4_BOOK.{#BOOK}.c_ykey_stats_slicer (number of slicer objects with YKey stats / sec)',
+                            'type': 'DEPENDENT',
+                            'key': 'varnish.stat["{#LOCATION_ID}","MSE4_BOOK.{#BOOK}.c_ykey_stats_slicer"]',
+                            'value_type': 'FLOAT',
+                            'units': 'eps',
+                            'master_item_key': master,
+                            'preprocessing': [
+                                {
+                                    'type': 'JSONPATH',
+                                    'params': ['$[\'{#LOCATION_ID}.MSE4_BOOK.{#BOOK}.c_ykey_stats_slicer\']'],
+                                    'error_handler': 'DISCARD_VALUE',
+                                },
+                                {
+                                    'type': 'CHANGE_PER_SECOND',
+                                },
+                            ],
+                        },
+                        {
+                            'id': 'item-prototype-8.34',
+                            'name': 'MSE4_BOOK.{#BOOK}.g_ylist_entries (number of entries in the Ylists mapping Ykeys in this book)',
+                            'type': 'DEPENDENT',
+                            'key': 'varnish.stat["{#LOCATION_ID}","MSE4_BOOK.{#BOOK}.g_ylist_entries"]',
+                            'value_type': 'UNSIGNED',
+                            'units': '',
+                            'master_item_key': master,
+                            'preprocessing': [
+                                {
+                                    'type': 'JSONPATH',
+                                    'params': ['$[\'{#LOCATION_ID}.MSE4_BOOK.{#BOOK}.g_ylist_entries\']'],
+                                    'error_handler': 'DISCARD_VALUE',
+                                },
+                            ],
+                        },
+                        {
+                            'id': 'item-prototype-8.35',
+                            'name': 'MSE4_BOOK.{#BOOK}.g_ylist_length (total length of the Ylists mapping Ykeys in this book)',
+                            'type': 'DEPENDENT',
+                            'key': 'varnish.stat["{#LOCATION_ID}","MSE4_BOOK.{#BOOK}.g_ylist_length"]',
+                            'value_type': 'UNSIGNED',
+                            'units': '',
+                            'master_item_key': master,
+                            'preprocessing': [
+                                {
+                                    'type': 'JSONPATH',
+                                    'params': ['$[\'{#LOCATION_ID}.MSE4_BOOK.{#BOOK}.g_ylist_length\']'],
+                                    'error_handler': 'DISCARD_VALUE',
+                                },
+                            ],
+                        },
+                        {
+                            'id': 'item-prototype-8.36',
+                            'name': 'MSE4_BOOK.{#BOOK}.c_ylists_cleaned (number of times a Ylist has been cleaned in this book / sec)',
+                            'type': 'DEPENDENT',
+                            'key': 'varnish.stat["{#LOCATION_ID}","MSE4_BOOK.{#BOOK}.c_ylists_cleaned"]',
+                            'value_type': 'FLOAT',
+                            'units': 'eps',
+                            'master_item_key': master,
+                            'preprocessing': [
+                                {
+                                    'type': 'JSONPATH',
+                                    'params': ['$[\'{#LOCATION_ID}.MSE4_BOOK.{#BOOK}.c_ylists_cleaned\']'],
+                                    'error_handler': 'DISCARD_VALUE',
+                                },
+                                {
+                                    'type': 'CHANGE_PER_SECOND',
+                                },
+                            ],
+                        },
                     ],
-                    []) }}
+                    [
+                    ]) }}
 
                 {#-##########################################################}
                 {#- MSE4 STORES DISCOVERY #}

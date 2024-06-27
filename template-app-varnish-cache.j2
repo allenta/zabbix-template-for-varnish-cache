@@ -3457,7 +3457,7 @@
                         },
                         {
                             'id': 'item-prototype-1.163',
-                            'name': 'MAIN.req_reset (Requests reset / sec)',
+                            'name': 'MAIN.req_reset (requests reset / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","MAIN.req_reset"]',
                             'value_type': 'FLOAT',
@@ -3476,7 +3476,7 @@
                         },
                         {
                             'id': 'item-prototype-1.164',
-                            'name': 'MAIN.sc_bankrupt (Session Err BANKRUPT / sec)',
+                            'name': 'MAIN.sc_bankrupt (session Err BANKRUPT / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","MAIN.sc_bankrupt"]',
                             'value_type': 'FLOAT',
@@ -5735,6 +5735,51 @@
                     ],
                     [
                     ]) }}
+
+                {#-##########################################################}
+                {#- MSE4 BOOKS DISCOVERY #}
+                {#-##########################################################}
+
+                {{ discovery_rule(
+                    {
+                        'id': 'discovery-rule-8',
+                        'name': 'MSE4 books discovery',
+                        'key': 'varnish.discovery["{$VARNISH_CACHE.LOCATIONS}","mse4_books"]',
+                        'context': 'mse4_books',
+                    },
+                    [
+                    ],
+                    []) }}
+
+                {#-##########################################################}
+                {#- MSE4 STORES DISCOVERY #}
+                {#-##########################################################}
+
+                {{ discovery_rule(
+                    {
+                        'id': 'discovery-rule-9',
+                        'name': 'MSE4 stores discovery',
+                        'key': 'varnish.discovery["{$VARNISH_CACHE.LOCATIONS}","mse4_stores"]',
+                        'context': 'mse4_stores',
+                    },
+                    [
+                    ],
+                    []) }}
+
+                {#-##########################################################}
+                {#- MSE4 CATEGORIES DISCOVERY #}
+                {#-##########################################################}
+
+                {{ discovery_rule(
+                    {
+                        'id': 'discovery-rule-10',
+                        'name': 'MSE4 categories discovery',
+                        'key': 'varnish.discovery["{$VARNISH_CACHE.LOCATIONS}","mse4_categories"]',
+                        'context': 'mse4_categories',
+                    },
+                    [
+                    ],
+                    []) }}
             </discovery_rules>
 
             {#-##############################################################}

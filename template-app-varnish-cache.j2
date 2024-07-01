@@ -6346,6 +6346,17 @@
                                     'error_handler': 'DISCARD_VALUE',
                                 },
                             ],
+                            'triggers': [
+                                {
+                                    'id': 'trigger-prototype-8.1.1',
+                                    'name': 'Varnish Cache[{#LOCATION}] {#BOOK} MSE4 book is not online',
+                                    'expression':
+                                        '{$VARNISH_CACHE.MSE4_BOOK_ONLINE.ENABLED:"{#LOCATION_ID}:{#BOOK}"} and '
+                                        'last(/Template App ' + name + '/varnish.stat["{#LOCATION_ID}","MSE4_BOOK.{#BOOK}.online"])'
+                                        '=0',
+                                    'priority': 'WARNING',
+                                },
+                            ],
                         },
                         {
                             'id': 'item-prototype-8.2',
@@ -6376,6 +6387,20 @@
                                     'type': 'JSONPATH',
                                     'params': ['$[\'{#LOCATION_ID}.MSE4_BOOK.{#BOOK}.g_slots_unused\']'],
                                     'error_handler': 'DISCARD_VALUE',
+                                },
+                            ],
+                            'triggers': [
+                                {
+                                    'id': 'trigger-prototype-8.3.1',
+                                    'name': 'Varnish Cache[{#LOCATION}] {#BOOK} MSE4 book is running out of slots',
+                                    'expression':
+                                        '{$VARNISH_CACHE.MSE4_BOOK_SLOTS_UNUSED.ENABLED:"{#LOCATION_ID}:{#BOOK}"} and '
+                                        'last(/Template App ' + name + '/varnish.stat["{#LOCATION_ID}","MSE4_BOOK.{#BOOK}.g_slots_unused"])'
+                                        '<{$VARNISH_CACHE.MSE4_BOOK_SLOTS_UNUSED.MIN:"{#LOCATION_ID}:{#BOOK}"}',
+                                    'recovery':
+                                        'last(/Template App ' + name + '/varnish.stat["{#LOCATION_ID}","MSE4_BOOK.{#BOOK}.g_slots_unused"])'
+                                        '>{$VARNISH_CACHE.MSE4_BOOK_SLOTS_UNUSED.RECOVERY.MIN:"{#LOCATION_ID}:{#BOOK}"}',
+                                    'priority': 'WARNING',
                                 },
                             ],
                         },
@@ -6984,6 +7009,17 @@
                                     'type': 'JSONPATH',
                                     'params': ['$[\'{#LOCATION_ID}.MSE4_STORE.{#BOOK}.{#STORE}.online\']'],
                                     'error_handler': 'DISCARD_VALUE',
+                                },
+                            ],
+                            'triggers': [
+                                {
+                                    'id': 'trigger-prototype-9.1.1',
+                                    'name': 'Varnish Cache[{#LOCATION}] {#BOOK} {#STORE} MSE4 store is not online',
+                                    'expression':
+                                        '{$VARNISH_CACHE.MSE4_STORE_ONLINE.ENABLED:"{#LOCATION_ID}:{#BOOK}:{#STORE}"} and '
+                                        'last(/Template App ' + name + '/varnish.stat["{#LOCATION_ID}","MSE4_STORE.{#BOOK}.{#STORE}.online"])'
+                                        '=0',
+                                    'priority': 'WARNING',
                                 },
                             ],
                         },
@@ -8370,6 +8406,14 @@
                         ('{$VARNISH_CACHE.MSE_BOOK_SPACE.ENABLED}', '1'),
                         ('{$VARNISH_CACHE.MSE_BOOK_SPACE.MIN}', '75MB'),
                         ('{$VARNISH_CACHE.MSE_BOOK_SPACE.RECOVERY.MIN}', '100MB'),
+
+                        ('{$VARNISH_CACHE.MSE4_BOOK_ONLINE.ENABLED}', '1'),
+
+                        ('{$VARNISH_CACHE.MSE4_BOOK_SLOTS_UNUSED.ENABLED}', '1'),
+                        ('{$VARNISH_CACHE.MSE4_BOOK_SLOTS_UNUSED.MIN}', '350000'),
+                        ('{$VARNISH_CACHE.MSE4_BOOK_SLOTS_UNUSED.RECOVERY.MIN}', '475000'),
+
+                        ('{$VARNISH_CACHE.MSE4_STORE_ONLINE.ENABLED}', '1'),
                     ] %}
                     <macro>
                         <macro>{{ macro[0]|e }}</macro>

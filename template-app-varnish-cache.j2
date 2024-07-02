@@ -4124,16 +4124,16 @@
                         },
                         {
                             'id': 'item-prototype-1.200',
-                            'name': 'MSE4.c_memcache_hit (stored objects memory cache hits / sec)',
+                            'name': 'MSE4_MEM.c_memcache_hit (stored objects memory cache hits / sec)',
                             'type': 'DEPENDENT',
-                            'key': 'varnish.stat["{#LOCATION_ID}","MSE4.c_memcache_hit"]',
+                            'key': 'varnish.stat["{#LOCATION_ID}","MSE4_MEM.c_memcache_hit"]',
                             'value_type': 'FLOAT',
                             'units': 'eps',
                             'master_item_key': master,
                             'preprocessing': [
                                 {
                                     'type': 'JSONPATH',
-                                    'params': ['$[\'{#LOCATION_ID}.MSE4.c_memcache_hit\']'],
+                                    'params': ['$[\'{#LOCATION_ID}.MSE4_MEM.c_memcache_hit\']'],
                                     'error_handler': 'DISCARD_VALUE',
                                 },
                                 {
@@ -4143,16 +4143,16 @@
                         },
                         {
                             'id': 'item-prototype-1.201',
-                            'name': 'MSE4.c_memcache_miss (stored objects memory cache misses / sec)',
+                            'name': 'MSE4_MEM.c_memcache_miss (stored objects memory cache misses / sec)',
                             'type': 'DEPENDENT',
-                            'key': 'varnish.stat["{#LOCATION_ID}","MSE4.c_memcache_miss"]',
+                            'key': 'varnish.stat["{#LOCATION_ID}","MSE4_MEM.c_memcache_miss"]',
                             'value_type': 'FLOAT',
                             'units': 'eps',
                             'master_item_key': master,
                             'preprocessing': [
                                 {
                                     'type': 'JSONPATH',
-                                    'params': ['$[\'{#LOCATION_ID}.MSE4.c_memcache_miss\']'],
+                                    'params': ['$[\'{#LOCATION_ID}.MSE4_MEM.c_memcache_miss\']'],
                                     'error_handler': 'DISCARD_VALUE',
                                 },
                                 {
@@ -4169,7 +4169,7 @@
                             'units': '%',
                             'delay': true,
                             'params':
-                                '100*last(//varnish.stat["{#LOCATION_ID}","MSE4.c_memcache_hit"])/(last(//varnish.stat["{#LOCATION_ID}","MSE4.c_memcache_hit"])+last(//varnish.stat["{#LOCATION_ID}","MSE4.c_memcache_miss"])+(count(//varnish.stat["{#LOCATION_ID}","MSE4.c_memcache_hit"],#1,"eq",0)*count(//varnish.stat["{#LOCATION_ID}","MSE4.c_memcache_miss"],#1,"eq",0)))',
+                                '100*last(//varnish.stat["{#LOCATION_ID}","MSE4_MEM.c_memcache_hit"])/(last(//varnish.stat["{#LOCATION_ID}","MSE4_MEM.c_memcache_hit"])+last(//varnish.stat["{#LOCATION_ID}","MSE4_MEM.c_memcache_miss"])+(count(//varnish.stat["{#LOCATION_ID}","MSE4_MEM.c_memcache_hit"],#1,"eq",0)*count(//varnish.stat["{#LOCATION_ID}","MSE4_MEM.c_memcache_miss"],#1,"eq",0)))',
                         },
                     ],
                     [

@@ -4162,14 +4162,104 @@
                         },
                         {
                             'id': 'item-prototype-1.202',
-                            'name': 'MSE4.cache_hit_ratio',
+                            'name': 'MSE4_MEM.cache_hit_ratio',
                             'type': 'CALCULATED',
-                            'key': 'varnish["{#LOCATION_ID}","MSE4.cache_hit_ratio"]',
+                            'key': 'varnish["{#LOCATION_ID}","MSE4_MEM.cache_hit_ratio"]',
                             'value_type': 'FLOAT',
                             'units': '%',
                             'delay': true,
                             'params':
                                 '100*last(//varnish.stat["{#LOCATION_ID}","MSE4_MEM.c_memcache_hit"])/(last(//varnish.stat["{#LOCATION_ID}","MSE4_MEM.c_memcache_hit"])+last(//varnish.stat["{#LOCATION_ID}","MSE4_MEM.c_memcache_miss"])+(count(//varnish.stat["{#LOCATION_ID}","MSE4_MEM.c_memcache_hit"],#1,"eq",0)*count(//varnish.stat["{#LOCATION_ID}","MSE4_MEM.c_memcache_miss"],#1,"eq",0)))',
+                        },
+                        {
+                            'id': 'item-prototype-1.203',
+                            'name': 'MSE4_MEM.g_objects (number of objects in memory)',
+                            'type': 'DEPENDENT',
+                            'key': 'varnish.stat["{#LOCATION_ID}","MSE4_MEM.g_objects"]',
+                            'value_type': 'UNSIGNED',
+                            'master_item_key': master,
+                            'preprocessing': [
+                                {
+                                    'type': 'JSONPATH',
+                                    'params': ['$[\'{#LOCATION_ID}.MSE4_MEM.g_objects\']'],
+                                    'error_handler': 'DISCARD_VALUE',
+                                },
+                            ],
+                        },
+                        {
+                            'id': 'item-prototype-1.204',
+                            'name': 'MSE4_MEM.g_objects_ephemeral (number of cached ephemeral objects)',
+                            'type': 'DEPENDENT',
+                            'key': 'varnish.stat["{#LOCATION_ID}","MSE4_MEM.g_objects_ephemeral"]',
+                            'value_type': 'UNSIGNED',
+                            'master_item_key': master,
+                            'preprocessing': [
+                                {
+                                    'type': 'JSONPATH',
+                                    'params': ['$[\'{#LOCATION_ID}.MSE4_MEM.g_objects_ephemeral\']'],
+                                    'error_handler': 'DISCARD_VALUE',
+                                },
+                            ],
+                        },
+                        {
+                            'id': 'item-prototype-1.205',
+                            'name': 'MSE4_MEM.g_objects_persisted (number of persisted objects with at least one chunk in memory)',
+                            'type': 'DEPENDENT',
+                            'key': 'varnish.stat["{#LOCATION_ID}","MSE4_MEM.g_objects_persisted"]',
+                            'value_type': 'UNSIGNED',
+                            'master_item_key': master,
+                            'preprocessing': [
+                                {
+                                    'type': 'JSONPATH',
+                                    'params': ['$[\'{#LOCATION_ID}.MSE4_MEM.g_objects_persisted\']'],
+                                    'error_handler': 'DISCARD_VALUE',
+                                },
+                            ],
+                        },
+                        {
+                            'id': 'item-prototype-1.206',
+                            'name': 'MSE4_MEM.g_objects_pass (number of pass objects allocated)',
+                            'type': 'DEPENDENT',
+                            'key': 'varnish.stat["{#LOCATION_ID}","MSE4_MEM.g_objects_pass"]',
+                            'value_type': 'UNSIGNED',
+                            'master_item_key': master,
+                            'preprocessing': [
+                                {
+                                    'type': 'JSONPATH',
+                                    'params': ['$[\'{#LOCATION_ID}.MSE4_MEM.g_objects_pass\']'],
+                                    'error_handler': 'DISCARD_VALUE',
+                                },
+                            ],
+                        },
+                        {
+                            'id': 'item-prototype-1.207',
+                            'name': 'MSE4_MEM.g_objects_reqbody (number of request body objects)',
+                            'type': 'DEPENDENT',
+                            'key': 'varnish.stat["{#LOCATION_ID}","MSE4_MEM.g_objects_reqbody"]',
+                            'value_type': 'UNSIGNED',
+                            'master_item_key': master,
+                            'preprocessing': [
+                                {
+                                    'type': 'JSONPATH',
+                                    'params': ['$[\'{#LOCATION_ID}.MSE4_MEM.g_objects_reqbody\']'],
+                                    'error_handler': 'DISCARD_VALUE',
+                                },
+                            ],
+                        },
+                        {
+                            'id': 'item-prototype-1.208',
+                            'name': 'MSE4_MEM.g_objects_synthetic (number of client response synthetic objects)',
+                            'type': 'DEPENDENT',
+                            'key': 'varnish.stat["{#LOCATION_ID}","MSE4_MEM.g_objects_synthetic"]',
+                            'value_type': 'UNSIGNED',
+                            'master_item_key': master,
+                            'preprocessing': [
+                                {
+                                    'type': 'JSONPATH',
+                                    'params': ['$[\'{#LOCATION_ID}.MSE4_MEM.g_objects_synthetic\']'],
+                                    'error_handler': 'DISCARD_VALUE',
+                                },
+                            ],
                         },
                     ],
                     [

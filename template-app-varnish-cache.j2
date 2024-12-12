@@ -321,7 +321,7 @@
                         {%- else %}
                             <history>{$VARNISH_CACHE.ITEM_HISTORY_STORAGE_PERIOD}</history>
                         {%- endif %}
-                        {%- if 'trends' in item and not item.trends and version %}
+                        {%- if 'trends' in item and not item.trends %}
                             {%- if version in ('6.0', '6.2', '6.4', '7.0') %}
                                 <trends>0</trends>
                             {%- endif %}

@@ -1,3 +1,6 @@
+- ?:
+    - Added support for Zabbix 7.2.
+
 - 28.0 (2024-05-31):
     - Added support for Zabbix 7.0. New 'Disable lost resources' property for
       discovery rules will adopt the default value 'Immediately' instead of

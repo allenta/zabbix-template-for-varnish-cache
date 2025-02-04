@@ -1,4 +1,4 @@
-**This is a Zabbix template + script useful to monitor Varnish Cache Plus instances**:
+**This is a Zabbix template + script useful to monitor Varnish Enterprise instances**:
 
 1. Copy ``zabbix-varnish-cache.py`` to ``/usr/local/bin/``.
 
@@ -23,4 +23,6 @@
         [-D release='trunk'] \
         --extension=extensions.zabbix.ZabbixExtension --strict -o template.xml template-app-varnish-cache.j2
 
-4. Link hosts to the template. Beware you must set a value for the ``{$VARNISH_CACHE.LOCATIONS}`` macro (comma-delimited list of Varnish Cache Plus instance names). Usually you should leave its value blank when running a single Varnish Cache Plus instance per server. Additional macros and contexts are available for further customizations.
+4. Link hosts to the template. Beware you must set a value for the ``{$VARNISH_CACHE.LOCATIONS}`` macro (comma-delimited list of Varnish Enterprise instance names). Usually you should leave its value blank when running a single Varnish Enterprise instance per server. Additional macros and contexts are available for further customizations.
+
+Please note that **this template + script are exclusively intended for Varnish Enterprise instances**. It does not require many changes to work with Varnish Cache, but it will not work out of the box, especially if not using version 6.0 LTS: different `varnishstat` and `varnishadm` outputs, different sets of metrics, etc.

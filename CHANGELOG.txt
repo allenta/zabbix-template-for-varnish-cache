@@ -1,4 +1,4 @@
-- ?
+- 31.0 (2025-07-15):
     - Added support for MSE4.
     - Renamed 'MAIN.fetch_no_thread' to 'MAIN.bgfetch_no_thread'.
     - Added:

@@ -70,6 +70,7 @@ ITEMS = (
     r'MAIN\.sess_readahead',
     r'MAIN\.sc_bankrupt',
     r'MAIN\.sc_rapid_reset',
+    r'MAIN\.sc_sock_closed',
     # Client sessions: failures.
     r'MAIN\.sess_fail_econnaborted',
     r'MAIN\.sess_fail_eintr',
@@ -100,6 +101,7 @@ ITEMS = (
     r'MAIN\.esi_warnings',
     r'MAIN\.esi_errors',
     r'MAIN\.esi_maxdepth',
+    r'MAIN\.esi_req_abort',
     # Gzip: activity.
     r'MAIN\.n_gzip',
     r'MAIN\.n_gunzip',
@@ -151,7 +153,7 @@ ITEMS = (
     r'MAIN\.fetch_bad',
     r'MAIN\.fetch_failed',
     r'MAIN\.fetch_fast304',
-    r'MAIN\.fetch_no_thread',
+    r'MAIN\.bgfetch_no_thread',
     r'MAIN\.fetch_stale_deliver',
     r'MAIN\.fetch_stale_rearm',
     # Backends: number.
@@ -170,6 +172,8 @@ ITEMS = (
     r'ACCG_DIAG\.namespace_already_set',
     r'ACCG_DIAG\.namespace_undefined',
     r'ACCG_DIAG\.create_namespace_failure',
+    r'ACCG_DIAG\.req_dropped',
+    r'ACCG_DIAG\.bereq_dropped',
     # VMODs: goto.
     r'MAIN\.goto_dns_cache_hits',
     r'MAIN\.goto_dns_lookup_fails',
@@ -178,6 +182,8 @@ ITEMS = (
     r'VMOD_HTTP\.handle_requests',
     r'VMOD_HTTP\.handle_completed',
     r'VMOD_HTTP\.handle_abandon',
+    r'VMOD_HTTP\.handle_internal_error',
+    r'VMOD_HTTP\.handle_limited',
     # Workspace overflows.
     r'MAIN\.client_resp_500',
     r'MAIN\.ws_backend_overflow',
@@ -189,6 +195,9 @@ ITEMS = (
     r'MAIN\.shm_flushes',
     r'MAIN\.shm_cont',
     r'MAIN\.shm_cycles',
+    # Transit buffer.
+    r'MAIN\.transit_stored',
+    r'MAIN\.transit_buffered',
     # VHA6.
     r'KVSTORE\.vha6_stats\..+\.(?:broadcast_candidates|broadcast_nocache|broadcast_skip|broadcast_lowttl|broadcast_toolarge|broadcasts|fetch_self|fetch_peer|fetch_peer_hit|fetch_origin|fetch_origin_deliver|fetch_peer_insert|error_version_mismatch|error_no_token|error_bad_token|error_stale_token|error_rate_limited|error_fetch|error_fetch_insert|error_fetch_seal|error_localhost|error_origin_mismatch|error_origin_miss|error_max_broadcasts|error_fetch_self|legacy_vha)',
     # KVStore-based counters.
@@ -243,6 +252,80 @@ ITEMS = (
     #   - AIO bytes read/written: c_aio_finished_bytes_read, c_aio_finished_bytes_write.
     #   - Waterlevel: c_waterlevel_queue, c_waterlevel_purge.
     r'MSE_STORE\..+\.(?:c_aio_finished_read|c_aio_finished_write|c_aio_finished_bytes_read|c_aio_finished_bytes_write|c_waterlevel_purge|c_waterlevel_queue|g_alloc_bytes|g_free_bytes|g_objects|g_ykey_keys)',
+    # MSE4
+    #   - Bytes in use vs. available: MSE4_MEM.g_bytes, MSE4_MEM.g_space.
+    #   - Bytes in use: MSE4_MEM.g_bytes_ephemeral, MSE4_MEM.g_bytes_persisted, MSE4_MEM.g_bytes_pass, MSE4_MEM.g_bytes_reqbody, MSE4_MEM.g_bytes_synthetic, MSE4_MEM.g_bytes_buffer.
+    #   - Objects: MSE4_MEM.g_objects, MSE4_MEM.g_objects_ephemeral, MSE4_MEM.g_objects_persisted, MSE4_MEM.g_objects_pass, MSE4_MEM.g_objects_reqbody, MSE4_MEM.g_objects_synthetic.
+    #   - Allocations: MSE4_MEM.g_allocations, MSE4_MEM.c_allocation, MSE4_MEM.c_allocation_ephemeral, MSE4_MEM.c_allocation_persisted, MSE4_MEM.c_allocation_pass, MSE4_MEM.c_allocation_reqbody, MSE4_MEM.c_allocation_synthetic, MSE4_MEM.c_allocation_buffer, MSE4_MEM.c_allocation_failure.
+    #   - Releases: MSE4_MEM.c_free, MSE4_MEM.c_free_ephemeral, MSE4_MEM.c_free_persisted, MSE4_MEM.c_free_pass, MSE4_MEM.c_free_reqbody, MSE4_MEM.c_free_synthetic, MSE4_MEM.c_free_buffer.
+    #   - Evictions: MSE4_MEM.c_eviction, MSE4_MEM.c_eviction_failure, MSE4_MEM.c_eviction_reorder.
+    #   - Vary headers: MSE4.g_varyspec.
+    #   - YKeys: MSE4.g_ykey_keys.
+    #   - Ykeys purged: MSE4.c_ykey_purged.
+    #   - Cache: MSE4_MEM.c_memcache_hit, MSE4_MEM.c_memcache_miss.
+    r'MSE4_MEM\.(?:g_bytes|g_space)',
+    r'MSE4_MEM\.(?:g_bytes_ephemeral|g_bytes_persisted|g_bytes_pass|g_bytes_reqbody|g_bytes_synthetic|g_bytes_buffer)',
+    r'MSE4_MEM\.(?:g_objects|g_objects_ephemeral|g_objects_persisted|g_objects_pass|g_objects_reqbody|g_objects_synthetic)',
+    r'MSE4_MEM\.(?:g_allocations|c_allocation|c_allocation_ephemeral|c_allocation_persisted|c_allocation_pass|c_allocation_reqbody|c_allocation_synthetic|c_allocation_buffer|c_allocation_failure)',
+    r'MSE4_MEM\.(?:c_free|c_free_ephemeral|c_free_persisted|c_free_pass|c_free_reqbody|c_free_synthetic|c_free_buffer)',
+    r'MSE4_MEM\.(?:c_eviction|c_eviction_failure|c_eviction_reorder)',
+    r'MSE4\.(?:g_varyspec)',
+    r'MSE4\.(?:g_ykey_keys)',
+    r'MSE4\.(?:c_ykey_purged)',
+    r'MSE4_MEM\.(?:c_memcache_hit|c_memcache_miss)',
+    # MSE4 books[...]
+    #   - Online: MSE4_BOOK.foo.online.
+    #   - Slots in use vs. available: MSE4_BOOK.foo.g_slots_used, MSE4_BOOK.foo.g_slots_unused.
+    #   - Objects: MSE4_BOOK.foo.g_objects, MSE4_BOOK.foo.g_unreachable_objects.
+    #   - Vary headers: MSE4_BOOK.foo.g_varyspec.
+    #   - YKeys: MSE4_BOOK.foo.g_ykey_keys.
+    #   - Ykeys purged: MSE4_BOOK.foo.c_ykey_purged.
+    #   - Queues: MSE4_BOOK.foo.c_freeslot_queued, MSE4_BOOK.foo.g_freeslot_queue, MSE4_BOOK.foo.c_submitslot_queued, MSE4_BOOK.foo.g_submitslot_queue.
+    #   - Banlist bytes in use vs. available: MSE4_BANJRN.foo.g_bytes, MSE4_BANJRN.foo.g_space.
+    #   - Banlist size: MSE4_BANJRN.foo.g_bans.
+    #   - Banlist overflow: MSE4_BANJRN.foo.g_overflow_bans, MSE4_BANJRN.foo.g_overflow_bytes.
+    r'MSE4_BOOK\..+\.(?:online)',
+    r'MSE4_BOOK\..+\.(?:g_slots_used|g_slots_unused)',
+    r'MSE4_BOOK\..+\.(?:g_objects|g_unreachable_objects)',
+    r'MSE4_BOOK\..+\.(?:g_varyspec)',
+    r'MSE4_BOOK\..+\.(?:g_ykey_keys)',
+    r'MSE4_BOOK\..+\.(?:c_ykey_purged)',
+    r'MSE4_BOOK\..+\.(?:c_freeslot_queued|g_freeslot_queue|c_submitslot_queued|g_submitslot_queue)',
+    r'MSE4_BANJRN\..+\.(?:g_bytes|g_space)',
+    r'MSE4_BANJRN\..+\.(?:g_bans)',
+    r'MSE4_BANJRN\..+\.(?:g_overflow_bans|g_overflow_bytes)',
+    # MSE4 stores[...]
+    #   - Online: MSE4_STORE.foo.bar.online.
+    #   - Bytes in use vs. available: MSE4_STORE.foo.bar.g_bytes_used, MSE4_STORE.foo.bar.g_bytes_unused.
+    #   - Reserve bytes: MSE4_STORE.foo.bar.g_reserve_bytes.
+    #   - Objects: MSE4_STORE.foo.bar.g_objects.
+    #   - Queues: MSE4_STORE.foo.bar.g_allocation_queue, MSE4_STORE.foo.bar.c_allocation_queued, MSE4_STORE.foo.bar.g_io_queued, MSE4_STORE.foo.bar.g_io_queued_read, MSE4_STORE.foo.bar.g_io_queued_write.
+    #   - IO finished operations: MSE4_STORE.foo.bar.c_io_finished_read, MSE4_STORE.foo.bar.c_io_finished_write.
+    #   - IO finished bytes: MSE4_STORE.foo.bar.c_io_finished_bytes_read, MSE4_STORE.foo.bar.c_io_finished_bytes_write.
+    #   - IO blocked operations: MSE4_STORE.foo.bar.g_io_blocked_read, MSE4_STORE.foo.bar.g_io_blocked_write.
+    #   - IO limited: MSE4_STORE.foo.bar.c_io_limited.
+    r'MSE4_STORE\..+\.(?:online)',
+    r'MSE4_STORE\..+\.(?:g_bytes_used|g_bytes_unused)',
+    r'MSE4_STORE\..+\.(?:g_reserve_bytes)',
+    r'MSE4_STORE\..+\.(?:g_objects)',
+    r'MSE4_STORE\..+\.(?:g_allocation_queue|c_allocation_queued|g_io_queued|g_io_queued_read|g_io_queued_write)',
+    r'MSE4_STORE\..+\.(?:c_io_finished_read|c_io_finished_write)',
+    r'MSE4_STORE\..+\.(?:c_io_finished_bytes_read|c_io_finished_bytes_write)',
+    r'MSE4_STORE\..+\.(?:g_io_blocked_read|g_io_blocked_write)',
+    r'MSE4_STORE\..+\.(?:c_io_limited)',
+    # MSE4 categories[...]
+    #   - Bytes in use: MSE4_CAT.foo.bar.baz.g_bytes, MSE4_CAT.foo.bar.baz.g_bytes_ephemeral, MSE4_CAT.foo.bar.baz.g_bytes_persisted, MSE4_CAT.foo.bar.baz.g_bytes_pass.
+    #   - Objects: MSE4_CAT.foo.bar.baz.g_objects, MSE4_CAT.foo.bar.baz.g_objects_ephemeral, MSE4_CAT.foo.bar.baz.g_objects_persisted, MSE4_CAT.foo.bar.baz.g_objects_pass.
+    #   - Allocations: MSE4_CAT.foo.bar.baz.g_allocations, MSE4_CAT.foo.bar.baz.c_allocation, MSE4_CAT.foo.bar.baz.c_allocation_ephemeral, MSE4_CAT.foo.bar.baz.c_allocation_persisted, MSE4_CAT.foo.bar.baz.c_allocation_pass.
+    #   - Releases: MSE4_CAT.foo.bar.baz.c_free, MSE4_CAT.foo.bar.baz.c_free_ephemeral, MSE4_CAT.foo.bar.baz.c_free_persisted, MSE4_CAT.foo.bar.baz.c_free_pass.
+    #   - Evictions: MSE4_CAT.foo.bar.baz.c_eviction, MSE4_CAT.foo.bar.baz.c_eviction_failure, MSE4_CAT.foo.bar.baz.c_eviction_reorder.
+    #   - Cache: MSE4_CAT.foo.bar.baz.c_memcache_hit, MSE4_CAT.foo.bar.baz.c_memcache_miss.
+    r'MSE4_CAT\..+\.(?:g_bytes|g_bytes_ephemeral|g_bytes_persisted|g_bytes_pass)',
+    r'MSE4_CAT\..+\.(?:g_objects|g_objects_ephemeral|g_objects_persisted|g_objects_pass)',
+    r'MSE4_CAT\..+\.(?:g_allocations|c_allocation|c_allocation_ephemeral|c_allocation_persisted|c_allocation_pass)',
+    r'MSE4_CAT\..+\.(?:c_free|c_free_ephemeral|c_free_persisted|c_free_pass)',
+    r'MSE4_CAT\..+\.(?:c_eviction|c_eviction_failure|c_eviction_reorder)',
+    r'MSE4_CAT\..+\.(?:c_memcache_hit|c_memcache_miss)',
     # Backends[...]
     #   - Healthiness: happy, healthy.
     #   - Requests sent to backend: req.
@@ -259,8 +342,12 @@ REWRITES = [
     (re.compile(r'^KVSTORE\.vha6_stats\.[^\.]+'), r'VHA6'),
     # KVSTORE.counters.boot.foo -> COUNTER.foo.
     (re.compile(r'^KVSTORE\.counters\.[^\.]+'), r'COUNTER'),
-    # MSE.main.foo -> STG.MSE.main.foo.
+    # MSE.main.foo -> STG.MSE.main.foo. Beware MSE4 doesn't follow the same
+    # pattern (i.e. <type>.<name>.<metric>) because on MSE4-enabled VCPs a
+    # single MSE4 store can be used.
     (re.compile(r'^((?:MSE|SMA|SMF)\..+)$'), r'STG.\1'),
+    # MSE4_CAT.(foo.bar).baz -> MSE4_CAT.foo.bar.baz
+    (re.compile(r'^MSE4_CAT\.\(([^\)]+)\)\.'), r'MSE4_CAT.\1.'),
     # VBE.boot.foo.bar.baz -> VBE.foo.bar.baz
     (re.compile(r'^VBE\.[^\.]+'), r'VBE'),
     # VBE.goto.0000003f.(1.2.3.4).(http://foo.com:80).(ttl:10.000000) -> VBE.goto.(1.2.3.4).(http://foo.com:80).(ttl:10.000000)
@@ -275,6 +362,9 @@ SUBJECTS = {
     'accountings': re.compile(r'^ACCG\.([^\.]+\.[^\.]+)\.[^\.]+$'),
     'mse_books': re.compile(r'^MSE_BOOK\.(.+)\.[^\.]+$'),
     'mse_stores': re.compile(r'^MSE_STORE\.(.+)\.[^\.]+$'),
+    'mse4_books': re.compile(r'^MSE4_BOOK\.(.+)\.[^\.]+$'),
+    'mse4_stores': re.compile(r'^MSE4_STORE\.(.+)\.[^\.]+$'),
+    'mse4_categories': re.compile(r'^MSE4_CAT\.(.+)\.[^\.]+$'),
     'storages': re.compile(r'^STG\.(.+)\.[^\.]+$'),
     'backends': re.compile(r'^VBE\.(.+)\.[^\.]+$'),
 }

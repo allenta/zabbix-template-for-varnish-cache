@@ -1289,16 +1289,16 @@
                         },
                         {
                             'id': 'item-prototype-1.48',
-                            'name': 'MAIN.fetch_no_thread (failed fetches because no thread available / sec)',
+                            'name': 'MAIN.bgfetch_no_thread (background fetch failed (no thread) / sec)',
                             'type': 'DEPENDENT',
-                            'key': 'varnish.stat["{#LOCATION_ID}","MAIN.fetch_no_thread"]',
+                            'key': 'varnish.stat["{#LOCATION_ID}","MAIN.bgfetch_no_thread"]',
                             'value_type': 'FLOAT',
                             'units': 'eps',
                             'master_item_key': master,
                             'preprocessing': [
                                 {
                                     'type': 'JSONPATH',
-                                    'params': ['$[\'{#LOCATION_ID}.MAIN.fetch_no_thread\']'],
+                                    'params': ['$[\'{#LOCATION_ID}.MAIN.bgfetch_no_thread\']'],
                                     'error_handler': 'DISCARD_VALUE',
                                 },
                                 {
@@ -3469,7 +3469,7 @@
                         },
                         {
                             'id': 'item-prototype-1.163',
-                            'name': 'MAIN.req_reset (Requests reset / sec)',
+                            'name': 'MAIN.req_reset (requests reset / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","MAIN.req_reset"]',
                             'value_type': 'FLOAT',
@@ -3488,7 +3488,7 @@
                         },
                         {
                             'id': 'item-prototype-1.164',
-                            'name': 'MAIN.sc_bankrupt (Session Err BANKRUPT / sec)',
+                            'name': 'MAIN.sc_bankrupt (session Err BANKRUPT / sec)',
                             'type': 'DEPENDENT',
                             'key': 'varnish.stat["{#LOCATION_ID}","MAIN.sc_bankrupt"]',
                             'value_type': 'FLOAT',
@@ -3498,6 +3498,831 @@
                                 {
                                     'type': 'JSONPATH',
                                     'params': ['$[\'{#LOCATION_ID}.MAIN.sc_bankrupt\']'],
+                                    'error_handler': 'DISCARD_VALUE',
+                                },
+                                {
+                                    'type': 'CHANGE_PER_SECOND',
+                                },
+                            ],
+                        },
+                        {
+                            'id': 'item-prototype-1.165',
+                            'name': 'MAIN.sc_sock_closed (Session OK SOCK_CLOSED / sec)',
+                            'type': 'DEPENDENT',
+                            'key': 'varnish.stat["{#LOCATION_ID}","MAIN.sc_sock_closed"]',
+                            'value_type': 'FLOAT',
+                            'units': 'eps',
+                            'master_item_key': master,
+                            'preprocessing': [
+                                {
+                                    'type': 'JSONPATH',
+                                    'params': ['$[\'{#LOCATION_ID}.MAIN.sc_sock_closed\']'],
+                                    'error_handler': 'DISCARD_VALUE',
+                                },
+                                {
+                                    'type': 'CHANGE_PER_SECOND',
+                                },
+                            ],
+                        },
+                        {
+                            'id': 'item-prototype-1.166',
+                            'name': 'ACCG_DIAG.req_dropped (Number of times a request was not accounted for / sec)',
+                            'type': 'DEPENDENT',
+                            'key': 'varnish.stat["{#LOCATION_ID}","ACCG_DIAG.req_dropped"]',
+                            'value_type': 'FLOAT',
+                            'units': 'eps',
+                            'master_item_key': master,
+                            'preprocessing': [
+                                {
+                                    'type': 'JSONPATH',
+                                    'params': ['$[\'{#LOCATION_ID}.ACCG_DIAG.req_dropped\']'],
+                                    'error_handler': 'DISCARD_VALUE',
+                                },
+                                {
+                                    'type': 'CHANGE_PER_SECOND',
+                                },
+                            ],
+                        },
+                        {
+                            'id': 'item-prototype-1.167',
+                            'name': 'ACCG_DIAG.bereq_dropped (Number of times a backend request was not accounted for / sec)',
+                            'type': 'DEPENDENT',
+                            'key': 'varnish.stat["{#LOCATION_ID}","ACCG_DIAG.bereq_dropped"]',
+                            'value_type': 'FLOAT',
+                            'units': 'eps',
+                            'master_item_key': master,
+                            'preprocessing': [
+                                {
+                                    'type': 'JSONPATH',
+                                    'params': ['$[\'{#LOCATION_ID}.ACCG_DIAG.bereq_dropped\']'],
+                                    'error_handler': 'DISCARD_VALUE',
+                                },
+                                {
+                                    'type': 'CHANGE_PER_SECOND',
+                                },
+                            ],
+                        },
+                        {
+                            'id': 'item-prototype-1.168',
+                            'name': 'VMOD_HTTP.handle_internal_error (Handles that reached an internal error state / sec)',
+                            'type': 'DEPENDENT',
+                            'key': 'varnish.stat["{#LOCATION_ID}","VMOD_HTTP.handle_internal_error"]',
+                            'value_type': 'FLOAT',
+                            'units': 'eps',
+                            'master_item_key': master,
+                            'preprocessing': [
+                                {
+                                    'type': 'JSONPATH',
+                                    'params': ['$[\'{#LOCATION_ID}.VMOD_HTTP.handle_internal_error\']'],
+                                    'error_handler': 'DISCARD_VALUE',
+                                },
+                                {
+                                    'type': 'CHANGE_PER_SECOND',
+                                },
+                            ],
+                        },
+                        {
+                            'id': 'item-prototype-1.169',
+                            'name': 'VMOD_HTTP.handle_limited (Number of handles limited due to max tasks / sec)',
+                            'type': 'DEPENDENT',
+                            'key': 'varnish.stat["{#LOCATION_ID}","VMOD_HTTP.handle_limited"]',
+                            'value_type': 'FLOAT',
+                            'units': 'eps',
+                            'master_item_key': master,
+                            'preprocessing': [
+                                {
+                                    'type': 'JSONPATH',
+                                    'params': ['$[\'{#LOCATION_ID}.VMOD_HTTP.handle_limited\']'],
+                                    'error_handler': 'DISCARD_VALUE',
+                                },
+                                {
+                                    'type': 'CHANGE_PER_SECOND',
+                                },
+                            ],
+                        },
+                        {
+                            'id': 'item-prototype-1.170',
+                            'name': 'MSE4_MEM.g_bytes (bytes in use)',
+                            'type': 'DEPENDENT',
+                            'key': 'varnish.stat["{#LOCATION_ID}","MSE4_MEM.g_bytes"]',
+                            'value_type': 'UNSIGNED',
+                            'units': 'B',
+                            'master_item_key': master,
+                            'preprocessing': [
+                                {
+                                    'type': 'JSONPATH',
+                                    'params': ['$[\'{#LOCATION_ID}.MSE4_MEM.g_bytes\']'],
+                                    'error_handler': 'DISCARD_VALUE',
+                                },
+                            ],
+                        },
+                        {
+                            'id': 'item-prototype-1.171',
+                            'name': 'MSE4_MEM.g_space (bytes available)',
+                            'type': 'DEPENDENT',
+                            'key': 'varnish.stat["{#LOCATION_ID}","MSE4_MEM.g_space"]',
+                            'value_type': 'UNSIGNED',
+                            'units': 'B',
+                            'master_item_key': master,
+                            'preprocessing': [
+                                {
+                                    'type': 'JSONPATH',
+                                    'params': ['$[\'{#LOCATION_ID}.MSE4_MEM.g_space\']'],
+                                    'error_handler': 'DISCARD_VALUE',
+                                },
+                            ],
+                        },
+                        {
+                            'id': 'item-prototype-1.172',
+                            'name': 'MSE4_MEM.g_bytes_ephemeral (bytes in use for ephemeral object chunks)',
+                            'type': 'DEPENDENT',
+                            'key': 'varnish.stat["{#LOCATION_ID}","MSE4_MEM.g_bytes_ephemeral"]',
+                            'value_type': 'UNSIGNED',
+                            'units': 'B',
+                            'master_item_key': master,
+                            'preprocessing': [
+                                {
+                                    'type': 'JSONPATH',
+                                    'params': ['$[\'{#LOCATION_ID}.MSE4_MEM.g_bytes_ephemeral\']'],
+                                    'error_handler': 'DISCARD_VALUE',
+                                },
+                            ],
+                        },
+                        {
+                            'id': 'item-prototype-1.173',
+                            'name': 'MSE4_MEM.g_bytes_persisted (bytes in use for in memory chunks of persisted objects)',
+                            'type': 'DEPENDENT',
+                            'key': 'varnish.stat["{#LOCATION_ID}","MSE4_MEM.g_bytes_persisted"]',
+                            'value_type': 'UNSIGNED',
+                            'units': 'B',
+                            'master_item_key': master,
+                            'preprocessing': [
+                                {
+                                    'type': 'JSONPATH',
+                                    'params': ['$[\'{#LOCATION_ID}.MSE4_MEM.g_bytes_persisted\']'],
+                                    'error_handler': 'DISCARD_VALUE',
+                                },
+                            ],
+                        },
+                        {
+                            'id': 'item-prototype-1.174',
+                            'name': 'MSE4_MEM.g_bytes_pass (bytes allocated for passed objects)',
+                            'type': 'DEPENDENT',
+                            'key': 'varnish.stat["{#LOCATION_ID}","MSE4_MEM.g_bytes_pass"]',
+                            'value_type': 'UNSIGNED',
+                            'units': 'B',
+                            'master_item_key': master,
+                            'preprocessing': [
+                                {
+                                    'type': 'JSONPATH',
+                                    'params': ['$[\'{#LOCATION_ID}.MSE4_MEM.g_bytes_pass\']'],
+                                    'error_handler': 'DISCARD_VALUE',
+                                },
+                            ],
+                        },
+                        {
+                            'id': 'item-prototype-1.175',
+                            'name': 'MSE4_MEM.g_bytes_reqbody (bytes in use for request body objects)',
+                            'type': 'DEPENDENT',
+                            'key': 'varnish.stat["{#LOCATION_ID}","MSE4_MEM.g_bytes_reqbody"]',
+                            'value_type': 'UNSIGNED',
+                            'units': 'B',
+                            'master_item_key': master,
+                            'preprocessing': [
+                                {
+                                    'type': 'JSONPATH',
+                                    'params': ['$[\'{#LOCATION_ID}.MSE4_MEM.g_bytes_reqbody\']'],
+                                    'error_handler': 'DISCARD_VALUE',
+                                },
+                            ],
+                        },
+                        {
+                            'id': 'item-prototype-1.176',
+                            'name': 'MSE4_MEM.g_bytes_synthetic (bytes in use for client response synthetic objects)',
+                            'type': 'DEPENDENT',
+                            'key': 'varnish.stat["{#LOCATION_ID}","MSE4_MEM.g_bytes_synthetic"]',
+                            'value_type': 'UNSIGNED',
+                            'units': 'B',
+                            'master_item_key': master,
+                            'preprocessing': [
+                                {
+                                    'type': 'JSONPATH',
+                                    'params': ['$[\'{#LOCATION_ID}.MSE4_MEM.g_bytes_synthetic\']'],
+                                    'error_handler': 'DISCARD_VALUE',
+                                },
+                            ],
+                        },
+                        {
+                            'id': 'item-prototype-1.177',
+                            'name': 'MSE4_MEM.g_bytes_buffer (bytes in use for misc buffer space)',
+                            'type': 'DEPENDENT',
+                            'key': 'varnish.stat["{#LOCATION_ID}","MSE4_MEM.g_bytes_buffer"]',
+                            'value_type': 'UNSIGNED',
+                            'units': 'B',
+                            'master_item_key': master,
+                            'preprocessing': [
+                                {
+                                    'type': 'JSONPATH',
+                                    'params': ['$[\'{#LOCATION_ID}.MSE4_MEM.g_bytes_buffer\']'],
+                                    'error_handler': 'DISCARD_VALUE',
+                                },
+                            ],
+                        },
+                        {
+                            'id': 'item-prototype-1.178',
+                            'name': 'MSE4_MEM.g_allocations (allocations in use)',
+                            'type': 'DEPENDENT',
+                            'key': 'varnish.stat["{#LOCATION_ID}","MSE4_MEM.g_allocations"]',
+                            'value_type': 'UNSIGNED',
+                            'master_item_key': master,
+                            'preprocessing': [
+                                {
+                                    'type': 'JSONPATH',
+                                    'params': ['$[\'{#LOCATION_ID}.MSE4_MEM.g_allocations\']'],
+                                    'error_handler': 'DISCARD_VALUE',
+                                },
+                            ],
+                        },
+                        {
+                            'id': 'item-prototype-1.179',
+                            'name': 'MSE4_MEM.c_allocation (memory allocations / sec)',
+                            'type': 'DEPENDENT',
+                            'key': 'varnish.stat["{#LOCATION_ID}","MSE4_MEM.c_allocation"]',
+                            'value_type': 'FLOAT',
+                            'units': 'eps',
+                            'master_item_key': master,
+                            'preprocessing': [
+                                {
+                                    'type': 'JSONPATH',
+                                    'params': ['$[\'{#LOCATION_ID}.MSE4_MEM.c_allocation\']'],
+                                    'error_handler': 'DISCARD_VALUE',
+                                },
+                                {
+                                    'type': 'CHANGE_PER_SECOND',
+                                },
+                            ],
+                        },
+                        {
+                            'id': 'item-prototype-1.180',
+                            'name': 'MSE4_MEM.c_allocation_ephemeral (memory allocations for ephemeral objects / sec)',
+                            'type': 'DEPENDENT',
+                            'key': 'varnish.stat["{#LOCATION_ID}","MSE4_MEM.c_allocation_ephemeral"]',
+                            'value_type': 'FLOAT',
+                            'units': 'eps',
+                            'master_item_key': master,
+                            'preprocessing': [
+                                {
+                                    'type': 'JSONPATH',
+                                    'params': ['$[\'{#LOCATION_ID}.MSE4_MEM.c_allocation_ephemeral\']'],
+                                    'error_handler': 'DISCARD_VALUE',
+                                },
+                                {
+                                    'type': 'CHANGE_PER_SECOND',
+                                },
+                            ],
+                        },
+                        {
+                            'id': 'item-prototype-1.181',
+                            'name': 'MSE4_MEM.c_allocation_persisted (memory allocations for persisted objects / sec)',
+                            'type': 'DEPENDENT',
+                            'key': 'varnish.stat["{#LOCATION_ID}","MSE4_MEM.c_allocation_persisted"]',
+                            'value_type': 'FLOAT',
+                            'units': 'eps',
+                            'master_item_key': master,
+                            'preprocessing': [
+                                {
+                                    'type': 'JSONPATH',
+                                    'params': ['$[\'{#LOCATION_ID}.MSE4_MEM.c_allocation_persisted\']'],
+                                    'error_handler': 'DISCARD_VALUE',
+                                },
+                                {
+                                    'type': 'CHANGE_PER_SECOND',
+                                },
+                            ],
+                        },
+                        {
+                            'id': 'item-prototype-1.182',
+                            'name': 'MSE4_MEM.c_allocation_pass (memory allocations for private pass objects / sec)',
+                            'type': 'DEPENDENT',
+                            'key': 'varnish.stat["{#LOCATION_ID}","MSE4_MEM.c_allocation_pass"]',
+                            'value_type': 'FLOAT',
+                            'units': 'eps',
+                            'master_item_key': master,
+                            'preprocessing': [
+                                {
+                                    'type': 'JSONPATH',
+                                    'params': ['$[\'{#LOCATION_ID}.MSE4_MEM.c_allocation_pass\']'],
+                                    'error_handler': 'DISCARD_VALUE',
+                                },
+                                {
+                                    'type': 'CHANGE_PER_SECOND',
+                                },
+                            ],
+                        },
+                        {
+                            'id': 'item-prototype-1.183',
+                            'name': 'MSE4_MEM.c_allocation_reqbody (memory allocations for temporary request objects / sec)',
+                            'type': 'DEPENDENT',
+                            'key': 'varnish.stat["{#LOCATION_ID}","MSE4_MEM.c_allocation_reqbody"]',
+                            'value_type': 'FLOAT',
+                            'units': 'eps',
+                            'master_item_key': master,
+                            'preprocessing': [
+                                {
+                                    'type': 'JSONPATH',
+                                    'params': ['$[\'{#LOCATION_ID}.MSE4_MEM.c_allocation_reqbody\']'],
+                                    'error_handler': 'DISCARD_VALUE',
+                                },
+                                {
+                                    'type': 'CHANGE_PER_SECOND',
+                                },
+                            ],
+                        },
+                        {
+                            'id': 'item-prototype-1.184',
+                            'name': 'MSE4_MEM.c_allocation_synthetic (memory allocations for synthetic client objects / sec)',
+                            'type': 'DEPENDENT',
+                            'key': 'varnish.stat["{#LOCATION_ID}","MSE4_MEM.c_allocation_synthetic"]',
+                            'value_type': 'FLOAT',
+                            'units': 'eps',
+                            'master_item_key': master,
+                            'preprocessing': [
+                                {
+                                    'type': 'JSONPATH',
+                                    'params': ['$[\'{#LOCATION_ID}.MSE4_MEM.c_allocation_synthetic\']'],
+                                    'error_handler': 'DISCARD_VALUE',
+                                },
+                                {
+                                    'type': 'CHANGE_PER_SECOND',
+                                },
+                            ],
+                        },
+                        {
+                            'id': 'item-prototype-1.185',
+                            'name': 'MSE4_MEM.c_allocation_buffer (stevedore managed buffer allocations / sec)',
+                            'type': 'DEPENDENT',
+                            'key': 'varnish.stat["{#LOCATION_ID}","MSE4_MEM.c_allocation_buffer"]',
+                            'value_type': 'FLOAT',
+                            'units': 'eps',
+                            'master_item_key': master,
+                            'preprocessing': [
+                                {
+                                    'type': 'JSONPATH',
+                                    'params': ['$[\'{#LOCATION_ID}.MSE4_MEM.c_allocation_buffer\']'],
+                                    'error_handler': 'DISCARD_VALUE',
+                                },
+                                {
+                                    'type': 'CHANGE_PER_SECOND',
+                                },
+                            ],
+                        },
+                        {
+                            'id': 'item-prototype-1.186',
+                            'name': 'MSE4_MEM.c_allocation_failure (allocator failures / sec)',
+                            'type': 'DEPENDENT',
+                            'key': 'varnish.stat["{#LOCATION_ID}","MSE4_MEM.c_allocation_failure"]',
+                            'value_type': 'FLOAT',
+                            'units': 'eps',
+                            'master_item_key': master,
+                            'preprocessing': [
+                                {
+                                    'type': 'JSONPATH',
+                                    'params': ['$[\'{#LOCATION_ID}.MSE4_MEM.c_allocation_failure\']'],
+                                    'error_handler': 'DISCARD_VALUE',
+                                },
+                                {
+                                    'type': 'CHANGE_PER_SECOND',
+                                },
+                            ],
+                        },
+                        {
+                            'id': 'item-prototype-1.187',
+                            'name': 'MSE4_MEM.c_free (number of memory chunk releases / sec)',
+                            'type': 'DEPENDENT',
+                            'key': 'varnish.stat["{#LOCATION_ID}","MSE4_MEM.c_free"]',
+                            'value_type': 'FLOAT',
+                            'units': 'eps',
+                            'master_item_key': master,
+                            'preprocessing': [
+                                {
+                                    'type': 'JSONPATH',
+                                    'params': ['$[\'{#LOCATION_ID}.MSE4_MEM.c_free\']'],
+                                    'error_handler': 'DISCARD_VALUE',
+                                },
+                                {
+                                    'type': 'CHANGE_PER_SECOND',
+                                },
+                            ],
+                        },
+                        {
+                            'id': 'item-prototype-1.188',
+                            'name': 'MSE4_MEM.c_free_ephemeral (number of memory chunk releases for ephemeral objects / sec)',
+                            'type': 'DEPENDENT',
+                            'key': 'varnish.stat["{#LOCATION_ID}","MSE4_MEM.c_free_ephemeral"]',
+                            'value_type': 'FLOAT',
+                            'units': 'eps',
+                            'master_item_key': master,
+                            'preprocessing': [
+                                {
+                                    'type': 'JSONPATH',
+                                    'params': ['$[\'{#LOCATION_ID}.MSE4_MEM.c_free_ephemeral\']'],
+                                    'error_handler': 'DISCARD_VALUE',
+                                },
+                                {
+                                    'type': 'CHANGE_PER_SECOND',
+                                },
+                            ],
+                        },
+                        {
+                            'id': 'item-prototype-1.189',
+                            'name': 'MSE4_MEM.c_free_persisted (number of memory chunk releases for persisted objects / sec)',
+                            'type': 'DEPENDENT',
+                            'key': 'varnish.stat["{#LOCATION_ID}","MSE4_MEM.c_free_persisted"]',
+                            'value_type': 'FLOAT',
+                            'units': 'eps',
+                            'master_item_key': master,
+                            'preprocessing': [
+                                {
+                                    'type': 'JSONPATH',
+                                    'params': ['$[\'{#LOCATION_ID}.MSE4_MEM.c_free_persisted\']'],
+                                    'error_handler': 'DISCARD_VALUE',
+                                },
+                                {
+                                    'type': 'CHANGE_PER_SECOND',
+                                },
+                            ],
+                        },
+                        {
+                            'id': 'item-prototype-1.190',
+                            'name': 'MSE4_MEM.c_free_pass (number of memory chunk releases for pass objects / sec)',
+                            'type': 'DEPENDENT',
+                            'key': 'varnish.stat["{#LOCATION_ID}","MSE4_MEM.c_free_pass"]',
+                            'value_type': 'FLOAT',
+                            'units': 'eps',
+                            'master_item_key': master,
+                            'preprocessing': [
+                                {
+                                    'type': 'JSONPATH',
+                                    'params': ['$[\'{#LOCATION_ID}.MSE4_MEM.c_free_pass\']'],
+                                    'error_handler': 'DISCARD_VALUE',
+                                },
+                                {
+                                    'type': 'CHANGE_PER_SECOND',
+                                },
+                            ],
+                        },
+                        {
+                            'id': 'item-prototype-1.191',
+                            'name': 'MSE4_MEM.c_free_reqbody (number of memory chunk releases for request body objects / sec)',
+                            'type': 'DEPENDENT',
+                            'key': 'varnish.stat["{#LOCATION_ID}","MSE4_MEM.c_free_reqbody"]',
+                            'value_type': 'FLOAT',
+                            'units': 'eps',
+                            'master_item_key': master,
+                            'preprocessing': [
+                                {
+                                    'type': 'JSONPATH',
+                                    'params': ['$[\'{#LOCATION_ID}.MSE4_MEM.c_free_reqbody\']'],
+                                    'error_handler': 'DISCARD_VALUE',
+                                },
+                                {
+                                    'type': 'CHANGE_PER_SECOND',
+                                },
+                            ],
+                        },
+                        {
+                            'id': 'item-prototype-1.192',
+                            'name': 'MSE4_MEM.c_free_synthetic (number of memory chunk releases for synthetic client objects / sec)',
+                            'type': 'DEPENDENT',
+                            'key': 'varnish.stat["{#LOCATION_ID}","MSE4_MEM.c_free_synthetic"]',
+                            'value_type': 'FLOAT',
+                            'units': 'eps',
+                            'master_item_key': master,
+                            'preprocessing': [
+                                {
+                                    'type': 'JSONPATH',
+                                    'params': ['$[\'{#LOCATION_ID}.MSE4_MEM.c_free_synthetic\']'],
+                                    'error_handler': 'DISCARD_VALUE',
+                                },
+                                {
+                                    'type': 'CHANGE_PER_SECOND',
+                                },
+                            ],
+                        },
+                        {
+                            'id': 'item-prototype-1.193',
+                            'name': 'MSE4_MEM.c_free_buffer (number of memory chunk releases for stevedore managed buffers / sec)',
+                            'type': 'DEPENDENT',
+                            'key': 'varnish.stat["{#LOCATION_ID}","MSE4_MEM.c_free_buffer"]',
+                            'value_type': 'FLOAT',
+                            'units': 'eps',
+                            'master_item_key': master,
+                            'preprocessing': [
+                                {
+                                    'type': 'JSONPATH',
+                                    'params': ['$[\'{#LOCATION_ID}.MSE4_MEM.c_free_buffer\']'],
+                                    'error_handler': 'DISCARD_VALUE',
+                                },
+                                {
+                                    'type': 'CHANGE_PER_SECOND',
+                                },
+                            ],
+                        },
+                        {
+                            'id': 'item-prototype-1.194',
+                            'name': 'MSE4_MEM.c_eviction (number of evicted objects or persisted chunks / sec)',
+                            'type': 'DEPENDENT',
+                            'key': 'varnish.stat["{#LOCATION_ID}","MSE4_MEM.c_eviction"]',
+                            'value_type': 'FLOAT',
+                            'units': 'eps',
+                            'master_item_key': master,
+                            'preprocessing': [
+                                {
+                                    'type': 'JSONPATH',
+                                    'params': ['$[\'{#LOCATION_ID}.MSE4_MEM.c_eviction\']'],
+                                    'error_handler': 'DISCARD_VALUE',
+                                },
+                                {
+                                    'type': 'CHANGE_PER_SECOND',
+                                },
+                            ],
+                        },
+                        {
+                            'id': 'item-prototype-1.195',
+                            'name': 'MSE4_MEM.c_eviction_failure (number of times object or chunk eviction failed / sec)',
+                            'type': 'DEPENDENT',
+                            'key': 'varnish.stat["{#LOCATION_ID}","MSE4_MEM.c_eviction_failure"]',
+                            'value_type': 'FLOAT',
+                            'units': 'eps',
+                            'master_item_key': master,
+                            'preprocessing': [
+                                {
+                                    'type': 'JSONPATH',
+                                    'params': ['$[\'{#LOCATION_ID}.MSE4_MEM.c_eviction_failure\']'],
+                                    'error_handler': 'DISCARD_VALUE',
+                                },
+                                {
+                                    'type': 'CHANGE_PER_SECOND',
+                                },
+                            ],
+                        },
+                        {
+                            'id': 'item-prototype-1.196',
+                            'name': 'MSE4_MEM.c_eviction_reorder (number of eviction list reorder operations / sec)',
+                            'type': 'DEPENDENT',
+                            'key': 'varnish.stat["{#LOCATION_ID}","MSE4_MEM.c_eviction_reorder"]',
+                            'value_type': 'FLOAT',
+                            'units': 'eps',
+                            'master_item_key': master,
+                            'preprocessing': [
+                                {
+                                    'type': 'JSONPATH',
+                                    'params': ['$[\'{#LOCATION_ID}.MSE4_MEM.c_eviction_reorder\']'],
+                                    'error_handler': 'DISCARD_VALUE',
+                                },
+                                {
+                                    'type': 'CHANGE_PER_SECOND',
+                                },
+                            ],
+                        },
+                        {
+                            'id': 'item-prototype-1.197',
+                            'name': 'MSE4.g_varyspec (number of Vary header keys)',
+                            'type': 'DEPENDENT',
+                            'key': 'varnish.stat["{#LOCATION_ID}","MSE4.g_varyspec"]',
+                            'value_type': 'UNSIGNED',
+                            'master_item_key': master,
+                            'preprocessing': [
+                                {
+                                    'type': 'JSONPATH',
+                                    'params': ['$[\'{#LOCATION_ID}.MSE4.g_varyspec\']'],
+                                    'error_handler': 'DISCARD_VALUE',
+                                },
+                            ],
+                        },
+                        {
+                            'id': 'item-prototype-1.198',
+                            'name': 'MSE4.g_ykey_keys (number of YKeys registered)',
+                            'type': 'DEPENDENT',
+                            'key': 'varnish.stat["{#LOCATION_ID}","MSE4.g_ykey_keys"]',
+                            'value_type': 'UNSIGNED',
+                            'master_item_key': master,
+                            'preprocessing': [
+                                {
+                                    'type': 'JSONPATH',
+                                    'params': ['$[\'{#LOCATION_ID}.MSE4.g_ykey_keys\']'],
+                                    'error_handler': 'DISCARD_VALUE',
+                                },
+                            ],
+                        },
+                        {
+                            'id': 'item-prototype-1.199',
+                            'name': 'MSE4.c_ykey_purged (number of objects purged with YKey / sec)',
+                            'type': 'DEPENDENT',
+                            'key': 'varnish.stat["{#LOCATION_ID}","MSE4.c_ykey_purged"]',
+                            'value_type': 'FLOAT',
+                            'units': 'eps',
+                            'master_item_key': master,
+                            'preprocessing': [
+                                {
+                                    'type': 'JSONPATH',
+                                    'params': ['$[\'{#LOCATION_ID}.MSE4.c_ykey_purged\']'],
+                                    'error_handler': 'DISCARD_VALUE',
+                                },
+                                {
+                                    'type': 'CHANGE_PER_SECOND',
+                                },
+                            ],
+                        },
+                        {
+                            'id': 'item-prototype-1.200',
+                            'name': 'MSE4_MEM.c_memcache_hit (stored objects memory cache hits / sec)',
+                            'type': 'DEPENDENT',
+                            'key': 'varnish.stat["{#LOCATION_ID}","MSE4_MEM.c_memcache_hit"]',
+                            'value_type': 'FLOAT',
+                            'units': 'eps',
+                            'master_item_key': master,
+                            'preprocessing': [
+                                {
+                                    'type': 'JSONPATH',
+                                    'params': ['$[\'{#LOCATION_ID}.MSE4_MEM.c_memcache_hit\']'],
+                                    'error_handler': 'DISCARD_VALUE',
+                                },
+                                {
+                                    'type': 'CHANGE_PER_SECOND',
+                                },
+                            ],
+                        },
+                        {
+                            'id': 'item-prototype-1.201',
+                            'name': 'MSE4_MEM.c_memcache_miss (stored objects memory cache misses / sec)',
+                            'type': 'DEPENDENT',
+                            'key': 'varnish.stat["{#LOCATION_ID}","MSE4_MEM.c_memcache_miss"]',
+                            'value_type': 'FLOAT',
+                            'units': 'eps',
+                            'master_item_key': master,
+                            'preprocessing': [
+                                {
+                                    'type': 'JSONPATH',
+                                    'params': ['$[\'{#LOCATION_ID}.MSE4_MEM.c_memcache_miss\']'],
+                                    'error_handler': 'DISCARD_VALUE',
+                                },
+                                {
+                                    'type': 'CHANGE_PER_SECOND',
+                                },
+                            ],
+                        },
+                        {
+                            'id': 'item-prototype-1.202',
+                            'name': 'MSE4_MEM.cache_hit_ratio',
+                            'type': 'CALCULATED',
+                            'key': 'varnish["{#LOCATION_ID}","MSE4_MEM.cache_hit_ratio"]',
+                            'value_type': 'FLOAT',
+                            'units': '%',
+                            'delay': true,
+                            'params':
+                                '100*last(//varnish.stat["{#LOCATION_ID}","MSE4_MEM.c_memcache_hit"])/(last(//varnish.stat["{#LOCATION_ID}","MSE4_MEM.c_memcache_hit"])+last(//varnish.stat["{#LOCATION_ID}","MSE4_MEM.c_memcache_miss"])+(count(//varnish.stat["{#LOCATION_ID}","MSE4_MEM.c_memcache_hit"],#1,"eq",0)*count(//varnish.stat["{#LOCATION_ID}","MSE4_MEM.c_memcache_miss"],#1,"eq",0)))',
+                        },
+                        {
+                            'id': 'item-prototype-1.203',
+                            'name': 'MSE4_MEM.g_objects (number of objects in memory)',
+                            'type': 'DEPENDENT',
+                            'key': 'varnish.stat["{#LOCATION_ID}","MSE4_MEM.g_objects"]',
+                            'value_type': 'UNSIGNED',
+                            'master_item_key': master,
+                            'preprocessing': [
+                                {
+                                    'type': 'JSONPATH',
+                                    'params': ['$[\'{#LOCATION_ID}.MSE4_MEM.g_objects\']'],
+                                    'error_handler': 'DISCARD_VALUE',
+                                },
+                            ],
+                        },
+                        {
+                            'id': 'item-prototype-1.204',
+                            'name': 'MSE4_MEM.g_objects_ephemeral (number of cached ephemeral objects)',
+                            'type': 'DEPENDENT',
+                            'key': 'varnish.stat["{#LOCATION_ID}","MSE4_MEM.g_objects_ephemeral"]',
+                            'value_type': 'UNSIGNED',
+                            'master_item_key': master,
+                            'preprocessing': [
+                                {
+                                    'type': 'JSONPATH',
+                                    'params': ['$[\'{#LOCATION_ID}.MSE4_MEM.g_objects_ephemeral\']'],
+                                    'error_handler': 'DISCARD_VALUE',
+                                },
+                            ],
+                        },
+                        {
+                            'id': 'item-prototype-1.205',
+                            'name': 'MSE4_MEM.g_objects_persisted (number of persisted objects with at least one chunk in memory)',
+                            'type': 'DEPENDENT',
+                            'key': 'varnish.stat["{#LOCATION_ID}","MSE4_MEM.g_objects_persisted"]',
+                            'value_type': 'UNSIGNED',
+                            'master_item_key': master,
+                            'preprocessing': [
+                                {
+                                    'type': 'JSONPATH',
+                                    'params': ['$[\'{#LOCATION_ID}.MSE4_MEM.g_objects_persisted\']'],
+                                    'error_handler': 'DISCARD_VALUE',
+                                },
+                            ],
+                        },
+                        {
+                            'id': 'item-prototype-1.206',
+                            'name': 'MSE4_MEM.g_objects_pass (number of pass objects allocated)',
+                            'type': 'DEPENDENT',
+                            'key': 'varnish.stat["{#LOCATION_ID}","MSE4_MEM.g_objects_pass"]',
+                            'value_type': 'UNSIGNED',
+                            'master_item_key': master,
+                            'preprocessing': [
+                                {
+                                    'type': 'JSONPATH',
+                                    'params': ['$[\'{#LOCATION_ID}.MSE4_MEM.g_objects_pass\']'],
+                                    'error_handler': 'DISCARD_VALUE',
+                                },
+                            ],
+                        },
+                        {
+                            'id': 'item-prototype-1.207',
+                            'name': 'MSE4_MEM.g_objects_reqbody (number of request body objects)',
+                            'type': 'DEPENDENT',
+                            'key': 'varnish.stat["{#LOCATION_ID}","MSE4_MEM.g_objects_reqbody"]',
+                            'value_type': 'UNSIGNED',
+                            'master_item_key': master,
+                            'preprocessing': [
+                                {
+                                    'type': 'JSONPATH',
+                                    'params': ['$[\'{#LOCATION_ID}.MSE4_MEM.g_objects_reqbody\']'],
+                                    'error_handler': 'DISCARD_VALUE',
+                                },
+                            ],
+                        },
+                        {
+                            'id': 'item-prototype-1.208',
+                            'name': 'MSE4_MEM.g_objects_synthetic (number of client response synthetic objects)',
+                            'type': 'DEPENDENT',
+                            'key': 'varnish.stat["{#LOCATION_ID}","MSE4_MEM.g_objects_synthetic"]',
+                            'value_type': 'UNSIGNED',
+                            'master_item_key': master,
+                            'preprocessing': [
+                                {
+                                    'type': 'JSONPATH',
+                                    'params': ['$[\'{#LOCATION_ID}.MSE4_MEM.g_objects_synthetic\']'],
+                                    'error_handler': 'DISCARD_VALUE',
+                                },
+                            ],
+                        },
+                        {
+                            'id': 'item-prototype-1.209',
+                            'name': 'MAIN.esi_req_abort (aborted ESI subrequests / sec)',
+                            'type': 'DEPENDENT',
+                            'key': 'varnish.stat["{#LOCATION_ID}","MAIN.esi_req_abort"]',
+                            'value_type': 'FLOAT',
+                            'units': 'eps',
+                            'master_item_key': master,
+                            'preprocessing': [
+                                {
+                                    'type': 'JSONPATH',
+                                    'params': ['$[\'{#LOCATION_ID}.MAIN.esi_req_abort\']'],
+                                    'error_handler': 'DISCARD_VALUE',
+                                },
+                                {
+                                    'type': 'CHANGE_PER_SECOND',
+                                },
+                            ],
+                        },
+                        {
+                            'id': 'item-prototype-1.210',
+                            'name': 'MAIN.transit_stored (stored body bytes of uncacheable responses / sec)',
+                            'type': 'DEPENDENT',
+                            'key': 'varnish.stat["{#LOCATION_ID}","MAIN.transit_stored"]',
+                            'value_type': 'FLOAT',
+                            'units': 'Bps',
+                            'master_item_key': master,
+                            'preprocessing': [
+                                {
+                                    'type': 'JSONPATH',
+                                    'params': ['$[\'{#LOCATION_ID}.MAIN.transit_stored\']'],
+                                    'error_handler': 'DISCARD_VALUE',
+                                },
+                                {
+                                    'type': 'CHANGE_PER_SECOND',
+                                },
+                            ],
+                        },
+                        {
+                            'id': 'item-prototype-1.211',
+                            'name': 'MAIN.transit_buffered (body bytes of uncacheable responses that used the transit buffer / sec)',
+                            'type': 'DEPENDENT',
+                            'key': 'varnish.stat["{#LOCATION_ID}","MAIN.transit_buffered"]',
+                            'value_type': 'FLOAT',
+                            'units': 'Bps',
+                            'master_item_key': master,
+                            'preprocessing': [
+                                {
+                                    'type': 'JSONPATH',
+                                    'params': ['$[\'{#LOCATION_ID}.MAIN.transit_buffered\']'],
                                     'error_handler': 'DISCARD_VALUE',
                                 },
                                 {
@@ -5652,6 +6477,1037 @@
                     ],
                     [
                     ]) }}
+
+                {#-##########################################################}
+                {#- MSE4 BOOKS DISCOVERY #}
+                {#-##########################################################}
+
+                {{ discovery_rule(
+                    {
+                        'id': 'discovery-rule-8',
+                        'name': 'MSE4 books discovery',
+                        'key': 'varnish.discovery["{$VARNISH_CACHE.LOCATIONS}","mse4_books"]',
+                        'context': 'mse4_books',
+                    },
+                    [
+                        {
+                            'id': 'item-prototype-8.1',
+                            'name': 'MSE4_BOOK.{#BOOK}.online (non-zero if the book is online)',
+                            'type': 'DEPENDENT',
+                            'key': 'varnish.stat["{#LOCATION_ID}","MSE4_BOOK.{#BOOK}.online"]',
+                            'value_type': 'UNSIGNED',
+                            'master_item_key': master,
+                            'preprocessing': [
+                                {
+                                    'type': 'JSONPATH',
+                                    'params': ['$[\'{#LOCATION_ID}.MSE4_BOOK.{#BOOK}.online\']'],
+                                    'error_handler': 'DISCARD_VALUE',
+                                },
+                            ],
+                            'triggers': [
+                                {
+                                    'id': 'trigger-prototype-8.1.1',
+                                    'name': 'Varnish Cache[{#LOCATION}] {#BOOK} MSE4 book is not online',
+                                    'expression':
+                                        '{$VARNISH_CACHE.MSE4_BOOK_ONLINE.ENABLED:"{#LOCATION_ID}:{#BOOK}"} and '
+                                        'last(/Template App ' + name + '/varnish.stat["{#LOCATION_ID}","MSE4_BOOK.{#BOOK}.online"])'
+                                        '=0',
+                                    'priority': 'DISASTER',
+                                },
+                            ],
+                        },
+                        {
+                            'id': 'item-prototype-8.2',
+                            'name': 'MSE4_BOOK.{#BOOK}.g_slots_used (number of slots in use)',
+                            'type': 'DEPENDENT',
+                            'key': 'varnish.stat["{#LOCATION_ID}","MSE4_BOOK.{#BOOK}.g_slots_used"]',
+                            'value_type': 'UNSIGNED',
+                            'master_item_key': master,
+                            'preprocessing': [
+                                {
+                                    'type': 'JSONPATH',
+                                    'params': ['$[\'{#LOCATION_ID}.MSE4_BOOK.{#BOOK}.g_slots_used\']'],
+                                    'error_handler': 'DISCARD_VALUE',
+                                },
+                            ],
+                        },
+                        {
+                            'id': 'item-prototype-8.3',
+                            'name': 'MSE4_BOOK.{#BOOK}.g_slots_unused (number of slots free)',
+                            'type': 'DEPENDENT',
+                            'key': 'varnish.stat["{#LOCATION_ID}","MSE4_BOOK.{#BOOK}.g_slots_unused"]',
+                            'value_type': 'UNSIGNED',
+                            'master_item_key': master,
+                            'preprocessing': [
+                                {
+                                    'type': 'JSONPATH',
+                                    'params': ['$[\'{#LOCATION_ID}.MSE4_BOOK.{#BOOK}.g_slots_unused\']'],
+                                    'error_handler': 'DISCARD_VALUE',
+                                },
+                            ],
+                            'triggers': [
+                                {
+                                    'id': 'trigger-prototype-8.3.1',
+                                    'name': 'Varnish Cache[{#LOCATION}] {#BOOK} MSE4 book is running out of slots',
+                                    'expression':
+                                        '{$VARNISH_CACHE.MSE4_BOOK_SLOTS_UNUSED.ENABLED:"{#LOCATION_ID}:{#BOOK}"} and '
+                                        'last(/Template App ' + name + '/varnish.stat["{#LOCATION_ID}","MSE4_BOOK.{#BOOK}.g_slots_unused"])'
+                                        '<{$VARNISH_CACHE.MSE4_BOOK_SLOTS_UNUSED.MIN:"{#LOCATION_ID}:{#BOOK}"}',
+                                    'recovery':
+                                        'last(/Template App ' + name + '/varnish.stat["{#LOCATION_ID}","MSE4_BOOK.{#BOOK}.g_slots_unused"])'
+                                        '>{$VARNISH_CACHE.MSE4_BOOK_SLOTS_UNUSED.RECOVERY.MIN:"{#LOCATION_ID}:{#BOOK}"}',
+                                    'priority': 'WARNING',
+                                },
+                            ],
+                        },
+                        {
+                            'id': 'item-prototype-8.4',
+                            'name': 'MSE4_BOOK.{#BOOK}.g_objects (number of objects defined in the book)',
+                            'type': 'DEPENDENT',
+                            'key': 'varnish.stat["{#LOCATION_ID}","MSE4_BOOK.{#BOOK}.g_objects"]',
+                            'value_type': 'UNSIGNED',
+                            'master_item_key': master,
+                            'preprocessing': [
+                                {
+                                    'type': 'JSONPATH',
+                                    'params': ['$[\'{#LOCATION_ID}.MSE4_BOOK.{#BOOK}.g_objects\']'],
+                                    'error_handler': 'DISCARD_VALUE',
+                                },
+                            ],
+                        },
+                        {
+                            'id': 'item-prototype-8.5',
+                            'name': 'MSE4_BOOK.{#BOOK}.g_unreachable_objects (number of objects from unreachable stores in the book)',
+                            'type': 'DEPENDENT',
+                            'key': 'varnish.stat["{#LOCATION_ID}","MSE4_BOOK.{#BOOK}.g_unreachable_objects"]',
+                            'value_type': 'UNSIGNED',
+                            'master_item_key': master,
+                            'preprocessing': [
+                                {
+                                    'type': 'JSONPATH',
+                                    'params': ['$[\'{#LOCATION_ID}.MSE4_BOOK.{#BOOK}.g_unreachable_objects\']'],
+                                    'error_handler': 'DISCARD_VALUE',
+                                },
+                            ],
+                        },
+                        {
+                            'id': 'item-prototype-8.6',
+                            'name': 'MSE4_BOOK.{#BOOK}.g_varyspec (number of Vary header instruction keys)',
+                            'type': 'DEPENDENT',
+                            'key': 'varnish.stat["{#LOCATION_ID}","MSE4_BOOK.{#BOOK}.g_varyspec"]',
+                            'value_type': 'UNSIGNED',
+                            'master_item_key': master,
+                            'preprocessing': [
+                                {
+                                    'type': 'JSONPATH',
+                                    'params': ['$[\'{#LOCATION_ID}.MSE4_BOOK.{#BOOK}.g_varyspec\']'],
+                                    'error_handler': 'DISCARD_VALUE',
+                                },
+                            ],
+                        },
+                        {
+                            'id': 'item-prototype-8.7',
+                            'name': 'MSE4_BOOK.{#BOOK}.g_ykey_keys (number of YKeys registered in book)',
+                            'type': 'DEPENDENT',
+                            'key': 'varnish.stat["{#LOCATION_ID}","MSE4_BOOK.{#BOOK}.g_ykey_keys"]',
+                            'value_type': 'UNSIGNED',
+                            'master_item_key': master,
+                            'preprocessing': [
+                                {
+                                    'type': 'JSONPATH',
+                                    'params': ['$[\'{#LOCATION_ID}.MSE4_BOOK.{#BOOK}.g_ykey_keys\']'],
+                                    'error_handler': 'DISCARD_VALUE',
+                                },
+                            ],
+                        },
+                        {
+                            'id': 'item-prototype-8.8',
+                            'name': 'MSE4_BOOK.{#BOOK}.c_ykey_purged (number of objects purged with YKey / sec)',
+                            'type': 'DEPENDENT',
+                            'key': 'varnish.stat["{#LOCATION_ID}","MSE4_BOOK.{#BOOK}.c_ykey_purged"]',
+                            'value_type': 'FLOAT',
+                            'units': 'eps',
+                            'master_item_key': master,
+                            'preprocessing': [
+                                {
+                                    'type': 'JSONPATH',
+                                    'params': ['$[\'{#LOCATION_ID}.MSE4_BOOK.{#BOOK}.c_ykey_purged\']'],
+                                    'error_handler': 'DISCARD_VALUE',
+                                },
+                                {
+                                    'type': 'CHANGE_PER_SECOND',
+                                },
+                            ],
+                        },
+                        {
+                            'id': 'item-prototype-8.9',
+                            'name': 'MSE4_BOOK.{#BOOK}.c_freeslot_queued (number of times a thread has been queued waiting for a free slot / sec)',
+                            'type': 'DEPENDENT',
+                            'key': 'varnish.stat["{#LOCATION_ID}","MSE4_BOOK.{#BOOK}.c_freeslot_queued"]',
+                            'value_type': 'FLOAT',
+                            'units': 'eps',
+                            'master_item_key': master,
+                            'preprocessing': [
+                                {
+                                    'type': 'JSONPATH',
+                                    'params': ['$[\'{#LOCATION_ID}.MSE4_BOOK.{#BOOK}.c_freeslot_queued\']'],
+                                    'error_handler': 'DISCARD_VALUE',
+                                },
+                                {
+                                    'type': 'CHANGE_PER_SECOND',
+                                },
+                            ],
+                        },
+                        {
+                            'id': 'item-prototype-8.10',
+                            'name': 'MSE4_BOOK.{#BOOK}.g_freeslot_queue (length of queue of threads waiting for a free slot)',
+                            'type': 'DEPENDENT',
+                            'key': 'varnish.stat["{#LOCATION_ID}","MSE4_BOOK.{#BOOK}.g_freeslot_queue"]',
+                            'value_type': 'UNSIGNED',
+                            'master_item_key': master,
+                            'preprocessing': [
+                                {
+                                    'type': 'JSONPATH',
+                                    'params': ['$[\'{#LOCATION_ID}.MSE4_BOOK.{#BOOK}.g_freeslot_queue\']'],
+                                    'error_handler': 'DISCARD_VALUE',
+                                },
+                            ],
+                        },
+                        {
+                            'id': 'item-prototype-8.11',
+                            'name': 'MSE4_BOOK.{#BOOK}.c_submitslot_queued (number of times a thread has been queued waiting to commit a slot / sec)',
+                            'type': 'DEPENDENT',
+                            'key': 'varnish.stat["{#LOCATION_ID}","MSE4_BOOK.{#BOOK}.c_submitslot_queued"]',
+                            'value_type': 'FLOAT',
+                            'units': 'eps',
+                            'master_item_key': master,
+                            'preprocessing': [
+                                {
+                                    'type': 'JSONPATH',
+                                    'params': ['$[\'{#LOCATION_ID}.MSE4_BOOK.{#BOOK}.c_submitslot_queued\']'],
+                                    'error_handler': 'DISCARD_VALUE',
+                                },
+                                {
+                                    'type': 'CHANGE_PER_SECOND',
+                                },
+                            ],
+                        },
+                        {
+                            'id': 'item-prototype-8.12',
+                            'name': 'MSE4_BOOK.{#BOOK}.g_submitslot_queue (length of queue of threads waiting to submit a slot)',
+                            'type': 'DEPENDENT',
+                            'key': 'varnish.stat["{#LOCATION_ID}","MSE4_BOOK.{#BOOK}.g_submitslot_queue"]',
+                            'value_type': 'UNSIGNED',
+                            'master_item_key': master,
+                            'preprocessing': [
+                                {
+                                    'type': 'JSONPATH',
+                                    'params': ['$[\'{#LOCATION_ID}.MSE4_BOOK.{#BOOK}.g_submitslot_queue\']'],
+                                    'error_handler': 'DISCARD_VALUE',
+                                },
+                            ],
+                        },
+                        {
+                            'id': 'item-prototype-8.13',
+                            'name': 'MSE4_BANJRN.{#BOOK}.g_bytes (number of bytes used from the banlist journal)',
+                            'type': 'DEPENDENT',
+                            'key': 'varnish.stat["{#LOCATION_ID}","MSE4_BANJRN.{#BOOK}.g_bytes"]',
+                            'value_type': 'UNSIGNED',
+                            'units': 'B',
+                            'master_item_key': master,
+                            'preprocessing': [
+                                {
+                                    'type': 'JSONPATH',
+                                    'params': ['$[\'{#LOCATION_ID}.MSE4_BANJRN.{#BOOK}.g_bytes\']'],
+                                    'error_handler': 'DISCARD_VALUE',
+                                },
+                            ],
+                        },
+                        {
+                            'id': 'item-prototype-8.14',
+                            'name': 'MSE4_BANJRN.{#BOOK}.g_space (number of bytes available in the banlist journal)',
+                            'type': 'DEPENDENT',
+                            'key': 'varnish.stat["{#LOCATION_ID}","MSE4_BANJRN.{#BOOK}.g_space"]',
+                            'value_type': 'UNSIGNED',
+                            'units': 'B',
+                            'master_item_key': master,
+                            'preprocessing': [
+                                {
+                                    'type': 'JSONPATH',
+                                    'params': ['$[\'{#LOCATION_ID}.MSE4_BANJRN.{#BOOK}.g_space\']'],
+                                    'error_handler': 'DISCARD_VALUE',
+                                },
+                            ],
+                        },
+                        {
+                            'id': 'item-prototype-8.15',
+                            'name': 'MSE4_BANJRN.{#BOOK}.g_bans (number of bans persisted in the banlist journal)',
+                            'type': 'DEPENDENT',
+                            'key': 'varnish.stat["{#LOCATION_ID}","MSE4_BANJRN.{#BOOK}.g_bans"]',
+                            'value_type': 'UNSIGNED',
+                            'master_item_key': master,
+                            'preprocessing': [
+                                {
+                                    'type': 'JSONPATH',
+                                    'params': ['$[\'{#LOCATION_ID}.MSE4_BANJRN.{#BOOK}.g_bans\']'],
+                                    'error_handler': 'DISCARD_VALUE',
+                                },
+                            ],
+                        },
+                        {
+                            'id': 'item-prototype-8.17',
+                            'name': 'MSE4_BANJRN.{#BOOK}.g_overflow_bans (number of bans not recorded in the banlist journal)',
+                            'type': 'DEPENDENT',
+                            'key': 'varnish.stat["{#LOCATION_ID}","MSE4_BANJRN.{#BOOK}.g_overflow_bans"]',
+                            'value_type': 'UNSIGNED',
+                            'master_item_key': master,
+                            'preprocessing': [
+                                {
+                                    'type': 'JSONPATH',
+                                    'params': ['$[\'{#LOCATION_ID}.MSE4_BANJRN.{#BOOK}.g_overflow_bans\']'],
+                                    'error_handler': 'DISCARD_VALUE',
+                                },
+                            ],
+                        },
+                        {
+                            'id': 'item-prototype-8.18',
+                            'name': 'MSE4_BANJRN.{#BOOK}.g_overflow_bytes (number of bytes of ban data not recorded in the banlist journal)',
+                            'type': 'DEPENDENT',
+                            'key': 'varnish.stat["{#LOCATION_ID}","MSE4_BANJRN.{#BOOK}.g_overflow_bytes"]',
+                            'value_type': 'UNSIGNED',
+                            'units': 'B',
+                            'master_item_key': master,
+                            'preprocessing': [
+                                {
+                                    'type': 'JSONPATH',
+                                    'params': ['$[\'{#LOCATION_ID}.MSE4_BANJRN.{#BOOK}.g_overflow_bytes\']'],
+                                    'error_handler': 'DISCARD_VALUE',
+                                },
+                            ],
+                        },
+                    ],
+                    [
+                    ]) }}
+
+                {#-##########################################################}
+                {#- MSE4 STORES DISCOVERY #}
+                {#-##########################################################}
+
+                {{ discovery_rule(
+                    {
+                        'id': 'discovery-rule-9',
+                        'name': 'MSE4 stores discovery',
+                        'key': 'varnish.discovery["{$VARNISH_CACHE.LOCATIONS}","mse4_stores"]',
+                        'context': 'mse4_stores',
+                    },
+                    [
+                        {
+                            'id': 'item-prototype-9.1',
+                            'name': 'MSE4_STORE.{#BOOK}.{#STORE}.online (non-zero if the store is online)',
+                            'type': 'DEPENDENT',
+                            'key': 'varnish.stat["{#LOCATION_ID}","MSE4_STORE.{#BOOK}.{#STORE}.online"]',
+                            'value_type': 'UNSIGNED',
+                            'master_item_key': master,
+                            'preprocessing': [
+                                {
+                                    'type': 'JSONPATH',
+                                    'params': ['$[\'{#LOCATION_ID}.MSE4_STORE.{#BOOK}.{#STORE}.online\']'],
+                                    'error_handler': 'DISCARD_VALUE',
+                                },
+                            ],
+                            'triggers': [
+                                {
+                                    'id': 'trigger-prototype-9.1.1',
+                                    'name': 'Varnish Cache[{#LOCATION}] {#BOOK} {#STORE} MSE4 store is not online',
+                                    'expression':
+                                        '{$VARNISH_CACHE.MSE4_STORE_ONLINE.ENABLED:"{#LOCATION_ID}:{#BOOK}:{#STORE}"} and '
+                                        'last(/Template App ' + name + '/varnish.stat["{#LOCATION_ID}","MSE4_STORE.{#BOOK}.{#STORE}.online"])'
+                                        '=0',
+                                    'priority': 'DISASTER',
+                                },
+                            ],
+                        },
+                        {
+                            'id': 'item-prototype-9.2',
+                            'name': 'MSE4_STORE.{#BOOK}.{#STORE}.g_bytes_used (number of bytes in use)',
+                            'type': 'DEPENDENT',
+                            'key': 'varnish.stat["{#LOCATION_ID}","MSE4_STORE.{#BOOK}.{#STORE}.g_bytes_used"]',
+                            'value_type': 'UNSIGNED',
+                            'units': 'B',
+                            'master_item_key': master,
+                            'preprocessing': [
+                                {
+                                    'type': 'JSONPATH',
+                                    'params': ['$[\'{#LOCATION_ID}.MSE4_STORE.{#BOOK}.{#STORE}.g_bytes_used\']'],
+                                    'error_handler': 'DISCARD_VALUE',
+                                },
+                            ],
+                        },
+                        {
+                            'id': 'item-prototype-9.3',
+                            'name': 'MSE4_STORE.{#BOOK}.{#STORE}.g_bytes_unused (number of bytes not in use)',
+                            'type': 'DEPENDENT',
+                            'key': 'varnish.stat["{#LOCATION_ID}","MSE4_STORE.{#BOOK}.{#STORE}.g_bytes_unused"]',
+                            'value_type': 'UNSIGNED',
+                            'units': 'B',
+                            'master_item_key': master,
+                            'preprocessing': [
+                                {
+                                    'type': 'JSONPATH',
+                                    'params': ['$[\'{#LOCATION_ID}.MSE4_STORE.{#BOOK}.{#STORE}.g_bytes_unused\']'],
+                                    'error_handler': 'DISCARD_VALUE',
+                                },
+                            ],
+                        },
+                        {
+                            'id': 'item-prototype-9.4',
+                            'name': 'MSE4_STORE.{#BOOK}.{#STORE}.g_objects (number of objects in the store)',
+                            'type': 'DEPENDENT',
+                            'key': 'varnish.stat["{#LOCATION_ID}","MSE4_STORE.{#BOOK}.{#STORE}.g_objects"]',
+                            'value_type': 'UNSIGNED',
+                            'master_item_key': master,
+                            'preprocessing': [
+                                {
+                                    'type': 'JSONPATH',
+                                    'params': ['$[\'{#LOCATION_ID}.MSE4_STORE.{#BOOK}.{#STORE}.g_objects\']'],
+                                    'error_handler': 'DISCARD_VALUE',
+                                },
+                            ],
+                        },
+                        {
+                            'id': 'item-prototype-9.5',
+                            'name': 'MSE4_STORE.{#BOOK}.{#STORE}.g_allocation_queue (length of allocation queue)',
+                            'type': 'DEPENDENT',
+                            'key': 'varnish.stat["{#LOCATION_ID}","MSE4_STORE.{#BOOK}.{#STORE}.g_allocation_queue"]',
+                            'value_type': 'UNSIGNED',
+                            'master_item_key': master,
+                            'preprocessing': [
+                                {
+                                    'type': 'JSONPATH',
+                                    'params': ['$[\'{#LOCATION_ID}.MSE4_STORE.{#BOOK}.{#STORE}.g_allocation_queue\']'],
+                                    'error_handler': 'DISCARD_VALUE',
+                                },
+                            ],
+                        },
+                        {
+                            'id': 'item-prototype-9.6',
+                            'name': 'MSE4_STORE.{#BOOK}.{#STORE}.c_allocation_queued (number of times an allocation request was queued / sec)',
+                            'type': 'DEPENDENT',
+                            'key': 'varnish.stat["{#LOCATION_ID}","MSE4_STORE.{#BOOK}.{#STORE}.c_allocation_queued"]',
+                            'value_type': 'FLOAT',
+                            'units': 'eps',
+                            'master_item_key': master,
+                            'preprocessing': [
+                                {
+                                    'type': 'JSONPATH',
+                                    'params': ['$[\'{#LOCATION_ID}.MSE4_STORE.{#BOOK}.{#STORE}.c_allocation_queued\']'],
+                                    'error_handler': 'DISCARD_VALUE',
+                                },
+                                {
+                                    'type': 'CHANGE_PER_SECOND',
+                                },
+                            ],
+                        },
+                        {
+                            'id': 'item-prototype-9.7',
+                            'name': 'MSE4_STORE.{#BOOK}.{#STORE}.g_io_queued (number of IO operations queued for scheduling)',
+                            'type': 'DEPENDENT',
+                            'key': 'varnish.stat["{#LOCATION_ID}","MSE4_STORE.{#BOOK}.{#STORE}.g_io_queued"]',
+                            'value_type': 'UNSIGNED',
+                            'master_item_key': master,
+                            'preprocessing': [
+                                {
+                                    'type': 'JSONPATH',
+                                    'params': ['$[\'{#LOCATION_ID}.MSE4_STORE.{#BOOK}.{#STORE}.g_io_queued\']'],
+                                    'error_handler': 'DISCARD_VALUE',
+                                },
+                            ],
+                        },
+                        {
+                            'id': 'item-prototype-9.8',
+                            'name': 'MSE4_STORE.{#BOOK}.{#STORE}.g_io_queued_read (number of read IO operations queued for scheduling)',
+                            'type': 'DEPENDENT',
+                            'key': 'varnish.stat["{#LOCATION_ID}","MSE4_STORE.{#BOOK}.{#STORE}.g_io_queued_read"]',
+                            'value_type': 'UNSIGNED',
+                            'master_item_key': master,
+                            'preprocessing': [
+                                {
+                                    'type': 'JSONPATH',
+                                    'params': ['$[\'{#LOCATION_ID}.MSE4_STORE.{#BOOK}.{#STORE}.g_io_queued_read\']'],
+                                    'error_handler': 'DISCARD_VALUE',
+                                },
+                            ],
+                        },
+                        {
+                            'id': 'item-prototype-9.9',
+                            'name': 'MSE4_STORE.{#BOOK}.{#STORE}.g_io_queued_write (number of write IO operations queued for scheduling)',
+                            'type': 'DEPENDENT',
+                            'key': 'varnish.stat["{#LOCATION_ID}","MSE4_STORE.{#BOOK}.{#STORE}.g_io_queued_write"]',
+                            'value_type': 'UNSIGNED',
+                            'master_item_key': master,
+                            'preprocessing': [
+                                {
+                                    'type': 'JSONPATH',
+                                    'params': ['$[\'{#LOCATION_ID}.MSE4_STORE.{#BOOK}.{#STORE}.g_io_queued_write\']'],
+                                    'error_handler': 'DISCARD_VALUE',
+                                },
+                            ],
+                        },
+                        {
+                            'id': 'item-prototype-9.10',
+                            'name': 'MSE4_STORE.{#BOOK}.{#STORE}.c_io_finished_read (number of read IO operations executed / sec)',
+                            'type': 'DEPENDENT',
+                            'key': 'varnish.stat["{#LOCATION_ID}","MSE4_STORE.{#BOOK}.{#STORE}.c_io_finished_read"]',
+                            'value_type': 'FLOAT',
+                            'units': 'eps',
+                            'master_item_key': master,
+                            'preprocessing': [
+                                {
+                                    'type': 'JSONPATH',
+                                    'params': ['$[\'{#LOCATION_ID}.MSE4_STORE.{#BOOK}.{#STORE}.c_io_finished_read\']'],
+                                    'error_handler': 'DISCARD_VALUE',
+                                },
+                                {
+                                    'type': 'CHANGE_PER_SECOND',
+                                },
+                            ],
+                        },
+                        {
+                            'id': 'item-prototype-9.11',
+                            'name': 'MSE4_STORE.{#BOOK}.{#STORE}.c_io_finished_write (number of write IO operations executed / sec)',
+                            'type': 'DEPENDENT',
+                            'key': 'varnish.stat["{#LOCATION_ID}","MSE4_STORE.{#BOOK}.{#STORE}.c_io_finished_write"]',
+                            'value_type': 'FLOAT',
+                            'units': 'eps',
+                            'master_item_key': master,
+                            'preprocessing': [
+                                {
+                                    'type': 'JSONPATH',
+                                    'params': ['$[\'{#LOCATION_ID}.MSE4_STORE.{#BOOK}.{#STORE}.c_io_finished_write\']'],
+                                    'error_handler': 'DISCARD_VALUE',
+                                },
+                                {
+                                    'type': 'CHANGE_PER_SECOND',
+                                },
+                            ],
+                        },
+                        {
+                            'id': 'item-prototype-9.12',
+                            'name': 'MSE4_STORE.{#BOOK}.{#STORE}.c_io_finished_bytes_read (number of bytes in read IO operations executed / sec)',
+                            'type': 'DEPENDENT',
+                            'key': 'varnish.stat["{#LOCATION_ID}","MSE4_STORE.{#BOOK}.{#STORE}.c_io_finished_bytes_read"]',
+                            'value_type': 'FLOAT',
+                            'units': 'Bps',
+                            'master_item_key': master,
+                            'preprocessing': [
+                                {
+                                    'type': 'JSONPATH',
+                                    'params': ['$[\'{#LOCATION_ID}.MSE4_STORE.{#BOOK}.{#STORE}.c_io_finished_bytes_read\']'],
+                                    'error_handler': 'DISCARD_VALUE',
+                                },
+                                {
+                                    'type': 'CHANGE_PER_SECOND',
+                                },
+                            ],
+                        },
+                        {
+                            'id': 'item-prototype-9.13',
+                            'name': 'MSE4_STORE.{#BOOK}.{#STORE}.c_io_finished_bytes_write (number of bytes in write IO operations executed / sec)',
+                            'type': 'DEPENDENT',
+                            'key': 'varnish.stat["{#LOCATION_ID}","MSE4_STORE.{#BOOK}.{#STORE}.c_io_finished_bytes_write"]',
+                            'value_type': 'FLOAT',
+                            'units': 'Bps',
+                            'master_item_key': master,
+                            'preprocessing': [
+                                {
+                                    'type': 'JSONPATH',
+                                    'params': ['$[\'{#LOCATION_ID}.MSE4_STORE.{#BOOK}.{#STORE}.c_io_finished_bytes_write\']'],
+                                    'error_handler': 'DISCARD_VALUE',
+                                },
+                                {
+                                    'type': 'CHANGE_PER_SECOND',
+                                },
+                            ],
+                        },
+                        {
+                            'id': 'item-prototype-9.14',
+                            'name': 'MSE4_STORE.{#BOOK}.{#STORE}.g_io_blocked_read (number of read IO operations currently blocked)',
+                            'type': 'DEPENDENT',
+                            'key': 'varnish.stat["{#LOCATION_ID}","MSE4_STORE.{#BOOK}.{#STORE}.g_io_blocked_read"]',
+                            'value_type': 'UNSIGNED',
+                            'master_item_key': master,
+                            'preprocessing': [
+                                {
+                                    'type': 'JSONPATH',
+                                    'params': ['$[\'{#LOCATION_ID}.MSE4_STORE.{#BOOK}.{#STORE}.g_io_blocked_read\']'],
+                                    'error_handler': 'DISCARD_VALUE',
+                                },
+                            ],
+                        },
+                        {
+                            'id': 'item-prototype-9.15',
+                            'name': 'MSE4_STORE.{#BOOK}.{#STORE}.g_io_blocked_write (number of write IO operations currently blocked)',
+                            'type': 'DEPENDENT',
+                            'key': 'varnish.stat["{#LOCATION_ID}","MSE4_STORE.{#BOOK}.{#STORE}.g_io_blocked_write"]',
+                            'value_type': 'UNSIGNED',
+                            'master_item_key': master,
+                            'preprocessing': [
+                                {
+                                    'type': 'JSONPATH',
+                                    'params': ['$[\'{#LOCATION_ID}.MSE4_STORE.{#BOOK}.{#STORE}.g_io_blocked_write\']'],
+                                    'error_handler': 'DISCARD_VALUE',
+                                },
+                            ],
+                        },
+                        {
+                            'id': 'item-prototype-9.16',
+                            'name': 'MSE4_STORE.{#BOOK}.{#STORE}.c_io_limited (number of times the IO engine has been request limited / sec)',
+                            'type': 'DEPENDENT',
+                            'key': 'varnish.stat["{#LOCATION_ID}","MSE4_STORE.{#BOOK}.{#STORE}.c_io_limited"]',
+                            'value_type': 'FLOAT',
+                            'units': 'eps',
+                            'master_item_key': master,
+                            'preprocessing': [
+                                {
+                                    'type': 'JSONPATH',
+                                    'params': ['$[\'{#LOCATION_ID}.MSE4_STORE.{#BOOK}.{#STORE}.c_io_limited\']'],
+                                    'error_handler': 'DISCARD_VALUE',
+                                },
+                                {
+                                    'type': 'CHANGE_PER_SECOND',
+                                },
+                            ],
+                        },
+                        {
+                            'id': 'item-prototype-9.17',
+                            'name': 'MSE4_STORE.{#BOOK}.{#STORE}.g_reserve_bytes (number of bytes of mapped free space to use for allocations)',
+                            'type': 'DEPENDENT',
+                            'key': 'varnish.stat["{#LOCATION_ID}","MSE4_STORE.{#BOOK}.{#STORE}.g_reserve_bytes"]',
+                            'value_type': 'UNSIGNED',
+                            'units': 'B',
+                            'master_item_key': master,
+                            'preprocessing': [
+                                {
+                                    'type': 'JSONPATH',
+                                    'params': ['$[\'{#LOCATION_ID}.MSE4_STORE.{#BOOK}.{#STORE}.g_reserve_bytes\']'],
+                                    'error_handler': 'DISCARD_VALUE',
+                                },
+                            ],
+                        },
+                    ],
+                    []) }}
+
+                {#-##########################################################}
+                {#- MSE4 CATEGORIES DISCOVERY #}
+                {#-##########################################################}
+
+                {{ discovery_rule(
+                    {
+                        'id': 'discovery-rule-10',
+                        'name': 'MSE4 categories discovery',
+                        'key': 'varnish.discovery["{$VARNISH_CACHE.LOCATIONS}","mse4_categories"]',
+                        'context': 'mse4_categories',
+                    },
+                    [
+                        {
+                            'id': 'item-prototype-10.1',
+                            'name': 'MSE4_CAT.{#SUBJECT}.g_bytes (bytes in use)',
+                            'type': 'DEPENDENT',
+                            'key': 'varnish.stat["{#LOCATION_ID}","MSE4_CAT.{#SUBJECT_ID}.g_bytes"]',
+                            'value_type': 'UNSIGNED',
+                            'units': 'B',
+                            'master_item_key': master,
+                            'preprocessing': [
+                                {
+                                    'type': 'JSONPATH',
+                                    'params': ['$[\'{#LOCATION_ID}.MSE4_CAT.{#SUBJECT_ID}.g_bytes\']'],
+                                    'error_handler': 'DISCARD_VALUE',
+                                },
+                            ],
+                        },
+                        {
+                            'id': 'item-prototype-10.2',
+                            'name': 'MSE4_CAT.{#SUBJECT}.g_bytes_ephemeral (bytes in use for ephemeral object chunks)',
+                            'type': 'DEPENDENT',
+                            'key': 'varnish.stat["{#LOCATION_ID}","MSE4_CAT.{#SUBJECT_ID}.g_bytes_ephemeral"]',
+                            'value_type': 'UNSIGNED',
+                            'units': 'B',
+                            'master_item_key': master,
+                            'preprocessing': [
+                                {
+                                    'type': 'JSONPATH',
+                                    'params': ['$[\'{#LOCATION_ID}.MSE4_CAT.{#SUBJECT_ID}.g_bytes_ephemeral\']'],
+                                    'error_handler': 'DISCARD_VALUE',
+                                },
+                            ],
+                        },
+                        {
+                            'id': 'item-prototype-10.3',
+                            'name': 'MSE4_CAT.{#SUBJECT}.g_bytes_persisted (bytes in use for in memory chunks of persisted objects)',
+                            'type': 'DEPENDENT',
+                            'key': 'varnish.stat["{#LOCATION_ID}","MSE4_CAT.{#SUBJECT_ID}.g_bytes_persisted"]',
+                            'value_type': 'UNSIGNED',
+                            'units': 'B',
+                            'master_item_key': master,
+                            'preprocessing': [
+                                {
+                                    'type': 'JSONPATH',
+                                    'params': ['$[\'{#LOCATION_ID}.MSE4_CAT.{#SUBJECT_ID}.g_bytes_persisted\']'],
+                                    'error_handler': 'DISCARD_VALUE',
+                                },
+                            ],
+                        },
+                        {
+                            'id': 'item-prototype-10.4',
+                            'name': 'MSE4_CAT.{#SUBJECT}.g_bytes_pass (bytes allocated for passed objects)',
+                            'type': 'DEPENDENT',
+                            'key': 'varnish.stat["{#LOCATION_ID}","MSE4_CAT.{#SUBJECT_ID}.g_bytes_pass"]',
+                            'value_type': 'UNSIGNED',
+                            'units': 'B',
+                            'master_item_key': master,
+                            'preprocessing': [
+                                {
+                                    'type': 'JSONPATH',
+                                    'params': ['$[\'{#LOCATION_ID}.MSE4_CAT.{#SUBJECT_ID}.g_bytes_pass\']'],
+                                    'error_handler': 'DISCARD_VALUE',
+                                },
+                            ],
+                        },
+                        {
+                            'id': 'item-prototype-10.5',
+                            'name': 'MSE4_CAT.{#SUBJECT}.g_objects (number of objects in memory)',
+                            'type': 'DEPENDENT',
+                            'key': 'varnish.stat["{#LOCATION_ID}","MSE4_CAT.{#SUBJECT_ID}.g_objects"]',
+                            'value_type': 'UNSIGNED',
+                            'master_item_key': master,
+                            'preprocessing': [
+                                {
+                                    'type': 'JSONPATH',
+                                    'params': ['$[\'{#LOCATION_ID}.MSE4_CAT.{#SUBJECT_ID}.g_objects\']'],
+                                    'error_handler': 'DISCARD_VALUE',
+                                },
+                            ],
+                        },
+                        {
+                            'id': 'item-prototype-10.6',
+                            'name': 'MSE4_CAT.{#SUBJECT}.g_objects_ephemeral (number of cached ephemeral objects)',
+                            'type': 'DEPENDENT',
+                            'key': 'varnish.stat["{#LOCATION_ID}","MSE4_CAT.{#SUBJECT_ID}.g_objects_ephemeral"]',
+                            'value_type': 'UNSIGNED',
+                            'master_item_key': master,
+                            'preprocessing': [
+                                {
+                                    'type': 'JSONPATH',
+                                    'params': ['$[\'{#LOCATION_ID}.MSE4_CAT.{#SUBJECT_ID}.g_objects_ephemeral\']'],
+                                    'error_handler': 'DISCARD_VALUE',
+                                },
+                            ],
+                        },
+                        {
+                            'id': 'item-prototype-10.7',
+                            'name': 'MSE4_CAT.{#SUBJECT}.g_objects_persisted (number of persisted objects with at least one chunk in memory)',
+                            'type': 'DEPENDENT',
+                            'key': 'varnish.stat["{#LOCATION_ID}","MSE4_CAT.{#SUBJECT_ID}.g_objects_persisted"]',
+                            'value_type': 'UNSIGNED',
+                            'master_item_key': master,
+                            'preprocessing': [
+                                {
+                                    'type': 'JSONPATH',
+                                    'params': ['$[\'{#LOCATION_ID}.MSE4_CAT.{#SUBJECT_ID}.g_objects_persisted\']'],
+                                    'error_handler': 'DISCARD_VALUE',
+                                },
+                            ],
+                        },
+                        {
+                            'id': 'item-prototype-10.8',
+                            'name': 'MSE4_CAT.{#SUBJECT}.g_objects_pass (number of pass objects allocated)',
+                            'type': 'DEPENDENT',
+                            'key': 'varnish.stat["{#LOCATION_ID}","MSE4_CAT.{#SUBJECT_ID}.g_objects_pass"]',
+                            'value_type': 'UNSIGNED',
+                            'master_item_key': master,
+                            'preprocessing': [
+                                {
+                                    'type': 'JSONPATH',
+                                    'params': ['$[\'{#LOCATION_ID}.MSE4_CAT.{#SUBJECT_ID}.g_objects_pass\']'],
+                                    'error_handler': 'DISCARD_VALUE',
+                                },
+                            ],
+                        },
+                        {
+                            'id': 'item-prototype-10.9',
+                            'name': 'MSE4_CAT.{#SUBJECT}.g_allocations (allocations in use)',
+                            'type': 'DEPENDENT',
+                            'key': 'varnish.stat["{#LOCATION_ID}","MSE4_CAT.{#SUBJECT_ID}.g_allocations"]',
+                            'value_type': 'UNSIGNED',
+                            'master_item_key': master,
+                            'preprocessing': [
+                                {
+                                    'type': 'JSONPATH',
+                                    'params': ['$[\'{#LOCATION_ID}.MSE4_CAT.{#SUBJECT_ID}.g_allocations\']'],
+                                    'error_handler': 'DISCARD_VALUE',
+                                },
+                            ],
+                        },
+                        {
+                            'id': 'item-prototype-10.10',
+                            'name': 'MSE4_CAT.{#SUBJECT}.c_allocation (memory allocations / sec)',
+                            'type': 'DEPENDENT',
+                            'key': 'varnish.stat["{#LOCATION_ID}","MSE4_CAT.{#SUBJECT_ID}.c_allocation"]',
+                            'value_type': 'FLOAT',
+                            'units': 'eps',
+                            'master_item_key': master,
+                            'preprocessing': [
+                                {
+                                    'type': 'JSONPATH',
+                                    'params': ['$[\'{#LOCATION_ID}.MSE4_CAT.{#SUBJECT_ID}.c_allocation\']'],
+                                    'error_handler': 'DISCARD_VALUE',
+                                },
+                                {
+                                    'type': 'CHANGE_PER_SECOND',
+                                },
+                            ],
+                        },
+                        {
+                            'id': 'item-prototype-10.11',
+                            'name': 'MSE4_CAT.{#SUBJECT}.c_allocation_ephemeral (memory allocations for ephemeral objects / sec)',
+                            'type': 'DEPENDENT',
+                            'key': 'varnish.stat["{#LOCATION_ID}","MSE4_CAT.{#SUBJECT_ID}.c_allocation_ephemeral"]',
+                            'value_type': 'FLOAT',
+                            'units': 'eps',
+                            'master_item_key': master,
+                            'preprocessing': [
+                                {
+                                    'type': 'JSONPATH',
+                                    'params': ['$[\'{#LOCATION_ID}.MSE4_CAT.{#SUBJECT_ID}.c_allocation_ephemeral\']'],
+                                    'error_handler': 'DISCARD_VALUE',
+                                },
+                                {
+                                    'type': 'CHANGE_PER_SECOND',
+                                },
+                            ],
+                        },
+                        {
+                            'id': 'item-prototype-10.12',
+                            'name': 'MSE4_CAT.{#SUBJECT}.c_allocation_persisted (memory allocations for persisted objects / sec)',
+                            'type': 'DEPENDENT',
+                            'key': 'varnish.stat["{#LOCATION_ID}","MSE4_CAT.{#SUBJECT_ID}.c_allocation_persisted"]',
+                            'value_type': 'FLOAT',
+                            'units': 'eps',
+                            'master_item_key': master,
+                            'preprocessing': [
+                                {
+                                    'type': 'JSONPATH',
+                                    'params': ['$[\'{#LOCATION_ID}.MSE4_CAT.{#SUBJECT_ID}.c_allocation_persisted\']'],
+                                    'error_handler': 'DISCARD_VALUE',
+                                },
+                                {
+                                    'type': 'CHANGE_PER_SECOND',
+                                },
+                            ],
+                        },
+                        {
+                            'id': 'item-prototype-10.13',
+                            'name': 'MSE4_CAT.{#SUBJECT}.c_allocation_pass (memory allocations for private pass objects / sec)',
+                            'type': 'DEPENDENT',
+                            'key': 'varnish.stat["{#LOCATION_ID}","MSE4_CAT.{#SUBJECT_ID}.c_allocation_pass"]',
+                            'value_type': 'FLOAT',
+                            'units': 'eps',
+                            'master_item_key': master,
+                            'preprocessing': [
+                                {
+                                    'type': 'JSONPATH',
+                                    'params': ['$[\'{#LOCATION_ID}.MSE4_CAT.{#SUBJECT_ID}.c_allocation_pass\']'],
+                                    'error_handler': 'DISCARD_VALUE',
+                                },
+                                {
+                                    'type': 'CHANGE_PER_SECOND',
+                                },
+                            ],
+                        },
+                        {
+                            'id': 'item-prototype-10.14',
+                            'name': 'MSE4_CAT.{#SUBJECT}.c_free (number of memory chunk releases / sec)',
+                            'type': 'DEPENDENT',
+                            'key': 'varnish.stat["{#LOCATION_ID}","MSE4_CAT.{#SUBJECT_ID}.c_free"]',
+                            'value_type': 'FLOAT',
+                            'units': 'eps',
+                            'master_item_key': master,
+                            'preprocessing': [
+                                {
+                                    'type': 'JSONPATH',
+                                    'params': ['$[\'{#LOCATION_ID}.MSE4_CAT.{#SUBJECT_ID}.c_free\']'],
+                                    'error_handler': 'DISCARD_VALUE',
+                                },
+                                {
+                                    'type': 'CHANGE_PER_SECOND',
+                                },
+                            ],
+                        },
+                        {
+                            'id': 'item-prototype-10.15',
+                            'name': 'MSE4_CAT.{#SUBJECT}.c_free_ephemeral (number of memory chunk releases for ephemeral objects / sec)',
+                            'type': 'DEPENDENT',
+                            'key': 'varnish.stat["{#LOCATION_ID}","MSE4_CAT.{#SUBJECT_ID}.c_free_ephemeral"]',
+                            'value_type': 'FLOAT',
+                            'units': 'eps',
+                            'master_item_key': master,
+                            'preprocessing': [
+                                {
+                                    'type': 'JSONPATH',
+                                    'params': ['$[\'{#LOCATION_ID}.MSE4_CAT.{#SUBJECT_ID}.c_free_ephemeral\']'],
+                                    'error_handler': 'DISCARD_VALUE',
+                                },
+                                {
+                                    'type': 'CHANGE_PER_SECOND',
+                                },
+                            ],
+                        },
+                        {
+                            'id': 'item-prototype-10.16',
+                            'name': 'MSE4_CAT.{#SUBJECT}.c_free_persisted (number of memory chunk releases for persisted objects / sec)',
+                            'type': 'DEPENDENT',
+                            'key': 'varnish.stat["{#LOCATION_ID}","MSE4_CAT.{#SUBJECT_ID}.c_free_persisted"]',
+                            'value_type': 'FLOAT',
+                            'units': 'eps',
+                            'master_item_key': master,
+                            'preprocessing': [
+                                {
+                                    'type': 'JSONPATH',
+                                    'params': ['$[\'{#LOCATION_ID}.MSE4_CAT.{#SUBJECT_ID}.c_free_persisted\']'],
+                                    'error_handler': 'DISCARD_VALUE',
+                                },
+                                {
+                                    'type': 'CHANGE_PER_SECOND',
+                                },
+                            ],
+                        },
+                        {
+                            'id': 'item-prototype-10.17',
+                            'name': 'MSE4_CAT.{#SUBJECT}.c_free_pass (number of memory chunk releases for pass objects / sec)',
+                            'type': 'DEPENDENT',
+                            'key': 'varnish.stat["{#LOCATION_ID}","MSE4_CAT.{#SUBJECT_ID}.c_free_pass"]',
+                            'value_type': 'FLOAT',
+                            'units': 'eps',
+                            'master_item_key': master,
+                            'preprocessing': [
+                                {
+                                    'type': 'JSONPATH',
+                                    'params': ['$[\'{#LOCATION_ID}.MSE4_CAT.{#SUBJECT_ID}.c_free_pass\']'],
+                                    'error_handler': 'DISCARD_VALUE',
+                                },
+                                {
+                                    'type': 'CHANGE_PER_SECOND',
+                                },
+                            ],
+                        },
+                        {
+                            'id': 'item-prototype-10.18',
+                            'name': 'MSE4_CAT.{#SUBJECT}.c_eviction (number of evicted objects or persisted chunks / sec)',
+                            'type': 'DEPENDENT',
+                            'key': 'varnish.stat["{#LOCATION_ID}","MSE4_CAT.{#SUBJECT_ID}.c_eviction"]',
+                            'value_type': 'FLOAT',
+                            'units': 'eps',
+                            'master_item_key': master,
+                            'preprocessing': [
+                                {
+                                    'type': 'JSONPATH',
+                                    'params': ['$[\'{#LOCATION_ID}.MSE4_CAT.{#SUBJECT_ID}.c_eviction\']'],
+                                    'error_handler': 'DISCARD_VALUE',
+                                },
+                                {
+                                    'type': 'CHANGE_PER_SECOND',
+                                },
+                            ],
+                        },
+                        {
+                            'id': 'item-prototype-10.19',
+                            'name': 'MSE4_CAT.{#SUBJECT}.c_eviction_failure (number of times object or chunk eviction failed / sec)',
+                            'type': 'DEPENDENT',
+                            'key': 'varnish.stat["{#LOCATION_ID}","MSE4_CAT.{#SUBJECT_ID}.c_eviction_failure"]',
+                            'value_type': 'FLOAT',
+                            'units': 'eps',
+                            'master_item_key': master,
+                            'preprocessing': [
+                                {
+                                    'type': 'JSONPATH',
+                                    'params': ['$[\'{#LOCATION_ID}.MSE4_CAT.{#SUBJECT_ID}.c_eviction_failure\']'],
+                                    'error_handler': 'DISCARD_VALUE',
+                                },
+                                {
+                                    'type': 'CHANGE_PER_SECOND',
+                                },
+                            ],
+                        },
+                        {
+                            'id': 'item-prototype-10.20',
+                            'name': 'MSE4_CAT.{#SUBJECT}.c_eviction_reorder (number of eviction list reorder operations / sec)',
+                            'type': 'DEPENDENT',
+                            'key': 'varnish.stat["{#LOCATION_ID}","MSE4_CAT.{#SUBJECT_ID}.c_eviction_reorder"]',
+                            'value_type': 'FLOAT',
+                            'units': 'eps',
+                            'master_item_key': master,
+                            'preprocessing': [
+                                {
+                                    'type': 'JSONPATH',
+                                    'params': ['$[\'{#LOCATION_ID}.MSE4_CAT.{#SUBJECT_ID}.c_eviction_reorder\']'],
+                                    'error_handler': 'DISCARD_VALUE',
+                                },
+                                {
+                                    'type': 'CHANGE_PER_SECOND',
+                                },
+                            ],
+                        },
+                        {
+                            'id': 'item-prototype-10.21',
+                            'name': 'MSE4_CAT.{#SUBJECT}.c_memcache_hit (stored objects memory cache hits / sec)',
+                            'type': 'DEPENDENT',
+                            'key': 'varnish.stat["{#LOCATION_ID}","MSE4_CAT.{#SUBJECT_ID}.c_memcache_hit"]',
+                            'value_type': 'FLOAT',
+                            'units': 'eps',
+                            'master_item_key': master,
+                            'preprocessing': [
+                                {
+                                    'type': 'JSONPATH',
+                                    'params': ['$[\'{#LOCATION_ID}.MSE4_CAT.{#SUBJECT_ID}.c_memcache_hit\']'],
+                                    'error_handler': 'DISCARD_VALUE',
+                                },
+                                {
+                                    'type': 'CHANGE_PER_SECOND',
+                                },
+                            ],
+                        },
+                        {
+                            'id': 'item-prototype-10.22',
+                            'name': 'MSE4_CAT.{#SUBJECT}.c_memcache_miss (stored objects memory cache misses / sec)',
+                            'type': 'DEPENDENT',
+                            'key': 'varnish.stat["{#LOCATION_ID}","MSE4_CAT.{#SUBJECT_ID}.c_memcache_miss"]',
+                            'value_type': 'FLOAT',
+                            'units': 'eps',
+                            'master_item_key': master,
+                            'preprocessing': [
+                                {
+                                    'type': 'JSONPATH',
+                                    'params': ['$[\'{#LOCATION_ID}.MSE4_CAT.{#SUBJECT_ID}.c_memcache_miss\']'],
+                                    'error_handler': 'DISCARD_VALUE',
+                                },
+                                {
+                                    'type': 'CHANGE_PER_SECOND',
+                                },
+                            ],
+                        },
+                        {
+                            'id': 'item-prototype-10.23',
+                            'name': 'MSE4_CAT.{#SUBJECT}.cache_hit_ratio',
+                            'type': 'CALCULATED',
+                            'key': 'varnish["{#LOCATION_ID}","MSE4_CAT.{#SUBJECT_ID}.cache_hit_ratio"]',
+                            'value_type': 'FLOAT',
+                            'units': '%',
+                            'delay': true,
+                            'params':
+                                '100*last(//varnish.stat["{#LOCATION_ID}","MSE4_CAT.{#SUBJECT_ID}.c_memcache_hit"])/(last(//varnish.stat["{#LOCATION_ID}","MSE4_CAT.{#SUBJECT_ID}.c_memcache_hit"])+last(//varnish.stat["{#LOCATION_ID}","MSE4_CAT.{#SUBJECT_ID}.c_memcache_miss"])+(count(//varnish.stat["{#LOCATION_ID}","MSE4_CAT.{#SUBJECT_ID}.c_memcache_hit"],#1,"eq",0)*count(//varnish.stat["{#LOCATION_ID}","MSE4_CAT.{#SUBJECT_ID}.c_memcache_miss"],#1,"eq",0)))',
+                        },
+                    ],
+                    []) }}
             </discovery_rules>
 
             {#-##############################################################}
@@ -5732,6 +7588,14 @@
                         ('{$VARNISH_CACHE.MSE_BOOK_SPACE.ENABLED}', '1'),
                         ('{$VARNISH_CACHE.MSE_BOOK_SPACE.MIN}', '75MB'),
                         ('{$VARNISH_CACHE.MSE_BOOK_SPACE.RECOVERY.MIN}', '100MB'),
+
+                        ('{$VARNISH_CACHE.MSE4_BOOK_ONLINE.ENABLED}', '1'),
+
+                        ('{$VARNISH_CACHE.MSE4_BOOK_SLOTS_UNUSED.ENABLED}', '1'),
+                        ('{$VARNISH_CACHE.MSE4_BOOK_SLOTS_UNUSED.MIN}', '400000'),
+                        ('{$VARNISH_CACHE.MSE4_BOOK_SLOTS_UNUSED.RECOVERY.MIN}', '500000'),
+
+                        ('{$VARNISH_CACHE.MSE4_STORE_ONLINE.ENABLED}', '1'),
                     ] %}
                     <macro>
                         <macro>{{ macro[0]|e }}</macro>

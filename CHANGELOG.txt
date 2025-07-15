@@ -1,3 +1,19 @@
+- ?
+    - Added support for MSE4.
+    - Renamed 'MAIN.fetch_no_thread' to 'MAIN.bgfetch_no_thread'.
+    - Added:
+        - 'ACCG_DIAG.bereq_dropped'.
+        - 'ACCG_DIAG.req_dropped'.
+        - 'MAIN.esi_req_abort'.
+        - 'MAIN.sc_sock_closed'.
+        - 'MAIN.transit_buffered'.
+        - 'MAIN.transit_stored'.
+        - 'VMOD_HTTP.handle_internal_error'.
+        - 'VMOD_HTTP.handle_limited'.
+    - Applied minor adjustments to some item names:
+        - MAIN.req_reset (requests reset / sec).
+        - MAIN.sc_bankrupt (session Err BANKRUPT / sec).
+
 - 30.0 (2025-06-27):
     - Added support for Zabbix 7.4.
 
@@ -5,9 +21,7 @@
     - Added support for Zabbix 7.2.
 
 - 28.0 (2024-05-31):
-    - Added support for Zabbix 7.0. New 'Disable lost resources' property for
-      discovery rules will adopt the default value 'Immediately' instead of
-      trying to preserve the 6.x behaviour ('Never').
+    - Added support for Zabbix 7.0. New 'Disable lost resources' property for discovery rules will adopt the default value 'Immediately' instead of trying to preserve the 6.x behaviour ('Never').
 
 - 27.0 (2024-04-19):
     - Added 'MAIN.req_reset' and 'MAIN.sc_bankrupt'.

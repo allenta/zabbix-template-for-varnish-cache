@@ -1,3 +1,7 @@
+- ?
+    - Renamed 'LLD_KEEP_LOST_RESOURCES_PERIOD' macro to 'LLD_DELETE_LOST_RESOURCES_AFTER'.
+    - Added 'LLD_DISABLE_LOST_RESOURCES_AFTER' macro.
+
 - 31.0 (2025-07-15):
     - Added support for MSE4.
     - Renamed 'MAIN.fetch_no_thread' to 'MAIN.bgfetch_no_thread'.

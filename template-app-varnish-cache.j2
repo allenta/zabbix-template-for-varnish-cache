@@ -30,7 +30,9 @@
         <type>ZABBIX_ACTIVE</type>
         <key>{{ rule.key|e }}</key>
         <delay>{$VARNISH_CACHE.LLD_UPDATE_INTERVAL:&quot;{{ rule.context }}&quot;}</delay>
-        <lifetime>{$VARNISH_CACHE.LLD_KEEP_LOST_RESOURCES_PERIOD:&quot;{{ rule.context }}&quot;}</lifetime>
+        <lifetime>{$VARNISH_CACHE.LLD_DELETE_LOST_RESOURCES_AFTER:&quot;{{ rule.context }}&quot;}</lifetime>
+        <enabled_lifetime_type>DISABLE_AFTER</enabled_lifetime_type>
+        <enabled_lifetime>{$VARNISH_CACHE.LLD_DISABLE_LOST_RESOURCES_AFTER:&quot;{{ rule.context }}&quot;}</enabled_lifetime>
         {%- if rule.context != 'items' %}
             <filter>
                 <conditions>
@@ -7540,10 +7542,11 @@
 
                         ('{$VARNISH_CACHE.LLD_EXCLUDED_SUBJECTS:accountings}', '^(?!std[.])'),
                         ('{$VARNISH_CACHE.LLD_EXCLUDED_SUBJECTS}', '^(?!)'),
-                        ('{$VARNISH_CACHE.LLD_KEEP_LOST_RESOURCES_PERIOD:backends}', '1d'),
-                        ('{$VARNISH_CACHE.LLD_KEEP_LOST_RESOURCES_PERIOD:counters}', '1d'),
-                        ('{$VARNISH_CACHE.LLD_KEEP_LOST_RESOURCES_PERIOD:accountings}', '1d'),
-                        ('{$VARNISH_CACHE.LLD_KEEP_LOST_RESOURCES_PERIOD}', '30d'),
+                        ('{$VARNISH_CACHE.LLD_DELETE_LOST_RESOURCES_AFTER:backends}', '1d'),
+                        ('{$VARNISH_CACHE.LLD_DELETE_LOST_RESOURCES_AFTER:counters}', '1d'),
+                        ('{$VARNISH_CACHE.LLD_DELETE_LOST_RESOURCES_AFTER:accountings}', '1d'),
+                        ('{$VARNISH_CACHE.LLD_DELETE_LOST_RESOURCES_AFTER}', '30d'),
+                        ('{$VARNISH_CACHE.LLD_DISABLE_LOST_RESOURCES_AFTER}', '1h'),
                         ('{$VARNISH_CACHE.LLD_UPDATE_INTERVAL:counters}', '60s'),
                         ('{$VARNISH_CACHE.LLD_UPDATE_INTERVAL:accountings}', '60s'),
                         ('{$VARNISH_CACHE.LLD_UPDATE_INTERVAL}', '3600s'),

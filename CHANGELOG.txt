@@ -1,3 +1,6 @@
+- ?
+   - Fixed macros in MSE v4 items.
+
 - 32.0 (2025-10-07):
     - Renamed 'LLD_KEEP_LOST_RESOURCES_PERIOD' macro to 'LLD_DELETE_LOST_RESOURCES_AFTER'.
     - Added 'LLD_DISABLE_LOST_RESOURCES_AFTER' macro.

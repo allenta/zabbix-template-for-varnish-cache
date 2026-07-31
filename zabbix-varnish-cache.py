@@ -69,6 +69,7 @@ ITEMS = (
     r'MAIN\.sess_queued',
     r'MAIN\.sess_readahead',
     r'MAIN\.sc_bankrupt',
+    r'MAIN\.sc_overload',
     r'MAIN\.sc_rapid_reset',
     r'MAIN\.sc_sock_closed',
     # Client sessions: failures.
@@ -299,7 +300,7 @@ ITEMS = (
     #   - Bytes in use vs. available: MSE4_STORE.foo.bar.g_bytes_used, MSE4_STORE.foo.bar.g_bytes_unused.
     #   - Reserve bytes: MSE4_STORE.foo.bar.g_reserve_bytes.
     #   - Objects: MSE4_STORE.foo.bar.g_objects.
-    #   - Queues: MSE4_STORE.foo.bar.g_allocation_queue, MSE4_STORE.foo.bar.c_allocation_queued, MSE4_STORE.foo.bar.g_io_queued, MSE4_STORE.foo.bar.g_io_queued_read, MSE4_STORE.foo.bar.g_io_queued_write.
+    #   - Queues: MSE4_STORE.foo.bar.c_allocation_failure, MSE4_STORE.foo.bar.g_allocation_queue, MSE4_STORE.foo.bar.c_allocation_queued, MSE4_STORE.foo.bar.g_io_queued, MSE4_STORE.foo.bar.g_io_queued_read, MSE4_STORE.foo.bar.g_io_queued_write.
     #   - IO finished operations: MSE4_STORE.foo.bar.c_io_finished_read, MSE4_STORE.foo.bar.c_io_finished_write.
     #   - IO finished bytes: MSE4_STORE.foo.bar.c_io_finished_bytes_read, MSE4_STORE.foo.bar.c_io_finished_bytes_write.
     #   - IO blocked operations: MSE4_STORE.foo.bar.g_io_blocked_read, MSE4_STORE.foo.bar.g_io_blocked_write.
@@ -308,7 +309,7 @@ ITEMS = (
     r'MSE4_STORE\..+\.(?:g_bytes_used|g_bytes_unused)',
     r'MSE4_STORE\..+\.(?:g_reserve_bytes)',
     r'MSE4_STORE\..+\.(?:g_objects)',
-    r'MSE4_STORE\..+\.(?:g_allocation_queue|c_allocation_queued|g_io_queued|g_io_queued_read|g_io_queued_write)',
+    r'MSE4_STORE\..+\.(?:c_allocation_failure|g_allocation_queue|c_allocation_queued|g_io_queued|g_io_queued_read|g_io_queued_write)',
     r'MSE4_STORE\..+\.(?:c_io_finished_read|c_io_finished_write)',
     r'MSE4_STORE\..+\.(?:c_io_finished_bytes_read|c_io_finished_bytes_write)',
     r'MSE4_STORE\..+\.(?:g_io_blocked_read|g_io_blocked_write)',
@@ -326,6 +327,9 @@ ITEMS = (
     r'MSE4_CAT\..+\.(?:c_free|c_free_ephemeral|c_free_persisted|c_free_pass)',
     r'MSE4_CAT\..+\.(?:c_eviction|c_eviction_failure|c_eviction_reorder)',
     r'MSE4_CAT\..+\.(?:c_memcache_hit|c_memcache_miss)',
+    # Memory governor.
+    r'GOV\.n_enter_overload',
+    r'GOV\.n_eviction_failed',
     # Backends[...]
     #   - Healthiness: happy, healthy.
     #   - Requests sent to backend: req.

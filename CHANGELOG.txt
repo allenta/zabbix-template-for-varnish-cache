@@ -1,5 +1,21 @@
+- ?
+    - Added:
+        - 'MAIN.sc_overload'.
+        - 'GOV.n_enter_overload'.
+        - 'GOV.n_eviction_failed'.
+        - 'MSE4_STORE.{#SUBJECT}.c_allocation_failure'.
+    - Added triggers for:
+        - 'MAIN.req_dropped'.
+        - 'MAIN.sess_fail'.
+        - 'MAIN.threads_failed'.
+        - 'MAIN.sc_overload'.
+        - 'GOV.n_enter_overload'.
+        - 'GOV.n_eviction_failed'.
+        - 'MSE4_BANJRN.{#SUBJECT_ID}.g_overflow_bans'.
+        - 'MSE4_STORE.{#SUBJECT}.c_allocation_failure'.
+
 - 33.0 (2026-03-25):
-   - Fixed macros in MSE v4 items.
+    - Fixed macros in MSE v4 items.
 
 - 32.0 (2025-10-07):
     - Renamed 'LLD_KEEP_LOST_RESOURCES_PERIOD' macro to 'LLD_DELETE_LOST_RESOURCES_AFTER'.

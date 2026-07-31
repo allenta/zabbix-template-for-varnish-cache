@@ -1861,6 +1861,20 @@
                                     'type': 'CHANGE_PER_SECOND',
                                 },
                             ],
+                            'triggers': [
+                                {
+                                    'id': 'trigger-prototype-1.77.1',
+                                    'name': 'Varnish Cache[{#LOCATION}] is dropping requests',
+                                    'expression':
+                                        '{$VARNISH_CACHE.REQ_DROPPED_RATE.ENABLED:"{#LOCATION_ID}"} and '
+                                        'last(/Template App ' + name + '/varnish.stat["{#LOCATION_ID}","MAIN.req_dropped"])'
+                                        '>{$VARNISH_CACHE.REQ_DROPPED_RATE.MAX:"{#LOCATION_ID}"}',
+                                    'recovery':
+                                        'max(/Template App ' + name + '/varnish.stat["{#LOCATION_ID}","MAIN.req_dropped"],{$VARNISH_CACHE.REQ_DROPPED_RATE.RECOVERY.SAMPLES:"{#LOCATION_ID}"})'
+                                        '<={$VARNISH_CACHE.REQ_DROPPED_RATE.MAX:"{#LOCATION_ID}"}',
+                                    'priority': 'WARNING',
+                                },
+                            ],
                         },
                         {
                             'id': 'item-prototype-1.78',
@@ -1992,6 +2006,20 @@
                                 },
                                 {
                                     'type': 'CHANGE_PER_SECOND',
+                                },
+                            ],
+                            'triggers': [
+                                {
+                                    'id': 'trigger-prototype-1.84.1',
+                                    'name': 'Varnish Cache[{#LOCATION}] is getting session failures',
+                                    'expression':
+                                        '{$VARNISH_CACHE.SESS_FAIL_RATE.ENABLED:"{#LOCATION_ID}"} and '
+                                        'last(/Template App ' + name + '/varnish.stat["{#LOCATION_ID}","MAIN.sess_fail"])'
+                                        '>{$VARNISH_CACHE.SESS_FAIL_RATE.MAX:"{#LOCATION_ID}"}',
+                                    'recovery':
+                                        'max(/Template App ' + name + '/varnish.stat["{#LOCATION_ID}","MAIN.sess_fail"],{$VARNISH_CACHE.SESS_FAIL_RATE.RECOVERY.SAMPLES:"{#LOCATION_ID}"})'
+                                        '<={$VARNISH_CACHE.SESS_FAIL_RATE.MAX:"{#LOCATION_ID}"}',
+                                    'priority': 'WARNING',
                                 },
                             ],
                         },
@@ -2493,6 +2521,20 @@
                                 },
                                 {
                                     'type': 'CHANGE_PER_SECOND',
+                                },
+                            ],
+                            'triggers': [
+                                {
+                                    'id': 'trigger-prototype-1.110.1',
+                                    'name': 'Varnish Cache[{#LOCATION}] threads are failing',
+                                    'expression':
+                                        '{$VARNISH_CACHE.THREADS_FAILED_RATE.ENABLED:"{#LOCATION_ID}"} and '
+                                        'last(/Template App ' + name + '/varnish.stat["{#LOCATION_ID}","MAIN.threads_failed"])'
+                                        '>{$VARNISH_CACHE.THREADS_FAILED_RATE.MAX:"{#LOCATION_ID}"}',
+                                    'recovery':
+                                        'max(/Template App ' + name + '/varnish.stat["{#LOCATION_ID}","MAIN.threads_failed"],{$VARNISH_CACHE.THREADS_FAILED_RATE.RECOVERY.SAMPLES:"{#LOCATION_ID}"})'
+                                        '<={$VARNISH_CACHE.THREADS_FAILED_RATE.MAX:"{#LOCATION_ID}"}',
+                                    'priority': 'WARNING',
                                 },
                             ],
                         },
@@ -4329,6 +4371,105 @@
                                 },
                                 {
                                     'type': 'CHANGE_PER_SECOND',
+                                },
+                            ],
+                        },
+                        {
+                            'id': 'item-prototype-1.212',
+                            'name': 'MAIN.sc_overload (session Err OVERLOAD / sec)',
+                            'type': 'DEPENDENT',
+                            'key': 'varnish.stat["{#LOCATION_ID}","MAIN.sc_overload"]',
+                            'value_type': 'FLOAT',
+                            'units': 'eps',
+                            'master_item_key': master,
+                            'preprocessing': [
+                                {
+                                    'type': 'JSONPATH',
+                                    'params': ['$[\'{#LOCATION_ID}.MAIN.sc_overload\']'],
+                                    'error_handler': 'DISCARD_VALUE',
+                                },
+                                {
+                                    'type': 'CHANGE_PER_SECOND',
+                                },
+                            ],
+                            'triggers': [
+                                {
+                                    'id': 'trigger-prototype-1.212.1',
+                                    'name': 'Varnish Cache[{#LOCATION}] is getting overload session errors',
+                                    'expression':
+                                        '{$VARNISH_CACHE.SC_OVERLOAD_RATE.ENABLED:"{#LOCATION_ID}"} and '
+                                        'last(/Template App ' + name + '/varnish.stat["{#LOCATION_ID}","MAIN.sc_overload"])'
+                                        '>{$VARNISH_CACHE.SC_OVERLOAD_RATE.MAX:"{#LOCATION_ID}"}',
+                                    'recovery':
+                                        'max(/Template App ' + name + '/varnish.stat["{#LOCATION_ID}","MAIN.sc_overload"],{$VARNISH_CACHE.SC_OVERLOAD_RATE.RECOVERY.SAMPLES:"{#LOCATION_ID}"})'
+                                        '<={$VARNISH_CACHE.SC_OVERLOAD_RATE.MAX:"{#LOCATION_ID}"}',
+                                    'priority': 'WARNING',
+                                },
+                            ],
+                        },
+                        {
+                            'id': 'item-prototype-1.213',
+                            'name': 'GOV.n_enter_overload (number of times the memory governor was overloaded / sec)',
+                            'type': 'DEPENDENT',
+                            'key': 'varnish.stat["{#LOCATION_ID}","GOV.n_enter_overload"]',
+                            'value_type': 'FLOAT',
+                            'units': 'eps',
+                            'master_item_key': master,
+                            'preprocessing': [
+                                {
+                                    'type': 'JSONPATH',
+                                    'params': ['$[\'{#LOCATION_ID}.GOV.n_enter_overload\']'],
+                                    'error_handler': 'DISCARD_VALUE',
+                                },
+                                {
+                                    'type': 'CHANGE_PER_SECOND',
+                                },
+                            ],
+                            'triggers': [
+                                {
+                                    'id': 'trigger-prototype-1.213.1',
+                                    'name': 'Varnish Cache[{#LOCATION}] is getting the memory governor overloaded',
+                                    'expression':
+                                        '{$VARNISH_CACHE.GOVERNOR_OVERLOADS_RATE.ENABLED:"{#LOCATION_ID}"} and '
+                                        'last(/Template App ' + name + '/varnish.stat["{#LOCATION_ID}","GOV.n_enter_overload"])'
+                                        '>{$VARNISH_CACHE.GOVERNOR_OVERLOADS_RATE.MAX:"{#LOCATION_ID}"}',
+                                    'recovery':
+                                        'max(/Template App ' + name + '/varnish.stat["{#LOCATION_ID}","GOV.n_enter_overload"],{$VARNISH_CACHE.GOVERNOR_OVERLOADS_RATE.RECOVERY.SAMPLES:"{#LOCATION_ID}"})'
+                                        '<={$VARNISH_CACHE.GOVERNOR_OVERLOADS_RATE.MAX:"{#LOCATION_ID}"}',
+                                    'priority': 'WARNING',
+                                },
+                            ],
+                        },
+                        {
+                            'id': 'item-prototype-1.214',
+                            'name': 'GOV.n_eviction_failed (times governor failed to evict any object / sec)',
+                            'type': 'DEPENDENT',
+                            'key': 'varnish.stat["{#LOCATION_ID}","GOV.n_eviction_failed"]',
+                            'value_type': 'FLOAT',
+                            'units': 'eps',
+                            'master_item_key': master,
+                            'preprocessing': [
+                                {
+                                    'type': 'JSONPATH',
+                                    'params': ['$[\'{#LOCATION_ID}.GOV.n_eviction_failed\']'],
+                                    'error_handler': 'DISCARD_VALUE',
+                                },
+                                {
+                                    'type': 'CHANGE_PER_SECOND',
+                                },
+                            ],
+                            'triggers': [
+                                {
+                                    'id': 'trigger-prototype-1.214.1',
+                                    'name': 'Varnish Cache[{#LOCATION}] memory governor is failing to evict objects',
+                                    'expression':
+                                        '{$VARNISH_CACHE.GOVERNOR_EVICTION_FAILURES_RATE.ENABLED:"{#LOCATION_ID}"} and '
+                                        'last(/Template App ' + name + '/varnish.stat["{#LOCATION_ID}","GOV.n_eviction_failed"])'
+                                        '>{$VARNISH_CACHE.GOVERNOR_EVICTION_FAILURES_RATE.MAX:"{#LOCATION_ID}"}',
+                                    'recovery':
+                                        'max(/Template App ' + name + '/varnish.stat["{#LOCATION_ID}","GOV.n_eviction_failed"],{$VARNISH_CACHE.GOVERNOR_EVICTION_FAILURES_RATE.RECOVERY.SAMPLES:"{#LOCATION_ID}"})'
+                                        '<={$VARNISH_CACHE.GOVERNOR_EVICTION_FAILURES_RATE.MAX:"{#LOCATION_ID}"}',
+                                    'priority': 'WARNING',
                                 },
                             ],
                         },
@@ -6770,6 +6911,20 @@
                                     'error_handler': 'DISCARD_VALUE',
                                 },
                             ],
+                            'triggers': [
+                                {
+                                    'id': 'trigger-prototype-8.17.1',
+                                    'name': 'Varnish Cache[{#LOCATION}] {#SUBJECT} MSE4 ban journal is purging bans for lack of space',
+                                    'expression':
+                                        '{$VARNISH_CACHE.MSE4_BANJRN_OVERFLOW_BANS.ENABLED:"{#LOCATION_ID}:{#SUBJECT_ID}"} and '
+                                        'last(/Template App ' + name + '/varnish.stat["{#LOCATION_ID}","MSE4_BANJRN.{#SUBJECT_ID}.g_overflow_bans"])'
+                                        '>{$VARNISH_CACHE.MSE4_BANJRN_OVERFLOW_BANS.MAX:"{#LOCATION_ID}:{#SUBJECT_ID}"}',
+                                    'recovery':
+                                        'last(/Template App ' + name + '/varnish.stat["{#LOCATION_ID}","MSE4_BANJRN.{#SUBJECT_ID}.g_overflow_bans"])'
+                                        '<{$VARNISH_CACHE.MSE4_BANJRN_OVERFLOW_BANS.RECOVERY.MAX:"{#LOCATION_ID}:{#SUBJECT_ID}"}',
+                                    'priority': 'WARNING',
+                                },
+                            ],
                         },
                         {
                             'id': 'item-prototype-8.18',
@@ -7093,6 +7248,39 @@
                                     'type': 'JSONPATH',
                                     'params': ['$[\'{#LOCATION_ID}.MSE4_STORE.{#SUBJECT_ID}.g_reserve_bytes\']'],
                                     'error_handler': 'DISCARD_VALUE',
+                                },
+                            ],
+                        },
+                        {
+                            'id': 'item-prototype-9.18',
+                            'name': 'MSE4_STORE.{#SUBJECT}.c_allocation_failure (number of times an allocation request failed / sec)',
+                            'type': 'DEPENDENT',
+                            'key': 'varnish.stat["{#LOCATION_ID}","MSE4_STORE.{#SUBJECT_ID}.c_allocation_failure"]',
+                            'value_type': 'FLOAT',
+                            'units': 'eps',
+                            'master_item_key': master,
+                            'preprocessing': [
+                                {
+                                    'type': 'JSONPATH',
+                                    'params': ['$[\'{#LOCATION_ID}.MSE4_STORE.{#SUBJECT_ID}.c_allocation_failure\']'],
+                                    'error_handler': 'DISCARD_VALUE',
+                                },
+                                {
+                                    'type': 'CHANGE_PER_SECOND',
+                                },
+                            ],
+                            'triggers': [
+                                {
+                                    'id': 'trigger-prototype-9.18.1',
+                                    'name': 'Varnish Cache[{#LOCATION}] is getting request allocation failures',
+                                    'expression':
+                                        '{$VARNISH_CACHE.MSE4_STORE_ALLOCATION_FAILURES_RATE.ENABLED:"{#LOCATION_ID}"} and '
+                                        'last(/Template App ' + name + '/varnish.stat["{#LOCATION_ID}","MSE4_STORE.{#SUBJECT_ID}.c_allocation_failure"])'
+                                        '>{$VARNISH_CACHE.MSE4_STORE_ALLOCATION_FAILURES_RATE.MAX:"{#LOCATION_ID}"}',
+                                    'recovery':
+                                        'max(/Template App ' + name + '/varnish.stat["{#LOCATION_ID}","MSE4_STORE.{#SUBJECT_ID}.c_allocation_failure"],{$VARNISH_CACHE.MSE4_STORE_ALLOCATION_FAILURES_RATE.RECOVERY.SAMPLES:"{#LOCATION_ID}"})'
+                                        '<={$VARNISH_CACHE.MSE4_STORE_ALLOCATION_FAILURES_RATE.MAX:"{#LOCATION_ID}"}',
+                                    'priority': 'WARNING',
                                 },
                             ],
                         },
@@ -7558,6 +7746,12 @@
                         ('{$VARNISH_CACHE.BACKEND_CONNECTION_FAILURES_RATE.ENABLED}', '1'),
                         ('{$VARNISH_CACHE.BACKEND_CONNECTION_FAILURES_RATE.MAX}', '0.0'),
                         ('{$VARNISH_CACHE.BACKEND_CONNECTION_FAILURES_RATE.SAMPLES}', '#10'),
+                        ('{$VARNISH_CACHE.GOVERNOR_EVICTION_FAILURES_RATE.ENABLED}', '1'),
+                        ('{$VARNISH_CACHE.GOVERNOR_EVICTION_FAILURES_RATE.MAX}', '0.0'),
+                        ('{$VARNISH_CACHE.GOVERNOR_EVICTION_FAILURES_RATE.RECOVERY.SAMPLES}', '#10'),
+                        ('{$VARNISH_CACHE.GOVERNOR_OVERLOADS_RATE.ENABLED}', '1'),
+                        ('{$VARNISH_CACHE.GOVERNOR_OVERLOADS_RATE.MAX}', '0.0'),
+                        ('{$VARNISH_CACHE.GOVERNOR_OVERLOADS_RATE.RECOVERY.SAMPLES}', '#10'),
                         ('{$VARNISH_CACHE.HTTP_HEADER_OVERFLOWS_RATE.ENABLED}', '1'),
                         ('{$VARNISH_CACHE.HTTP_HEADER_OVERFLOWS_RATE.MAX}', '0.0'),
                         ('{$VARNISH_CACHE.LRU_NUKED_OBJECTS_RATE.ENABLED}', '1'),
@@ -7568,11 +7762,23 @@
                         ('{$VARNISH_CACHE.NUKE_LIMIT_REACHS_RATE.ENABLED}', '1'),
                         ('{$VARNISH_CACHE.NUKE_LIMIT_REACHS_RATE.MAX}', '0.0'),
                         ('{$VARNISH_CACHE.NUKE_LIMIT_REACHS_RATE.RECOVERY.SAMPLES}', '#10'),
+                        ('{$VARNISH_CACHE.REQ_DROPPED_RATE.ENABLED}', '1'),
+                        ('{$VARNISH_CACHE.REQ_DROPPED_RATE.MAX}', '0.0'),
+                        ('{$VARNISH_CACHE.REQ_DROPPED_RATE.RECOVERY.SAMPLES}', '#10'),
+                        ('{$VARNISH_CACHE.SC_OVERLOAD_RATE.ENABLED}', '1'),
+                        ('{$VARNISH_CACHE.SC_OVERLOAD_RATE.MAX}', '0.0'),
+                        ('{$VARNISH_CACHE.SC_OVERLOAD_RATE.RECOVERY.SAMPLES}', '#10'),
                         ('{$VARNISH_CACHE.SESS_DROPPED_RATE.ENABLED}', '1'),
                         ('{$VARNISH_CACHE.SESS_DROPPED_RATE.MAX}', '0.0'),
                         ('{$VARNISH_CACHE.SESS_DROPPED_RATE.RECOVERY.SAMPLES}', '#10'),
+                        ('{$VARNISH_CACHE.SESS_FAIL_RATE.ENABLED}', '1'),
+                        ('{$VARNISH_CACHE.SESS_FAIL_RATE.MAX}', '0.0'),
+                        ('{$VARNISH_CACHE.SESS_FAIL_RATE.RECOVERY.SAMPLES}', '#10'),
                         ('{$VARNISH_CACHE.THREADS.ENABLED}', '1'),
                         ('{$VARNISH_CACHE.THREADS.MAX}', '1000'),
+                        ('{$VARNISH_CACHE.THREADS_FAILED_RATE.ENABLED}', '1'),
+                        ('{$VARNISH_CACHE.THREADS_FAILED_RATE.MAX}', '0.0'),
+                        ('{$VARNISH_CACHE.THREADS_FAILED_RATE.RECOVERY.SAMPLES}', '#10'),
                         ('{$VARNISH_CACHE.VCL_FAILURES_RATE.ENABLED}', '1'),
                         ('{$VARNISH_CACHE.VCL_FAILURES_RATE.MAX}', '0.0'),
                         ('{$VARNISH_CACHE.WORKSPACE_OVERFLOWS_RATE.ENABLED}', '1'),
@@ -7588,6 +7794,10 @@
                         ('{$VARNISH_CACHE.SPARE_NODES.MIN}', '900000'),
                         ('{$VARNISH_CACHE.SPARE_NODES.RECOVERY.MIN}', '1000000'),
 
+                        ('{$VARNISH_CACHE.MSE4_BANJRN_OVERFLOW_BANS.ENABLED}', '1'),
+                        ('{$VARNISH_CACHE.MSE4_BANJRN_OVERFLOW_BANS.MAX}', '0'),
+                        ('{$VARNISH_CACHE.MSE4_BANJRN_OVERFLOW_BANS.RECOVERY.MAX}', '0'),
+
                         ('{$VARNISH_CACHE.MSE_BOOK_SPACE.ENABLED}', '1'),
                         ('{$VARNISH_CACHE.MSE_BOOK_SPACE.MIN}', '75MB'),
                         ('{$VARNISH_CACHE.MSE_BOOK_SPACE.RECOVERY.MIN}', '100MB'),
@@ -7599,6 +7809,9 @@
                         ('{$VARNISH_CACHE.MSE4_BOOK_SLOTS_UNUSED.RECOVERY.MIN}', '500000'),
 
                         ('{$VARNISH_CACHE.MSE4_STORE_ONLINE.ENABLED}', '1'),
+                        ('{$VARNISH_CACHE.MSE4_STORE_ALLOCATION_FAILURES_RATE.ENABLED}', '1'),
+                        ('{$VARNISH_CACHE.MSE4_STORE_ALLOCATION_FAILURES_RATE.MAX}', '0.0'),
+                        ('{$VARNISH_CACHE.MSE4_STORE_ALLOCATION_FAILURES_RATE.RECOVERY.SAMPLES}', '#10'),
                     ] %}
                     <macro>
                         <macro>{{ macro[0]|e }}</macro>

@@ -1,4 +1,4 @@
-- ?
+- 34.0 (2026-07-31):
     - Added:
         - 'MAIN.sc_overload'.
         - 'GOV.n_enter_overload'.
